@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:behaviors="clr-namespace:GBCLV3.Behaviors">
+
+    <Style x:Key="BlurInPageStyle" TargetType="ContentControl">
+        <Setter Property="Effect">
+            <Setter.Value>
+                <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality"/>
+            </Setter.Value>
+        </Setter>
+
+        <Style.Triggers>
+            <EventTrigger RoutedEvent="Loaded">
+                <BeginStoryboard>
+                    <Storyboard>
+                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                         Duration="0:0:0.3"
+                                         AccelerationRatio="0.3" DecelerationRatio="0.25"
+                                         From="0.0" To="1.0"/>
+
+                        <DoubleAnimation Storyboard.TargetProperty="(Effect).(BlurEffect.Radius)"
+                                         Duration="0:0:0.3"
+                                         AccelerationRatio="0.1" DecelerationRatio="0.6"
+                                         From="16" To="0"/>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="TabPageStyle" TargetType="ContentControl">
+        <Style.Setters>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ContentControl">
+                        <ScrollViewer x:Name="ScrollViewer"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      VerticalScrollBarVisibility="Auto"
+                                      Padding="0">
+                            <ContentPresenter/>
+                        </ScrollViewer>
+
+                        <ControlTemplate.Triggers>
+                            <EventTrigger RoutedEvent="Loaded">
+                                <BeginStoryboard>
+                                    <Storyboard>
+                                        <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                                         Duration="0:0:0.3"
+                                                         AccelerationRatio="0.4" DecelerationRatio="0.2"
+                                                         From="0.0" To="1.0"/>
+
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                                            Duration="0:0:0.2"
+                                                            AccelerationRatio="0.1" DecelerationRatio="0.6"
+                                                            From="0,-20" To="0,0"/>
+
+                                    </Storyboard>
+                                </BeginStoryboard>
+                            </EventTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style.Setters>
+    </Style>
+
+</ResourceDictionary>

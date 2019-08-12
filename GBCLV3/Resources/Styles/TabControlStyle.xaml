@@ -1,0 +1,86 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="https://github.com/canton7/Stylet"
+                    xmlns:local="clr-namespace:GBCLV3.Resources.Styles"
+                    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+                    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI">
+    
+    <Style x:Key="{x:Type TabControl}" TargetType="TabControl">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabControl">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        
+                        <TabPanel Grid.Row="0"
+                                  IsItemsHost="True"
+                                  Background="#80FFFFFF"/>
+
+                        <Rectangle Grid.Row="1" Opacity="0.25"
+                                   Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
+
+                        <Border Grid.Row="1" Background="#50999999">
+                            <ContentPresenter x:Name="PART_SelectedContentHost"
+                                              ContentSource="SelectedContent"/>
+                        </Border>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="{x:Type TabItem}" TargetType="TabItem">
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="TabItem">
+                    <Border x:Name="Border" Background="Transparent">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="0"  Margin="16,0,0,0"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
+                                       FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                       Text="{TemplateBinding Header}"/>
+
+                            <TextBlock Grid.Column="1"  Margin="16,0"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
+                                       FontSize="16"
+                                       Text="{TemplateBinding Tag}"/>
+
+                            <Rectangle x:Name="SlectionIdentifier" Grid.ColumnSpan="2"
+                                       Height="2"
+                                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
+                                       Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"
+                                       Visibility="Hidden"/>
+                        </Grid>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="Border" Property="Background" Value="#B0CCCCCC"/>
+                        </Trigger>
+
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter TargetName="SlectionIdentifier" Property="Visibility" Value="Visible"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+</ResourceDictionary>

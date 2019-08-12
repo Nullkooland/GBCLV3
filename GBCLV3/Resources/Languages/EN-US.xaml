@@ -1,0 +1,132 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+
+    <s:String x:Key="LangTag">English</s:String>
+    <s:String x:Key="Greetings">Hello</s:String>
+    <s:String x:Key="SelectVersion">Select Version</s:String>
+
+    <!-- MessageBox Button Labels -->
+    <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Cancel">Cancel</s:String>
+    <s:String x:Key="Yes">Yes</s:String>
+    <s:String x:Key="No">No</s:String>
+
+    <!-- Launch Procedure -->
+    <s:String x:Key="Launch">Launch</s:String>
+    <s:String x:Key="ProcessingDependencies">Processing game dependencies</s:String>
+    <s:String x:Key="LoggingIn">Authenticating and logging in</s:String>
+    <s:String x:Key="StartingGameProcess">Starting game process</s:String>
+    <s:String x:Key="Boohoo">Boohoo! Launch failed...</s:String>
+    <s:String x:Key="HappyGame">Happy gaming!</s:String>
+    <s:String x:Key="UnexpectedExit">Unexpected Exit</s:String>
+
+    <!-- Authentication Errors -->
+    <s:String x:Key="AuthFailed">Authentication Failed</s:String>
+    <s:String x:Key="UsernameEmptyError">Username cannot be empty!</s:String>
+    <s:String x:Key="InvalidEmailError">Invalid email address!</s:String>
+    <s:String x:Key="AuthTimeoutError">Authentication timeout!</s:String>
+    <s:String x:Key="NoInternetConnectionError">Please check your Internet connection!</s:String>
+    <s:String x:Key="InvalidCredentialsError">Invalid credentials! Please check your email or password!</s:String>
+    <s:String x:Key="InvalidTokenError">Invalid token! Please re-login using email and password!</s:String>
+    <s:String x:Key="UnkownError">Unknown error!</s:String>
+    <s:String x:Key="ErrorMessage">Error message:</s:String>
+
+    <!-- Dependencies Errors -->
+    <s:String x:Key="MainJarDamagedError">Main jar missing or damaged</s:String>
+    <s:String x:Key="LibsDamagedError">Dependent libraries missing or damaged</s:String>
+    <s:String x:Key="AssetsDamagedError">Assets missing or damaged</s:String>
+    <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
+
+    <!-- Settings -->
+    <s:String x:Key="Settings">Settings</s:String>
+    <s:String x:Key="GameSettings">Game Settings</s:String>
+    <s:String x:Key="LauncherSettings">Launcher Settings</s:String>
+    <s:String x:Key="JvmSettings">JVM Settings</s:String>
+    <s:String x:Key="OtherSettings">Other Settings</s:String>
+    <s:String x:Key="FunctionSettings">Function Settings</s:String>
+    <s:String x:Key="ThemeSettings">Theme Settings</s:String>
+
+    <!-- Game Settings -->
+    <s:String x:Key="JreDir">JRE Directory</s:String>
+    <s:String x:Key="SelectJrePath">Select JRE path</s:String>
+    <s:String x:Key="JavaMaxMem">Java Max Memory</s:String>
+    <s:String x:Key="AvailableMem">Available physical memory</s:String>
+
+    <s:String x:Key="GameDir">Game Directory</s:String>
+    <s:String x:Key="SelectGameDir">Select game directory</s:String>
+
+    <s:String x:Key="Username">User Name</s:String>
+    <s:String x:Key="Email">Email</s:String>
+    <s:String x:Key="Password">Password</s:String>
+    <s:String x:Key="OfflineMode">Offline Mode</s:String>
+    <s:String x:Key="RefreshAuth">Use Token</s:String>
+
+    <s:String x:Key="WindowResolution">Window Resolution</s:String>
+    <s:String x:Key="FullScreen">Full Screen</s:String>
+
+    <s:String x:Key="ServerAddress">Server Address</s:String>
+    <s:String x:Key="JoinServerOnLaunch">When filled this with server address, minecraft will join the server directly after launching.</s:String>
+    <s:String x:Key="ShowAdvancedSettings">Show advanced settings</s:String>
+
+    <s:String x:Key="DebugMode">Debug Mode</s:String>
+    <s:String x:Key="DebugModeDescription">Use java.exe to run</s:String>
+
+    <s:String x:Key="CustomJvmArgs">Custom JVM Args</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g GC configurations)</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
+
+    <!-- Launcher Settings -->
+    <s:String x:Key="Language">Language</s:String>
+
+    <s:String x:Key="DownloadSource">Download Source</s:String>
+    <s:String x:Key="Official">Offical</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+
+    <s:String x:Key="AfterLaunch">After Launch</s:String>
+    <s:String x:Key="Exit">Exit program</s:String>
+    <s:String x:Key="Hide">Hide window</s:String>
+    <s:String x:Key="KeepVisible">Keep visible</s:String>
+
+    <s:String x:Key="UseBackgroundImage">Use Background Image</s:String>
+    <s:String x:Key="SelectImagePath">Select image path</s:String>
+    <s:String x:Key="SelectRandomImage">The launcher will randomly select a image from \bg folder of the same directory</s:String>
+
+    <s:String x:Key="Font">Font Family</s:String>
+    <s:String x:Key="FontWeight">Font Weight</s:String>
+
+    <!-- Download -->
+
+    <!-- Download Types -->
+    <s:String x:Key="MainJar">Main jar</s:String>
+    <s:String x:Key="Libraries">Libraries</s:String>
+    <s:String x:Key="Assets">Assets</s:String>
+    <s:String x:Key="InstallNewVersion">Install new version</s:String>
+    <s:String x:Key="InstallForge">Install forge</s:String>
+
+    <!-- Download Progress -->
+    <s:String x:Key="DownloadProgress">Progress</s:String>
+    <s:String x:Key="CancelDownload">Cancel Download</s:String>
+    <s:String x:Key="WhetherCancelDownload">Are you sure to cancel download?</s:String>
+    <s:String x:Key="IncompleteDownload">Incomplete Download</s:String>
+    <s:String x:Key="DownloadFailures">files failed to download</s:String>
+    <s:String x:Key="WhetherRetryDownload">Retry incomplete download?</s:String>
+    <s:String x:Key="DownloadCompletedCount">Completed</s:String>
+    <s:String x:Key="DownloadFailedCount">Failed</s:String>
+    <s:String x:Key="DownloadSpeed">Speed</s:String>
+
+    <s:String x:Key="Version">Version</s:String>
+    <s:String x:Key="ReleaseTime">Release Time</s:String>
+    <s:String x:Key="OpenLink">Open Link</s:String>
+    <s:String x:Key="Refresh">Refresh</s:String>
+    <s:String x:Key="Delete">Delete</s:String>
+    <s:String x:Key="Install">Install</s:String>
+    <s:String x:Key="GameDownload">Minecraft Version Download</s:String>
+    <s:String x:Key="ForgeInstall">Forge Install</s:String>
+    <s:String x:Key="Mod">Mod</s:String>
+    <s:String x:Key="About">About</s:String>
+    <s:String x:Key="Accessories">Accessories</s:String>
+
+    <s:String x:Key="DontStop">Don't you ever stop!</s:String>
+
+</ResourceDictionary>
