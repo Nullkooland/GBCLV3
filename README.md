@@ -1,12 +1,17 @@
 # <img src="./GBCLV3/enderman.ico" width="32" height="32"/> GBCLV3
-Goose Bomb's Minecraft Client Launcher<br>
+![Platform: Win64](https://img.shields.io/badge/platform-win--64-lightgrey) ![.NET Framework: 4.7.2](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.7.2-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE) 
+
+Goose Bomb's Minecraft Client Launcher V3
+[简体中文](./README-CN.md)
 
 ## Features
-* MVVM 🧶
+
+* MVVM Framework 🧶
 * Easy to use (I hope so 🤣)
 * Win10-style 😎✨
 
 ## Development Progress
+
 - [x] Game Launch
   - [x] Auto JRE detection
   - [x] Version segregation
@@ -20,9 +25,17 @@ Goose Bomb's Minecraft Client Launcher<br>
   - [ ] install forge
 
 - [ ] Custom Theme
+  - [x] Blur-behind window
   - [x] Custom background image
+  - [x] Custom font
   - [x] Use system accent color
   - [ ] Custom theme color
+
+- [ ] Multi Language
+  - [x] English
+  - [x] Simplified Chinese
+  - [ ] Traditiona Chinese
+  - [ ] Japanese
 
 - [ ] Additional functions
   - [ ] Mods management
@@ -31,9 +44,9 @@ Goose Bomb's Minecraft Client Launcher<br>
 
 ## Screenshots
 
-![](./Screenshots/cover_0.png)<br>
-![](./Screenshots/launching_0.png)<br>
-![](./Screenshots/literally_code_behind.png)<br>
-![](./Screenshots/settings_0.png)<br>
-![](./Screenshots/settings_1.png)<br>
+<img src="./Screenshots/cover_0.png" width="720"/>
+<img src="./Screenshots/literally_code_behind.png" width="720"/>
+<img src="./Screenshots/launching_0.png" width="720"/>
+<img src="./Screenshots/settings_0.png" width="720"/>
+<img src="./Screenshots/settings_1.png" width="720"/>
 
