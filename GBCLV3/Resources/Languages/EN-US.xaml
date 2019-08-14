@@ -90,7 +90,7 @@
 
     <s:String x:Key="UseBackgroundImage">Use Background Image</s:String>
     <s:String x:Key="SelectImagePath">Select image path</s:String>
-    <s:String x:Key="SelectRandomImage">The launcher will randomly select a image from \bg folder of the same directory</s:String>
+    <s:String x:Key="SelectRandomImage">Randomly select a image from .\bg directory</s:String>
 
     <s:String x:Key="Font">Font Family</s:String>
     <s:String x:Key="FontWeight">Font Weight</s:String>
@@ -115,15 +115,21 @@
     <s:String x:Key="DownloadFailedCount">Failed</s:String>
     <s:String x:Key="DownloadSpeed">Speed</s:String>
 
+    <!-- Version management & install -->
+
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="ReleaseTime">Release Time</s:String>
     <s:String x:Key="OpenLink">Open Link</s:String>
     <s:String x:Key="Refresh">Refresh</s:String>
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
-    <s:String x:Key="GameDownload">Minecraft Version Download</s:String>
+    <s:String x:Key="Versions">Versions</s:String>
+    <s:String x:Key="VersionManagement">Version Management</s:String>
+    <s:String x:Key="GameInstall">Game Install</s:String>
     <s:String x:Key="ForgeInstall">Forge Install</s:String>
-    <s:String x:Key="Mod">Mod</s:String>
+    <s:String x:Key="Mods">Mods</s:String>
+    <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
+    <s:String x:Key="Saves">Saves</s:String>
     <s:String x:Key="About">About</s:String>
     <s:String x:Key="Accessories">Accessories</s:String>
 

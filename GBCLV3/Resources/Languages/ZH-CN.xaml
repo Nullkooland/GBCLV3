@@ -91,7 +91,7 @@
 
     <s:String x:Key="UseBackgroundImage">使用背景图</s:String>
     <s:String x:Key="SelectImagePath">选择图片路径</s:String>
-    <s:String x:Key="SelectRandomImage">随机选取启动器同目录下\bg文件夹中的图片</s:String>
+    <s:String x:Key="SelectRandomImage">随机选取.\bg目录中的图片</s:String>
 
     <s:String x:Key="Font">字体</s:String>
     <s:String x:Key="FontWeight">字重</s:String>
@@ -115,6 +115,8 @@
     <s:String x:Key="DownloadCompletedCount">完成数</s:String>
     <s:String x:Key="DownloadFailedCount">失败数</s:String>
     <s:String x:Key="DownloadSpeed">速度</s:String>
+    
+    <!-- 版本管理与安装 -->
 
     <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="ReleaseTime">发布日期</s:String>
@@ -122,9 +124,13 @@
     <s:String x:Key="Refresh">刷新</s:String>
     <s:String x:Key="Delete">删除</s:String>
     <s:String x:Key="Install">安装</s:String>
-    <s:String x:Key="GameDownload">游戏版本下载</s:String>
+    <s:String x:Key="Versions">游戏版本</s:String>
+    <s:String x:Key="VersionManagement">版本管理</s:String>
+    <s:String x:Key="GameInstall">游戏安装</s:String>
     <s:String x:Key="ForgeInstall">Forge安装</s:String>
-    <s:String x:Key="Mod">模组</s:String>
+    <s:String x:Key="Mods">模组管理</s:String>
+    <s:String x:Key="Resourcepacks">资源包管理</s:String>
+    <s:String x:Key="Saves">存档管理</s:String>
     <s:String x:Key="About">关于</s:String>
     <s:String x:Key="Accessories">辅助功能</s:String>
 

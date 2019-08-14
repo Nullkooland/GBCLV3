@@ -71,6 +71,8 @@ namespace GBCLV3.Services
             }
             else
             {
+                _config.BackgroundImagePath = null;
+
                 var imgSearchDir = Environment.CurrentDirectory + "/bg";
                 if (Directory.Exists(imgSearchDir))
                 {

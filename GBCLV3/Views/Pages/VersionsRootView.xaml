@@ -1,19 +1,19 @@
-﻿<ContentControl x:Class="GBCLV3.Views.AccessoriesView"
+﻿<ContentControl x:Class="GBCLV3.Views.Pages.VersionsRootView"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
                 Style="{StaticResource BlurInPageStyle}">
-    
+
     <TabControl>
-        <TabItem Header="&#xEA86;" Tag="{DynamicResource Mods}">
+        <TabItem Header="&#xE74C;" Tag="{DynamicResource VersionManagement}">
             <ContentControl s:View.Model="{Binding VersionManagementVM}"/>
         </TabItem>
 
-        <TabItem Header="&#xE7B8;" Tag="{DynamicResource Resourcepacks}">
+        <TabItem Header="&#xE896;" Tag="{DynamicResource GameInstall}">
             <ContentControl s:View.Model="{Binding GameInstallVM}"/>
         </TabItem>
 
-        <TabItem Header="&#xEA35;" Tag="{DynamicResource Saves}">
+        <TabItem Header="&#xE950;" Tag="{DynamicResource ForgeInstall}">
             <ContentControl s:View.Model="{Binding ForgeInstallVM}"/>
         </TabItem>
     </TabControl>

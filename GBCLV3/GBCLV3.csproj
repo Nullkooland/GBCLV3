@@ -171,7 +171,7 @@
     <Compile Include="Utils\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Utils\NativeUtil.cs" />
     <Compile Include="ViewModels\ForgeInstallViewModel.cs" />
-    <Compile Include="ViewModels\GameInstallViewModel.cs" />
+    <Compile Include="ViewModels\VersionManagementViewModel.cs" />
     <Compile Include="ViewModels\LaunchStatusViewModel.cs" />
     <Compile Include="ViewModels\ModViewModel.cs" />
     <Compile Include="ViewModels\Pages\AboutViewModel.cs" />
@@ -180,7 +180,7 @@
     <Compile Include="ViewModels\ResourcePackViewModel.cs" />
     <Compile Include="ViewModels\Windows\MessageViewModel.cs" />
     <Compile Include="ViewModels\DownloadViewModel.cs" />
-    <Compile Include="ViewModels\Pages\InstallRootViewModel.cs" />
+    <Compile Include="ViewModels\Pages\VersionsRootViewModel.cs" />
     <Compile Include="ViewModels\Pages\SettingsRootViewModel.cs" />
     <Compile Include="ViewModels\Pages\LaunchViewModel.cs" />
     <Compile Include="ViewModels\Pages\AccessoriesRootViewModel.cs" />
@@ -254,10 +254,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Styles\StatusBarStyle.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Resources\Styles\TabControlStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -270,7 +266,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\GameInstallView.xaml">
+    <Page Include="Views\VersionManagementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -310,7 +306,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Pages\InstallRootView.xaml">
+    <Page Include="Views\Pages\VersionsRootView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

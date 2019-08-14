@@ -2,7 +2,7 @@
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class InstallRootViewModel : Screen
+    class VersionsRootViewModel : Screen
     {
     }
 }

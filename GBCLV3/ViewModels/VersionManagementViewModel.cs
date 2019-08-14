@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels
 {
-    class GameInstallViewModel : Screen
+    class VersionManagementViewModel : Screen
     {
         #region Private Members
 
@@ -15,7 +15,7 @@ namespace GBCLV3.ViewModels
         #region Constructor
 
         [Inject]
-        public GameInstallViewModel(LanguageService languageService)
+        public VersionManagementViewModel(LanguageService languageService)
         {
             _languageService = languageService;
         }
