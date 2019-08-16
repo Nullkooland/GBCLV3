@@ -24,9 +24,9 @@ namespace GBCLV3.Services.Launcher
 
         public event Action<bool> Loaded;
 
-        public event Action<Version> DeletedOne;
+        public event Action<Version> Deleted;
 
-        public event Action<Version> CreatedOne;
+        public event Action<Version> Created;
 
         #endregion
 
@@ -102,14 +102,17 @@ namespace GBCLV3.Services.Launcher
         {
             var newVersion = Load(jsonPath);
             _versions.Add(newVersion.ID, newVersion);
-            CreatedOne?.Invoke(newVersion);
+            Created?.Invoke(newVersion);
         }
 
-        public async Task DeleteFromDiskAsync(Version version)
+        public async Task DeleteFromDiskAsync(string id)
         {
-            await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionDir}/{version.ID}");
-            _versions.Remove(version.ID);
-            DeletedOne?.Invoke(version);
+            if (_versions.TryGetValue(id, out var version))
+            {
+                await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionDir}/{id}");
+                Deleted?.Invoke(version);
+                _versions.Remove(id);
+            }
         }
 
         public async Task<VersionDownloadList> GetDownloadListAsync()
@@ -187,6 +190,7 @@ namespace GBCLV3.Services.Launcher
                 MinecarftArguments = jver.minecraftArguments,
                 MainClass = jver.mainClass,
                 Libraries = new List<Library>(),
+                Type = GetType(jver),
             };
 
             // For 1.13+ versions
@@ -272,6 +276,14 @@ namespace GBCLV3.Services.Launcher
                 && (!string.IsNullOrWhiteSpace(jver.minecraftArguments) || jver.arguments != null)
                 && !string.IsNullOrWhiteSpace(jver.mainClass)
                 && jver.libraries != null);
+        }
+
+        private static VersionType GetType(JVersion jver)
+        {
+            if (jver.inheritsFrom != null) return VersionType.Forge;
+            if (jver.type == "release") return VersionType.Release;
+            if (jver.type == "snapshot") return VersionType.Snapshot;
+            return VersionType.Unknown;
         }
 
         private static bool IsAllowedLib(List<JRule> rules)

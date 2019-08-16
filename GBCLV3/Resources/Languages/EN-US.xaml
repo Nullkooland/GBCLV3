@@ -98,11 +98,11 @@
     <!-- Download -->
 
     <!-- Download Types -->
-    <s:String x:Key="MainJar">Main jar</s:String>
+    <s:String x:Key="MainJar">Main Jar</s:String>
     <s:String x:Key="Libraries">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>
-    <s:String x:Key="InstallNewVersion">Install new version</s:String>
-    <s:String x:Key="InstallForge">Install forge</s:String>
+    <s:String x:Key="InstallNewVersion">Install New Version</s:String>
+    <s:String x:Key="InstallForge">Install Forge</s:String>
 
     <!-- Download Progress -->
     <s:String x:Key="DownloadProgress">Progress</s:String>
@@ -116,11 +116,18 @@
     <s:String x:Key="DownloadSpeed">Speed</s:String>
 
     <!-- Version management & install -->
+    <s:String x:Key="AvailableVersions">Available Versions</s:String>
+    <s:String x:Key="ReloadVersions">Reload Versions</s:String>
+    <s:String x:Key="OpenVersionsDir">Open Versions Directory</s:String>
+    <s:String x:Key="OpenVersionDir">Open Directory</s:String>
+    <s:String x:Key="OpenVersionJson">Open Json</s:String>
+    <s:String x:Key="DeleteVersion">Delete</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Whether delete the version</s:String>
 
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="ReleaseTime">Release Time</s:String>
     <s:String x:Key="OpenLink">Open Link</s:String>
-    <s:String x:Key="Refresh">Refresh</s:String>
+    
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="Versions">Versions</s:String>

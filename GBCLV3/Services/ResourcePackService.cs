@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -30,19 +31,18 @@ namespace GBCLV3.Services
 
         #endregion
 
-
         #region Public Methods
 
-        public IEnumerable<ResourcePack> GetAll()
+        public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) GetAll()
         {
             if (!Directory.Exists(_gamePathService.ResourcePackDir))
             {
                 Directory.CreateDirectory(_gamePathService.ResourcePackDir);
-                return null;
+                return (null, null);
             }
 
             string optionsFile = _gamePathService.WorkingDir + "/options.txt";
-            string[] enabledPacks = null;
+            string[] enabledPackIDs = null;
 
             if (File.Exists(optionsFile))
             {
@@ -53,19 +53,25 @@ namespace GBCLV3.Services
                     {
                         if (line.StartsWith("resourcePacks"))
                         {
-                            // Extract “resourcePacks:[${enabledPacks}]”
-                            enabledPacks = line.Substring(15, line.Length - 16).Split(',');
+                            // Extract “resourcePacks:[${enabledPackIDs}]”
+                            enabledPackIDs = line.Substring(15, line.Length - 16).Split(',');
                             break;
                         }
                     }
                 }
             }
 
-            return Directory.EnumerateFiles(_gamePathService.ResourcePackDir, "*.zip")
-                            .Select(path => LoadZip(path, enabledPacks))
-                            .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePackDir)
-                                             .Select(dir => LoadDir(dir, enabledPacks)))
-                            .Where(pack => pack != null);
+            var packs = Directory.EnumerateFiles(_gamePathService.ResourcePackDir, "*.zip")
+                                 .Select(path => LoadZip(path, enabledPackIDs))
+                                 .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePackDir)
+                                                  .Select(dir => LoadDir(dir, enabledPackIDs)))
+                                 .Where(pack => pack != null)
+                                 .ToLookup(pack => pack.IsEnabled);
+
+                    // Enabled resourcepacks (followed the order in options)
+            return (packs[true].OrderBy(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
+                    // Disabled resourcepacks
+                    packs[false]);
         }
 
         public bool WriteToOptions(IEnumerable<ResourcePack> packs)
@@ -77,18 +83,18 @@ namespace GBCLV3.Services
                 return false;
             }
 
-            string enabledPacks = string.Join(",", packs.Where(pack => pack.IsEnabled)
-                                                        .Select(pack => $"\"{pack.Name}\""));
+            string enabledPackIDs = string.Join(",", packs.Where(pack => pack.IsEnabled)
+                                                          .Select(pack => $"\"{pack.Name}\""));
 
             string options = File.ReadAllText(optionsPath, Encoding.Default);
 
             if (options.Contains("resourcePacks:["))
             {
-                options = Regex.Replace(options, "resourcePacks:\\[.*\\]", $"resourcePacks:[{enabledPacks}]");
+                options = Regex.Replace(options, "resourcePacks:\\[.*\\]", $"resourcePacks:[{enabledPackIDs}]");
             }
             else
             {
-                options += $"resourcePacks:[{enabledPacks}]\r\n";
+                options += $"resourcePacks:[{enabledPackIDs}]\r\n";
             }
 
             File.WriteAllText(optionsPath, options, Encoding.Default);
@@ -99,7 +105,7 @@ namespace GBCLV3.Services
 
         #region Private Methods
 
-        private static ResourcePack LoadZip(string path, string[] enabledPacks)
+        private static ResourcePack LoadZip(string path, string[] enabledPackIDs)
         {
             using (var archive = ZipFile.OpenRead(path))
             {
@@ -111,7 +117,7 @@ namespace GBCLV3.Services
 
                 var pack = ReadInfo(infoEntry.Open());
                 pack.Path = path;
-                pack.IsEnabled = enabledPacks?.Contains($"\"{pack.Name}\"") ?? false;
+                pack.IsEnabled = enabledPackIDs?.Contains($"\"{pack.Name}\"") ?? false;
 
                 // Load cover image (if exists)
                 ZipArchiveEntry imgEntry;
@@ -129,7 +135,7 @@ namespace GBCLV3.Services
             }
         }
 
-        private static ResourcePack LoadDir(string packDir, string[] enabledPacks)
+        private static ResourcePack LoadDir(string packDir, string[] enabledPackIDs)
         {
             string infoPath = packDir + "/pack.mcmeta";
             string imgPath = packDir + "/pack.png";
@@ -141,7 +147,7 @@ namespace GBCLV3.Services
 
             var pack = ReadInfo(File.OpenRead(infoPath));
             pack.Path = packDir;
-            pack.IsEnabled = enabledPacks?.Contains($"\"{pack.Name}\"") ?? false;
+            pack.IsEnabled = enabledPackIDs?.Contains($"\"{pack.Name}\"") ?? false;
 
             // Load cover image (if exists)
             if (File.Exists(imgPath))
@@ -157,15 +163,17 @@ namespace GBCLV3.Services
 
         private static ResourcePack ReadInfo(Stream infoStream)
         {
-            string json = new StreamReader(infoStream, Encoding.UTF8).ReadToEnd();
-            var info = JsonSerializer.Deserialize<JResourcePack>(json);
-
-            return new ResourcePack
+            using (var sr = new StreamReader(infoStream, Encoding.UTF8))
             {
-                Format = info.pack.pack_format,
-                Description = info.pack.description,
-                IsExtracted = true,
-            };
+                var info = JsonSerializer.Deserialize<JResourcePack>(sr.ReadToEnd());
+
+                return new ResourcePack
+                {
+                    Format = info.pack.pack_format,
+                    Description = info.pack.description,
+                    IsExtracted = true,
+                };
+            }
         }
 
         private static BitmapImage ReadImage(Stream imgStream)

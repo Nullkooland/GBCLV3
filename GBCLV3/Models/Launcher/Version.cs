@@ -1,11 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using GBCLV3.Utils;
 
 namespace GBCLV3.Models.Launcher
 {
-    /// <summary>
-    /// Minecraft version instance used in launcher
-    /// </summary>
+
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    enum VersionType
+    {
+        [Description("Release")]
+        Release,
+
+        [Description("Snapshot")]
+        Snapshot,
+
+        [Description("Forge")]
+        Forge,
+
+        [Description("Unknown")]
+        Unknown,
+    }
+
     class Version
     {
         public string ID { get; set; }
@@ -23,6 +39,8 @@ namespace GBCLV3.Models.Launcher
         public string MinecarftArguments { get; set; }
 
         public string MainClass { get; set; }
+
+        public VersionType Type { get; set; }
 
         public List<Library> Libraries { get; set; }
 

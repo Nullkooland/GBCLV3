@@ -170,7 +170,9 @@
     <Compile Include="Utils\EnumDescriptionTypeConverter.cs" />
     <Compile Include="Utils\LocalizedDescriptionAttribute.cs" />
     <Compile Include="Utils\NativeUtil.cs" />
+    <Compile Include="Utils\VersionTypeIconConverter.cs" />
     <Compile Include="ViewModels\ForgeInstallViewModel.cs" />
+    <Compile Include="ViewModels\GameInstallViewModel.cs" />
     <Compile Include="ViewModels\VersionManagementViewModel.cs" />
     <Compile Include="ViewModels\LaunchStatusViewModel.cs" />
     <Compile Include="ViewModels\ModViewModel.cs" />
@@ -266,6 +268,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\GameInstallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\VersionManagementView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -323,7 +329,11 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\Images\anvil.png" />
+    <Resource Include="Resources\Images\grass_block.png" />
+    <Resource Include="Resources\Images\tnt.png" />
+  </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
       <Visible>False</Visible>
@@ -341,6 +351,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="enderman.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\Images\observer.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

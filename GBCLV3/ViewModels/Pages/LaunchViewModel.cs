@@ -67,6 +67,7 @@ namespace GBCLV3.ViewModels.Pages
 
             Versions = new BindableCollection<Version>();
 
+            // OnVersionLoaded
             _versionService.Loaded += hasAny =>
             {
                 Versions.Clear();
@@ -85,6 +86,20 @@ namespace GBCLV3.ViewModels.Pages
                 {
                     CanLaunch = false;
                 }
+            };
+
+            // OnVersionCreated
+            _versionService.Created += version => Versions.Add(version);
+
+            // OnVersionDeleted
+            _versionService.Deleted += version =>
+            {
+                if (version.ID == SelectedVersionID)
+                {
+                    SelectedVersionID = Versions.FirstOrDefault().ID;
+                }
+
+                Versions.Remove(version);
             };
 
             _logger = new StringBuilder(4096);

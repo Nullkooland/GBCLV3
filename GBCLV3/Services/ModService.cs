@@ -47,7 +47,8 @@ namespace GBCLV3.Services
 
             return Directory.EnumerateFiles(_gamePathService.ModDir)
                             .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
-                            .Select(path => Load(path));
+                            .Select(path => Load(path))
+                            .OrderBy(mod => mod.IsEnabled);
         }
 
         public void RewriteExtension(Mod mod)
@@ -79,7 +80,8 @@ namespace GBCLV3.Services
 
                 if (info != null)
                 {
-                    // This is utterly ugly...
+                    // Remove the top-level braces pair for a cleaner json deserialization
+                    // This is utterly ugly...thanks to the capriciousness of modders
                     var match = Regex.Match(new StreamReader(info.Open(), Encoding.UTF8).ReadToEnd(), "\\{[\\s\\S]*\\}");
 
                     if (match.Success)
