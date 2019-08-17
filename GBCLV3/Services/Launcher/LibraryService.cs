@@ -61,9 +61,10 @@ namespace GBCLV3.Services.Launcher
             }).ToList();
         }
 
-        public (DownloadType, IEnumerable<DownloadItem>) GetDownloadInfo(IEnumerable<Library> libraries)
+        public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)
         {
-            var items = libraries.Select(lib => new DownloadItem
+            return libraries.Select(lib => 
+            new DownloadItem
             {
                 Name = lib.Name,
                 Size = lib.Size,
@@ -72,8 +73,6 @@ namespace GBCLV3.Services.Launcher
                 IsCompleted = false,
                 DownloadedBytes = 0,
             }).ToList();
-
-            return (DownloadType.Libraries, items);
         }
 
         #endregion

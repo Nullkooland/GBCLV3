@@ -169,10 +169,10 @@ namespace GBCLV3.ViewModels.Pages
             var launchVersion = _versionService.GetByID(SelectedVersionID);
 
             // Check main jar and fix possible damage
-            if (!_versionService.CheckJarIntegrity(launchVersion))
+            if (!_versionService.CheckIntegrity(launchVersion))
             {
-                var (type, items) = _versionService.GetJarDownloadInfo(launchVersion);
-                if (!await StartDownloadAsync(type, items))
+                var download = _versionService.GetDownload(launchVersion);
+                if (!await StartDownloadAsync(DownloadType.MainJar, download))
                 {
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
@@ -183,8 +183,8 @@ namespace GBCLV3.ViewModels.Pages
             var damagedLibs = _libraryService.CheckIntegrity(launchVersion.Libraries);
             if (damagedLibs.Any())
             {
-                var (type, items) = _libraryService.GetDownloadInfo(damagedLibs);
-                if (!await StartDownloadAsync(type, items))
+                var downloads = _libraryService.GetDownloads(damagedLibs);
+                if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
                 {
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
@@ -212,8 +212,8 @@ namespace GBCLV3.ViewModels.Pages
                 _windowManager.ShowMessageBox("${AssetsDamagedError}\n${WhetherFixNow}", null,
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                var (type, items) = _assetService.GetDownloadInfo(damagedAssets);
-                await StartDownloadAsync(type, items);
+                var downloads = _assetService.GetDownloads(damagedAssets);
+                await StartDownloadAsync(DownloadType.Assets, downloads);
             }
 
             // For legacy versions (1.7.2 or earlier), copy hashed asset objects to virtual files

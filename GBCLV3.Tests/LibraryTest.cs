@@ -4,6 +4,7 @@ using GBCLV3.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GBCLV3.Services.Launcher;
 using GBCLV3.Models.Launcher;
+using GBCLV3.Models;
 
 namespace GBCLV3.Tests
 {
@@ -54,19 +55,18 @@ namespace GBCLV3.Tests
         }
 
         [TestMethod]
-        public void GetDownloadInfoTest()
+        public void GetDownloadsTest()
         {
             var version = _versionService.GetByID(ID);
-            var (type, items) = _libraryService.GetDownloadInfo(version.Libraries);
-            int totalBytes = items.Sum(obj => obj.Size);
+            var downloads = _libraryService.GetDownloads(version.Libraries);
+            int totalBytes = downloads.Sum(obj => obj.Size);
 
-            Debug.WriteLine($"Type: {type.ToString()}");
-            Debug.WriteLine($"Items Count: {items.Count()}");
-            Debug.WriteLine($"Items TotalBytes: {totalBytes}");
+            Debug.WriteLine($"Type: {DownloadType.Libraries}");
+            Debug.WriteLine($"downloads Count: {downloads.Count()}");
+            Debug.WriteLine($"downloads TotalBytes: {totalBytes}");
 
-            Debug.WriteLine("[Item Infos]");
-
-            foreach (var item in items)
+            Debug.WriteLine("[Library Downloads]");
+            foreach (var item in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"Name: {item.Name}");

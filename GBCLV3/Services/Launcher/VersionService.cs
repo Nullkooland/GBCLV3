@@ -182,13 +182,13 @@ namespace GBCLV3.Services.Launcher
             }
         }
 
-        public bool CheckJarIntegrity(Version version)
+        public bool CheckIntegrity(Version version)
         {
             var jarPath = $"{_gamePathService.VersionDir}/{version.JarID}/{version.JarID}.jar";
             return File.Exists(jarPath) && (CryptUtil.GetFileSHA1(jarPath) == version.SHA1);
         }
 
-        public (DownloadType, IEnumerable<DownloadItem>) GetJarDownloadInfo(Version version)
+        public IEnumerable<DownloadItem> GetDownload(Version version)
         {
             var item = new DownloadItem
             {
@@ -200,7 +200,7 @@ namespace GBCLV3.Services.Launcher
                 DownloadedBytes = 0,
             };
 
-            return (DownloadType.MainJar, new List<DownloadItem>(1) { item });
+            return new List<DownloadItem>(1) { item };
         }
 
         #endregion

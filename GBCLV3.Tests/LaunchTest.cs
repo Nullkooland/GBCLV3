@@ -65,13 +65,6 @@ namespace GBCLV3.Tests
         public void LaunchGameTest()
         {
             var version = _versionService.GetByID(ID);
-            var parent = _versionService.GetByID(version.InheritsFrom);
-
-            if (parent != null)
-            {
-                version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
-                version.AssetsInfo = parent.AssetsInfo;
-            }
 
             _libraryService.ExtractNatives(version.Libraries.Where(lib => lib.Type == LibraryType.Native));
 

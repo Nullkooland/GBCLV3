@@ -72,7 +72,7 @@ namespace GBCLV3.Services
             }
         }
 
-        public (DownloadType, IEnumerable<DownloadItem>) GetJarDownloadInfo(ForgeDownload forge)
+        public IEnumerable<DownloadItem> GetDownload(ForgeDownload forge)
         {
             string fullName = $"{forge.GameVersion}-{forge.Version}";
             string downloadName = fullName + (forge.Branch == null ? null : $"-{forge.Branch}");
@@ -86,7 +86,7 @@ namespace GBCLV3.Services
                 DownloadedBytes = 0,
             };
 
-            return (DownloadType.InstallForge, new List<DownloadItem>(1) { item });
+            return new List<DownloadItem>(1) { item };
         }
 
         public bool Install(ForgeDownload forge)

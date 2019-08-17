@@ -35,15 +35,18 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void GetVersionDownloadListTest()
         {
-            var downloadList = _versionService.GetDownloadListAsync().Result;
+            var (downloads, latestVersion) = _versionService.GetDownloadListAsync().Result;
+
+            Debug.WriteLine("[Latest Version]");
+            Debug.WriteLine($"Release:      {latestVersion.Release}");
+            Debug.WriteLine($"Snapshot:     {latestVersion.Snapshot}");
 
             Debug.WriteLine("[Available Versions To Download]");
-
-            foreach (var download in downloadList.Downloads)
+            foreach (var download in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"ID:       {download.ID}");
-                Debug.WriteLine($"Date:     {download.Date}");
+                Debug.WriteLine($"Date:     {download.ReleaseTime}");
                 Debug.WriteLine($"Type:     {download.Type}");
                 Debug.WriteLine($"Url:      {download.Url}");
             }
@@ -69,8 +72,8 @@ namespace GBCLV3.Tests
         public void ForgeInstallTest()
         {
             var forgeDownloads = _forgeInstallService.GetDownloadListAsync(ID).Result;
-            var (type, items) = _forgeInstallService.GetJarDownloadInfo(forgeDownloads.Last());
-            var forge = items.Last();
+            var download = _forgeInstallService.GetDownload(forgeDownloads.Last());
+            var forge = download.Last();
 
             Debug.WriteLine($"Name:     {forge.Name}");
             Debug.WriteLine($"Path:     {forge.Path}");

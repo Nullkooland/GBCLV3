@@ -3,6 +3,7 @@ using System.Diagnostics;
 using GBCLV3.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using GBCLV3.Services.Launcher;
+using GBCLV3.Models;
 
 namespace GBCLV3.Tests
 {
@@ -54,16 +55,15 @@ namespace GBCLV3.Tests
             var version = _versionService.GetByID(ID);
             _assetService.LoadAllObjects(version.AssetsInfo);
 
-            var (type, items) = _assetService.GetDownloadInfo(version.AssetsInfo.Objects.Values);
-            int totalBytes = items.Sum(obj => obj.Size);
+            var downloads = _assetService.GetDownloads(version.AssetsInfo.Objects.Values);
+            int totalBytes = downloads.Sum(obj => obj.Size);
 
-            Debug.WriteLine($"Type: {type.ToString()}");
-            Debug.WriteLine($"Items Count: {items.Count()}");
-            Debug.WriteLine($"Items TotalBytes: {totalBytes}");
+            Debug.WriteLine($"Type: {DownloadType.Assets}");
+            Debug.WriteLine($"downloads Count: {downloads.Count()}");
+            Debug.WriteLine($"downloads TotalBytes: {totalBytes}");
 
-            Debug.WriteLine("[Item Infos]");
-
-            foreach (var item in items)
+            Debug.WriteLine("[Asset Downloads]");
+            foreach (var item in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"Name: {item.Name}");

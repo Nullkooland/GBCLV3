@@ -127,9 +127,10 @@ namespace GBCLV3.Services.Launcher
             }
         }
 
-        public (DownloadType, IEnumerable<DownloadItem>) GetDownloadInfo(IEnumerable<AssetObject> assetObjects)
+        public IEnumerable<DownloadItem> GetDownloads(IEnumerable<AssetObject> assetObjects)
         {
-            var items = assetObjects.Select(obj => new DownloadItem
+            return assetObjects.Select(obj => 
+            new DownloadItem
             {
                 Name = obj.Hash,
                 Path = $"{_gamePathService.AssetDir}/objects/{obj.Path}",
@@ -138,8 +139,6 @@ namespace GBCLV3.Services.Launcher
                 IsCompleted = false,
                 DownloadedBytes = 0,
             }).ToList();
-
-            return (DownloadType.Assets, items);
         }
 
         #endregion
