@@ -85,6 +85,7 @@ namespace GBCLV3.ViewModels
 
         private static string GetBytesProgressText(int downloaded, int total)
         {
+            if (total == 0) return "--";
             if (total < 1024) return $"{downloaded} / {total} B";
             if (total < 1024 * 1024) return $"{downloaded / 1024}/{total / 1024} KB";
             if (total < 1024 * 1024 * 1024)

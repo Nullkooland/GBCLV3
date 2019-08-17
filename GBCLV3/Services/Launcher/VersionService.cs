@@ -69,15 +69,26 @@ namespace GBCLV3.Services.Launcher
                 return;
             }
 
-            var allVersions =
+            var availableVersions =
                 Directory.EnumerateDirectories(_gamePathService.VersionDir)
                          .Select(dir => $"{dir}/{Path.GetFileName(dir)}.json")
                          .Select(jsonPath => Load(jsonPath))
                          .Where(version => version != null);
 
-            foreach (var verion in allVersions)
+            var inheritVersions = new List<Version>(8);
+
+            foreach (var verion in availableVersions)
             {
                 _versions.Add(verion.ID, verion);
+                if (verion.InheritsFrom != null)
+                {
+                    inheritVersions.Add(verion);
+                }
+            }
+
+            foreach (var version in inheritVersions)
+            {
+                InheritParentProperties(version);
             }
 
             Loaded?.Invoke(_versions.Any());
@@ -102,8 +113,14 @@ namespace GBCLV3.Services.Launcher
         public void AddNew(string jsonPath)
         {
             var newVersion = Load(jsonPath);
-            _versions.Add(newVersion.ID, newVersion);
-            Created?.Invoke(newVersion);
+
+            if (newVersion != null)
+            {
+                if (newVersion.InheritsFrom != null) InheritParentProperties(newVersion);
+
+                _versions.Add(newVersion.ID, newVersion);
+                Created?.Invoke(newVersion);
+            }
         }
 
         public async Task DeleteFromDiskAsync(string id)
@@ -254,9 +271,9 @@ namespace GBCLV3.Services.Launcher
                     version.Libraries.Add(new Library
                     {
                         Name = $"{names[1]}-{names[2]}.jar",
-                        Type = (lib.downloads != null) ? LibraryType.Minecraft : LibraryType.Forge,
+                        Type = (lib.downloads == null && lib.url != null) ? LibraryType.Forge : LibraryType.Minecraft,
                         Path = libInfo?.path ??
-                                string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
+                               string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
                         Size = libInfo?.size ?? 0,
                         SHA1 = libInfo?.sha1,
                     });
@@ -337,6 +354,18 @@ namespace GBCLV3.Services.Launcher
                 }
             }
             return isAllowed;
+        }
+
+        private void InheritParentProperties(Version version)
+        {
+            if (_versions.TryGetValue(version.InheritsFrom, out var parent))
+            {
+                version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
+                version.AssetsInfo = parent.AssetsInfo;
+                version.Size = parent.Size;
+                version.SHA1 = parent.SHA1;
+                version.Url = parent.Url;
+            }
         }
     }
 

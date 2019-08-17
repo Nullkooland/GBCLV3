@@ -167,16 +167,6 @@ namespace GBCLV3.ViewModels.Pages
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
             var launchVersion = _versionService.GetByID(SelectedVersionID);
-            var parentVersion = _versionService.GetByID(launchVersion.InheritsFrom);
-
-            if (parentVersion != null)
-            {
-                launchVersion.Libraries = parentVersion.Libraries.Union(launchVersion.Libraries).ToList();
-                launchVersion.AssetsInfo = parentVersion.AssetsInfo;
-                launchVersion.Size = parentVersion.Size;
-                launchVersion.SHA1 = parentVersion.SHA1;
-                launchVersion.Url = parentVersion.Url;
-            }
 
             // Check main jar and fix possible damage
             if (!_versionService.CheckJarIntegrity(launchVersion))

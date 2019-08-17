@@ -106,7 +106,7 @@ namespace GBCLV3.Services
                     return true;
                 }
 
-                if (_failledCount > 0)
+                if (_failledCount > 0 && !_cts.IsCancellationRequested)
                 {
                     Completed?.Invoke(DownloadResult.Incomplete);
                 }
@@ -173,12 +173,6 @@ namespace GBCLV3.Services
                 waitResponceTask.Wait(_cts.Token);
                 var httpStream = waitResponceTask.Result;
                 _cts.Token.Register(() => httpStream.Close());
-
-                if (item.Size == 0)
-                {
-                    item.Size = (int)httpStream.Length;
-                    Interlocked.Add(ref _totalBytes, item.Size);
-                }
 
                 byte[] buffer = new byte[BUFFER_SIZE];
                 int bytesReceived;

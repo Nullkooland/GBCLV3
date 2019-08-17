@@ -25,8 +25,6 @@ namespace GBCLV3.Models.JsonClasses
 
         public string minecraftArguments { get; set; }
 
-        public DateTime time { get; set; }
-
         public string type { get; set; }
 
         public string inheritsFrom { get; set; }
