@@ -9,7 +9,7 @@ namespace GBCLV3.Services.Launcher
 
         public string RootDir => _config.GameDir;
 
-        public string WorkingDir => _config.SegregateVersion ? $"{RootDir}/versions/{_config.SelectedVersion}" : RootDir;
+        public string WorkingDir => _config.SegregateVersions ? $"{RootDir}/versions/{_config.SelectedVersion}" : RootDir;
 
         public string VersionDir => RootDir + "/versions";
 

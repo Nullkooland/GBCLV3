@@ -17,9 +17,19 @@ namespace GBCLV3.Models.Launcher
 
         [Description("Forge")]
         Forge,
+    }
 
-        [Description("Unknown")]
-        Unknown,
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    enum VersionListStatus
+    {
+        [LocalizedDescription("VersionListLoading")]
+        Loading,
+
+        [LocalizedDescription("VersionListLoaded")]
+        Loaded,
+
+        [LocalizedDescription("VersionListLoadFailed")]
+        LoadFailed,
     }
 
     class Version
@@ -47,38 +57,21 @@ namespace GBCLV3.Models.Launcher
         public AssetsInfo AssetsInfo { get; set; }
     }
 
-    /// <summary>
-    /// Json instance of a Minecraft version from download list
-    /// </summary>
     class VersionDownload
     {
         public string ID { get; set; }
 
-        public string Type { get; set; }
-
         public string Url { get; set; }
 
-        public DateTime Date { get; set; }
+        public DateTime ReleaseTime { get; set; }
+
+        public VersionType Type { get; set; }
     }
 
-    /// <summary>
-    /// Json instance of the latest Minecraft version
-    /// </summary>
     class LatestVersion
     {
         public string Release { get; set; }
 
         public string Snapshot { get; set; }
-    }
-
-    /// <summary>
-    /// Json instance of version download list
-    /// </summary>
-    class VersionDownloadList
-    {
-        public LatestVersion Latest { get; set; }
-
-        public List<VersionDownload> Downloads { get; set; }
-
     }
 }

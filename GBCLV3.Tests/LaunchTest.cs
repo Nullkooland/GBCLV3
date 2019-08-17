@@ -24,7 +24,7 @@ namespace GBCLV3.Tests
             _configService.Load();
             _configService.Entries.GameDir = GAME_ROOT_DIR;
             _configService.Entries.SelectedVersion = ID;
-            _configService.Entries.SegregateVersion = false;
+            _configService.Entries.SegregateVersions = false;
             _configService.Entries.JavaDebugMode = false;
 
             var gamePathService = new GamePathService(_configService);

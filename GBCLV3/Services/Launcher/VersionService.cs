@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -107,32 +108,60 @@ namespace GBCLV3.Services.Launcher
 
         public async Task DeleteFromDiskAsync(string id)
         {
-            if (_versions.TryGetValue(id, out var version))
+            if (_versions.TryGetValue(id, out var versionToDelete))
             {
                 await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionDir}/{id}");
-                Deleted?.Invoke(version);
+                Deleted?.Invoke(versionToDelete);
                 _versions.Remove(id);
+
+                // Clear libraries
+                var usedLibs = _versions.Values
+                                        .Select(version => version.Libraries as IEnumerable<Library>)
+                                        .Aggregate((prev, current) => prev.Union(current));
+
+                foreach (var libToDelete in versionToDelete.Libraries.Except(usedLibs))
+                {
+                    var libPath = $"{_gamePathService.LibDir }/{libToDelete.Path}";
+                    await SystemUtil.SendFileToRecycleBin(libPath);
+                    SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+                }
             }
         }
 
-        public async Task<VersionDownloadList> GetDownloadListAsync()
+        public async Task<(IEnumerable<VersionDownload>, LatestVersion)> GetDownloadListAsync()
         {
             try
             {
                 string json = await _client.GetStringAsync(_urlService.Base.VersionList);
-                JsonSerializerOptions options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                return JsonSerializer.Deserialize<VersionDownloadList>(json, options);
+                var versionList = JsonSerializer.Deserialize<JVersionList>(json);
+
+                var downloads = versionList.versions.Select(download =>
+                    new VersionDownload
+                    {
+                        ID = download.id,
+                        Url = download.url.Substring(32),
+                        ReleaseTime = download.releaseTime,
+                        Type = download.type == "release" ? VersionType.Release : VersionType.Snapshot,
+                    });
+
+                var latestVersion = new LatestVersion
+                {
+                    Release = versionList.latest.release,
+                    Snapshot = versionList.latest.snapshot,
+                };
+
+                return (downloads, latestVersion);
             }
             catch (HttpRequestException ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return null;
+                return (null, null);
             }
             catch (OperationCanceledException)
             {
                 // Timeout
                 Debug.WriteLine("[ERROR] Get version download list timeout");
-                return null;
+                return (null, null);
             }
         }
 
@@ -247,7 +276,8 @@ namespace GBCLV3.Services.Launcher
                         Name = $"{names[1]}-{names[2]}-{suffix}.jar",
                         Type = LibraryType.Native,
                         Path = nativeLibInfo?.path ??
-                                string.Format("{0}/{1}/{2}/{1}-{2}-{3}.jar", names[0].Replace('.', '/'), names[1], names[2], suffix),
+                               string.Format("{0}/{1}/{2}/{1}-{2}-{3}.jar",
+                               names[0].Replace('.', '/'), names[1], names[2], suffix),
                         Size = nativeLibInfo?.size ?? 0,
                         SHA1 = nativeLibInfo?.sha1,
                         Exclude = lib.extract?.exclude,
@@ -283,7 +313,7 @@ namespace GBCLV3.Services.Launcher
             if (jver.inheritsFrom != null) return VersionType.Forge;
             if (jver.type == "release") return VersionType.Release;
             if (jver.type == "snapshot") return VersionType.Snapshot;
-            return VersionType.Unknown;
+            return VersionType.Release;
         }
 
         private static bool IsAllowedLib(List<JRule> rules)

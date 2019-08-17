@@ -118,21 +118,27 @@
     
     <!-- 版本管理与安装 -->
     <s:String x:Key="AvailableVersions">可用版本</s:String>
-    <s:String x:Key="ReloadVersions">重新加载所有版本</s:String>
+    <s:String x:Key="SegregateVersions">版本隔离</s:String>
+    <s:String x:Key="ReloadVersions">重新加载版本</s:String>
     <s:String x:Key="OpenVersionsDir">打开版本目录</s:String>
     <s:String x:Key="OpenVersionDir">打开目录</s:String>
     <s:String x:Key="OpenVersionJson">打开Json</s:String>
     <s:String x:Key="DeleteVersion">删除版本</s:String>
     <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
-    
+    <s:String x:Key="Type">类型</s:String>
+    <s:String x:Key="ReleaseTime">发行日期</s:String>
+
+    <s:String x:Key="VersionListLoading">正在获取版本列表</s:String>
+    <s:String x:Key="VersionListLoaded">版本列表获取成功</s:String>
+    <s:String x:Key="VersionListLoadFailed">版本列表获取失败</s:String>
+
     <s:String x:Key="Version">版本</s:String>
-    <s:String x:Key="ReleaseTime">发布日期</s:String>
     <s:String x:Key="OpenLink">访问链接</s:String>
     
     <s:String x:Key="Delete">删除</s:String>
     <s:String x:Key="Install">安装</s:String>
     <s:String x:Key="Versions">游戏版本</s:String>
-    <s:String x:Key="VersionManagement">版本管理</s:String>
+    <s:String x:Key="VersionsManagement">版本管理</s:String>
     <s:String x:Key="GameInstall">游戏安装</s:String>
     <s:String x:Key="ForgeInstall">Forge安装</s:String>
     <s:String x:Key="Mods">模组管理</s:String>

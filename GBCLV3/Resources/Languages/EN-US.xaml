@@ -117,21 +117,27 @@
 
     <!-- Version management & install -->
     <s:String x:Key="AvailableVersions">Available Versions</s:String>
+    <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
     <s:String x:Key="ReloadVersions">Reload Versions</s:String>
     <s:String x:Key="OpenVersionsDir">Open Versions Directory</s:String>
     <s:String x:Key="OpenVersionDir">Open Directory</s:String>
     <s:String x:Key="OpenVersionJson">Open Json</s:String>
     <s:String x:Key="DeleteVersion">Delete</s:String>
     <s:String x:Key="WhetherDeleteVersion">Whether delete the version</s:String>
+    <s:String x:Key="Type">Type</s:String>
+    <s:String x:Key="ReleaseTime">Release Date</s:String>
+
+    <s:String x:Key="VersionListLoading">Loading version list</s:String>
+    <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
+    <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
 
     <s:String x:Key="Version">Version</s:String>
-    <s:String x:Key="ReleaseTime">Release Time</s:String>
     <s:String x:Key="OpenLink">Open Link</s:String>
     
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="Versions">Versions</s:String>
-    <s:String x:Key="VersionManagement">Version Management</s:String>
+    <s:String x:Key="VersionsManagement">Versions</s:String>
     <s:String x:Key="GameInstall">Game Install</s:String>
     <s:String x:Key="ForgeInstall">Forge Install</s:String>
     <s:String x:Key="Mods">Mods</s:String>

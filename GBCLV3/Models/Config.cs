@@ -14,7 +14,7 @@ namespace GBCLV3.Models
 
         public string SelectedVersion { get; set; }
 
-        public bool SegregateVersion { get; set; }
+        public bool SegregateVersions { get; set; }
 
         public string Username { get; set; }
 

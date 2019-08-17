@@ -19,7 +19,7 @@
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="32"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
 
@@ -29,13 +29,14 @@
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <Border.Effect>
                                 <DropShadowEffect po:Freeze="True"
-                                              ShadowDepth="0" BlurRadius="6" Opacity="0.5"/>
+                                                  ShadowDepth="0" BlurRadius="6" Opacity="0.5"/>
                             </Border.Effect>
                         </Border>
 
                         <Border x:Name="HeaderBorder" Grid.Row="0"
                                 Background="{TemplateBinding adonisExtensions:GroupBoxExtension.HeaderBackground}">
                             <ContentPresenter Margin="{TemplateBinding Padding}"
+                                              VerticalAlignment="Center"
                                               ContentSource="Header" 
                                               RecognizesAccessKey="True"/>
                         </Border>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.Devices;
@@ -50,6 +51,15 @@ namespace GBCLV3.Utils
             {
                 FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             });
+        }
+
+        public static void DeleteEmptyDirs(string dir)
+        {
+            while (!Directory.EnumerateFileSystemEntries(dir).Any())
+            {
+                Directory.Delete(dir);
+                dir = Path.GetDirectoryName(dir);
+            }
         }
     }
 }

@@ -1,31 +1,46 @@
-﻿using GBCLV3.Views;
+﻿using GBCLV3.Models;
+using GBCLV3.Views;
 using Stylet;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class VersionsRootViewModel : Screen
+    class VersionsRootViewModel : Conductor<IScreen>.StackNavigation
     {
+        #region Private Members
+
+        //IoC
+        private readonly VersionsManagementViewModel _versionsManagementVM;
+        private readonly GameInstallViewModel _gameInstallVM;
+        private readonly ForgeInstallViewModel _forgeInstallVM;
+
+        #endregion
+
         #region Constructor
 
         public VersionsRootViewModel(
-            VersionManagementViewModel versionManagementVM,
+            VersionsManagementViewModel versionsManagementVM,
             GameInstallViewModel gameInstallVM,
             ForgeInstallViewModel forgeInstallVM)
         {
-            VersionManagementVM = versionManagementVM;
-            GameInstallVM = gameInstallVM;
-            ForgeInstallVM = forgeInstallVM;
+            _versionsManagementVM = versionsManagementVM;
+            _gameInstallVM = gameInstallVM;
+            _forgeInstallVM = forgeInstallVM;
+
+            this.ActivateItem(_versionsManagementVM);
+            _versionsManagementVM.NavigateView += versionID =>
+            {
+                if (versionID == null) this.ActivateItem(_gameInstallVM);
+                else
+                {
+                    _forgeInstallVM.GameVersion = versionID;
+                    this.ActivateItem(_forgeInstallVM);
+                }
+            };
         }
 
         #endregion
 
         #region Bindings
-
-        public Screen VersionManagementVM { get; private set; }
-
-        public Screen GameInstallVM { get; private set; }
-
-        public Screen ForgeInstallVM { get; private set; }
 
         #endregion
     }

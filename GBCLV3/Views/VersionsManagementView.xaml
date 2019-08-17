@@ -1,4 +1,4 @@
-﻿<ContentControl x:Class="GBCLV3.Views.VersionManagementView"
+﻿<ContentControl x:Class="GBCLV3.Views.VersionsManagementView"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
@@ -8,14 +8,13 @@
                 xmlns:utils="clr-namespace:GBCLV3.Utils"
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
-                Style="{StaticResource TabPageStyle}"
-                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+                Style="{StaticResource BlurInPageStyle}">
 
     <ContentControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="0,0,8,8"/>
+            <Setter Property="Margin" Value="8,8,0,0"/>
             <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="Height" Value="32"/>
+            <Setter Property="Height" Value="28"/>
             <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
@@ -23,37 +22,37 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-        </Grid.ColumnDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    FlowDirection="RightToLeft">
 
-        <Button Grid.Row="1" Grid.Column="1"
-                Content="{DynamicResource OpenVersionsDir}"
-                Click="{s:Action OpenVersionsDir}"/>
+            <Button Content="{DynamicResource InstallNewVersion}"
+                    Click="{s:Action InstallNewVersion}"/>
 
-        <Button Grid.Row="1" Grid.Column="2"
-                Content="{DynamicResource ReloadVersions}"
-                Click="{s:Action Reload}"/>
+            <Button Content="{DynamicResource ReloadVersions}"
+                    Click="{s:Action Reload}"/>
 
-        <GroupBox Grid.Row="0" Grid.ColumnSpan="3" Margin="8"
+            <Button Content="{DynamicResource OpenVersionsDir}"
+                    Click="{s:Action OpenVersionsDir}"/>
+
+        </StackPanel>
+
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="4" Margin="8"
                   Header="{DynamicResource AvailableVersions}">
-            
-            <ListBox
-                 ItemsSource="{Binding Versions, Mode=OneWay}"
-                 SelectedValuePath="ID"
-                 BorderThickness="1"
-                 SelectedValue="{Binding SelectedVersionID, Mode=TwoWay}">
+
+            <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
+                     SelectedValuePath="ID"
+                     BorderThickness="1"
+                     SelectedValue="{Binding SelectedVersionID, Mode=TwoWay}">
 
                 <ListBox.Resources>
                     <utils:VersionTypeIconConverter x:Key="TypeToIconConverter"/>
                 </ListBox.Resources>
-                
+
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -90,13 +89,13 @@
                     <ContextMenu>
                         <MenuItem Header="{DynamicResource OpenVersionDir}"
                                   Click="{s:Action OpenVersionDir}"/>
-                        
+
                         <MenuItem Header="{DynamicResource OpenVersionJson}"
                                   Click="{s:Action OpenVersionJson}"/>
-                        
+
                         <MenuItem Header="{DynamicResource InstallForge}"
                                   Click="{s:Action InstallForge}"/>
-                        
+
                         <MenuItem Header="{DynamicResource DeleteVersion}"
                                   Click="{s:Action DeleteVersion}"/>
                     </ContextMenu>
@@ -104,6 +103,12 @@
             </ListBox>
         </GroupBox>
 
+        <CheckBox Grid.Row="1" Margin="16,14"
+                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                  FontSize="14"
+                  Content="{DynamicResource SegregateVersions}"
+                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}"/>
 
     </Grid>
+
 </ContentControl>
