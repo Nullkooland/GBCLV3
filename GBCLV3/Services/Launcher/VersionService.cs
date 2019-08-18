@@ -72,6 +72,7 @@ namespace GBCLV3.Services.Launcher
             var availableVersions =
                 Directory.EnumerateDirectories(_gamePathService.VersionDir)
                          .Select(dir => $"{dir}/{Path.GetFileName(dir)}.json")
+                         .Where(jsonPath => File.Exists(jsonPath))
                          .Select(jsonPath => File.ReadAllText(jsonPath, Encoding.UTF8))
                          .Select(json => Load(json))
                          .Where(version => version != null);
@@ -253,6 +254,7 @@ namespace GBCLV3.Services.Launcher
                 return null;
             }
 
+
             var version = new Version
             {
                 ID = jver.id,
@@ -261,19 +263,34 @@ namespace GBCLV3.Services.Launcher
                 SHA1 = jver.downloads?.client.sha1,
                 Url = jver.downloads?.client.url.Substring(28),
                 InheritsFrom = jver.inheritsFrom,
-                MinecarftArguments = jver.minecraftArguments,
                 MainClass = jver.mainClass,
                 Libraries = new List<Library>(),
-                Type = GetType(jver),
+                Type = (jver.type == "release") ? VersionType.Release : VersionType.Snapshot,
             };
+
+            string[] args;
 
             // For 1.13+ versions
             if (jver.arguments != null)
             {
-                version.MinecarftArguments = 
-                    jver.arguments.game.Where(element => element.ValueKind == JsonValueKind.String)
-                                       .Select(element => element.GetString())
-                                       .Aggregate((current, next) => current + ' ' + next);
+                args = jver.arguments.game
+                    .Where(element => element.ValueKind == JsonValueKind.String)
+                    .Select(element => element.GetString())
+                    .ToArray();
+            }
+            else
+            {
+                args = jver.minecraftArguments.Split(' ');
+            }
+
+            version.MinecarftArgsDict = Enumerable.Range(0, args.Length / 2)
+                                                  .ToDictionary(i => args[i * 2], i => args[i * 2 + 1]);
+
+            if (args.Any(arg => arg.Contains("fml")))
+            {
+                version.Type = VersionType.Forge;
+                // Invalid forge version
+                if (version.InheritsFrom == null) return null;
             }
 
             foreach (var lib in jver.libraries)
@@ -353,14 +370,6 @@ namespace GBCLV3.Services.Launcher
                 && jver.libraries != null);
         }
 
-        private static VersionType GetType(JVersion jver)
-        {
-            if (jver.inheritsFrom != null) return VersionType.Forge;
-            if (jver.type == "release") return VersionType.Release;
-            if (jver.type == "snapshot") return VersionType.Snapshot;
-            return VersionType.Release;
-        }
-
         private static bool IsAllowedLib(List<JRule> rules)
         {
             if (rules == null)
@@ -389,6 +398,15 @@ namespace GBCLV3.Services.Launcher
             if (_versions.TryGetValue(version.InheritsFrom, out var parent))
             {
                 version.JarID = parent.JarID;
+
+                foreach (var arg in parent.MinecarftArgsDict)
+                {
+                    if (!version.MinecarftArgsDict.ContainsKey(arg.Key))
+                    {
+                        version.MinecarftArgsDict.Add(arg.Key, arg.Value);
+                    }
+                }
+
                 version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
                 version.AssetsInfo = parent.AssetsInfo;
                 version.Size = parent.Size;

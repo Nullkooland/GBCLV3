@@ -100,12 +100,14 @@ namespace GBCLV3.ViewModels.Pages
             // OnVersionDeleted
             _versionService.Deleted += version =>
             {
-                if (version.ID == SelectedVersionID)
+                Versions.Remove(version);
+
+                if (SelectedVersionID == null)
                 {
-                    SelectedVersionID = Versions.FirstOrDefault().ID;
+                    SelectedVersionID = Versions.FirstOrDefault()?.ID;
                 }
 
-                Versions.Remove(version);
+                if (!Versions.Any()) CanLaunch = false;
             };
 
             _logger = new StringBuilder(4096);

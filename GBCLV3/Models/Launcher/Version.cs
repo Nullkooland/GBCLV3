@@ -33,7 +33,7 @@ namespace GBCLV3.Models.Launcher
 
         public string InheritsFrom { get; set; }
 
-        public string MinecarftArguments { get; set; }
+        public Dictionary<string, string> MinecarftArgsDict { get; set; }
 
         public string MainClass { get; set; }
 
