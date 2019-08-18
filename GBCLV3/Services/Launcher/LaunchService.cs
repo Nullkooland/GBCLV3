@@ -141,9 +141,9 @@ namespace GBCLV3.Services.Launcher
             // Minecraft Arguments
             var argsDict = version.MinecarftArgsDict;
 
-            argsDict["--username"] = profile.Username;
-            argsDict["--version"] = version.ID;
-            argsDict["--gameDir"] = _gamePathService.WorkingDir;
+            argsDict["--username"] = '\"' +  profile.Username + '\"';
+            argsDict["--version"] = '\"' + version.ID + '\"';
+            argsDict["--gameDir"] = '\"' + _gamePathService.WorkingDir + '\"';
 
             if (version.AssetsInfo.IsLegacy)
             {
@@ -151,7 +151,7 @@ namespace GBCLV3.Services.Launcher
             }
             else
             {
-                argsDict["--assetsDir"] = _gamePathService.AssetDir;
+                argsDict["--assetsDir"] = '\"' + _gamePathService.AssetDir + '\"';
                 argsDict["--assetIndex"] = version.AssetsInfo.ID;
             }
 

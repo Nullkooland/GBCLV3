@@ -88,7 +88,7 @@ namespace GBCLV3.Services.Launcher
                     var virtualPath = $"{_gamePathService.AssetDir}/virtual/legacy/{pair.Key}";
                     var virtualDir = Path.GetDirectoryName(virtualPath);
 
-                    if (File.Exists(virtualPath)) return;
+                    if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
 
                     if (!Directory.Exists(virtualDir))
                     {

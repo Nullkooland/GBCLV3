@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using GBCLV3.Models;
 using GBCLV3.Models.Launcher;
@@ -80,13 +81,22 @@ namespace GBCLV3.ViewModels
 
         public void Reload() => _versionService.LoadAll();
 
-        public void OpenVersionsDir() => Process.Start(_gamePathService.VersionDir);
+        public void OpenVersionsDir()
+        {
+            if (Directory.Exists(_gamePathService.VersionDir)) Process.Start(_gamePathService.VersionDir);
+        }
 
         public void OpenVersionDir()
-            => Process.Start($"{_gamePathService.VersionDir}/{SelectedVersionID}");
+        {
+            var versionsDir = $"{_gamePathService.VersionDir}/{SelectedVersionID}";
+            if (Directory.Exists(versionsDir)) Process.Start(versionsDir);
+        }
 
         public void OpenVersionJson()
-            => Process.Start($"{_gamePathService.VersionDir}/{SelectedVersionID}/{SelectedVersionID}.json");
+        {
+            var jsonPath = $"{_gamePathService.VersionDir}/{SelectedVersionID}/{SelectedVersionID}.json";
+            if (File.Exists(jsonPath)) Process.Start(jsonPath);
+        }
 
         public async void DeleteVersion()
         {
