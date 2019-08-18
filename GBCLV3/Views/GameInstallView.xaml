@@ -19,7 +19,20 @@
                 Width="48" Height="48"
                 FontFamily="Segoe MDL2 Assets" FontSize="20"
                 Content="&#xE72B;"
-                Click="{s:Action GoBack}"/>
+                Click="{s:Action GoBack}"
+                Visibility="{Binding ActiveItem, Mode=OneWay,
+                             Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+
+        <CheckBox Grid.Row="0" Margin="8,0"
+                  HorizontalAlignment="Right"
+                  Height="48" FontSize="16"
+                  Content="{DynamicResource DownloadAssetsOnInstall}"
+                  IsChecked="{Binding IsDownloadAssets, Mode=TwoWay}"
+                  Visibility="{Binding ActiveItem, Mode=OneWay,
+                               Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+
+        <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Top"
+                        s:View.Model="{Binding ActiveItem, Mode=OneWay}"/>
 
         <GroupBox Grid.Row="1" Margin="8">
 
@@ -38,6 +51,7 @@
                       FontSize="14"
                       VirtualizingPanel.IsVirtualizing="True"
                       VirtualizingPanel.VirtualizationMode="Recycling"
+                      IsEnabled="{Binding CanInstall, Mode=OneWay}"
                       ItemsSource="{Binding VersionDownloads, Mode=OneWay}">
 
                 <ListView.ItemContainerStyle>
@@ -55,13 +69,15 @@
                         <!-- TO allow user to enable auto-width in the GridViewColumn -->
                         <GridViewColumn Width="64">
                             <GridViewColumn.CellTemplate>
-                                <ItemContainerTemplate>
+                                <DataTemplate>
                                     <Button x:Name="InstallButton"
                                             Style="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}"
                                             Height="28"
                                             FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                            Content="&#xE896;"/>
-                                </ItemContainerTemplate>
+                                            Content="&#xE896;"
+                                            Command="{s:Action InstallSelectedVersion}"
+                                            CommandParameter="{Binding}"/>
+                                </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 

@@ -131,6 +131,16 @@
     <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
     <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
 
+    <s:String x:Key="VersionJsonFetching">Fetching version json</s:String>
+    <s:String x:Key="VersionDownloading">Downloading version dependencies</s:String>
+    <s:String x:Key="VersionInstallFaield">Install Failed</s:String>
+    <s:String x:Key="VersionAlreadyExists">Local version already exists!</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">Fetch version json failed!</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">Incomplete Dependencies</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">Launcher will complete all dependencies for the version when launching</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Download assets upon install</s:String>
+    <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
+    
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="OpenLink">Open Link</s:String>
     

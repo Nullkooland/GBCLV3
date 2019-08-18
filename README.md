@@ -23,7 +23,7 @@ Goose Bomb's Minecraft Client Launcher V3
   - [x] Parallel download
   - [x] Retry incomplete downloads
   - [x] Fix damaged dependencies (main jar, libraries, assets)
-  - [ ] Install new version
+  - [x] Install new version
   - [ ] Install forge
 
 - [ ] Custom Theme

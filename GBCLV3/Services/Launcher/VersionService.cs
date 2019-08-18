@@ -72,7 +72,8 @@ namespace GBCLV3.Services.Launcher
             var availableVersions =
                 Directory.EnumerateDirectories(_gamePathService.VersionDir)
                          .Select(dir => $"{dir}/{Path.GetFileName(dir)}.json")
-                         .Select(jsonPath => Load(jsonPath))
+                         .Select(jsonPath => File.ReadAllText(jsonPath, Encoding.UTF8))
+                         .Select(json => Load(json))
                          .Where(version => version != null);
 
             var inheritVersions = new List<Version>(8);
@@ -110,17 +111,23 @@ namespace GBCLV3.Services.Launcher
             return null;
         }
 
-        public void AddNew(string jsonPath)
+        public Version AddNew(string json)
         {
-            var newVersion = Load(jsonPath);
+            var newVersion = Load(json);
 
             if (newVersion != null)
             {
-                if (newVersion.InheritsFrom != null) InheritParentProperties(newVersion);
+                string jsonPath = $"{_gamePathService.VersionDir}/{newVersion.ID}/{newVersion.ID}.json";
+                Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
 
+                File.WriteAllText(jsonPath, json, Encoding.UTF8);
+
+                if (newVersion.InheritsFrom != null) InheritParentProperties(newVersion);
                 _versions.Add(newVersion.ID, newVersion);
                 Created?.Invoke(newVersion);
             }
+
+            return newVersion;
         }
 
         public async Task DeleteFromDiskAsync(string id)
@@ -182,6 +189,25 @@ namespace GBCLV3.Services.Launcher
             }
         }
 
+        public async Task<string> GetJsonAsync(VersionDownload download)
+        {
+            try
+            {
+                return await _client.GetStringAsync(_urlService.Base.Json + download.Url);
+            }
+            catch (HttpRequestException ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            catch (OperationCanceledException)
+            {
+                // Timeout
+                Debug.WriteLine("[ERROR] Get version download list timeout");
+                return null;
+            }
+        }
+
         public bool CheckIntegrity(Version version)
         {
             var jarPath = $"{_gamePathService.VersionDir}/{version.JarID}/{version.JarID}.jar";
@@ -207,12 +233,11 @@ namespace GBCLV3.Services.Launcher
 
         #region Private Methods
 
-        private static Version Load(string jsonPath)
+        private static Version Load(string json)
         {
             JVersion jver;
             try
             {
-                string json = File.ReadAllText(jsonPath, Encoding.UTF8);
                 jver = JsonSerializer.Deserialize<JVersion>(json);
             }
             catch

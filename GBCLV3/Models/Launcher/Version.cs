@@ -20,16 +20,22 @@ namespace GBCLV3.Models.Launcher
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum VersionListStatus
+    enum VersionInstallStatus
     {
         [LocalizedDescription("VersionListLoading")]
-        Loading,
+        ListLoading,
 
         [LocalizedDescription("VersionListLoaded")]
-        Loaded,
+        ListLoaded,
 
         [LocalizedDescription("VersionListLoadFailed")]
-        LoadFailed,
+        ListLoadFailed,
+
+        [LocalizedDescription("VersionJsonFetching")]
+        JsonFetching,
+
+        [LocalizedDescription("VersionDownloading")]
+        DependenciesDownloading,
     }
 
     class Version

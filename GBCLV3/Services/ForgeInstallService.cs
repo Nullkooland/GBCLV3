@@ -93,14 +93,11 @@ namespace GBCLV3.Services
         {
             string fullName = $"{forge.GameVersion}-{forge.Version}";
             string jarPath = $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar";
-            string jsonPath = $"{_gamePathService.VersionDir}/{fullName}/{fullName}.json";
 
             if (!File.Exists(jarPath))
             {
                 return false;
             }
-
-            Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
 
             using (var archive = ZipFile.OpenRead(jarPath))
             {
@@ -112,12 +109,10 @@ namespace GBCLV3.Services
                     forgeJsonInstance.id = fullName;
                     string forgeJson = JsonSerializer.Serialize(forgeJsonInstance);
 
-                    File.WriteAllText(jsonPath, forgeJson, Encoding.UTF8);
-                    _versionService.AddNew(jsonPath);
+                    _versionService.AddNew(forgeJson);
+                    return true;
                 }
             }
-
-            return true;
         }
 
         #endregion

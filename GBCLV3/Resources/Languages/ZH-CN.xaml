@@ -132,6 +132,16 @@
     <s:String x:Key="VersionListLoaded">版本列表获取成功</s:String>
     <s:String x:Key="VersionListLoadFailed">版本列表获取失败</s:String>
 
+    <s:String x:Key="VersionJsonFetching">正在获取版本json文件</s:String>
+    <s:String x:Key="VersionDownloading">正在下载依赖项</s:String>
+    <s:String x:Key="VersionInstallFaield">安装失败</s:String>
+    <s:String x:Key="VersionAlreadyExists">已经有本地版本存在！</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">json文件获取失败！</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">依赖项未下载完全</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">将会在启动该游戏版本时补全所有依赖项</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">同时下载资源文件</s:String>
+    <s:String x:Key="VersionInstallSuccessful">成功安装版本</s:String>
+    
     <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="OpenLink">访问链接</s:String>
     
