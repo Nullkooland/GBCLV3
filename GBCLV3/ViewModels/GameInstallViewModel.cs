@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models;
@@ -18,6 +19,7 @@ namespace GBCLV3.ViewModels
         private bool _isVersionListLoaded;
 
         //IoC
+        private readonly Config _config;
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
@@ -31,6 +33,7 @@ namespace GBCLV3.ViewModels
 
         [Inject]
         public GameInstallViewModel(
+            ConfigService configService,
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
@@ -38,6 +41,7 @@ namespace GBCLV3.ViewModels
             IWindowManager windowManager,
             DownloadViewModel downloadVM)
         {
+            _config = configService.Entries;
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
@@ -58,14 +62,18 @@ namespace GBCLV3.ViewModels
 
         public bool IsLoading => 
             Status == VersionInstallStatus.ListLoading ||
-            Status == VersionInstallStatus.JsonFetching ||
-            Status == VersionInstallStatus.DependenciesDownloading;
+            Status == VersionInstallStatus.FetchingJson ||
+            Status == VersionInstallStatus.DownloadingDependencies;
 
         public bool CanInstall => Status == VersionInstallStatus.ListLoaded;
 
-        public BindableCollection<VersionDownload> VersionDownloads { get; set; }
+        public BindableCollection<VersionDownload> VersionDownloads { get; private set; }
 
-        public bool IsDownloadAssets { get; set; }
+        public bool IsDownloadAssets
+        {
+            get => _config.DownloadAssetsOnInstall;
+            set => _config.DownloadAssetsOnInstall = value;
+        }
 
         public async void InstallSelectedVersion(VersionDownload download)
         {
@@ -76,7 +84,7 @@ namespace GBCLV3.ViewModels
                 return;
             }
 
-            Status = VersionInstallStatus.JsonFetching;
+            Status = VersionInstallStatus.FetchingJson;
             var json = await _versionService.GetJsonAsync(download);
 
             if (json == null)
@@ -91,7 +99,7 @@ namespace GBCLV3.ViewModels
             var version = _versionService.AddNew(json);
 
             // Download essential dependencies
-            Status = VersionInstallStatus.DependenciesDownloading;
+            Status = VersionInstallStatus.DownloadingDependencies;
             var downloads = _versionService.GetDownload(version);
 
             var missingLibs = _libraryService.CheckIntegrity(version.Libraries);

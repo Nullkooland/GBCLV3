@@ -57,7 +57,7 @@ namespace GBCLV3.ViewModels
                 Versions.Clear();
                 Versions.AddRange(_versionService.GetAvailable());
             };
-            _versionService.Created += version => Versions.Add(version);
+            _versionService.Created += version => Versions.Insert(0, version);
             _versionService.Deleted += version => Versions.Remove(version);
 
             _gameInstallVM = gameInstallVM;
@@ -90,7 +90,7 @@ namespace GBCLV3.ViewModels
 
         public async void DeleteVersion()
         {
-            if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} \"" + SelectedVersionID + "\" ?", "${DeleteVersion}",
+            if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + SelectedVersionID + " ?", "${DeleteVersion}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 await _versionService.DeleteFromDiskAsync(SelectedVersionID);
@@ -102,8 +102,7 @@ namespace GBCLV3.ViewModels
         public void InstallForge()
         {
             var version = _versionService.GetByID(SelectedVersionID);
-            // TO-DO: jump to forgeInstall View
-            NavigateView?.Invoke(SelectedVersionID);
+            NavigateView?.Invoke(version.JarID);
         }
 
         #endregion

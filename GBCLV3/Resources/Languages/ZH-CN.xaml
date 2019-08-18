@@ -116,7 +116,7 @@
     <s:String x:Key="DownloadFailedCount">失败数</s:String>
     <s:String x:Key="DownloadSpeed">速度</s:String>
     
-    <!-- 版本管理与安装 -->
+    <!-- 版本管理 -->
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
     <s:String x:Key="ReloadVersions">重新加载版本</s:String>
@@ -125,25 +125,39 @@
     <s:String x:Key="OpenVersionJson">打开Json</s:String>
     <s:String x:Key="DeleteVersion">删除版本</s:String>
     <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
+
+    <!-- 版本安装 -->
+    <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="ReleaseTime">发行日期</s:String>
 
     <s:String x:Key="VersionListLoading">正在获取版本列表</s:String>
     <s:String x:Key="VersionListLoaded">版本列表获取成功</s:String>
     <s:String x:Key="VersionListLoadFailed">版本列表获取失败</s:String>
-
-    <s:String x:Key="VersionJsonFetching">正在获取版本json文件</s:String>
-    <s:String x:Key="VersionDownloading">正在下载依赖项</s:String>
-    <s:String x:Key="VersionInstallFaield">安装失败</s:String>
-    <s:String x:Key="VersionAlreadyExists">已经有本地版本存在！</s:String>
+    <s:String x:Key="VersionFetchingJson">正在获取版本json文件</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">正在下载依赖项</s:String>
+    
+    <s:String x:Key="VersionInstallFailed">安装失败</s:String>
+    <s:String x:Key="VersionAlreadyExists">已经有相同的本地版本存在！</s:String>
     <s:String x:Key="VersionJsonFetchFailed">json文件获取失败！</s:String>
     <s:String x:Key="VersionDependenciesIncomplete">依赖项未下载完全</s:String>
     <s:String x:Key="TryCompleteDependenciesOnLaunch">将会在启动该游戏版本时补全所有依赖项</s:String>
     <s:String x:Key="DownloadAssetsOnInstall">同时下载资源文件</s:String>
     <s:String x:Key="VersionInstallSuccessful">成功安装版本</s:String>
-    
-    <s:String x:Key="Version">版本</s:String>
-    <s:String x:Key="OpenLink">访问链接</s:String>
+
+    <!-- Forge安装 -->
+    <s:String x:Key="ForgeListLoading">正在获取Forge安装列表</s:String>
+    <s:String x:Key="ForgeListLoadFailed">获取Forge安装列表失败</s:String>
+    <s:String x:Key="NoAvailableForge">该版本没有可用的Forge！</s:String>
+    <s:String x:Key="SelectForgeVersion">请选择要安装的Forge版本</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">正在下载Forge安装文件</s:String>
+    <s:String x:Key="ForgeManualInstalling">正在手动安装Forge</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">正在下载Forge依赖库</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">Forge安装失败</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge安装文件下载失败！</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge解压安装失败！</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">成功安装Forge</s:String>
     
     <s:String x:Key="Delete">删除</s:String>
     <s:String x:Key="Install">安装</s:String>

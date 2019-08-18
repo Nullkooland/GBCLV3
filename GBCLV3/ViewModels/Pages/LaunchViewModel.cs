@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -89,7 +90,12 @@ namespace GBCLV3.ViewModels.Pages
             };
 
             // OnVersionCreated
-            _versionService.Created += version => Versions.Add(version);
+            _versionService.Created += version =>
+            {
+                Versions.Insert(0, version);
+                SelectedVersionID = version.ID;
+                CanLaunch = true;
+            };
 
             // OnVersionDeleted
             _versionService.Deleted += version =>
@@ -311,6 +317,9 @@ namespace GBCLV3.ViewModels.Pages
 
                     _windowManager.ShowMessageBox(message, "${UnexpectedExit}",
                         MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+                    Debug.WriteLine("[Game exited with errors]");
+                    Debug.WriteLine(_logger.ToString());
                     _logger.Clear();
                 }
 

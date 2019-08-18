@@ -19,25 +19,6 @@ namespace GBCLV3.Models.Launcher
         Forge,
     }
 
-    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum VersionInstallStatus
-    {
-        [LocalizedDescription("VersionListLoading")]
-        ListLoading,
-
-        [LocalizedDescription("VersionListLoaded")]
-        ListLoaded,
-
-        [LocalizedDescription("VersionListLoadFailed")]
-        ListLoadFailed,
-
-        [LocalizedDescription("VersionJsonFetching")]
-        JsonFetching,
-
-        [LocalizedDescription("VersionDownloading")]
-        DependenciesDownloading,
-    }
-
     class Version
     {
         public string ID { get; set; }

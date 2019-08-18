@@ -18,6 +18,7 @@
             <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
+        <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
     </ContentControl.Resources>
 
     <Grid>
@@ -66,22 +67,34 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
 
-                            <Image Grid.RowSpan="2" Grid.Column="0"
+                            <Image x:Name="TypeIcon"
+                                   Grid.RowSpan="2" Grid.Column="0"
                                    Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}"
                                    Width="36" Height="36" Stretch="Uniform"/>
 
-                            <TextBlock Grid.Row="0" Grid.Column="1" Margin="8,0"
+                            <TextBlock x:Name="NameBox"
+                                       Grid.Row="0" Grid.Column="1" Margin="8,0"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"
                                        FontSize="14"
                                        Text="{Binding ID}"/>
 
-                            <TextBlock Grid.Row="1" Grid.Column="1" Margin="8,0"
+                            <TextBlock x:Name="TypeBox"
+                                       Grid.Row="1" Grid.Column="1" Margin="8,0"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"
                                        FontSize="12"
-                                       Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
+                                       Foreground="{DynamicResource
+                                                   {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
                                        Text="{Binding Type}"/>
 
                         </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                   Path=IsSelected}" Value="True">
+                                <Setter TargetName="TypeIcon" Property="Effect" Value="{StaticResource AccentColorShadow}"/>
+                                <Setter TargetName="TypeBox" Property="Foreground"
+                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
 

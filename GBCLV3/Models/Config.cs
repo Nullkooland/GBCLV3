@@ -63,6 +63,8 @@ namespace GBCLV3.Models
 
         public DownloadSource DownloadSource { get; set; }
 
+        public bool DownloadAssetsOnInstall { get; set; }
+
         public bool UseBackgroundImage { get; set; }
 
         public string BackgroundImagePath { get; set; }

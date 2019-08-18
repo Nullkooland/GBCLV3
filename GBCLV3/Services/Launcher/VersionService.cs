@@ -118,9 +118,12 @@ namespace GBCLV3.Services.Launcher
             if (newVersion != null)
             {
                 string jsonPath = $"{_gamePathService.VersionDir}/{newVersion.ID}/{newVersion.ID}.json";
-                Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
 
-                File.WriteAllText(jsonPath, json, Encoding.UTF8);
+                if (!File.Exists(jsonPath))
+                {
+                    Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
+                    File.WriteAllText(jsonPath, json, Encoding.UTF8);
+                }
 
                 if (newVersion.InheritsFrom != null) InheritParentProperties(newVersion);
                 _versions.Add(newVersion.ID, newVersion);
@@ -267,10 +270,10 @@ namespace GBCLV3.Services.Launcher
             // For 1.13+ versions
             if (jver.arguments != null)
             {
-                version.MinecarftArguments = jver.arguments.game
-                    .Where(element => element.ValueKind == JsonValueKind.String)
-                    .Select(element => element.GetString())
-                    .Aggregate((current, next) => current + ' ' + next);
+                version.MinecarftArguments = 
+                    jver.arguments.game.Where(element => element.ValueKind == JsonValueKind.String)
+                                       .Select(element => element.GetString())
+                                       .Aggregate((current, next) => current + ' ' + next);
             }
 
             foreach (var lib in jver.libraries)
@@ -385,6 +388,7 @@ namespace GBCLV3.Services.Launcher
         {
             if (_versions.TryGetValue(version.InheritsFrom, out var parent))
             {
+                version.JarID = parent.JarID;
                 version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
                 version.AssetsInfo = parent.AssetsInfo;
                 version.Size = parent.Size;

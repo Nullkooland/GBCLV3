@@ -64,7 +64,7 @@ namespace GBCLV3.Tests
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"ID:       {download.Build}");
                 Debug.WriteLine($"Version:  {download.Version}");
-                Debug.WriteLine($"Date:     {download.Date}");
+                Debug.WriteLine($"Date:     {download.ReleaseTime}");
             }
         }
 

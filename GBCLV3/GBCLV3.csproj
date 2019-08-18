@@ -134,6 +134,7 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\WindowBehavior.cs" />
     <Compile Include="Models\Forge.cs" />
+    <Compile Include="Models\Install.cs" />
     <Compile Include="Models\JsonClasses\JArguments.cs" />
     <Compile Include="Models\JsonClasses\JForge.cs" />
     <Compile Include="Models\Launcher\Asset.cs" />
