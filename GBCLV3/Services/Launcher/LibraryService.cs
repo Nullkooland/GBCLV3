@@ -34,10 +34,8 @@ namespace GBCLV3.Services.Launcher
 
         public void ExtractNatives(IEnumerable<Library> nativeLibraries)
         {
-            if (!Directory.Exists(_gamePathService.NativeDir))
-            {
-                Directory.CreateDirectory(_gamePathService.NativeDir);
-            }
+            // Make sure directory exists
+            Directory.CreateDirectory(_gamePathService.NativeDir);
 
             foreach (var native in nativeLibraries)
             {

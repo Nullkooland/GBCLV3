@@ -122,6 +122,7 @@ namespace GBCLV3.Services.Launcher
 
                 if (!File.Exists(jsonPath))
                 {
+                    // Make sure directory exists
                     Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
                     File.WriteAllText(jsonPath, json, Encoding.UTF8);
                 }

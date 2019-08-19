@@ -90,11 +90,8 @@ namespace GBCLV3.Services.Launcher
 
                     if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
 
-                    if (!Directory.Exists(virtualDir))
-                    {
-                        Directory.CreateDirectory(virtualDir);
-                    }
-
+                    // Make sure directory exists
+                    Directory.CreateDirectory(virtualDir);
                     File.Copy(objectPath, virtualPath);
                 })
             );
@@ -107,11 +104,8 @@ namespace GBCLV3.Services.Launcher
                 var json = await _client.GetStringAsync(_urlService.Base.Json + info.IndexUrl);
                 var indexDir = $"{_gamePathService.AssetDir}/indexes";
 
-                if (!Directory.Exists(indexDir))
-                {
-                    Directory.CreateDirectory(indexDir);
-                }
-
+                //Make sure directory exists
+                Directory.CreateDirectory(indexDir);
                 File.WriteAllText($"{indexDir}/{info.ID}.json", json, Encoding.UTF8);
                 return true;
             }
