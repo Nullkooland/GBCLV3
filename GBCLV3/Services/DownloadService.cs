@@ -107,6 +107,15 @@ namespace GBCLV3.Services
                     return true;
                 }
 
+                // Clean incomplete files
+                foreach (var item in _downloadItems)
+                {
+                    if (!item.IsCompleted && File.Exists(item.Path))
+                    {
+                        File.Delete(item.Path);
+                    }
+                }
+
                 if (_failledCount > 0 && !_cts.IsCancellationRequested)
                 {
                     Completed?.Invoke(DownloadResult.Incomplete);
@@ -118,6 +127,7 @@ namespace GBCLV3.Services
                 // Canceled
                 if (_cts.IsCancellationRequested)
                 {
+
                     Completed?.Invoke(DownloadResult.Canceled);
                     return false;
                 }
@@ -202,8 +212,6 @@ namespace GBCLV3.Services
                 Debug.WriteLine(ex.ToString());
             }
 
-            // Clean incomplete download file
-            File.Delete(item.Path);
             // If is not caused by cancellation, mark as failure
             if (!_cts.IsCancellationRequested)
             {

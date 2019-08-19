@@ -63,14 +63,14 @@ namespace GBCLV3.Services.Launcher
         {
             _versions.Clear();
 
-            if (!Directory.Exists(_gamePathService.VersionDir))
+            if (!Directory.Exists(_gamePathService.VersionsDir))
             {
                 Loaded?.Invoke(false);
                 return;
             }
 
             var availableVersions =
-                Directory.EnumerateDirectories(_gamePathService.VersionDir)
+                Directory.EnumerateDirectories(_gamePathService.VersionsDir)
                          .Select(dir => $"{dir}/{Path.GetFileName(dir)}.json")
                          .Where(jsonPath => File.Exists(jsonPath))
                          .Select(jsonPath => File.ReadAllText(jsonPath, Encoding.UTF8))
@@ -118,7 +118,7 @@ namespace GBCLV3.Services.Launcher
 
             if (newVersion != null)
             {
-                string jsonPath = $"{_gamePathService.VersionDir}/{newVersion.ID}/{newVersion.ID}.json";
+                string jsonPath = $"{_gamePathService.VersionsDir}/{newVersion.ID}/{newVersion.ID}.json";
 
                 if (!File.Exists(jsonPath))
                 {
@@ -139,7 +139,7 @@ namespace GBCLV3.Services.Launcher
         {
             if (_versions.TryGetValue(id, out var versionToDelete))
             {
-                await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionDir}/{id}");
+                await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionsDir}/{id}");
                 Deleted?.Invoke(versionToDelete);
                 _versions.Remove(id);
 
@@ -150,7 +150,7 @@ namespace GBCLV3.Services.Launcher
 
                 foreach (var libToDelete in versionToDelete.Libraries.Except(usedLibs))
                 {
-                    var libPath = $"{_gamePathService.LibDir }/{libToDelete.Path}";
+                    var libPath = $"{_gamePathService.LibrariesDir }/{libToDelete.Path}";
                     await SystemUtil.SendFileToRecycleBin(libPath);
                     SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
                 }
@@ -215,7 +215,7 @@ namespace GBCLV3.Services.Launcher
 
         public bool CheckIntegrity(Version version)
         {
-            var jarPath = $"{_gamePathService.VersionDir}/{version.JarID}/{version.JarID}.jar";
+            var jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
             return File.Exists(jarPath) && (CryptUtil.GetFileSHA1(jarPath) == version.SHA1);
         }
 
@@ -224,7 +224,7 @@ namespace GBCLV3.Services.Launcher
             var item = new DownloadItem
             {
                 Name = version.JarID + "jar",
-                Path = $"{_gamePathService.VersionDir}/{version.JarID}/{version.JarID}.jar",
+                Path = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar",
                 Url = _urlService.Base.Version + version.Url,
                 Size = version.Size,
                 IsCompleted = false,

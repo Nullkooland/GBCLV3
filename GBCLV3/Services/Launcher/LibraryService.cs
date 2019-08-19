@@ -35,16 +35,16 @@ namespace GBCLV3.Services.Launcher
         public void ExtractNatives(IEnumerable<Library> nativeLibraries)
         {
             // Make sure directory exists
-            Directory.CreateDirectory(_gamePathService.NativeDir);
+            Directory.CreateDirectory(_gamePathService.NativesDir);
 
             foreach (var native in nativeLibraries)
             {
-                using (var archive = ZipFile.OpenRead($"{_gamePathService.LibDir}/{native.Path}"))
+                using (var archive = ZipFile.OpenRead($"{_gamePathService.LibrariesDir}/{native.Path}"))
                 {
                     // You know what, the "Exclude" property is a joke...
                     foreach (var entry in archive.Entries.Where(e => !e.FullName.StartsWith("META-INF")))
                     {
-                        entry.ExtractToFile($"{_gamePathService.NativeDir}/{entry.FullName}", true);
+                        entry.ExtractToFile($"{_gamePathService.NativesDir}/{entry.FullName}", true);
                     }
                 }
             }
@@ -54,7 +54,7 @@ namespace GBCLV3.Services.Launcher
         {
             return libraries.Where(lib =>
             {
-                string path = $"{_gamePathService.LibDir}/{lib.Path}";
+                string path = $"{_gamePathService.LibrariesDir}/{lib.Path}";
                 return !File.Exists(path) || (lib.SHA1 != null && lib.SHA1 != Utils.CryptUtil.GetFileSHA1(path));
             }).ToList();
         }
@@ -66,7 +66,7 @@ namespace GBCLV3.Services.Launcher
             {
                 Name = lib.Name,
                 Size = lib.Size,
-                Path = $"{_gamePathService.LibDir}/{lib.Path}",
+                Path = $"{_gamePathService.LibrariesDir}/{lib.Path}",
                 Url = (lib.Type == LibraryType.Forge ? _urlService.Base.Maven : _urlService.Base.Library) + lib.Path,
                 IsCompleted = false,
                 DownloadedBytes = 0,

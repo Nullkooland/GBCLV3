@@ -158,7 +158,15 @@
     <s:String x:Key="ForgeJarDownloadFailed">Forge安装文件下载失败！</s:String>
     <s:String x:Key="ForgeExtractFailed">Forge解压安装失败！</s:String>
     <s:String x:Key="ForgeInstallSuccessful">成功安装Forge</s:String>
-    
+
+    <!-- Mods -->
+    <s:String x:Key="AvailableMods">可用模组</s:String>
+    <s:String x:Key="AddMods">添加新模组</s:String>
+    <s:String x:Key="ReloadMods">重新加载模组</s:String>
+    <s:String x:Key="OpenModsDir">打开模组文件夹</s:String>
+    <s:String x:Key="EnableSelected">启用选中</s:String>
+    <s:String x:Key="DisableSelected">禁用选中</s:String>
+
     <s:String x:Key="Delete">删除</s:String>
     <s:String x:Key="Install">安装</s:String>
     <s:String x:Key="Versions">游戏版本</s:String>

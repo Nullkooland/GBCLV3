@@ -105,7 +105,7 @@ namespace GBCLV3.Services
         public async Task<Version> ManualInstall(Forge forge)
         {
             var id = $"{forge.GameVersion}-forge-{forge.Version}";
-            var jsonPath = $"{_gamePathService.VersionDir}/{id}/{id}.json";
+            var jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";
             var installerPath = $"{_gamePathService.RootDir}/{forge.GameVersion}-{forge.Version}-installer.jar";
 
             try

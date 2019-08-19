@@ -1,12 +1,114 @@
 ﻿<ContentControl x:Class="GBCLV3.Views.ModView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GBCLV3.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                xmlns:s="https://github.com/canton7/Stylet"
+                xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                mc:Ignorable="d" 
+                d:DesignHeight="450" d:DesignWidth="800"
+                Style="{StaticResource TabPageStyle}"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled">
+    
+    <ContentControl.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Margin" Value="8,8,0,0"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="Height" Value="28"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </ContentControl.Resources>
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal"
+                    FlowDirection="RightToLeft">
+
+            <Button Content="{DynamicResource AddMods}"
+                    Click="{s:Action AddMods}"/>
+
+            <Button Content="{DynamicResource ReloadMods}"
+                    Click="{s:Action Reload}"/>
+
+            <Button Content="{DynamicResource OpenModsDir}"
+                    Click="{s:Action OpenModsDir}"/>
+
+        </StackPanel>
+
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="4" Margin="8"
+                  Header="{DynamicResource AvailableMods}">
+
+            <ListBox ItemsSource="{Binding Mods, Mode=OneWay}"
+                     BorderThickness="1"
+                     AllowDrop="True" SelectionMode="Extended"
+                     ScrollViewer.VerticalScrollBarVisibility="Auto"
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     SelectionChanged="{s:Action SelectionChanged}"
+                     Drop="{s:Action DropFiles}">
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="18"/>
+                                <RowDefinition Height="18"/>
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="36"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+
+                            <CheckBox Grid.RowSpan="2" Grid.Column="0"
+                                      HorizontalAlignment="Center" VerticalAlignment="Center"
+                                      IsChecked="{Binding IsEnabled, Mode=TwoWay}"
+                                      Command="{s:Action ChangeExtension}" CommandParameter="{Binding}"/>
+
+                            <TextBlock x:Name="NameBox"
+                                       Grid.Row="0" Grid.Column="1"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Text="{Binding Name}"/>
+
+                            <TextBlock x:Name="FileNameBox"
+                                       Grid.Row="1" Grid.Column="1"
+                                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                                       FontSize="12"
+                                       Foreground="{DynamicResource
+                                                   {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
+                                       TextTrimming="CharacterEllipsis"
+                                       Text="{Binding FileName}"/>
+
+                        </Grid>
+                        <DataTemplate.Triggers>
+                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                   Path=IsSelected}" Value="True">
+                                <Setter TargetName="FileNameBox" Property="Foreground"
+                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                            </DataTrigger>
+                        </DataTemplate.Triggers>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+
+                <ListBox.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="{DynamicResource EnableSelected}"
+                                  Command="{s:Action Enable}"/>
+                        
+                        <MenuItem Header="{DynamicResource DisableSelected}"
+                                  Command="{s:Action Disable}"/>
+                        
+                        <MenuItem Header="{DynamicResource Delete}"
+                                  Command="{s:Action Delete}"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+            </ListBox>
+        </GroupBox>
+
     </Grid>
 </ContentControl>

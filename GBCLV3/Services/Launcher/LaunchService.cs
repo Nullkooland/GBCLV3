@@ -118,7 +118,7 @@ namespace GBCLV3.Services.Launcher
             builder.Append("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump ");
 
             // Natives
-            builder.Append($"-Djava.library.path=\"{_gamePathService.NativeDir}\" ");
+            builder.Append($"-Djava.library.path=\"{_gamePathService.NativesDir}\" ");
 
             // Launcher Identifier
             builder.Append($"-Dminecraft.launcher.brand={AssemblyUtil.Title} ");
@@ -129,11 +129,11 @@ namespace GBCLV3.Services.Launcher
             foreach (var lib in version.Libraries)
             {
                 if (lib.Type == LibraryType.Native) continue;
-                builder.Append($"{_gamePathService.LibDir}/{lib.Path};");
+                builder.Append($"{_gamePathService.LibrariesDir}/{lib.Path};");
             }
 
             // Main Jar
-            builder.Append($"{_gamePathService.VersionDir}/{version.JarID}/{version.JarID}.jar ");
+            builder.Append($"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar ");
 
             // Main Class
             builder.Append(version.MainClass).Append(' ');
@@ -147,11 +147,11 @@ namespace GBCLV3.Services.Launcher
 
             if (version.AssetsInfo.IsLegacy)
             {
-                argsDict["--assetsDir"] = _gamePathService.AssetDir + "/virtual/legacy";
+                argsDict["--assetsDir"] = _gamePathService.AssetsDir + "/virtual/legacy";
             }
             else
             {
-                argsDict["--assetsDir"] = '\"' + _gamePathService.AssetDir + '\"';
+                argsDict["--assetsDir"] = '\"' + _gamePathService.AssetsDir + '\"';
                 argsDict["--assetIndex"] = version.AssetsInfo.ID;
             }
 

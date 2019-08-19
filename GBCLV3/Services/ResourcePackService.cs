@@ -35,9 +35,9 @@ namespace GBCLV3.Services
 
         public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) GetAll()
         {
-            if (!Directory.Exists(_gamePathService.ResourcePackDir))
+            if (!Directory.Exists(_gamePathService.ResourcePacksDir))
             {
-                Directory.CreateDirectory(_gamePathService.ResourcePackDir);
+                Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
                 return (null, null);
             }
 
@@ -61,9 +61,9 @@ namespace GBCLV3.Services
                 }
             }
 
-            var packs = Directory.EnumerateFiles(_gamePathService.ResourcePackDir, "*.zip")
+            var packs = Directory.EnumerateFiles(_gamePathService.ResourcePacksDir, "*.zip")
                                  .Select(path => LoadZip(path, enabledPackIDs))
-                                 .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePackDir)
+                                 .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePacksDir)
                                                   .Select(dir => LoadDir(dir, enabledPackIDs)))
                                  .Where(pack => pack != null)
                                  .ToLookup(pack => pack.IsEnabled);

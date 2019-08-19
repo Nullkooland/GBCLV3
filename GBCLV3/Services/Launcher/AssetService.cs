@@ -45,7 +45,7 @@ namespace GBCLV3.Services.Launcher
 
         public bool LoadAllObjects(AssetsInfo info)
         {
-            string jsonPath = $"{_gamePathService.AssetDir}/indexes/{info.ID}.json";
+            string jsonPath = $"{_gamePathService.AssetsDir}/indexes/{info.ID}.json";
             if (!File.Exists(jsonPath)) return false;
 
             if (info.Objects != null) return true;
@@ -67,7 +67,7 @@ namespace GBCLV3.Services.Launcher
                 .AsParallel()
                 .Where(obj =>
                 {
-                    string path = $"{_gamePathService.AssetDir}/objects/{obj.Path}";
+                    string path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
                     return !File.Exists(path) || obj.Hash != Utils.CryptUtil.GetFileSHA1(path);
                 })
                 .ToList()
@@ -84,8 +84,8 @@ namespace GBCLV3.Services.Launcher
                 .AsParallel()
                 .ForAll(pair =>
                 {
-                    var objectPath = $"{_gamePathService.AssetDir}/objects/{pair.Value.Path}";
-                    var virtualPath = $"{_gamePathService.AssetDir}/virtual/legacy/{pair.Key}";
+                    var objectPath = $"{_gamePathService.AssetsDir}/objects/{pair.Value.Path}";
+                    var virtualPath = $"{_gamePathService.AssetsDir}/virtual/legacy/{pair.Key}";
                     var virtualDir = Path.GetDirectoryName(virtualPath);
 
                     if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
@@ -102,7 +102,7 @@ namespace GBCLV3.Services.Launcher
             try
             {
                 var json = await _client.GetStringAsync(_urlService.Base.Json + info.IndexUrl);
-                var indexDir = $"{_gamePathService.AssetDir}/indexes";
+                var indexDir = $"{_gamePathService.AssetsDir}/indexes";
 
                 //Make sure directory exists
                 Directory.CreateDirectory(indexDir);
@@ -127,7 +127,7 @@ namespace GBCLV3.Services.Launcher
             new DownloadItem
             {
                 Name = obj.Hash,
-                Path = $"{_gamePathService.AssetDir}/objects/{obj.Path}",
+                Path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}",
                 Url = _urlService.Base.Asset + obj.Path,
                 Size = obj.Size,
                 IsCompleted = false,

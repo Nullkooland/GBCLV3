@@ -118,7 +118,7 @@
     <!-- Version management -->
     <s:String x:Key="AvailableVersions">Available Versions</s:String>
     <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
-    <s:String x:Key="ReloadVersions">Reload Versions</s:String>
+    <s:String x:Key="ReloadVersions">Reload</s:String>
     <s:String x:Key="OpenVersionsDir">Open Versions Directory</s:String>
     <s:String x:Key="OpenVersionDir">Open Directory</s:String>
     <s:String x:Key="OpenVersionJson">Open Json</s:String>
@@ -157,6 +157,14 @@
     <s:String x:Key="ForgeJarDownloadFailed">Forge jar download failed!</s:String>
     <s:String x:Key="ForgeExtractFailed">Forge extract failed!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
+    
+    <!-- Mods -->
+    <s:String x:Key="AvailableMods">Available mods</s:String>
+    <s:String x:Key="AddMods">Add New</s:String>
+    <s:String x:Key="ReloadMods">Reload</s:String>
+    <s:String x:Key="OpenModsDir">Open Directory</s:String>
+    <s:String x:Key="EnableSelected">Enable</s:String>
+    <s:String x:Key="DisableSelected">Disable</s:String>
 
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>

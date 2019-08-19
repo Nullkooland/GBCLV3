@@ -15,7 +15,6 @@
             <Setter Property="Margin" Value="8,8,0,0"/>
             <Setter Property="Padding" Value="16,0"/>
             <Setter Property="Height" Value="28"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
         <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>

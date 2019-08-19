@@ -83,18 +83,19 @@ namespace GBCLV3.ViewModels
 
         public void OpenVersionsDir()
         {
-            if (Directory.Exists(_gamePathService.VersionDir)) Process.Start(_gamePathService.VersionDir);
+            Directory.CreateDirectory(_gamePathService.VersionsDir);
+            Process.Start(_gamePathService.VersionsDir);
         }
 
         public void OpenVersionDir()
         {
-            var versionsDir = $"{_gamePathService.VersionDir}/{SelectedVersionID}";
+            var versionsDir = $"{_gamePathService.VersionsDir}/{SelectedVersionID}";
             if (Directory.Exists(versionsDir)) Process.Start(versionsDir);
         }
 
         public void OpenVersionJson()
         {
-            var jsonPath = $"{_gamePathService.VersionDir}/{SelectedVersionID}/{SelectedVersionID}.json";
+            var jsonPath = $"{_gamePathService.VersionsDir}/{SelectedVersionID}/{SelectedVersionID}.json";
             if (File.Exists(jsonPath)) Process.Start(jsonPath);
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -37,34 +38,34 @@ namespace GBCLV3.Services
 
         #region Public Methods
 
-        public IEnumerable<Mod> GetAll()
+        public async Task<IEnumerable<Mod>> GetAll()
         {
-            if (!Directory.Exists(_gamePathService.ModDir))
+            if (!Directory.Exists(_gamePathService.ModsDir))
             {
-                Directory.CreateDirectory(_gamePathService.ModDir);
+                Directory.CreateDirectory(_gamePathService.ModsDir);
                 return null;
             }
 
-            return Directory.EnumerateFiles(_gamePathService.ModDir)
-                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
-                            .Select(path => Load(path))
-                            .OrderBy(mod => mod.IsEnabled);
+            return await Task.Run(() =>
+            Directory.EnumerateFiles(_gamePathService.ModsDir)
+                     .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
+                     .Select(path => Load(path))
+                     .OrderByDescending(mod => mod.IsEnabled)
+                     .ToList()
+            );
         }
 
-        public void RewriteExtension(Mod mod)
+        public void ChangeExtension(Mod mod)
         {
-            string newPath = Path.ChangeExtension(mod.Path, mod.IsEnabled ? ".jar.disabled" : ".jar");
-            FileSystem.RenameFile(mod.Path, newPath);
-
-            mod.Path = newPath;
-            mod.IsEnabled = !mod.IsEnabled;
+            var newName = Path.GetFileNameWithoutExtension(mod.Path) + (mod.IsEnabled ? ".jar" : ".jar.disabled");
+            FileSystem.RenameFile(mod.Path + (mod.IsEnabled ? ".disabled" : null), newName);
         }
 
         public async Task DeleteFromDiskAsync(IEnumerable<Mod> mods)
         {
             foreach (var mod in mods)
             {
-                await SystemUtil.SendFileToRecycleBin(mod.Path);
+                await SystemUtil.SendFileToRecycleBin(mod.Path + (mod.IsEnabled ? null : ".disabled"));
             }
         }
 
@@ -76,25 +77,23 @@ namespace GBCLV3.Services
         {
             using (var archive = ZipFile.OpenRead(path))
             {
-                var info = archive.GetEntry("mcmod.info");
+                bool isEnabled = path.EndsWith(".jar");
+                if (!isEnabled) path = path.Substring(0, path.Length - 9);
 
+                var info = archive.GetEntry("mcmod.info");
                 if (info != null)
                 {
-                    // Remove the top-level braces pair for a cleaner json deserialization
-                    // This is utterly ugly...thanks to the capriciousness of modders
-                    var match = Regex.Match(new StreamReader(info.Open(), Encoding.UTF8).ReadToEnd(), "\\{[\\s\\S]*\\}");
-
-                    if (match.Success)
+                    using (var reader = new StreamReader(info.Open(), Encoding.UTF8))
                     {
                         JMod jmod = null;
 
                         try
                         {
-                            JsonSerializer.Deserialize<JMod>(match.Value);
+                            // This is utterly ugly...thanks to the capriciousness of modders
+                            jmod = JsonSerializer.Deserialize<JMod[]>(reader.ReadToEnd())[0];
                         }
                         catch (JsonException ex)
                         {
-                            // Well, nothing I can do.
                             Debug.WriteLine(ex.ToString());
                         }
 
@@ -110,13 +109,14 @@ namespace GBCLV3.Services
                         return new Mod
                         {
                             Name = jmod?.name ?? Path.GetFileNameWithoutExtension(path),
-                            Description = jmod?.description,
+                            FileName = Path.GetFileName(path),
+                            Description = jmod?.description.Split('.')[0], // Make it terse!
                             Version = jmod?.version,
                             GameVersion = jmod?.mcversion,
                             Url = jmod?.url,
                             Authors = auhtors,
                             Path = path,
-                            IsEnabled = path.EndsWith(".jar"),
+                            IsEnabled = isEnabled,
                         };
                     }
                 }
@@ -124,7 +124,10 @@ namespace GBCLV3.Services
                 return new Mod
                 {
                     Name = Path.GetFileNameWithoutExtension(path),
-                    IsEnabled = path.EndsWith(".jar"),
+                    FileName = Path.GetFileName(path),
+                    Description = "no comment",
+                    Path = path,
+                    IsEnabled = isEnabled,
                 };
             }
         }

@@ -40,15 +40,9 @@
 
             <CheckBox Grid.Column="3" Margin="8,0"
                       Height="48"
-                      FontSize="16"
+                      FontSize="14"
                       Content="{DynamicResource DownloadAssetsOnInstall}"
                       IsChecked="{Binding IsDownloadAssets, Mode=TwoWay}"/>
-
-            <Rectangle Grid.ColumnSpan="4"
-                       HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
-                       Height="2"
-                       Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"/>
-
         </Grid>
 
         <ContentControl Grid.Row="0" 
@@ -93,7 +87,7 @@
                                 <DataTemplate>
                                     <Button x:Name="InstallButton"
                                             Style="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}"
-                                            Height="28"
+                                            Width="32" Height="28"
                                             FontFamily="Segoe MDL2 Assets" FontSize="16"
                                             Content="&#xE896;"
                                             Command="{s:Action InstallSelectedVersion}"
