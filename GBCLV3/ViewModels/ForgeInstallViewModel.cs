@@ -66,7 +66,7 @@ namespace GBCLV3.ViewModels
         public async void InstallSelectedForge(Forge forge)
         {
             bool hasLocal = _versionService.GetAvailable()
-                                           .Where(v => v.Type == VersionType.Forge)
+                                           .Where(v => v.Type == VersionType.Forge || v.Type == VersionType.NewForge)
                                            .Any(v => v.ID.EndsWith(forge.Version));
 
             if (hasLocal)

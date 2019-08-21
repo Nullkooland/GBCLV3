@@ -29,7 +29,7 @@
                     FlowDirection="RightToLeft">
 
             <Button Content="{DynamicResource AddMods}"
-                    Click="{s:Action AddMods}"/>
+                    Click="{s:Action AddNew}"/>
 
             <Button Content="{DynamicResource ReloadMods}"
                     Click="{s:Action Reload}"/>

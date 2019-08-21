@@ -161,6 +161,7 @@
     <!-- Mods -->
     <s:String x:Key="AvailableMods">Available mods</s:String>
     <s:String x:Key="AddMods">Add New</s:String>
+    <s:String x:Key="SelectMods">Select Mods</s:String>
     <s:String x:Key="ReloadMods">Reload</s:String>
     <s:String x:Key="OpenModsDir">Open Directory</s:String>
     <s:String x:Key="EnableSelected">Enable</s:String>
@@ -178,6 +179,7 @@
     <s:String x:Key="About">About</s:String>
     <s:String x:Key="Accessories">Accessories</s:String>
 
-    <s:String x:Key="DontStop">Don't you ever stop!</s:String>
+    <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
+    <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
 
 </ResourceDictionary>

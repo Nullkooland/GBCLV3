@@ -109,6 +109,10 @@ namespace GBCLV3.Services
 
             try
             {
+                var profilePath = $"{_gamePathService.RootDir}/launcher_profiles.json";
+                // Just a dummy json...but required by forge installer
+                if (!File.Exists(profilePath)) File.WriteAllText(profilePath, "{}");
+
                 var process = Process.Start(installerPath);
                 await Task.Run(() => process.WaitForExit());
                 File.Delete(installerPath);

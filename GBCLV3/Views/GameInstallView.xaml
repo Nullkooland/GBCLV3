@@ -49,9 +49,10 @@
                         HorizontalAlignment="Stretch" VerticalAlignment="Top"
                         s:View.Model="{Binding ActiveItem, Mode=OneWay}"/>
 
-        <ContentControl Grid.Row="1" Margin="8"
+        <ContentControl Grid.Row="1"
                         Style="{StaticResource TabPageStyle}">
-            <GroupBox >
+            
+            <GroupBox Margin="8">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
                         <ContentControl Margin="0,0,8,0" VerticalContentAlignment="Center"
@@ -114,8 +115,6 @@
                 </ListView>
             </GroupBox>
         </ContentControl>
-
-
 
     </Grid>
 </ContentControl>

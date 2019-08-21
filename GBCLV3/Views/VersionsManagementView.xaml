@@ -12,10 +12,9 @@
 
     <ContentControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="0,0,8,0"/>
+            <Setter Property="Margin" Value="0,8,8,8"/>
             <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Height" Value="28"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
         <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
@@ -61,10 +60,10 @@
                     Click="{s:Action InstallNewVersion}"/>
         </Grid>
 
-        <ContentControl Grid.Row="1" Margin="8"
+        <ContentControl Grid.Row="1"
                         Style="{StaticResource TabPageStyle}">
 
-            <GroupBox Header="{DynamicResource AvailableVersions}">
+            <GroupBox Margin="8" Header="{DynamicResource AvailableVersions}">
                 <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
                          SelectedValuePath="ID"
                          BorderThickness="1"
@@ -78,29 +77,29 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="18"/>
-                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="21"/>
+                                    <RowDefinition Height="20"/>
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="36"/>
+                                    <ColumnDefinition Width="40"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Image x:Name="TypeIcon"
                                        Grid.RowSpan="2" Grid.Column="0"
                                        Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}"
-                                       Width="36" Height="36" Stretch="Uniform"/>
+                                       Width="40" Height="40" Stretch="Uniform"/>
 
                                 <TextBlock x:Name="NameBox"
                                            Grid.Row="0" Grid.Column="1" Margin="8,0"
-                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                            FontSize="14"
                                            Text="{Binding ID}"/>
 
                                 <TextBlock x:Name="TypeBox"
                                            Grid.Row="1" Grid.Column="1" Margin="8,0"
-                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top"
                                            FontSize="12"
                                            Foreground="{DynamicResource
                                                        {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"

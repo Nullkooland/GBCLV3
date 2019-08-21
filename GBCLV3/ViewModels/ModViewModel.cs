@@ -23,6 +23,7 @@ namespace GBCLV3.ViewModels
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly ModService _modService;
+        private readonly LanguageService _languageService;
 
         #endregion
 
@@ -31,10 +32,12 @@ namespace GBCLV3.ViewModels
         [Inject]
         public ModViewModel(
             GamePathService gamePathService,
-            ModService modService)
+            ModService modService,
+            LanguageService languageService)
         {
             _gamePathService = gamePathService;
             _modService = modService;
+            _languageService = languageService;
 
             Mods = new BindableCollection<Mod>();
             _selectedMods = new List<Mod>(32);
@@ -51,9 +54,18 @@ namespace GBCLV3.ViewModels
         public void DropFiles(ListBox _, DragEventArgs e) 
             => CopyMods(e.Data.GetData(DataFormats.FileDrop) as string[]);
 
-        public void AddMods()
+        public void AddNew()
         {
+            var dialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Title = _languageService.GetEntry("SelectMods"),
+                Filter = "Minecraft mod | *.jar",
+            };
 
+            if (dialog.ShowDialog() ?? false)
+            {
+                CopyMods(dialog.FileNames);
+            }
         }
 
         public async void Reload()

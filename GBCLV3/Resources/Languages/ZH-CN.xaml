@@ -162,6 +162,7 @@
     <!-- Mods -->
     <s:String x:Key="AvailableMods">可用模组</s:String>
     <s:String x:Key="AddMods">添加新模组</s:String>
+    <s:String x:Key="SelectMods">请选择模组</s:String>
     <s:String x:Key="ReloadMods">重新加载模组</s:String>
     <s:String x:Key="OpenModsDir">打开模组文件夹</s:String>
     <s:String x:Key="EnableSelected">启用选中</s:String>
@@ -179,6 +180,7 @@
     <s:String x:Key="About">关于</s:String>
     <s:String x:Key="Accessories">辅助功能</s:String>
 
+    <s:String x:Key="FlowerOfHope">希望之花🎵</s:String>
     <s:String x:Key="DontStop">不要停下来啊！</s:String>
 
 </ResourceDictionary>

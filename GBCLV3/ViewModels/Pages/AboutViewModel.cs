@@ -12,16 +12,22 @@ namespace GBCLV3.ViewModels.Pages
         #region Private Members
 
         // IoC
+        private readonly int _;
+
         private readonly Config _config;
+        private readonly IWindowManager _windowManager;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public AboutViewModel(ConfigService configService)
+        public AboutViewModel(
+            ConfigService configService,
+            IWindowManager windowManager)
         {
             _config = configService.Entries;
+            _windowManager = windowManager;
         }
 
         #endregion
@@ -48,6 +54,8 @@ namespace GBCLV3.ViewModels.Pages
         public string BMCLAPIPage => "https://bmclapidoc.bangbang93.com";
 
         public void OpenLink(string url) => Process.Start(url);
+
+        public void DontStop() => _windowManager.ShowMessageBox("${DontStop}", "${FlowerOfHope}");
 
         #endregion
 

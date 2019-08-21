@@ -162,8 +162,17 @@ namespace GBCLV3.Services.Launcher
                     foreach (var lib in libsToDelete)
                     {
                         var libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
-                        await SystemUtil.SendFileToRecycleBin(libPath);
-                        SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+
+                        if (lib.Type == LibraryType.Forge)
+                        {
+                            await SystemUtil.SendDirToRecycleBin(Path.GetDirectoryName(libPath));
+                        }
+                        else
+                        {
+                            await SystemUtil.SendFileToRecycleBin(libPath);
+                            SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+                        }
+
                     }
                 }
             }
