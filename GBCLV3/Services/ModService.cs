@@ -69,6 +69,21 @@ namespace GBCLV3.Services
             }
         }
 
+        public bool IsValid(string path)
+        {
+            try
+            {
+                using (var archive = ZipFile.OpenRead(path))
+                {
+                    return (archive.GetEntry("META-INF/") != null);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region Private Methods

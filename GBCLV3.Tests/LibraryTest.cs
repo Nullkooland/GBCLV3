@@ -32,7 +32,7 @@ namespace GBCLV3.Tests
             _libraryService = new LibraryService(gamePathService, urlServie);
 
             _versionService.LoadAll();
-            Assert.IsTrue(_versionService.HasAny(), "No available versions!");
+            Assert.IsTrue(_versionService.Any(), "No available versions!");
         }
 
         [TestMethod]

@@ -76,7 +76,7 @@ namespace GBCLV3.ViewModels.Pages
 
                 if (hasAny)
                 {
-                    if (!_versionService.HasVersion(SelectedVersionID))
+                    if (!_versionService.Has(SelectedVersionID))
                     {
                         SelectedVersionID = Versions.FirstOrDefault().ID;
                     }
@@ -340,7 +340,7 @@ namespace GBCLV3.ViewModels.Pages
         protected override void OnInitialActivate()
         {
             _versionService.LoadAll();
-            CanLaunch = _versionService.HasAny();
+            CanLaunch = _versionService.Any();
         }
 
         protected override void OnViewLoaded()

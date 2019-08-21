@@ -48,18 +48,8 @@ namespace GBCLV3.ViewModels
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public void DropFiles(ListBox _, DragEventArgs e)
-        {
-            var dropFiles = e.Data.GetData(DataFormats.FileDrop) as string[];
-            var modFiles = dropFiles.Where(file => file.EndsWith(".jar"));
-
-            foreach (var path in modFiles)
-            {
-                File.Copy(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
-            }
-
-            Reload();
-        }
+        public void DropFiles(ListBox _, DragEventArgs e) 
+            => CopyMods(e.Data.GetData(DataFormats.FileDrop) as string[]);
 
         public void AddMods()
         {
@@ -124,6 +114,19 @@ namespace GBCLV3.ViewModels
         #endregion
 
         #region Private Methods
+
+        private void CopyMods(string[] srcPaths)
+        {
+            var modFiles = srcPaths.Where(path => path.EndsWith(".jar"))
+                                   .Where(path => _modService.IsValid(path));
+
+            foreach (var path in modFiles)
+            {
+                File.Copy(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
+            }
+
+            Reload();
+        }
 
         protected override void OnViewLoaded() => Reload();
 

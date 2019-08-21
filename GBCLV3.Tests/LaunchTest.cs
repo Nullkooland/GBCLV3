@@ -36,7 +36,7 @@ namespace GBCLV3.Tests
             _launchService = new LaunchService(gamePathService);
 
             _versionService.LoadAll();
-            Assert.IsTrue(_versionService.HasAny(), "No available versions!");
+            Assert.IsTrue(_versionService.Any(), "No available versions!");
         }
 
         #region 附加测试特性

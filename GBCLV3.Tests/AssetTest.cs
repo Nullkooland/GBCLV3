@@ -31,7 +31,7 @@ namespace GBCLV3.Tests
             _assetService = new AssetService(gamePathService, urlServie);
 
             _versionService.LoadAll();
-            Assert.IsTrue(_versionService.HasAny(), "No available versions!");
+            Assert.IsTrue(_versionService.Any(), "No available versions!");
         }
 
         [TestMethod]

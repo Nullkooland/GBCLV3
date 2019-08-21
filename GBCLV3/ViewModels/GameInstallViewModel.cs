@@ -77,10 +77,11 @@ namespace GBCLV3.ViewModels
 
         public async void InstallSelectedVersion(VersionDownload download)
         {
-            if (_versionService.HasVersion(download.ID))
+            if (_versionService.Has(download.ID))
             {
                 _windowManager.ShowMessageBox("${VersionAlreadyExists}", "${VersionInstallFailed}",
                     MessageBoxButton.OK, MessageBoxImage.Error);
+
                 return;
             }
 
@@ -149,7 +150,7 @@ namespace GBCLV3.ViewModels
             if (!_isVersionListLoaded)
             {
                 Status = VersionInstallStatus.ListLoading;
-                var (downloads, latestVersion) = await _versionService.GetDownloadListAsync();
+                var downloads = await _versionService.GetDownloadListAsync();
 
                 if (downloads != null)
                 {

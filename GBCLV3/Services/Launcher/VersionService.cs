@@ -96,9 +96,9 @@ namespace GBCLV3.Services.Launcher
             Loaded?.Invoke(_versions.Any());
         }
 
-        public bool HasAny() => _versions.Any();
+        public bool Any() => _versions.Any();
 
-        public bool HasVersion(string id) => (id != null) ? _versions.ContainsKey(id) : false;
+        public bool Has(string id) => (id != null) ? _versions.ContainsKey(id) : false;
 
         public IEnumerable<Version> GetAvailable() => _versions.Values;
 
@@ -157,40 +157,32 @@ namespace GBCLV3.Services.Launcher
             }
         }
 
-        public async Task<(IEnumerable<VersionDownload>, LatestVersion)> GetDownloadListAsync()
+        public async Task<IEnumerable<VersionDownload>> GetDownloadListAsync()
         {
             try
             {
                 string json = await _client.GetStringAsync(_urlService.Base.VersionList);
                 var versionList = JsonSerializer.Deserialize<JVersionList>(json);
 
-                var downloads = versionList.versions.Select(download =>
-                    new VersionDownload
-                    {
-                        ID = download.id,
-                        Url = download.url.Substring(32),
-                        ReleaseTime = download.releaseTime,
-                        Type = download.type == "release" ? VersionType.Release : VersionType.Snapshot,
-                    });
-
-                var latestVersion = new LatestVersion
+                return versionList.versions.Select(download =>
+                new VersionDownload
                 {
-                    Release = versionList.latest.release,
-                    Snapshot = versionList.latest.snapshot,
-                };
-
-                return (downloads, latestVersion);
+                    ID = download.id,
+                    Url = download.url.Substring(32),
+                    ReleaseTime = download.releaseTime,
+                    Type = download.type == "release" ? VersionType.Release : VersionType.Snapshot,
+                });
             }
             catch (HttpRequestException ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return (null, null);
+                return null;
             }
             catch (OperationCanceledException)
             {
                 // Timeout
                 Debug.WriteLine("[ERROR] Get version download list timeout");
-                return (null, null);
+                return null;
             }
         }
 
