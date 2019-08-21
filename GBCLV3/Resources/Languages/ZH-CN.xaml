@@ -2,10 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
 
-    <s:String x:Key="LangTag">简体中文</s:String>
-    <s:String x:Key="Greetings">你好</s:String>
-    <s:String x:Key="SelectVersion">选择启动版本</s:String>
-
     <!-- 对话框按钮标签 -->
     <s:String x:Key="OK">好</s:String>
     <s:String x:Key="Cancel">取消</s:String>
@@ -33,6 +29,8 @@
 
     <!-- 依赖错误 -->
     <s:String x:Key="MainJarDamagedError">主jar文件缺失或损坏</s:String>
+    <s:String x:Key="ForgeJarDamagedError">Forge jar文件缺失或损坏，且无法自动修复</s:String>
+    <s:String x:Key="PleaseReinstallForge">请重新安装Forge</s:String>
     <s:String x:Key="LibsDamagedError">依赖库缺失或损坏</s:String>
     <s:String x:Key="AssetsDamagedError">资源文件缺失或损坏</s:String>
     <s:String x:Key="WhetherFixNow">是否现在补全？</s:String>
@@ -127,6 +125,8 @@
     <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
 
     <!-- 版本安装 -->
+    <s:String x:Key="NoVersionFound">未找到任何版本</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">是否安装新的游戏版本？</s:String>
     <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="ReleaseTime">发行日期</s:String>

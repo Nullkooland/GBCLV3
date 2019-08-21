@@ -12,8 +12,9 @@
 
     <ContentControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="8,8,0,0"/>
+            <Setter Property="Margin" Value="0,0,8,0"/>
             <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Height" Value="28"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
@@ -22,100 +23,123 @@
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="48"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0"
-                    Orientation="Horizontal"
-                    FlowDirection="RightToLeft">
+        <Grid Grid.Row="0"
+              Background="#80FFFFFF">
 
-            <Button Content="{DynamicResource InstallNewVersion}"
-                    Click="{s:Action InstallNewVersion}"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
 
-            <Button Content="{DynamicResource ReloadVersions}"
-                    Click="{s:Action Reload}"/>
+            <TextBlock Grid.Column="0" Margin="16,0,0,0"
+                       VerticalAlignment="Center"
+                       FontFamily="Segoe MDL2 Assets" FontSize="20"
+                       Text="&#xF158;"/>
 
-            <Button Content="{DynamicResource OpenVersionsDir}"
+            <TextBlock Grid.Column="1" Margin="16,0"
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
+                       FontSize="16"
+                       Text="{DynamicResource VersionsManagement}"/>
+
+            <Button Grid.Column="2"
+                    Content="{DynamicResource OpenVersionsDir}"
                     Click="{s:Action OpenVersionsDir}"/>
 
-        </StackPanel>
+            <Button Grid.Column="3"
+                    Content="{DynamicResource ReloadVersions}"
+                    Click="{s:Action Reload}"/>
 
-        <GroupBox Grid.Row="1" Grid.ColumnSpan="4" Margin="8"
-                  Header="{DynamicResource AvailableVersions}">
+            <Button Grid.Column="4"
+                    Content="{DynamicResource InstallNewVersion}"
+                    Click="{s:Action InstallNewVersion}"/>
+        </Grid>
 
-            <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
-                     SelectedValuePath="ID"
-                     BorderThickness="1"
-                     SelectedValue="{Binding SelectedVersionID, Mode=TwoWay}">
+        <ContentControl Grid.Row="1" Margin="8"
+                        Style="{StaticResource TabPageStyle}">
 
-                <ListBox.Resources>
-                    <utils:VersionTypeIconConverter x:Key="TypeToIconConverter"/>
-                </ListBox.Resources>
+            <GroupBox Header="{DynamicResource AvailableVersions}">
+                <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
+                         SelectedValuePath="ID"
+                         BorderThickness="1"
+                         SelectedValue="{Binding SelectedVersionID, Mode=TwoWay}">
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="18"/>
-                                <RowDefinition Height="18"/>
-                            </Grid.RowDefinitions>
+                    <ListBox.Resources>
+                        <utils:VersionTypeIconConverter x:Key="TypeToIconConverter"/>
+                    </ListBox.Resources>
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="36"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="18"/>
+                                    <RowDefinition Height="18"/>
+                                </Grid.RowDefinitions>
 
-                            <Image x:Name="TypeIcon"
-                                   Grid.RowSpan="2" Grid.Column="0"
-                                   Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}"
-                                   Width="36" Height="36" Stretch="Uniform"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="36"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
 
-                            <TextBlock x:Name="NameBox"
-                                       Grid.Row="0" Grid.Column="1" Margin="8,0"
-                                       HorizontalAlignment="Left" VerticalAlignment="Center"
-                                       FontSize="14"
-                                       Text="{Binding ID}"/>
+                                <Image x:Name="TypeIcon"
+                                       Grid.RowSpan="2" Grid.Column="0"
+                                       Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}"
+                                       Width="36" Height="36" Stretch="Uniform"/>
 
-                            <TextBlock x:Name="TypeBox"
-                                       Grid.Row="1" Grid.Column="1" Margin="8,0"
-                                       HorizontalAlignment="Left" VerticalAlignment="Center"
-                                       FontSize="12"
-                                       Foreground="{DynamicResource
-                                                   {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
-                                       Text="{Binding Type}"/>
+                                <TextBlock x:Name="NameBox"
+                                           Grid.Row="0" Grid.Column="1" Margin="8,0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           FontSize="14"
+                                           Text="{Binding ID}"/>
 
-                        </Grid>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                   Path=IsSelected}" Value="True">
-                                <Setter TargetName="TypeIcon" Property="Effect" Value="{StaticResource AccentColorShadow}"/>
-                                <Setter TargetName="TypeBox" Property="Foreground"
-                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                                <TextBlock x:Name="TypeBox"
+                                           Grid.Row="1" Grid.Column="1" Margin="8,0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource
+                                                       {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
+                                           Text="{Binding Type}"/>
+                            </Grid>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                       Path=IsSelected}" Value="True">
+                                    <Setter TargetName="TypeIcon" Property="Effect"
+                                            Value="{StaticResource AccentColorShadow}"/>
+                                    <Setter TargetName="TypeBox" Property="Foreground"
+                                            Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
 
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="{DynamicResource OpenVersionDir}"
-                                  Click="{s:Action OpenVersionDir}"/>
+                    <ListBox.ContextMenu>
+                        <ContextMenu Visibility="{Binding SelectedVersionID, Mode=OneWay, 
+                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
 
-                        <MenuItem Header="{DynamicResource OpenVersionJson}"
-                                  Click="{s:Action OpenVersionJson}"/>
+                            <MenuItem Header="{DynamicResource OpenVersionDir}"
+                                      Click="{s:Action OpenVersionDir}"/>
 
-                        <MenuItem Header="{DynamicResource InstallForge}"
-                                  Click="{s:Action InstallForge}"/>
+                            <MenuItem Header="{DynamicResource OpenVersionJson}"
+                                      Click="{s:Action OpenVersionJson}"/>
 
-                        <MenuItem Header="{DynamicResource DeleteVersion}"
-                                  Click="{s:Action DeleteVersion}"/>
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-            </ListBox>
-        </GroupBox>
+                            <MenuItem Header="{DynamicResource InstallForge}"
+                                      Click="{s:Action InstallForge}"/>
 
-        <CheckBox Grid.Row="1" Margin="16,14"
+                            <MenuItem Header="{DynamicResource DeleteVersion}"
+                                      Click="{s:Action DeleteVersion}"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
+                </ListBox>
+            </GroupBox>
+        </ContentControl>
+
+        <CheckBox Grid.Row="1" Margin="16,13"
                   HorizontalAlignment="Right" VerticalAlignment="Top"
                   FontSize="14"
                   Content="{DynamicResource SegregateVersions}"

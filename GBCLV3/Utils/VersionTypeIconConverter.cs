@@ -16,9 +16,13 @@ namespace GBCLV3.Utils
         {
             switch ((VersionType)value)
             {
-                case VersionType.Release: return "/GBCLV3;component/Resources/Images/grass_block.png";
-                case VersionType.Snapshot: return "/GBCLV3;component/Resources/Images/tnt.png";
-                case VersionType.Forge: return "/GBCLV3;component/Resources/Images/observer.png";
+                case VersionType.Release:
+                    return "/GBCLV3;component/Resources/Images/grass_block.png";
+                case VersionType.Snapshot:
+                    return "/GBCLV3;component/Resources/Images/tnt.png";
+                case VersionType.Forge:
+                case VersionType.NewForge:
+                    return "/GBCLV3;component/Resources/Images/observer.png";
                 default: return null;
             }
         }

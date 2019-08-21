@@ -14,6 +14,7 @@
         <Setter Property="Padding" Value="8, 4"/>
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="IsTabStop" Value="False"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -63,14 +64,14 @@
             </MultiTrigger>
 
             <Trigger Property="IsSelected" Value="True">
-                <Setter Property="Background" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
-                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
+                <Setter Property="Background" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"/>
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"/>
                 <Setter Property="Foreground"
                         Value="{DynamicResource {x:Static adonisUI:Brushes.AccentForegroundBrush}}"/>
                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BackgroundBrush"
-                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"/>
+                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
                 <Setter Property="adonisExtensions:CursorSpotlightExtension.BorderBrush"
-                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"/>
+                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
             </Trigger>
 
             <Trigger Property="IsEnabled" Value="False">

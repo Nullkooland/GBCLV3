@@ -53,7 +53,7 @@ namespace GBCLV3.Services
         {
             try
             {
-                string json = await _client.GetStringAsync(FORGE_LIST_URL + id);
+                var json = await _client.GetStringAsync(FORGE_LIST_URL + id);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
                 return forgeList.Select(jforge =>
@@ -82,8 +82,7 @@ namespace GBCLV3.Services
 
         public IEnumerable<DownloadItem> GetDownload(Forge forge, bool isAutoInstall)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}";
-            string downloadName = fullName + (forge.Branch == null ? null : $"-{forge.Branch}");
+            var fullName = $"{forge.GameVersion}-{forge.Version}";
 
             DownloadItem item = new DownloadItem
             {
@@ -92,8 +91,8 @@ namespace GBCLV3.Services
                 Path = isAutoInstall ? $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar" 
                                      : $"{_gamePathService.RootDir}/{fullName}-installer.jar",
 
-                Url = isAutoInstall ? $"{_urlService.Base.Forge}{downloadName}/forge-{downloadName}-universal.jar"
-                                    : $"{_urlService.Base.Forge}{downloadName}/forge-{downloadName}-installer.jar",
+                Url = isAutoInstall ? $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-universal.jar"
+                                    : $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-installer.jar",
 
                 IsCompleted = false,
                 DownloadedBytes = 0,
@@ -128,8 +127,8 @@ namespace GBCLV3.Services
 
         public Version AutoInstall(Forge forge)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}";
-            string jarPath = $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar";
+            var fullName = $"{forge.GameVersion}-{forge.Version}";
+            var jarPath = $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar";
 
             if (!File.Exists(jarPath))
             {

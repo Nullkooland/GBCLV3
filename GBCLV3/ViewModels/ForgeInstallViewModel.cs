@@ -129,7 +129,6 @@ namespace GBCLV3.ViewModels
 
         #region Private Methods
 
-
         // Auto forge install only support 1.12.2 and earlier versions
         private bool IsAutoInsatllSupported()
         {

@@ -27,20 +27,22 @@ namespace GBCLV3.ViewModels.Pages
             _forgeInstallVM = forgeInstallVM;
 
             this.ActivateItem(_versionsManagementVM);
-            _versionsManagementVM.NavigateView += versionID =>
-            {
-                if (versionID == null) this.ActivateItem(_gameInstallVM);
-                else
-                {
-                    _forgeInstallVM.GameVersion = versionID;
-                    this.ActivateItem(_forgeInstallVM);
-                }
-            };
+            _versionsManagementVM.NavigateView += OnNavigateView;
         }
 
         #endregion
 
-        #region Bindings
+        #region Public Methods
+
+        public void OnNavigateView(string versionID)
+        {
+            if (versionID == null) this.ActivateItem(_gameInstallVM);
+            else
+            {
+                _forgeInstallVM.GameVersion = versionID;
+                this.ActivateItem(_forgeInstallVM);
+            }
+        }
 
         #endregion
     }

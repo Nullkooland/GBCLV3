@@ -104,7 +104,7 @@ namespace GBCLV3.ViewModels
             if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + SelectedVersionID + " ?", "${DeleteVersion}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                await _versionService.DeleteFromDiskAsync(SelectedVersionID);
+                await _versionService.DeleteFromDiskAsync(SelectedVersionID, true);
             }
         }
 

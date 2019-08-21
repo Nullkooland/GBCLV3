@@ -68,12 +68,11 @@ namespace GBCLV3.Tests
         public void ForgeInstallTest()
         {
             var forgeDownloads = _forgeInstallService.GetDownloadListAsync(ID).Result;
-            var download = _forgeInstallService.GetDownload(forgeDownloads.Last(), true);
-            var forge = download.Last();
+            var installer = _forgeInstallService.GetDownload(forgeDownloads.Last(), true).FirstOrDefault();
 
-            Debug.WriteLine($"Name:     {forge.Name}");
-            Debug.WriteLine($"Path:     {forge.Path}");
-            Debug.WriteLine($"Url:      {forge.Url}");
+            Debug.WriteLine($"Name:     {installer.Name}");
+            Debug.WriteLine($"Path:     {installer.Path}");
+            Debug.WriteLine($"Url:      {installer.Url}");
         }
     }
 }

@@ -17,6 +17,9 @@ namespace GBCLV3.Models.Launcher
 
         [Description("Forge")]
         Forge,
+
+        [Description("Forge")]
+        NewForge,
     }
 
     class Version

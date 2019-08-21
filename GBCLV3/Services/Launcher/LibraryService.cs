@@ -61,13 +61,27 @@ namespace GBCLV3.Services.Launcher
 
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)
         {
+            string GetUrl(Library lib)
+            {
+                switch(lib.Type)
+                {
+                    case LibraryType.Forge:
+                        return _urlService.Base.Forge + lib.Url;
+                    case LibraryType.Minecraft:
+                        return _urlService.Base.Library + (lib.Url ?? lib.Path);
+                    case LibraryType.Maven:
+                        return _urlService.Base.Maven + (lib.Url ?? lib.Path);
+                    default: return null;
+                }
+            }
+
             return libraries.Select(lib => 
             new DownloadItem
             {
                 Name = lib.Name,
                 Size = lib.Size,
                 Path = $"{_gamePathService.LibrariesDir}/{lib.Path}",
-                Url = (lib.Type == LibraryType.Forge ? _urlService.Base.Maven : _urlService.Base.Library) + lib.Path,
+                Url = GetUrl(lib),
                 IsCompleted = false,
                 DownloadedBytes = 0,
             }).ToList();

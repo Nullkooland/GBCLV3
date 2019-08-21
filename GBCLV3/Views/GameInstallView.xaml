@@ -49,68 +49,73 @@
                         HorizontalAlignment="Stretch" VerticalAlignment="Top"
                         s:View.Model="{Binding ActiveItem, Mode=OneWay}"/>
 
-        <GroupBox Grid.Row="1" Margin="8">
+        <ContentControl Grid.Row="1" Margin="8"
+                        Style="{StaticResource TabPageStyle}">
+            <GroupBox >
+                <GroupBox.Header>
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl Margin="0,0,8,0" VerticalContentAlignment="Center"
+                                        SnapsToDevicePixels="False"
+                                        ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingCircle}}"
+                                        Visibility="{Binding IsLoading, Mode=OneWay, 
+                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
-            <GroupBox.Header>
-                <StackPanel Orientation="Horizontal">
-                    <ContentControl Margin="0,0,8,0" VerticalContentAlignment="Center"
-                                    ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingCircle}}"
-                                    Visibility="{Binding IsLoading, Mode=OneWay, 
-                                                 Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
+                        <TextBlock Text="{Binding Status, Mode=OneWay}"/>
+                    </StackPanel>
+                </GroupBox.Header>
 
-                    <TextBlock Text="{Binding Status, Mode=OneWay}"/>
-                </StackPanel>
-            </GroupBox.Header>
+                <ListView BorderThickness="1"
+                          FontSize="14"
+                          VirtualizingPanel.IsVirtualizing="True"
+                          VirtualizingPanel.VirtualizationMode="Recycling"
+                          IsEnabled="{Binding CanInstall, Mode=OneWay}"
+                          ItemsSource="{Binding VersionDownloads, Mode=OneWay}">
 
-            <ListView BorderThickness="1"
-                      FontSize="14"
-                      VirtualizingPanel.IsVirtualizing="True"
-                      VirtualizingPanel.VirtualizationMode="Recycling"
-                      IsEnabled="{Binding CanInstall, Mode=OneWay}"
-                      ItemsSource="{Binding VersionDownloads, Mode=OneWay}">
+                    <ListView.ItemContainerStyle>
+                        <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
+                            <Setter Property="Padding" Value="1"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            <Setter Property="Focusable" Value="False"/>
+                        </Style>
+                    </ListView.ItemContainerStyle>
 
-                <ListView.ItemContainerStyle>
-                    <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
-                        <Setter Property="Padding" Value="1"/>
-                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-                        <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        <Setter Property="Focusable" Value="False"/>
-                    </Style>
-                </ListView.ItemContainerStyle>
+                    <ListView.View>
+                        <GridView>
+                            <!-- WPF is TOO incompetent -->
+                            <!-- TO allow user to enable auto-width in the GridViewColumn -->
+                            <GridViewColumn Width="64">
+                                <GridViewColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button x:Name="InstallButton"
+                                                Style="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}"
+                                                Width="32" Height="28"
+                                                FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                                Content="&#xE896;"
+                                                Command="{s:Action InstallSelectedVersion}"
+                                                CommandParameter="{Binding}"/>
+                                    </DataTemplate>
+                                </GridViewColumn.CellTemplate>
+                            </GridViewColumn>
 
-                <ListView.View>
-                    <GridView>
-                        <!-- WPF is TOO incompetent -->
-                        <!-- TO allow user to enable auto-width in the GridViewColumn -->
-                        <GridViewColumn Width="64">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <Button x:Name="InstallButton"
-                                            Style="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}"
-                                            Width="32" Height="28"
-                                            FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                            Content="&#xE896;"
-                                            Command="{s:Action InstallSelectedVersion}"
-                                            CommandParameter="{Binding}"/>
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
+                            <GridViewColumn Width="256"
+                                            Header="{DynamicResource Version}"
+                                            DisplayMemberBinding="{Binding ID}"/>
 
-                        <GridViewColumn Width="256"
-                                        Header="{DynamicResource Version}"
-                                        DisplayMemberBinding="{Binding ID}"/>
+                            <GridViewColumn Width="128"
+                                            Header="{DynamicResource Type}"
+                                            DisplayMemberBinding="{Binding Type}"/>
 
-                        <GridViewColumn Width="128"
-                                        Header="{DynamicResource Type}"
-                                        DisplayMemberBinding="{Binding Type}"/>
+                            <GridViewColumn Width="128"
+                                            Header="{DynamicResource ReleaseTime}"
+                                            DisplayMemberBinding="{Binding ReleaseTime, StringFormat=yyyy/MM/dd}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
+            </GroupBox>
+        </ContentControl>
 
-                        <GridViewColumn Width="128"
-                                        Header="{DynamicResource ReleaseTime}"
-                                        DisplayMemberBinding="{Binding ReleaseTime, StringFormat=yyyy/MM/dd}"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
-        </GroupBox>
+
 
     </Grid>
 </ContentControl>

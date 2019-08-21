@@ -2,10 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
 
-    <s:String x:Key="LangTag">English</s:String>
-    <s:String x:Key="Greetings">Hello</s:String>
-    <s:String x:Key="SelectVersion">Select Version</s:String>
-
     <!-- MessageBox Button Labels -->
     <s:String x:Key="OK">OK</s:String>
     <s:String x:Key="Cancel">Cancel</s:String>
@@ -34,6 +30,8 @@
 
     <!-- Dependencies Errors -->
     <s:String x:Key="MainJarDamagedError">Main jar missing or damaged</s:String>
+    <s:String x:Key="ForgeJarDamagedError">Forge jar missing or damaged, and unable to be fixed</s:String>
+    <s:String x:Key="PleaseReinstallForge">Please reinstall forge</s:String>
     <s:String x:Key="LibsDamagedError">Dependent libraries missing or damaged</s:String>
     <s:String x:Key="AssetsDamagedError">Assets missing or damaged</s:String>
     <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
@@ -126,6 +124,8 @@
     <s:String x:Key="WhetherDeleteVersion">Whether delete the version</s:String>
 
     <!-- Version install -->
+    <s:String x:Key="NoVersionFound">No version found</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">Whether install new game version?</s:String>
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="ReleaseTime">Release Date</s:String>

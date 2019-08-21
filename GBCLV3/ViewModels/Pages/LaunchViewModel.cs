@@ -27,6 +27,7 @@ namespace GBCLV3.ViewModels.Pages
 
         private readonly Config _config;
         private readonly VersionService _versionService;
+        private readonly ForgeInstallService _forgeService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
         private readonly LaunchService _launchService;
@@ -46,6 +47,7 @@ namespace GBCLV3.ViewModels.Pages
 
             ConfigService configService,
             VersionService versionService,
+            ForgeInstallService forgeService,
             LibraryService libraryService,
             AssetService assetService,
             LaunchService launchService,
@@ -59,6 +61,7 @@ namespace GBCLV3.ViewModels.Pages
             _config = configService.Entries;
 
             _versionService = versionService;
+            _forgeService = forgeService;
             _libraryService = libraryService;
             _assetService = assetService;
             _launchService = launchService;
@@ -191,6 +194,19 @@ namespace GBCLV3.ViewModels.Pages
             var damagedLibs = _libraryService.CheckIntegrity(launchVersion.Libraries);
             if (damagedLibs.Any())
             {
+                // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
+                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.Forge))
+                {
+                    _windowManager.ShowMessageBox("${ForgeJarDamagedError}\n${PleaseReinstallForge}", null,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Delete the damaged forge version (but retain the libraries)
+                    // force user to reinstall it
+                    await _versionService.DeleteFromDiskAsync(launchVersion.ID, false);
+
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
+                }
+
                 var downloads = _libraryService.GetDownloads(damagedLibs);
                 if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
                 {
@@ -336,12 +352,6 @@ namespace GBCLV3.ViewModels.Pages
         #endregion
 
         #region Override Methods
-
-        protected override void OnInitialActivate()
-        {
-            _versionService.LoadAll();
-            CanLaunch = _versionService.Any();
-        }
 
         protected override void OnViewLoaded()
         {

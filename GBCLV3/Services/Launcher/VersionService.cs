@@ -59,14 +59,14 @@ namespace GBCLV3.Services.Launcher
 
         #region Public Methods
 
-        public void LoadAll()
+        public bool LoadAll()
         {
             _versions.Clear();
 
             if (!Directory.Exists(_gamePathService.VersionsDir))
             {
                 Loaded?.Invoke(false);
-                return;
+                return false;
             }
 
             var availableVersions =
@@ -94,6 +94,7 @@ namespace GBCLV3.Services.Launcher
             }
 
             Loaded?.Invoke(_versions.Any());
+            return _versions.Any();
         }
 
         public bool Any() => _versions.Any();
@@ -135,24 +136,35 @@ namespace GBCLV3.Services.Launcher
             return newVersion;
         }
 
-        public async Task DeleteFromDiskAsync(string id)
+        public async Task DeleteFromDiskAsync(string id, bool isDeleteLibs)
         {
             if (_versions.TryGetValue(id, out var versionToDelete))
             {
-                await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionsDir}/{id}");
-                Deleted?.Invoke(versionToDelete);
                 _versions.Remove(id);
+                Deleted?.Invoke(versionToDelete);
 
-                // Clear libraries
-                var usedLibs = _versions.Values
-                                        .Select(version => version.Libraries as IEnumerable<Library>)
-                                        .Aggregate((prev, current) => prev.Union(current));
+                // Delete version directory
+                await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionsDir}/{id}");
 
-                foreach (var libToDelete in versionToDelete.Libraries.Except(usedLibs))
+                // Delete unused libraries
+                if (isDeleteLibs)
                 {
-                    var libPath = $"{_gamePathService.LibrariesDir }/{libToDelete.Path}";
-                    await SystemUtil.SendFileToRecycleBin(libPath);
-                    SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+                    var libsToDelete = versionToDelete.Libraries as IEnumerable<Library>;
+
+                    if (_versions.Any())
+                    {
+                        foreach (var version in _versions.Values)
+                        {
+                            libsToDelete = libsToDelete.Except(version.Libraries);
+                        }
+                    }
+
+                    foreach (var lib in libsToDelete)
+                    {
+                        var libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
+                        await SystemUtil.SendFileToRecycleBin(libPath);
+                        SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+                    }
                 }
             }
         }
@@ -281,14 +293,15 @@ namespace GBCLV3.Services.Launcher
 
             if (args.Any(arg => arg.Contains("fml")))
             {
-                version.Type = VersionType.Forge;
                 // Invalid forge version
                 if (version.InheritsFrom == null) return null;
+                var idNums = version.InheritsFrom.Split('.');
+                version.Type = (int.Parse(idNums[1]) >= 13) ? VersionType.NewForge : VersionType.Forge;
             }
 
-            foreach (var lib in jver.libraries)
+            foreach (var jlib in jver.libraries)
             {
-                if (lib.name.StartsWith("tv.twitch"))
+                if (jlib.name.StartsWith("tv.twitch"))
                 {
                     // Totally unnecessary libs, game can run without them
                     // Ironically, these libs only appear in 1.7.10 - 1.8.9, not found in latter versions' json :D
@@ -297,45 +310,64 @@ namespace GBCLV3.Services.Launcher
                     continue;
                 }
 
-                string[] names = lib.name.Split(':');
-                if (names.Length != 3 || !IsAllowedLib(lib.rules))
+                string[] names = jlib.name.Split(':');
+                if (names.Length != 3 || !IsLibAllowed(jlib.rules))
                 {
                     continue;
                 }
 
-                if (lib.natives == null)
+                if (jlib.natives == null)
                 {
-                    var libInfo = lib.downloads?.artifact;
-                    version.Libraries.Add(new Library
+                    var libInfo = jlib.downloads?.artifact;
+                    var lib = new Library
                     {
-                        Name = $"{names[1]}-{names[2]}.jar",
-                        Type = (lib.downloads == null && lib.url != null) ? LibraryType.Forge : LibraryType.Minecraft,
+                        Name = $"{names[1]}-{names[2]}",
                         Path = libInfo?.path ??
                                string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
                         Size = libInfo?.size ?? 0,
                         SHA1 = libInfo?.sha1,
-                    });
+                    };
+
+                    if (names[0] == "net.minecraftforge" && names[1] == "forge")
+                    {
+                        lib.Type = LibraryType.Forge;
+                        lib.Url = $"{names[2]}/forge-{names[2]}-universal.jar";
+                    }
+                    else if (jlib.downloads != null)
+                    {
+                        lib.Type = (jlib.downloads.artifact.url.StartsWith("https://files.minecraftforge.net/maven/"))
+                                 ? LibraryType.Maven : LibraryType.Minecraft;
+                    }
+                    else
+                    {
+                        lib.Type = (jlib.url == null) ? LibraryType.Minecraft : LibraryType.Maven;
+                    }
+
+                    if (lib.Type == LibraryType.Minecraft) lib.Url = jlib.downloads?.artifact.url.Substring(32);
+                    if (lib.Type == LibraryType.Maven) lib.Url = jlib.downloads?.artifact.url.Substring(39);
+
+                    version.Libraries.Add(lib);
                 }
                 else
                 {
-                    string suffix = lib.natives["windows"];
+                    string suffix = jlib.natives["windows"];
                     if (suffix.EndsWith("${arch}"))
                     {
                         suffix = suffix.Replace("${arch}", "64");
                     }
 
-                    var nativeLibInfo = lib.downloads?.classifiers[suffix];
+                    var nativeLibInfo = jlib.downloads?.classifiers[suffix];
 
                     version.Libraries.Add(new Library
                     {
-                        Name = $"{names[1]}-{names[2]}-{suffix}.jar",
+                        Name = $"{names[1]}-{names[2]}-{suffix}",
                         Type = LibraryType.Native,
                         Path = nativeLibInfo?.path ??
                                string.Format("{0}/{1}/{2}/{1}-{2}-{3}.jar",
                                names[0].Replace('.', '/'), names[1], names[2], suffix),
                         Size = nativeLibInfo?.size ?? 0,
                         SHA1 = nativeLibInfo?.sha1,
-                        Exclude = lib.extract?.exclude,
+                        Exclude = jlib.extract?.exclude,
                     });
                 }
             }
@@ -363,7 +395,7 @@ namespace GBCLV3.Services.Launcher
                 && jver.libraries != null);
         }
 
-        private static bool IsAllowedLib(List<JRule> rules)
+        private static bool IsLibAllowed(List<JRule> rules)
         {
             if (rules == null)
             {
