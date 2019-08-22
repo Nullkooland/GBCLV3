@@ -34,7 +34,6 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Margin="16,0,0,0"
@@ -48,16 +47,12 @@
                        Text="{DynamicResource VersionsManagement}"/>
 
             <Button Grid.Column="2"
-                    Content="{DynamicResource OpenVersionsDir}"
-                    Click="{s:Action OpenVersionsDir}"/>
-
-            <Button Grid.Column="3"
                     Content="{DynamicResource ReloadVersions}"
                     Click="{s:Action Reload}"/>
 
-            <Button Grid.Column="4"
+            <Button Grid.Column="3"
                     Content="{DynamicResource InstallNewVersion}"
-                    Click="{s:Action InstallNewVersion}"/>
+                    Click="{s:Action InstallNew}"/>
         </Grid>
 
         <ContentControl Grid.Row="1"
@@ -141,16 +136,16 @@
                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
 
                             <MenuItem Header="{DynamicResource OpenVersionDir}"
-                                      Click="{s:Action OpenVersionDir}"/>
+                                      Click="{s:Action OpenDir}"/>
 
                             <MenuItem Header="{DynamicResource OpenVersionJson}"
-                                      Click="{s:Action OpenVersionJson}"/>
+                                      Click="{s:Action OpenJson}"/>
 
                             <MenuItem Header="{DynamicResource InstallForge}"
                                       Click="{s:Action InstallForge}"/>
 
                             <MenuItem Header="{DynamicResource DeleteVersion}"
-                                      Click="{s:Action DeleteVersion}"/>
+                                      Click="{s:Action Delete}"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
                 </ListBox>

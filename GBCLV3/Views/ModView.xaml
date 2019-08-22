@@ -35,7 +35,7 @@
                     Click="{s:Action Reload}"/>
 
             <Button Content="{DynamicResource OpenModsDir}"
-                    Click="{s:Action OpenModsDir}"/>
+                    Click="{s:Action OpenDir}"/>
 
         </StackPanel>
 

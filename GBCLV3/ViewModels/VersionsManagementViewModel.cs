@@ -81,25 +81,19 @@ namespace GBCLV3.ViewModels
 
         public void Reload() => _versionService.LoadAll();
 
-        public void OpenVersionsDir()
-        {
-            Directory.CreateDirectory(_gamePathService.VersionsDir);
-            Process.Start(_gamePathService.VersionsDir);
-        }
-
-        public void OpenVersionDir()
+        public void OpenDir()
         {
             var versionsDir = $"{_gamePathService.VersionsDir}/{SelectedVersionID}";
             if (Directory.Exists(versionsDir)) Process.Start(versionsDir);
         }
 
-        public void OpenVersionJson()
+        public void OpenJson()
         {
             var jsonPath = $"{_gamePathService.VersionsDir}/{SelectedVersionID}/{SelectedVersionID}.json";
             if (File.Exists(jsonPath)) Process.Start(jsonPath);
         }
 
-        public async void DeleteVersion()
+        public async void Delete()
         {
             if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + SelectedVersionID + " ?", "${DeleteVersion}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
@@ -108,7 +102,7 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public void InstallNewVersion() => NavigateView?.Invoke(null);
+        public void InstallNew() => NavigateView?.Invoke(null);
 
         public void InstallForge()
         {

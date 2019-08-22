@@ -99,7 +99,7 @@
     <s:String x:Key="MainJar">Main Jar</s:String>
     <s:String x:Key="Libraries">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>
-    <s:String x:Key="InstallNewVersion">Install New Version</s:String>
+    <s:String x:Key="InstallNewVersion">Install New</s:String>
     <s:String x:Key="InstallForge">Install Forge</s:String>
 
     <!-- Download Progress -->
@@ -117,11 +117,10 @@
     <s:String x:Key="AvailableVersions">Available Versions</s:String>
     <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
     <s:String x:Key="ReloadVersions">Reload</s:String>
-    <s:String x:Key="OpenVersionsDir">Open Versions Directory</s:String>
     <s:String x:Key="OpenVersionDir">Open Directory</s:String>
     <s:String x:Key="OpenVersionJson">Open Json</s:String>
     <s:String x:Key="DeleteVersion">Delete</s:String>
-    <s:String x:Key="WhetherDeleteVersion">Whether delete the version</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
 
     <!-- Version install -->
     <s:String x:Key="NoVersionFound">No version found</s:String>
@@ -171,7 +170,7 @@
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="Versions">Versions</s:String>
-    <s:String x:Key="VersionsManagement">Versions</s:String>
+    <s:String x:Key="VersionsManagement">Versions Management</s:String>
     <s:String x:Key="GameInstall">Game Install</s:String>
     <s:String x:Key="ForgeInstall">Forge Install</s:String>
     <s:String x:Key="Mods">Mods</s:String>

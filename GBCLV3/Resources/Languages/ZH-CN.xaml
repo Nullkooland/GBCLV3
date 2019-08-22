@@ -118,7 +118,6 @@
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
     <s:String x:Key="ReloadVersions">重新加载版本</s:String>
-    <s:String x:Key="OpenVersionsDir">打开版本目录</s:String>
     <s:String x:Key="OpenVersionDir">打开目录</s:String>
     <s:String x:Key="OpenVersionJson">打开Json</s:String>
     <s:String x:Key="DeleteVersion">删除版本</s:String>

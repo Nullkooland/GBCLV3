@@ -79,7 +79,7 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public void OpenModsDir()
+        public void OpenDir()
         {
             Directory.CreateDirectory(_gamePathService.ModsDir);
             Process.Start(_gamePathService.ModsDir);
