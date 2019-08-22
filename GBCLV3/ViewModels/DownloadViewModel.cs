@@ -85,15 +85,22 @@ namespace GBCLV3.ViewModels
 
         private static string GetBytesProgressText(int downloaded, int total)
         {
-            if (total == 0) return "--";
-            if (total < 1024) return $"{downloaded} / {total} B";
-            if (total < 1024 * 1024) return $"{downloaded / 1024}/{total / 1024} KB";
-            if (total < 1024 * 1024 * 1024)
+            string GetMB(int bytes) => (bytes / (1024.0 * 1024.0)).ToString("0.00");
+            // In case don't know the sizes of downloads in advance
+            if (downloaded > total)
             {
-                string GetMB(int bytes) => (bytes / (1024.0 * 1024.0)).ToString("0.00");
-                return $"{GetMB(downloaded)} / {GetMB(total)} MB";
+                if (downloaded < 1024) return $"{downloaded} B";
+                if (downloaded < 1024 * 1024) return $"{downloaded / 1024} KB";
+                if (downloaded < 1024 * 1024 * 1024) return $"{GetMB(downloaded)} MB";
             }
-            return null;
+            else
+            {
+                if (total < 1024) return $"{downloaded} / {total} B";
+                if (total < 1024 * 1024) return $"{downloaded / 1024}/{total / 1024} KB";
+                if (total < 1024 * 1024 * 1024) return $"{GetMB(downloaded)} / {GetMB(total)} MB";
+            }
+
+            return "--";
         }  
 
         private static string GetSpeedText(double speed)

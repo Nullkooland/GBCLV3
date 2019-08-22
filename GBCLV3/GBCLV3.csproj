@@ -133,6 +133,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behaviors\WindowBehavior.cs" />
+    <Compile Include="Models\ErrorReport.cs" />
     <Compile Include="Models\Forge.cs" />
     <Compile Include="Models\Install.cs" />
     <Compile Include="Models\JsonClasses\JArguments.cs" />
@@ -185,6 +186,7 @@
     <Compile Include="ViewModels\GameSettingsViewModel.cs" />
     <Compile Include="ViewModels\LauncherSettingsViewModel.cs" />
     <Compile Include="ViewModels\ResourcePackViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ErrorReportViewModel.cs" />
     <Compile Include="ViewModels\Windows\MessageViewModel.cs" />
     <Compile Include="ViewModels\DownloadViewModel.cs" />
     <Compile Include="ViewModels\Pages\SettingsRootViewModel.cs" />
@@ -305,6 +307,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourcePackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ErrorReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

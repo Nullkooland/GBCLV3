@@ -8,6 +8,14 @@
     <s:String x:Key="Yes">是</s:String>
     <s:String x:Key="No">否</s:String>
 
+    <!-- 错误报告 -->
+    <s:String x:Key="ErrorReport">错误报告</s:String>
+    <s:String x:Key="ReportUnexpectedExit">游戏异常退出</s:String>
+    <s:String x:Key="ReportUnhandledException">程序遇到了无法处理的异常</s:String>
+    <s:String x:Key="Alright">彳亍口巴</s:String>
+    <s:String x:Key="ReportOnGithub">去Github提出问题</s:String>
+    <s:String x:Key="CopyErrorMessage">复制错误信息</s:String>
+
     <!-- 启动过程 -->
     <s:String x:Key="Launch">启动</s:String>
     <s:String x:Key="ProcessingDependencies">正在处理依赖文件</s:String>

@@ -36,7 +36,7 @@ namespace GBCLV3.ViewModels.Pages
 
         public string GBCLV3 => "GBCLV3";
         public string VersionCode => AssemblyUtil.Version;
-        public string GBCLV3Page => "https://github.com/Goose-Bomb/";
+        public string GBCLV3Page => "https://github.com/Goose-Bomb/GBCLV3";
 
         public string Stylet => "Stylet MVVM Framework";
         public string StyletPage => "https://github.com/canton7/Stylet";

@@ -8,6 +8,14 @@
     <s:String x:Key="Yes">Yes</s:String>
     <s:String x:Key="No">No</s:String>
 
+    <!-- ErrorReport -->
+    <s:String x:Key="ErrorReport">Error Report</s:String>
+    <s:String x:Key="ReportUnexpectedExit">Game exited unexpectedly</s:String>
+    <s:String x:Key="ReportUnhandledException">Program has encountered unhandled exception</s:String>
+    <s:String x:Key="Alright">Alright</s:String>
+    <s:String x:Key="ReportOnGithub">Report on Github</s:String>
+    <s:String x:Key="CopyErrorMessage">Copy Error Message</s:String>
+
     <!-- Launch Procedure -->
     <s:String x:Key="Launch">Launch</s:String>
     <s:String x:Key="ProcessingDependencies">Processing game dependencies</s:String>

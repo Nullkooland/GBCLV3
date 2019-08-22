@@ -1,0 +1,63 @@
+﻿<Window x:Class="GBCLV3.Views.Windows.ErrorReportView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="https://github.com/canton7/Stylet"
+        xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+        Width="640" SizeToContent="Height"
+        ResizeMode="NoResize"
+        UseLayoutRounding="True"
+        Topmost="True"
+        Background="#80333333"
+        FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
+        FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
+        Style="{StaticResource UniversalWindowStyle}"
+        Title="{DynamicResource ErrorReport}">
+
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Margin" Value="8,0,0,8"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="32"/>
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Margin="8"
+                  Header="{Binding Type, Mode=OneWay}">
+            <ScrollViewer x:Name="messageViewer" Padding="0"
+                          MinHeight="72" MaxHeight="540"
+                          VerticalScrollBarVisibility="Auto">
+
+                <TextBox Padding="4"
+                         HorizontalContentAlignment="Left"
+                         VerticalContentAlignment="Top"
+                         BorderThickness="0"
+                         SelectionBrush="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
+                         FontFamily="Consolas"
+                         FontSize="{Binding MessageFontSize, Mode=OneWay}" 
+                         TextWrapping="WrapWithOverflow"
+                         IsReadOnly="True" IsReadOnlyCaretVisible="True"
+                         Text="{Binding ErrorMessage, Mode=OneWay}"/>
+            </ScrollViewer>
+        </GroupBox>
+        
+        <StackPanel Grid.Row="1" 
+                    Orientation="Horizontal" FlowDirection="RightToLeft">
+
+            <Button Content="{DynamicResource Alright}"
+                    Click="{s:Action Close}"/>
+
+            <Button Content="{DynamicResource ReportOnGithub}"
+                    Click="{s:Action Report}"/>
+
+            <Button Content="{DynamicResource CopyErrorMessage}"
+                    Click="{s:Action CopyMessage}"/>
+
+        </StackPanel>
+    </Grid>
+</Window>

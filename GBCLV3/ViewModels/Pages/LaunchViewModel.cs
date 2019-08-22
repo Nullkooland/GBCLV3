@@ -11,6 +11,7 @@ using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
 using GBCLV3.Utils;
+using GBCLV3.ViewModels.Windows;
 using GBCLV3.Views;
 using Stylet;
 using Version = GBCLV3.Models.Launcher.Version;
@@ -36,6 +37,7 @@ namespace GBCLV3.ViewModels.Pages
 
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadViewModel _downloadVM;
+        private readonly ErrorReportViewModel _errorReportVM;
 
         #endregion
 
@@ -53,7 +55,8 @@ namespace GBCLV3.ViewModels.Pages
             LaunchService launchService,
 
             LaunchStatusViewModel statusVM,
-            DownloadViewModel downloadVM)
+            DownloadViewModel downloadVM,
+            ErrorReportViewModel errorReportVM)
         {
             _windowManager = windowManager;
             _eventAggregator = eventAggregator;
@@ -117,6 +120,7 @@ namespace GBCLV3.ViewModels.Pages
 
             _statusVM = statusVM;
             _downloadVM = downloadVM;
+            _errorReportVM = errorReportVM;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
         }
@@ -329,12 +333,12 @@ namespace GBCLV3.ViewModels.Pages
 
             Execute.OnUIThread(() =>
             {
-                if (exitCode != 0)
+                if (_config.AfterLaunch != AfterLaunchBehavior.Exit && exitCode != 0 && _logger.Length > 0)
                 {
-                    var message = $"Exit Code: {exitCode}\n" + _logger.ToString();
+                    _errorReportVM.ErrorMessage = $"Exit Code: {exitCode}\n" + _logger.ToString();
+                    _errorReportVM.Type = ErrorReportType.UnexpectedExit;
 
-                    _windowManager.ShowMessageBox(message, "${UnexpectedExit}",
-                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _windowManager.ShowDialog(_errorReportVM);
 
                     Debug.WriteLine("[Game exited with errors]");
                     Debug.WriteLine(_logger.ToString());
@@ -344,7 +348,7 @@ namespace GBCLV3.ViewModels.Pages
                 if (_config.AfterLaunch == AfterLaunchBehavior.Hide)
                 {
                     Application.Current.MainWindow.Show();
-                    Application.Current.MainWindow.Focus();
+                    Application.Current.MainWindow.Activate();
                 }
             });
         }
