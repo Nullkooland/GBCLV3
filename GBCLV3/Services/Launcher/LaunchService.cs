@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
@@ -117,7 +118,7 @@ namespace GBCLV3.Services.Launcher
             builder.Append("-XX:HeapDumpPath=MojangTricksIntelDriversForPerformance_javaw.exe_minecraft.exe.heapdump ");
 
             // Natives
-            builder.Append($"-Djava.library.path=\"{_gamePathService.NativeDir}\" ");
+            builder.Append($"-Djava.library.path=\"{_gamePathService.NativesDir}\" ");
 
             // Launcher Identifier
             builder.Append($"-Dminecraft.launcher.brand={AssemblyUtil.Title} ");
@@ -128,32 +129,41 @@ namespace GBCLV3.Services.Launcher
             foreach (var lib in version.Libraries)
             {
                 if (lib.Type == LibraryType.Native) continue;
-                builder.Append($"{_gamePathService.LibDir}/{lib.Path};");
+                builder.Append($"{_gamePathService.LibrariesDir}/{lib.Path};");
             }
 
             // Main Jar
-            builder.Append($"{_gamePathService.VersionDir}/{version.JarID}/{version.JarID}.jar ");
+            builder.Append($"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar ");
 
             // Main Class
             builder.Append(version.MainClass).Append(' ');
 
             // Minecraft Arguments
-            StringBuilder args = new StringBuilder(version.MinecarftArguments);
+            var argsDict = version.MinecarftArgsDict;
 
-            args.Replace("${auth_player_name}", profile.Username);
-            args.Replace("${version_name}", version.ID);
-            args.Replace("${game_directory}", _gamePathService.WorkingDir);
-            args.Replace("${assets_root}", _gamePathService.AssetDir);
-            args.Replace("${game_assets}", _gamePathService.AssetDir + "/virtual/legacy");
-            args.Replace("${assets_index_name}", version.AssetsInfo.ID);
-            args.Replace("${auth_uuid}", profile.UUID);
-            args.Replace("${auth_access_token}", profile.AccessToken);
-            args.Replace("${auth_session}", profile.AccessToken);
-            args.Replace("${user_properties}", "{}");
-            args.Replace("${user_type}", profile.UserType);
-            args.Replace("${version_type}", profile.VersionType);
+            argsDict["--username"] = '\"' +  profile.Username + '\"';
+            argsDict["--version"] = '\"' + version.ID + '\"';
+            argsDict["--gameDir"] = '\"' + _gamePathService.WorkingDir + '\"';
 
-            builder.Append(args.ToString()).Append(' ');
+            if (version.AssetsInfo.IsLegacy)
+            {
+                argsDict["--assetsDir"] = _gamePathService.AssetsDir + "/virtual/legacy";
+            }
+            else
+            {
+                argsDict["--assetsDir"] = '\"' + _gamePathService.AssetsDir + '\"';
+                argsDict["--assetIndex"] = version.AssetsInfo.ID;
+            }
+
+            if (argsDict.ContainsKey("--uuid"))  argsDict["--uuid"] = profile.UUID;
+            if (argsDict.ContainsKey("--accessToken")) argsDict["--accessToken"] = profile.AccessToken;
+            if (argsDict.ContainsKey("--session")) argsDict["--session"] = profile.AccessToken;
+            if (argsDict.ContainsKey("--userType")) argsDict["--userType"] = profile.UserType;
+            if (argsDict.ContainsKey("--versionType")) argsDict["--versionType"] = profile.VersionType;
+            if (argsDict.ContainsKey("--userProperties")) argsDict["--userProperties"] = "{}";
+
+            var args = string.Join(" ", argsDict.Select(pair => pair.Key + ' ' + pair.Value));
+            builder.Append(args).Append(' ');
 
             // Server Login
             if (!string.IsNullOrWhiteSpace(profile.ServerAddress))

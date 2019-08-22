@@ -80,7 +80,11 @@ namespace GBCLV3.ViewModels
         public string GameDir
         {
             get => _config.GameDir;
-            set => _config.GameDir = value;
+            set
+            {
+                _config.GameDir = value;
+                _versionService.LoadAll();
+            }
         }
 
         public uint WindowWidth

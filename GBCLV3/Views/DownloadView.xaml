@@ -51,39 +51,39 @@
                     </Grid.RowDefinitions>
 
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="128"/>
+                        <ColumnDefinition Width="128"/>
+                        <ColumnDefinition Width="128"/>
                     </Grid.ColumnDefinitions>
 
-                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="32,0"
+                    <TextBlock Grid.Row="0" Grid.Column="0" Margin="0"
                                HorizontalAlignment="Center" VerticalAlignment="Bottom"
                                FontSize="14"
                                Text="{Binding Type, Mode=OneWay}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="0" Margin="8,0"
+                    <TextBlock Grid.Row="1" Grid.Column="0"
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               FontSize="12"
+                               FontSize="14"
                                Text="{Binding CountProgress, Mode=OneWay}"/>
 
-                    <TextBlock Grid.Row="0" Grid.Column="1" Margin="48,0"
+                    <TextBlock Grid.Row="0" Grid.Column="1"
                                HorizontalAlignment="Center" VerticalAlignment="Bottom"
                                FontSize="14"
                                Text="{DynamicResource DownloadProgress}"/>
 
                     <TextBlock Grid.Row="1" Grid.Column="1"
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               FontSize="12"
+                               FontSize="14"
                                Text="{Binding BytesProgress, Mode=OneWay}"/>
 
-                    <TextBlock Grid.Row="0" Grid.Column="2" Margin="48,0"
+                    <TextBlock Grid.Row="0" Grid.Column="2"
                                HorizontalAlignment="Center" VerticalAlignment="Bottom"
                                FontSize="14"
                                Text="{DynamicResource DownloadSpeed}"/>
 
-                    <TextBlock Grid.Row="1" Grid.Column="2" Margin="8,0"
+                    <TextBlock Grid.Row="1" Grid.Column="2"
                                HorizontalAlignment="Center" VerticalAlignment="Top"
-                               FontSize="12"
+                               FontSize="14"
                                Text="{Binding Speed, Mode=OneWay}"/>
                 </Grid>
             </DataTemplate>

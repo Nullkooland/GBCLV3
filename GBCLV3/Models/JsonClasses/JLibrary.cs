@@ -11,6 +11,8 @@ namespace GBCLV3.Models.JsonClasses
 
         public string name { get; set; }
 
+        public string url { get; set; }
+
         public Dictionary<string, string> natives { get; set; }
 
         public List<JRule> rules { get; set; }

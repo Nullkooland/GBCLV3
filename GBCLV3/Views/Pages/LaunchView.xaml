@@ -23,7 +23,7 @@
         <!-- Background Icon -->
         <Path Grid.ColumnSpan="3" Margin="32,56,8,16"
               HorizontalAlignment="Right" VerticalAlignment="Bottom"
-              Stretch="Uniform" Opacity="0.5"
+              Stretch="Uniform" Opacity="0.3"
               Data="{StaticResource DragonIcon}"
               Fill="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
               Visibility="{Binding IsBackgroundIconVisible, Mode=OneWay, 

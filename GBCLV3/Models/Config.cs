@@ -14,7 +14,7 @@ namespace GBCLV3.Models
 
         public string SelectedVersion { get; set; }
 
-        public bool SegregateVersion { get; set; }
+        public bool SegregateVersions { get; set; }
 
         public string Username { get; set; }
 
@@ -62,6 +62,8 @@ namespace GBCLV3.Models
         public AfterLaunchBehavior AfterLaunch { get; set; }
 
         public DownloadSource DownloadSource { get; set; }
+
+        public bool DownloadAssetsOnInstall { get; set; }
 
         public bool UseBackgroundImage { get; set; }
 

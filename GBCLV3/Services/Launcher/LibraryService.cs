@@ -34,19 +34,17 @@ namespace GBCLV3.Services.Launcher
 
         public void ExtractNatives(IEnumerable<Library> nativeLibraries)
         {
-            if (!Directory.Exists(_gamePathService.NativeDir))
-            {
-                Directory.CreateDirectory(_gamePathService.NativeDir);
-            }
+            // Make sure directory exists
+            Directory.CreateDirectory(_gamePathService.NativesDir);
 
             foreach (var native in nativeLibraries)
             {
-                using (var archive = ZipFile.OpenRead($"{_gamePathService.LibDir}/{native.Path}"))
+                using (var archive = ZipFile.OpenRead($"{_gamePathService.LibrariesDir}/{native.Path}"))
                 {
                     // You know what, the "Exclude" property is a joke...
                     foreach (var entry in archive.Entries.Where(e => !e.FullName.StartsWith("META-INF")))
                     {
-                        entry.ExtractToFile($"{_gamePathService.NativeDir}/{entry.FullName}", true);
+                        entry.ExtractToFile($"{_gamePathService.NativesDir}/{entry.FullName}", true);
                     }
                 }
             }
@@ -56,24 +54,37 @@ namespace GBCLV3.Services.Launcher
         {
             return libraries.Where(lib =>
             {
-                string path = $"{_gamePathService.LibDir}/{lib.Path}";
+                string path = $"{_gamePathService.LibrariesDir}/{lib.Path}";
                 return !File.Exists(path) || (lib.SHA1 != null && lib.SHA1 != Utils.CryptUtil.GetFileSHA1(path));
             }).ToList();
         }
 
-        public (DownloadType, IEnumerable<DownloadItem>) GetDownloadInfo(IEnumerable<Library> libraries)
+        public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)
         {
-            var items = libraries.Select(lib => new DownloadItem
+            string GetUrl(Library lib)
+            {
+                switch(lib.Type)
+                {
+                    case LibraryType.Forge:
+                        return _urlService.Base.Forge + lib.Url;
+                    case LibraryType.Minecraft:
+                        return _urlService.Base.Library + (lib.Url ?? lib.Path);
+                    case LibraryType.Maven:
+                        return _urlService.Base.Maven + (lib.Url ?? lib.Path);
+                    default: return null;
+                }
+            }
+
+            return libraries.Select(lib => 
+            new DownloadItem
             {
                 Name = lib.Name,
                 Size = lib.Size,
-                Path = $"{_gamePathService.LibDir}/{lib.Path}",
-                Url = (lib.Type == LibraryType.Forge ? _urlService.Base.Maven : _urlService.Base.Library) + lib.Path,
+                Path = $"{_gamePathService.LibrariesDir}/{lib.Path}",
+                Url = GetUrl(lib),
                 IsCompleted = false,
                 DownloadedBytes = 0,
             }).ToList();
-
-            return (DownloadType.Libraries, items);
         }
 
         #endregion

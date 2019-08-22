@@ -60,7 +60,7 @@ namespace GBCLV3.ViewModels
             _downloadService.ProgressChanged += progress =>
             {
                 FailedCount = progress.FailedCount;
-                CountProgress = $"{progress.CompletedCount} / {progress.TotalCount}";
+                CountProgress = $"{progress.CompletedCount} / {progress.TotalCount} items";
                 BytesProgress = GetBytesProgressText(progress.DownloadedBytes, progress.TotalBytes);
                 Percentage = GetPercentage(progress.DownloadedBytes, progress.TotalBytes);
 
@@ -85,6 +85,7 @@ namespace GBCLV3.ViewModels
 
         private static string GetBytesProgressText(int downloaded, int total)
         {
+            if (total == 0) return "--";
             if (total < 1024) return $"{downloaded} / {total} B";
             if (total < 1024 * 1024) return $"{downloaded / 1024}/{total / 1024} KB";
             if (total < 1024 * 1024 * 1024)

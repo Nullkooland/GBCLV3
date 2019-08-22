@@ -9,23 +9,23 @@ namespace GBCLV3.Services.Launcher
 
         public string RootDir => _config.GameDir;
 
-        public string WorkingDir => _config.SegregateVersion ? $"{RootDir}/versions/{_config.SelectedVersion}" : RootDir;
+        public string WorkingDir => _config.SegregateVersions ? $"{RootDir}/versions/{_config.SelectedVersion}" : RootDir;
 
-        public string VersionDir => RootDir + "/versions";
+        public string VersionsDir => RootDir + "/versions";
 
-        public string LibDir => RootDir + "/libraries";
+        public string LibrariesDir => RootDir + "/libraries";
 
-        public string ForgeLibDir => LibDir + "/net/minecraftforge/forge";
+        public string ForgeLibDir => LibrariesDir + "/net/minecraftforge/forge";
 
-        public string AssetDir => RootDir + "/assets";
+        public string AssetsDir => RootDir + "/assets";
 
-        public string NativeDir => WorkingDir + "/natives";
+        public string NativesDir => WorkingDir + "/natives";
 
-        public string ModDir => WorkingDir + "/mods";
+        public string ModsDir => WorkingDir + "/mods";
 
-        public string ResourcePackDir => WorkingDir + "/resourcepacks";
+        public string ResourcePacksDir => WorkingDir + "/resourcepacks";
 
-        public string SaveDir => WorkingDir + "/saves";
+        public string SavesDir => WorkingDir + "/saves";
 
         public string LogDir => WorkingDir + "/logs";
 

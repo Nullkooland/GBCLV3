@@ -2,10 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:s="clr-namespace:System;assembly=mscorlib">
 
-    <s:String x:Key="LangTag">简体中文</s:String>
-    <s:String x:Key="Greetings">你好</s:String>
-    <s:String x:Key="SelectVersion">选择启动版本</s:String>
-
     <!-- 对话框按钮标签 -->
     <s:String x:Key="OK">好</s:String>
     <s:String x:Key="Cancel">取消</s:String>
@@ -33,6 +29,8 @@
 
     <!-- 依赖错误 -->
     <s:String x:Key="MainJarDamagedError">主jar文件缺失或损坏</s:String>
+    <s:String x:Key="ForgeJarDamagedError">Forge jar文件缺失或损坏，且无法自动修复</s:String>
+    <s:String x:Key="PleaseReinstallForge">请重新安装Forge</s:String>
     <s:String x:Key="LibsDamagedError">依赖库缺失或损坏</s:String>
     <s:String x:Key="AssetsDamagedError">资源文件缺失或损坏</s:String>
     <s:String x:Key="WhetherFixNow">是否现在补全？</s:String>
@@ -91,7 +89,7 @@
 
     <s:String x:Key="UseBackgroundImage">使用背景图</s:String>
     <s:String x:Key="SelectImagePath">选择图片路径</s:String>
-    <s:String x:Key="SelectRandomImage">随机选取启动器同目录下\bg文件夹中的图片</s:String>
+    <s:String x:Key="SelectRandomImage">随机选取.\bg目录中的图片</s:String>
 
     <s:String x:Key="Font">字体</s:String>
     <s:String x:Key="FontWeight">字重</s:String>
@@ -115,19 +113,74 @@
     <s:String x:Key="DownloadCompletedCount">完成数</s:String>
     <s:String x:Key="DownloadFailedCount">失败数</s:String>
     <s:String x:Key="DownloadSpeed">速度</s:String>
+    
+    <!-- 版本管理 -->
+    <s:String x:Key="AvailableVersions">可用版本</s:String>
+    <s:String x:Key="SegregateVersions">版本隔离</s:String>
+    <s:String x:Key="ReloadVersions">重新加载版本</s:String>
+    <s:String x:Key="OpenVersionsDir">打开版本目录</s:String>
+    <s:String x:Key="OpenVersionDir">打开目录</s:String>
+    <s:String x:Key="OpenVersionJson">打开Json</s:String>
+    <s:String x:Key="DeleteVersion">删除版本</s:String>
+    <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
 
+    <!-- 版本安装 -->
+    <s:String x:Key="NoVersionFound">未找到任何版本</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">是否安装新的游戏版本？</s:String>
     <s:String x:Key="Version">版本</s:String>
-    <s:String x:Key="ReleaseTime">发布日期</s:String>
-    <s:String x:Key="OpenLink">访问链接</s:String>
-    <s:String x:Key="Refresh">刷新</s:String>
+    <s:String x:Key="Type">类型</s:String>
+    <s:String x:Key="ReleaseTime">发行日期</s:String>
+
+    <s:String x:Key="VersionListLoading">正在获取版本列表</s:String>
+    <s:String x:Key="VersionListLoaded">版本列表获取成功</s:String>
+    <s:String x:Key="VersionListLoadFailed">版本列表获取失败</s:String>
+    <s:String x:Key="VersionFetchingJson">正在获取版本json文件</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">正在下载依赖项</s:String>
+    
+    <s:String x:Key="VersionInstallFailed">安装失败</s:String>
+    <s:String x:Key="VersionAlreadyExists">已经有相同的本地版本存在！</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">json文件获取失败！</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">依赖项未下载完全</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">将会在启动该游戏版本时补全所有依赖项</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">同时下载资源文件</s:String>
+    <s:String x:Key="VersionInstallSuccessful">成功安装版本</s:String>
+
+    <!-- Forge安装 -->
+    <s:String x:Key="ForgeListLoading">正在获取Forge安装列表</s:String>
+    <s:String x:Key="ForgeListLoadFailed">获取Forge安装列表失败</s:String>
+    <s:String x:Key="NoAvailableForge">该版本没有可用的Forge！</s:String>
+    <s:String x:Key="SelectForgeVersion">请选择要安装的Forge版本</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">正在下载Forge安装文件</s:String>
+    <s:String x:Key="ForgeManualInstalling">正在手动安装Forge</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">正在下载Forge依赖库</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">Forge安装失败</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge安装文件下载失败！</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge解压安装失败！</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">成功安装Forge</s:String>
+
+    <!-- Mods -->
+    <s:String x:Key="AvailableMods">可用模组</s:String>
+    <s:String x:Key="AddMods">添加新模组</s:String>
+    <s:String x:Key="SelectMods">请选择模组</s:String>
+    <s:String x:Key="ReloadMods">重新加载模组</s:String>
+    <s:String x:Key="OpenModsDir">打开模组文件夹</s:String>
+    <s:String x:Key="EnableSelected">启用选中</s:String>
+    <s:String x:Key="DisableSelected">禁用选中</s:String>
+
     <s:String x:Key="Delete">删除</s:String>
     <s:String x:Key="Install">安装</s:String>
-    <s:String x:Key="GameDownload">游戏版本下载</s:String>
+    <s:String x:Key="Versions">游戏版本</s:String>
+    <s:String x:Key="VersionsManagement">版本管理</s:String>
+    <s:String x:Key="GameInstall">游戏安装</s:String>
     <s:String x:Key="ForgeInstall">Forge安装</s:String>
-    <s:String x:Key="Mod">模组</s:String>
+    <s:String x:Key="Mods">模组管理</s:String>
+    <s:String x:Key="Resourcepacks">资源包管理</s:String>
+    <s:String x:Key="Saves">存档管理</s:String>
     <s:String x:Key="About">关于</s:String>
     <s:String x:Key="Accessories">辅助功能</s:String>
 
+    <s:String x:Key="FlowerOfHope">希望之花🎵</s:String>
     <s:String x:Key="DontStop">不要停下来啊！</s:String>
 
 </ResourceDictionary>

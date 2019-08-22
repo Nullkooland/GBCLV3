@@ -15,7 +15,8 @@
               HorizontalAlignment="Right" VerticalAlignment="Bottom"
               Stretch="Uniform" Margin="32,48,32,16"
               Data="{StaticResource DontYouEverStop}" Opacity="0.6"
-              Fill="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
+              Fill="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
+              MouseDown="{s:Action DontStop}"/>
 
         <Grid>
             <Grid.RowDefinitions>
@@ -29,12 +30,6 @@
                 <ColumnDefinition Width="196"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-
-            <TextBlock Grid.Row="0" Grid.Column="1" Margin="32,0"
-                       HorizontalAlignment="Right" VerticalAlignment="Center"
-                       FontSize="24" Opacity="0.3"
-                       FontStyle="Italic"
-                       Text="{DynamicResource DontStop}"/>
 
             <TextBlock Grid.Row="1" Grid.Column="0" Margin="32,0"
                        HorizontalAlignment="Left" VerticalAlignment="Center"

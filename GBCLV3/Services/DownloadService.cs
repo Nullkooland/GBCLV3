@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Threading;
 using GBCLV3.Models;
@@ -106,7 +107,16 @@ namespace GBCLV3.Services
                     return true;
                 }
 
-                if (_failledCount > 0)
+                // Clean incomplete files
+                foreach (var item in _downloadItems)
+                {
+                    if (!item.IsCompleted && File.Exists(item.Path))
+                    {
+                        File.Delete(item.Path);
+                    }
+                }
+
+                if (_failledCount > 0 && !_cts.IsCancellationRequested)
                 {
                     Completed?.Invoke(DownloadResult.Incomplete);
                 }
@@ -117,6 +127,7 @@ namespace GBCLV3.Services
                 // Canceled
                 if (_cts.IsCancellationRequested)
                 {
+
                     Completed?.Invoke(DownloadResult.Canceled);
                     return false;
                 }
@@ -158,40 +169,34 @@ namespace GBCLV3.Services
 
         private void DownloadTask(DownloadItem item)
         {
-            string downloadDir = Path.GetDirectoryName(item.Path);
-            if (!Directory.Exists(downloadDir))
-            {
-                Directory.CreateDirectory(downloadDir);
-            }
-
-            var fs = new FileStream(item.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write, BUFFER_SIZE);
+            // Make sure directory exists
+            Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
 
             try
             {
-                var waitResponceTask = _client.GetStreamAsync(item.Url);
-
-                waitResponceTask.Wait(_cts.Token);
-                var httpStream = waitResponceTask.Result;
-                _cts.Token.Register(() => httpStream.Close());
-
-                if (item.Size == 0)
+                using (var fs = File.OpenWrite(item.Path))
                 {
-                    item.Size = (int)httpStream.Length;
-                    Interlocked.Add(ref _totalBytes, item.Size);
+                    var waitResponceTask = _client.GetStreamAsync(item.Url);
+
+                    waitResponceTask.Wait(_cts.Token);
+                    var httpStream = waitResponceTask.Result;
+                    _cts.Token.Register(() => httpStream.Close());
+
+                    byte[] buffer = new byte[BUFFER_SIZE];
+                    int bytesReceived;
+
+                    while ((bytesReceived = httpStream.Read(buffer, 0, BUFFER_SIZE)) > 0)
+                    {
+                        fs.Write(buffer, 0, bytesReceived);
+                        item.DownloadedBytes += bytesReceived;
+                        Interlocked.Add(ref _downloadedBytes, bytesReceived);
+                    }
                 }
 
-                byte[] buffer = new byte[BUFFER_SIZE];
-                int bytesReceived;
-
-                while ((bytesReceived = httpStream.Read(buffer, 0, BUFFER_SIZE)) > 0)
-                {
-                    fs.Write(buffer, 0, bytesReceived);
-                    item.DownloadedBytes += bytesReceived;
-                    Interlocked.Add(ref _downloadedBytes, bytesReceived);
-                }
-
+                // Download successful
                 item.IsCompleted = true;
                 Interlocked.Increment(ref _completedCount);
+                return;
             }
             catch (OperationCanceledException ex)
             {
@@ -206,20 +211,12 @@ namespace GBCLV3.Services
             {
                 Debug.WriteLine(ex.ToString());
             }
-            finally
+
+            // If is not caused by cancellation, mark as failure
+            if (!_cts.IsCancellationRequested)
             {
-                fs.Close();
-                // Handle unfinished download
-                if (!item.IsCompleted)
-                {
-                    File.Delete(item.Path);
-                    // Make sure the exception is not caused by cancellation
-                    if (!_cts.IsCancellationRequested)
-                    {
-                        Interlocked.Increment(ref _failledCount);
-                        Interlocked.Add(ref _downloadedBytes, -item.DownloadedBytes);
-                    }
-                }
+                Interlocked.Increment(ref _failledCount);
+                Interlocked.Add(ref _downloadedBytes, -item.DownloadedBytes);
             }
         }
 

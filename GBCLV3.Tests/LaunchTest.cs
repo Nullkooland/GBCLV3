@@ -24,7 +24,7 @@ namespace GBCLV3.Tests
             _configService.Load();
             _configService.Entries.GameDir = GAME_ROOT_DIR;
             _configService.Entries.SelectedVersion = ID;
-            _configService.Entries.SegregateVersion = false;
+            _configService.Entries.SegregateVersions = false;
             _configService.Entries.JavaDebugMode = false;
 
             var gamePathService = new GamePathService(_configService);
@@ -36,7 +36,7 @@ namespace GBCLV3.Tests
             _launchService = new LaunchService(gamePathService);
 
             _versionService.LoadAll();
-            Assert.IsTrue(_versionService.HasAny(), "No available versions!");
+            Assert.IsTrue(_versionService.Any(), "No available versions!");
         }
 
         #region 附加测试特性
@@ -65,13 +65,6 @@ namespace GBCLV3.Tests
         public void LaunchGameTest()
         {
             var version = _versionService.GetByID(ID);
-            var parent = _versionService.GetByID(version.InheritsFrom);
-
-            if (parent != null)
-            {
-                version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
-                version.AssetsInfo = parent.AssetsInfo;
-            }
 
             _libraryService.ExtractNatives(version.Libraries.Where(lib => lib.Type == LibraryType.Native));
 

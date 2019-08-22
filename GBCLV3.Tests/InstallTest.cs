@@ -22,7 +22,7 @@ namespace GBCLV3.Tests
             _configService.Load();
             _configService.Entries.GameDir = GAME_ROOT_DIR;
             _configService.Entries.SelectedVersion = ID;
-            _configService.Entries.SegregateVersion = false;
+            _configService.Entries.SegregateVersions = false;
             _configService.Entries.JavaDebugMode = false;
 
             var gamePathService = new GamePathService(_configService);
@@ -35,15 +35,14 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void GetVersionDownloadListTest()
         {
-            var downloadList = _versionService.GetDownloadListAsync().Result;
+            var downloads = _versionService.GetDownloadListAsync().Result;
 
             Debug.WriteLine("[Available Versions To Download]");
-
-            foreach (var download in downloadList.Downloads)
+            foreach (var download in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"ID:       {download.ID}");
-                Debug.WriteLine($"Date:     {download.Date}");
+                Debug.WriteLine($"Date:     {download.ReleaseTime}");
                 Debug.WriteLine($"Type:     {download.Type}");
                 Debug.WriteLine($"Url:      {download.Url}");
             }
@@ -61,7 +60,7 @@ namespace GBCLV3.Tests
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"ID:       {download.Build}");
                 Debug.WriteLine($"Version:  {download.Version}");
-                Debug.WriteLine($"Date:     {download.Date}");
+                Debug.WriteLine($"Date:     {download.ReleaseTime}");
             }
         }
 
@@ -69,12 +68,11 @@ namespace GBCLV3.Tests
         public void ForgeInstallTest()
         {
             var forgeDownloads = _forgeInstallService.GetDownloadListAsync(ID).Result;
-            var (type, items) = _forgeInstallService.GetJarDownloadInfo(forgeDownloads.Last());
-            var forge = items.Last();
+            var installer = _forgeInstallService.GetDownload(forgeDownloads.Last(), true).FirstOrDefault();
 
-            Debug.WriteLine($"Name:     {forge.Name}");
-            Debug.WriteLine($"Path:     {forge.Path}");
-            Debug.WriteLine($"Url:      {forge.Url}");
+            Debug.WriteLine($"Name:     {installer.Name}");
+            Debug.WriteLine($"Path:     {installer.Path}");
+            Debug.WriteLine($"Url:      {installer.Url}");
         }
     }
 }

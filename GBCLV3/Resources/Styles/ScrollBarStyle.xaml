@@ -10,7 +10,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="Thumb">
                     <Rectangle x:Name="Rect" Opacity="0.75"
-                               Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                               Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"/>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="Rect" Property="Opacity" Value="1"/>
@@ -60,7 +60,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
         <Setter Property="Width" Value="13"/>
-        <Setter Property="Margin" Value="1,2,1,0"/>
+        <Setter Property="Margin" Value="1,2,1,1"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">

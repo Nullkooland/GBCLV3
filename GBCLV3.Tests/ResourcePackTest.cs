@@ -26,10 +26,10 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void LoadTest()
         {
-            var packs = _resourcePackService.GetAll();
+            var (enabledPacks, disabledPacks) = _resourcePackService.GetAll();
             Debug.WriteLine("[All Resource Packs]");
 
-            foreach (var pack in packs)
+            foreach (var pack in enabledPacks.Concat(disabledPacks))
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"Name:         {pack.Name}");
@@ -45,10 +45,10 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void WriteOptionsTest()
         {
-            var packs = _resourcePackService.GetAll().ToList();
+            var (enabledPacks, disabledPacks) = _resourcePackService.GetAll();
             //packs.ForEach(pack => pack.IsEnabled = true);
 
-            _resourcePackService.WriteToOptions(packs);
+            _resourcePackService.WriteToOptions(enabledPacks.Concat(disabledPacks));
         }
     }
 }

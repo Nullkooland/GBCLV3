@@ -1,4 +1,5 @@
-﻿using GBCLV3.Services;
+﻿using GBCLV3.Models;
+using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Diagnostics;
@@ -27,7 +28,7 @@ namespace GBCLV3.Tests
             _versionService = new VersionService(gamePathService, urlServie);
 
             _versionService.LoadAll();
-            Assert.IsTrue(_versionService.HasAny(), "No available versions!");
+            Assert.IsTrue(_versionService.Any(), "No available versions!");
 
             foreach (var version in _versionService.GetAvailable())
             {
@@ -36,29 +37,27 @@ namespace GBCLV3.Tests
             }
         }
 
-
         [TestMethod]
-        public void InheritedVersionTest()
+        public void GetDownloadsTest()
         {
-            var version = _versionService.GetByID(ID);
-            var parent = _versionService.GetByID(version.InheritsFrom);
+            var downloads = _versionService.GetAvailable()
+                                           .Select(version => _versionService.GetDownload(version))
+                                           .Aggregate((prev, current) => prev.Concat(current));
 
-            if (parent != null)
-            {
-                version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
-                version.AssetsInfo = parent.AssetsInfo;
-            }
+            int totalBytes = downloads.Sum(obj => obj.Size);
 
-            Debug.WriteLine($"Target Version: {version.ID}");
+            Debug.WriteLine($"Type: {DownloadType.MainJar}");
+            Debug.WriteLine($"downloads Count: {downloads.Count()}");
+            Debug.WriteLine($"downloads TotalBytes: {totalBytes}");
 
-            Debug.WriteLine("[Merged Libraries]");
-            foreach (var lib in version.Libraries)
+            Debug.WriteLine("[Main Jar Downloads]");
+            foreach (var item in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
-                Debug.WriteLine($"Name: {lib.Name}");
-                Debug.WriteLine($"Size: {lib.Size}");
-                Debug.WriteLine($"Path: {lib.Path}");
-                Debug.WriteLine($"SHA1: {lib.SHA1}");
+                Debug.WriteLine($"Name: {item.Name}");
+                Debug.WriteLine($"Size: {item.Size}");
+                Debug.WriteLine($"Url:  {item.Url}");
+                Debug.WriteLine($"Path: {item.Path}");
             }
         }
     }

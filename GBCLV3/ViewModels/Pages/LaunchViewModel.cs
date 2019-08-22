@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -26,6 +27,7 @@ namespace GBCLV3.ViewModels.Pages
 
         private readonly Config _config;
         private readonly VersionService _versionService;
+        private readonly ForgeInstallService _forgeService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
         private readonly LaunchService _launchService;
@@ -45,6 +47,7 @@ namespace GBCLV3.ViewModels.Pages
 
             ConfigService configService,
             VersionService versionService,
+            ForgeInstallService forgeService,
             LibraryService libraryService,
             AssetService assetService,
             LaunchService launchService,
@@ -58,6 +61,7 @@ namespace GBCLV3.ViewModels.Pages
             _config = configService.Entries;
 
             _versionService = versionService;
+            _forgeService = forgeService;
             _libraryService = libraryService;
             _assetService = assetService;
             _launchService = launchService;
@@ -67,6 +71,7 @@ namespace GBCLV3.ViewModels.Pages
 
             Versions = new BindableCollection<Version>();
 
+            // OnVersionLoaded
             _versionService.Loaded += hasAny =>
             {
                 Versions.Clear();
@@ -74,7 +79,7 @@ namespace GBCLV3.ViewModels.Pages
 
                 if (hasAny)
                 {
-                    if (!_versionService.HasVersion(SelectedVersionID))
+                    if (!_versionService.Has(SelectedVersionID))
                     {
                         SelectedVersionID = Versions.FirstOrDefault().ID;
                     }
@@ -85,6 +90,27 @@ namespace GBCLV3.ViewModels.Pages
                 {
                     CanLaunch = false;
                 }
+            };
+
+            // OnVersionCreated
+            _versionService.Created += version =>
+            {
+                Versions.Insert(0, version);
+                SelectedVersionID = version.ID;
+                CanLaunch = true;
+            };
+
+            // OnVersionDeleted
+            _versionService.Deleted += version =>
+            {
+                Versions.Remove(version);
+
+                if (SelectedVersionID == null)
+                {
+                    SelectedVersionID = Versions.FirstOrDefault()?.ID;
+                }
+
+                if (!Versions.Any()) CanLaunch = false;
             };
 
             _logger = new StringBuilder(4096);
@@ -152,22 +178,12 @@ namespace GBCLV3.ViewModels.Pages
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
             var launchVersion = _versionService.GetByID(SelectedVersionID);
-            var parentVersion = _versionService.GetByID(launchVersion.InheritsFrom);
-
-            if (parentVersion != null)
-            {
-                launchVersion.Libraries = parentVersion.Libraries.Union(launchVersion.Libraries).ToList();
-                launchVersion.AssetsInfo = parentVersion.AssetsInfo;
-                launchVersion.Size = parentVersion.Size;
-                launchVersion.SHA1 = parentVersion.SHA1;
-                launchVersion.Url = parentVersion.Url;
-            }
 
             // Check main jar and fix possible damage
-            if (!_versionService.CheckJarIntegrity(launchVersion))
+            if (!_versionService.CheckIntegrity(launchVersion))
             {
-                var (type, items) = _versionService.GetJarDownloadInfo(launchVersion);
-                if (!await StartDownloadAsync(type, items))
+                var download = _versionService.GetDownload(launchVersion);
+                if (!await StartDownloadAsync(DownloadType.MainJar, download))
                 {
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
@@ -178,8 +194,21 @@ namespace GBCLV3.ViewModels.Pages
             var damagedLibs = _libraryService.CheckIntegrity(launchVersion.Libraries);
             if (damagedLibs.Any())
             {
-                var (type, items) = _libraryService.GetDownloadInfo(damagedLibs);
-                if (!await StartDownloadAsync(type, items))
+                // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
+                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.Forge))
+                {
+                    _windowManager.ShowMessageBox("${ForgeJarDamagedError}\n${PleaseReinstallForge}", null,
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+                    // Delete the damaged forge version (but retain the libraries)
+                    // force user to reinstall it
+                    await _versionService.DeleteFromDiskAsync(launchVersion.ID, false);
+
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
+                }
+
+                var downloads = _libraryService.GetDownloads(damagedLibs);
+                if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
                 {
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
@@ -207,8 +236,8 @@ namespace GBCLV3.ViewModels.Pages
                 _windowManager.ShowMessageBox("${AssetsDamagedError}\n${WhetherFixNow}", null,
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                var (type, items) = _assetService.GetDownloadInfo(damagedAssets);
-                await StartDownloadAsync(type, items);
+                var downloads = _assetService.GetDownloads(damagedAssets);
+                await StartDownloadAsync(DownloadType.Assets, downloads);
             }
 
             // For legacy versions (1.7.2 or earlier), copy hashed asset objects to virtual files
@@ -306,6 +335,9 @@ namespace GBCLV3.ViewModels.Pages
 
                     _windowManager.ShowMessageBox(message, "${UnexpectedExit}",
                         MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
+                    Debug.WriteLine("[Game exited with errors]");
+                    Debug.WriteLine(_logger.ToString());
                     _logger.Clear();
                 }
 
@@ -320,12 +352,6 @@ namespace GBCLV3.ViewModels.Pages
         #endregion
 
         #region Override Methods
-
-        protected override void OnInitialActivate()
-        {
-            _versionService.LoadAll();
-            CanLaunch = _versionService.HasAny();
-        }
 
         protected override void OnViewLoaded()
         {

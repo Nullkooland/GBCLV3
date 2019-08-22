@@ -6,7 +6,7 @@
 ## 特点
 
 * MVVM框架 🧶
-* 简单易用 (但愿 🤣)
+* 简单易用 (但愿吧 🤣)
 * Win10风格 😎✨
 
 ## 开发进度
@@ -18,10 +18,12 @@
   - [x] Forge版本
   - [x] 验证登录
 
-- [ ] 下载
+- [x] 下载
+  - [x] 并发下载
+  - [x] 重试失败下载
   - [x] 修复损坏依赖文件 (主jar, 依赖库, 资源文件)
-  - [ ] 安装新版本
-  - [ ] 安装forge
+  - [x] 安装新版本
+  - [x] 安装forge
 
 - [ ] 主题
   - [x] 窗口毛玻璃模糊
@@ -37,14 +39,14 @@
   - [ ] 日语
 
 - [ ] 附加功能
-  - [ ] 模组管理
+  - [x] 模组管理
   - [ ] 资源包管理
   - [ ] 存档管理
 
 ## 运行截图
 
-<img src="./Screenshots/cover_0.png" width="720"/>
-<img src="./Screenshots/literally_code_behind.png" width="720"/>
-<img src="./Screenshots/launching_0.png" width="720"/>
-<img src="./Screenshots/settings_0.png" width="720"/>
-<img src="./Screenshots/settings_1.png" width="720"/>
+<img src="./Screenshots/cn_literally_code_behind.png" width="720"/>
+<img src="./Screenshots/cn_game_settings.png" width="720"/>
+<img src="./Screenshots/cn_launcher_settings.png" width="720"/>
+<img src="./Screenshots/cn_versions_management.png" width="720"/>
+<img src="./Screenshots/cn_mods_management.png" width="720"/>

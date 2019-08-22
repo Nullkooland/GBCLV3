@@ -125,9 +125,8 @@
                           IsChecked="{Binding IsUseBackgroundImage, Mode=TwoWay}"/>
 
                 <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
-                         ToolTipService.Placement="Bottom"
-                         ToolTipService.IsEnabled="{Binding IsSelectRandomImage, Mode=OneWay}"
-                         ToolTip="{DynamicResource SelectRandomImage}"
+                         adonisExtensions:WatermarkExtension.IsWatermarkVisible="{Binding IsSelectRandomImage, Mode=OneWay}"
+                         adonisExtensions:WatermarkExtension.Watermark="{DynamicResource SelectRandomImage}"
                          IsEnabled="{Binding IsUseBackgroundImage, Mode=OneWay}"
                          Text="{Binding BackgroundImagePath, Mode=TwoWay}"/>
 
@@ -155,7 +154,7 @@
                             <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                    
+
                 </ComboBox>
 
                 <TextBlock Grid.Row="2" Grid.Column="2" Margin="8,8,16,0"

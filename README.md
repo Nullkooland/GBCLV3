@@ -7,7 +7,7 @@ Goose Bomb's Minecraft Client Launcher V3
 ## Features
 
 * MVVM Framework 🧶
-* Easy to use (I hope so 🤣)
+* Simple and easy to use (I hope so 🤣)
 * Win10-style 😎✨
 
 ## Development Progress
@@ -19,10 +19,12 @@ Goose Bomb's Minecraft Client Launcher V3
   - [x] Forge version
   - [x] Authentication
 
-- [ ] Download
-  - [x] fix damaged dependencies (main jar, libraries, assets)
-  - [ ] install new version
-  - [ ] install forge
+- [x] Download
+  - [x] Parallel download
+  - [x] Retry incomplete downloads
+  - [x] Fix damaged dependencies (main jar, libraries, assets)
+  - [x] Install new version
+  - [x] Install forge
 
 - [ ] Custom Theme
   - [x] Blur-behind window
@@ -34,11 +36,11 @@ Goose Bomb's Minecraft Client Launcher V3
 - [ ] Multi Language
   - [x] English
   - [x] Simplified Chinese
-  - [ ] Traditiona Chinese
+  - [ ] Traditional Chinese
   - [ ] Japanese
 
 - [ ] Additional functions
-  - [ ] Mods management
+  - [x] Mods management
   - [ ] Resourcepacks management
   - [ ] Saves management
 
@@ -49,4 +51,3 @@ Goose Bomb's Minecraft Client Launcher V3
 <img src="./Screenshots/launching_0.png" width="720"/>
 <img src="./Screenshots/settings_0.png" width="720"/>
 <img src="./Screenshots/settings_1.png" width="720"/>
-

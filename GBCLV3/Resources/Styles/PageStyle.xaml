@@ -30,12 +30,13 @@
 
     <Style x:Key="TabPageStyle" TargetType="ContentControl">
         <Style.Setters>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContentControl">
                         <ScrollViewer x:Name="ScrollViewer"
                                       HorizontalScrollBarVisibility="Disabled"
-                                      VerticalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                                       Padding="0">
                             <ContentPresenter/>
                         </ScrollViewer>
