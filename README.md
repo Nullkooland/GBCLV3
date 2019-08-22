@@ -19,12 +19,12 @@ Goose Bomb's Minecraft Client Launcher V3
   - [x] Forge version
   - [x] Authentication
 
-- [ ] Download
+- [x] Download
   - [x] Parallel download
   - [x] Retry incomplete downloads
   - [x] Fix damaged dependencies (main jar, libraries, assets)
   - [x] Install new version
-  - [ ] Install forge
+  - [x] Install forge
 
 - [ ] Custom Theme
   - [x] Blur-behind window
@@ -40,7 +40,7 @@ Goose Bomb's Minecraft Client Launcher V3
   - [ ] Japanese
 
 - [ ] Additional functions
-  - [ ] Mods management
+  - [x] Mods management
   - [ ] Resourcepacks management
   - [ ] Saves management
 

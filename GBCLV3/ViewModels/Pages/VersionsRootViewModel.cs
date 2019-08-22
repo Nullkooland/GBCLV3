@@ -45,5 +45,22 @@ namespace GBCLV3.ViewModels.Pages
         }
 
         #endregion
+
+        #region Override Methods
+
+        protected override void OnActivate()
+        {
+            if (this.ActiveItem is GameInstallViewModel gameInstallVM && !gameInstallVM.IsLoading)
+            {
+                gameInstallVM.GoBack();
+            }
+
+            if (this.ActiveItem is ForgeInstallViewModel forgeInstallVM && !forgeInstallVM.IsLoading)
+            {
+                forgeInstallVM.GoBack();
+            }
+        }
+
+        #endregion
     }
 }
