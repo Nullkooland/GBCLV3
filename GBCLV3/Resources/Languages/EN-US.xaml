@@ -129,6 +129,7 @@
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="ReleaseTime">Release Date</s:String>
+    <s:String x:Key="ReleaseOnly">Release Only</s:String>
     
     <s:String x:Key="VersionListLoading">Loading version list</s:String>
     <s:String x:Key="VersionListLoaded">Version list loaded</s:String>

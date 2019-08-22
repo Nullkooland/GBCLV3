@@ -130,6 +130,7 @@
     <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="ReleaseTime">发行日期</s:String>
+    <s:String x:Key="ReleaseOnly">只查看正式版</s:String>
 
     <s:String x:Key="VersionListLoading">正在获取版本列表</s:String>
     <s:String x:Key="VersionListLoaded">版本列表获取成功</s:String>

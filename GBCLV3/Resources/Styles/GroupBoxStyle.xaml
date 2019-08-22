@@ -11,8 +11,7 @@
         <Setter Property="adonisExtensions:GroupBoxExtension.HeaderBackground"
                 Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}"/>
         <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Margin" Value="8,8,8,0"/>
-        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Padding" Value="8,0"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
@@ -35,8 +34,7 @@
 
                         <Border x:Name="HeaderBorder" Grid.Row="0"
                                 Background="{TemplateBinding adonisExtensions:GroupBoxExtension.HeaderBackground}">
-                            <ContentPresenter Margin="{TemplateBinding Padding}"
-                                              VerticalAlignment="Center"
+                            <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="Center"
                                               ContentSource="Header" 
                                               RecognizesAccessKey="True"/>
                         </Border>

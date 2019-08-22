@@ -21,9 +21,7 @@
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="48"/>
-                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <Button Grid.Column="0"
@@ -34,15 +32,9 @@
                     Click="{s:Action GoBack}"/>
 
             <TextBlock Grid.Column="1" Margin="16,0"
-                       VerticalAlignment="Center"
+                       HorizontalAlignment="Left" VerticalAlignment="Center"
                        FontSize="16"
                        Text="{DynamicResource GameInstall}"/>
-
-            <CheckBox Grid.Column="3" Margin="8,0"
-                      Height="48"
-                      FontSize="14"
-                      Content="{DynamicResource DownloadAssetsOnInstall}"
-                      IsChecked="{Binding IsDownloadAssets, Mode=TwoWay}"/>
         </Grid>
 
         <ContentControl Grid.Row="0" 
@@ -54,15 +46,38 @@
             
             <GroupBox Margin="8">
                 <GroupBox.Header>
-                    <StackPanel Orientation="Horizontal">
-                        <ContentControl Margin="0,0,8,0" VerticalContentAlignment="Center"
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <ContentControl Grid.Column="0" Margin="0,0,8,0"
+                                        VerticalContentAlignment="Center"
+                                        Width="16" Height="16"
                                         SnapsToDevicePixels="False"
                                         ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingCircle}}"
-                                        Visibility="{Binding IsLoading, Mode=OneWay, 
+                                        Visibility="{Binding IsLoading, Mode=OneWay,
                                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
-                        <TextBlock Text="{Binding Status, Mode=OneWay}"/>
-                    </StackPanel>
+                        <TextBlock Grid.Column="1"
+                                   VerticalAlignment="Center"
+                                   Text="{Binding Status, Mode=OneWay}"/>
+
+                        <CheckBox Grid.Column="2" Margin="16,0"
+                                  HorizontalAlignment="Right" VerticalAlignment="Center"
+                                  FontSize="14"
+                                  Content="{DynamicResource ReleaseOnly}"
+                                  IsChecked="{Binding IsReleaseOnly, Mode=TwoWay}"/>
+
+                        <CheckBox Grid.Column="3"
+                                  FontSize="14"
+                                  HorizontalAlignment="Right" VerticalAlignment="Center"
+                                  Content="{DynamicResource DownloadAssetsOnInstall}"
+                                  IsChecked="{Binding IsDownloadAssets, Mode=TwoWay}"/>
+                    </Grid>
                 </GroupBox.Header>
 
                 <ListView BorderThickness="1"

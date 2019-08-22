@@ -63,7 +63,26 @@
         <ContentControl Grid.Row="1"
                         Style="{StaticResource TabPageStyle}">
 
-            <GroupBox Margin="8" Header="{DynamicResource AvailableVersions}">
+            <GroupBox Margin="8">
+                <GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource AvailableVersions}"/>
+
+                        <CheckBox Grid.Column="1"
+                                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                                  FontSize="14"
+                                  Content="{DynamicResource SegregateVersions}"
+                                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}"/>
+                    </Grid>
+                </GroupBox.Header>
+
                 <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
                          SelectedValuePath="ID"
                          BorderThickness="1"
@@ -137,12 +156,6 @@
                 </ListBox>
             </GroupBox>
         </ContentControl>
-
-        <CheckBox Grid.Row="1" Margin="16,13"
-                  HorizontalAlignment="Right" VerticalAlignment="Top"
-                  FontSize="14"
-                  Content="{DynamicResource SegregateVersions}"
-                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}"/>
 
     </Grid>
 

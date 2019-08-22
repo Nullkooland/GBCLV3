@@ -50,7 +50,8 @@
     <StackPanel Orientation="Vertical">
 
         <!-- Jvm Settings -->
-        <GroupBox Header="{DynamicResource JvmSettings}">
+        <GroupBox Margin="8,8,8,0"
+                  Header="{DynamicResource JvmSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -103,7 +104,8 @@
         </GroupBox>
 
         <!-- Game Settings -->
-        <GroupBox Header="{DynamicResource GameSettings}">
+        <GroupBox Margin="8,8,8,0"
+                  Header="{DynamicResource GameSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -191,7 +193,8 @@
         </GroupBox>
 
         <!-- Other Settings -->
-        <GroupBox Header="{DynamicResource OtherSettings}" Margin="8">
+        <GroupBox Margin="8"
+                  Header="{DynamicResource OtherSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
