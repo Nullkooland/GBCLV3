@@ -175,6 +175,7 @@
     <s:String x:Key="EnableSelected">Enable</s:String>
     <s:String x:Key="DisableSelected">Disable</s:String>
 
+    <s:String x:Key="OpenLink">Open Link</s:String>
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="Versions">Versions</s:String>

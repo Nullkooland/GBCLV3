@@ -85,6 +85,8 @@ namespace GBCLV3.ViewModels
             Process.Start(_gamePathService.ModsDir);
         }
 
+        public void OpenLink(string url) => Process.Start(url);
+
         public void SelectionChanged(ListBox _, SelectionChangedEventArgs e)
         {
             foreach (var item in e.AddedItems) _selectedMods.Add(item as Mod);
@@ -134,7 +136,7 @@ namespace GBCLV3.ViewModels
 
             foreach (var path in modFiles)
             {
-                File.Copy(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
+                File.Move(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
             }
 
             Reload();
