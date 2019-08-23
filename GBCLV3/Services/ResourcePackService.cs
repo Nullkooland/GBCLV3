@@ -112,6 +112,21 @@ namespace GBCLV3.Services
             else await SystemUtil.SendFileToRecycleBin(pack.Path);
         }
 
+        public bool IsValid(string path)
+        {
+            try
+            {
+                using (var archive = ZipFile.OpenRead(path))
+                {
+                    return (archive.GetEntry("pack.mcmeta") != null);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
         #endregion
 
         #region Private Methods

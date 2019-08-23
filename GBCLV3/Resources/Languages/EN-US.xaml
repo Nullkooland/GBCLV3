@@ -171,8 +171,13 @@
 
     <!-- Resourcepacks Management -->
     <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
+    <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
     <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
     <s:String x:Key="OpenPack">Open</s:String>
+    
+    <!-- About -->
+    <s:String x:Key="Dependencies">Dependencies</s:String>
+    <s:String x:Key="ThanksTo">Thanks to</s:String>
 
     <!-- Common -->
     <s:String x:Key="AddNew">Add New</s:String>

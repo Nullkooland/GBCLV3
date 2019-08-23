@@ -1,4 +1,6 @@
 ﻿using System.Diagnostics;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Documents;
 using GBCLV3.Models;
@@ -104,7 +106,22 @@ namespace GBCLV3.ViewModels
 
         public void AddNew()
         {
+            var dialog = new Microsoft.Win32.OpenFileDialog()
+            {
+                Title = _languageService.GetEntry("SelectResourcepacks"),
+                Filter = "Minecraft resourcepack | *.zip",
+            };
 
+            if (dialog.ShowDialog() ?? false)
+            {
+                foreach (var path in dialog.FileNames)
+                {
+                    if (_resourcePackService.IsValid(path))
+                    {
+                        File.Move(path, $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}");
+                    }
+                }
+            }
         }
 
         public void SaveToOptions() => _resourcePackService.WriteToOptions(EnabledPacks);

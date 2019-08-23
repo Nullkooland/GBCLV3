@@ -172,8 +172,13 @@
 
     <!-- 资源包管理 -->
     <s:String x:Key="EnabledPacks">启用的资源包</s:String>
+    <s:String x:Key="SelectResourcepacks">请选择资源包</s:String>
     <s:String x:Key="DisabledPacks">禁用的资源包</s:String>
     <s:String x:Key="OpenPack">打开资源包</s:String>
+
+    <!-- 关于 -->
+    <s:String x:Key="Dependencies">依赖</s:String>
+    <s:String x:Key="ThanksTo">鸣谢</s:String>
 
     <!-- 公共 -->
     <s:String x:Key="AddNew">添加</s:String>
