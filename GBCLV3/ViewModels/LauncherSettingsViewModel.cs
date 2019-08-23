@@ -105,7 +105,7 @@ namespace GBCLV3.ViewModels
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Title = _languageService.GetEntry("SelectImagePath"),
-                Filter = "Images | *.jpg; *.jpeg; *.jfif; *.bmp; *.png, *.tif; *.tiff",
+                Filter = "Images | *.jpg; *.jpeg; *.jfif; *.bmp; *.png; *.tif; *.tiff;",
             };
 
             if (dialog.ShowDialog() ?? false)
