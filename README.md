@@ -39,15 +39,17 @@ Goose Bomb's Minecraft Client Launcher V3
   - [ ] Traditional Chinese
   - [ ] Japanese
 
-- [ ] Additional functions
+- [ ] Auxiliary Functions
   - [x] Mods management
-  - [ ] Resourcepacks management
+  - [x] Resourcepacks management
   - [ ] Saves management
 
 ## Screenshots
 
 <img src="./Screenshots/cover_0.png" width="720"/>
-<img src="./Screenshots/literally_code_behind.png" width="720"/>
-<img src="./Screenshots/launching_0.png" width="720"/>
-<img src="./Screenshots/settings_0.png" width="720"/>
-<img src="./Screenshots/settings_1.png" width="720"/>
+<img src="./Screenshots/en_literally_code_behind.png" width="720"/>
+<img src="./Screenshots/en_game_settings.png" width="720"/>
+<img src="./Screenshots/en_launcher_settings.png" width="720"/>
+<img src="./Screenshots/en_versions_management.png" width="720"/>
+<img src="./Screenshots/en_mods_management.png" width="720"/>
+<img src="./Screenshots/en_resourcepacks_management.png" width="720"/>

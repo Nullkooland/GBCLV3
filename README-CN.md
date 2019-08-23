@@ -38,13 +38,13 @@
   - [ ] 繁体中文
   - [ ] 日语
 
-- [ ] 附加功能
+- [ ] 辅助功能
   - [x] 模组管理
-  - [ ] 资源包管理
+  - [x] 资源包管理
   - [ ] 存档管理
 
 ## 运行截图
-
+<img src="./Screenshots/cover_0.png" width="720"/>
 <img src="./Screenshots/cn_literally_code_behind.png" width="720"/>
 <img src="./Screenshots/cn_game_settings.png" width="720"/>
 <img src="./Screenshots/cn_launcher_settings.png" width="720"/>
