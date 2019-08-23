@@ -47,11 +47,11 @@
                        Text="{DynamicResource VersionsManagement}"/>
 
             <Button Grid.Column="2"
-                    Content="{DynamicResource ReloadVersions}"
+                    Content="{DynamicResource Reload}"
                     Click="{s:Action Reload}"/>
 
             <Button Grid.Column="3"
-                    Content="{DynamicResource InstallNewVersion}"
+                    Content="{DynamicResource InstallNew}"
                     Click="{s:Action InstallNew}"/>
         </Grid>
 
@@ -135,19 +135,24 @@
                         <ContextMenu Visibility="{Binding SelectedVersionID, Mode=OneWay, 
                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
 
-                            <MenuItem Header="{DynamicResource OpenVersionDir}"
+                            <MenuItem Header="{DynamicResource OpenDir}"
                                       Click="{s:Action OpenDir}"/>
 
-                            <MenuItem Header="{DynamicResource OpenVersionJson}"
+                            <MenuItem Header="{DynamicResource OpenJson}"
                                       Click="{s:Action OpenJson}"/>
 
                             <MenuItem Header="{DynamicResource InstallForge}"
                                       Click="{s:Action InstallForge}"/>
 
-                            <MenuItem Header="{DynamicResource DeleteVersion}"
+                            <MenuItem Header="{DynamicResource Delete}"
                                       Click="{s:Action Delete}"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
+
+                    <ListBox.InputBindings>
+                        <KeyBinding Key="F5" Command="{s:Action Reload}"/>
+                        <KeyBinding Key="Delete" Command="{s:Action Delete}"/>
+                    </ListBox.InputBindings>
                 </ListBox>
             </GroupBox>
         </ContentControl>

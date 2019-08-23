@@ -6,10 +6,12 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Services.Launcher;
+using GBCLV3.Utils;
 
 namespace GBCLV3.Services
 {
@@ -54,7 +56,10 @@ namespace GBCLV3.Services
                         if (line.StartsWith("resourcePacks"))
                         {
                             // Extract “resourcePacks:[${enabledPackIDs}]”
-                            enabledPackIDs = line.Substring(15, line.Length - 16).Split(',');
+                            enabledPackIDs = line.Substring(15, line.Length - 16)
+                                                 .Split(',')
+                                                 .Select(id => id.Trim('\"'))
+                                                 .ToArray();
                             break;
                         }
                     }
@@ -101,6 +106,12 @@ namespace GBCLV3.Services
             return true;
         }
 
+        public async Task DeleteFromDiskAsync(ResourcePack pack)
+        {
+            if (pack.IsExtracted) await SystemUtil.SendDirToRecycleBin(pack.Path);
+            else await SystemUtil.SendFileToRecycleBin(pack.Path);
+        }
+
         #endregion
 
         #region Private Methods
@@ -117,7 +128,8 @@ namespace GBCLV3.Services
 
                 var pack = ReadInfo(infoEntry.Open());
                 pack.Path = path;
-                pack.IsEnabled = enabledPackIDs?.Contains($"\"{pack.Name}\"") ?? false;
+                pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
+                pack.IsExtracted = false;
 
                 // Load cover image (if exists)
                 ZipArchiveEntry imgEntry;
@@ -147,7 +159,8 @@ namespace GBCLV3.Services
 
             var pack = ReadInfo(File.OpenRead(infoPath));
             pack.Path = packDir;
-            pack.IsEnabled = enabledPackIDs?.Contains($"\"{pack.Name}\"") ?? false;
+            pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
+            pack.IsExtracted = true;
 
             // Load cover image (if exists)
             if (File.Exists(imgPath))

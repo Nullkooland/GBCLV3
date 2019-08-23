@@ -28,13 +28,13 @@
                     Orientation="Horizontal"
                     FlowDirection="RightToLeft">
 
-            <Button Content="{DynamicResource AddMods}"
+            <Button Content="{DynamicResource AddNew}"
                     Click="{s:Action AddNew}"/>
 
-            <Button Content="{DynamicResource ReloadMods}"
+            <Button Content="{DynamicResource Reload}"
                     Click="{s:Action Reload}"/>
 
-            <Button Content="{DynamicResource OpenModsDir}"
+            <Button Content="{DynamicResource OpenDir}"
                     Click="{s:Action OpenDir}"/>
 
         </StackPanel>
@@ -123,6 +123,11 @@
                                   Command="{s:Action Delete}"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
+
+                <ListBox.InputBindings>
+                    <KeyBinding Key="F5" Command="{s:Action Reload}"/>
+                    <KeyBinding Key="Delete" Command="{s:Action Delete}"/>
+                </ListBox.InputBindings>
             </ListBox>
         </GroupBox>
 

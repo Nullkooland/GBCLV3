@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -71,12 +72,8 @@ namespace GBCLV3.ViewModels
         public async void Reload()
         {
             Mods.Clear();
-            var availableMods = await _modService.GetAll();
-
-            if (availableMods != null)
-            {
-                Mods.AddRange(await _modService.GetAll());
-            }
+            var availableMods = await Task.Run(() => _modService.GetAll().ToList());
+            Mods.AddRange(availableMods);
         }
 
         public void OpenDir()
@@ -141,8 +138,6 @@ namespace GBCLV3.ViewModels
 
             Reload();
         }
-
-        protected override void OnViewLoaded() => Reload();
 
         #endregion
     }

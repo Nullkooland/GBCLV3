@@ -28,7 +28,7 @@ namespace GBCLV3.Tests
         {
             Debug.WriteLine("[All Mods]");
 
-            foreach (var mod in _modService.GetAll().Result)
+            foreach (var mod in _modService.GetAll())
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"Name:         {mod.Name}");

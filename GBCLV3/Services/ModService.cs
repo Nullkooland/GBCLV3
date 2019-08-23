@@ -38,7 +38,7 @@ namespace GBCLV3.Services
 
         #region Public Methods
 
-        public async Task<IEnumerable<Mod>> GetAll()
+        public IEnumerable<Mod> GetAll()
         {
             if (!Directory.Exists(_gamePathService.ModsDir))
             {
@@ -46,13 +46,10 @@ namespace GBCLV3.Services
                 return null;
             }
 
-            return await Task.Run(() =>
-            Directory.EnumerateFiles(_gamePathService.ModsDir)
-                     .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
-                     .Select(path => Load(path))
-                     .OrderByDescending(mod => mod.IsEnabled)
-                     .ToList()
-            );
+            return Directory.EnumerateFiles(_gamePathService.ModsDir)
+                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
+                            .Select(path => Load(path))
+                            .OrderByDescending(mod => mod.IsEnabled);
         }
 
         public void ChangeExtension(Mod mod)
