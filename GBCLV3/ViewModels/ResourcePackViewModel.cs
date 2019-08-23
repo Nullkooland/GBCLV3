@@ -101,23 +101,18 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public void AddNew()
+        public async void AddNew()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
+                Multiselect = true,
                 Title = _languageService.GetEntry("SelectResourcepacks"),
                 Filter = "Minecraft resourcepack | *.zip",
             };
 
             if (dialog.ShowDialog() ?? false)
             {
-                foreach (string path in dialog.FileNames)
-                {
-                    if (_resourcePackService.IsValid(path))
-                    {
-                        File.Move(path, $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}");
-                    }
-                }
+                DisabledPacks.AddRange(await _resourcePackService.MoveLoadAll(dialog.FileNames));
             }
         }
 

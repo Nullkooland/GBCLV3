@@ -114,6 +114,26 @@ namespace GBCLV3.Services
             else await SystemUtil.SendFileToRecycleBin(pack.Path);
         }
 
+        public async Task<IEnumerable<ResourcePack>> MoveLoadAll(IEnumerable<string> paths)
+        {
+            return await Task.Run(() =>
+                paths.Select(path =>
+                {
+                    var dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
+                    if (File.Exists(dstPath)) return null;
+
+                    File.Move(path, dstPath);
+                    return LoadZip(dstPath, null);
+                })
+                .Where(pack => pack != null)
+                .ToList()
+            );
+        }
+
+        #endregion
+
+        #region Private Methods
+
         public bool IsValid(string path)
         {
             try
@@ -128,10 +148,6 @@ namespace GBCLV3.Services
                 return false;
             }
         }
-
-        #endregion
-
-        #region Private Methods
 
         private static ResourcePack LoadZip(string path, string[] enabledPackIDs)
         {

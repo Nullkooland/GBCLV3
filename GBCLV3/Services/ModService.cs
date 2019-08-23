@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -64,19 +65,20 @@ namespace GBCLV3.Services
             }
         }
 
-        public bool IsValid(string path)
+        public async Task<IEnumerable<Mod>> MoveLoadAll(IEnumerable<string> paths)
         {
-            try
-            {
-                using (var archive = ZipFile.OpenRead(path))
+            return await Task.Run(() =>
+                paths.Select(path =>
                 {
-                    return (archive.GetEntry("META-INF/") != null);
-                }
-            }
-            catch
-            {
-                return false;
-            }
+                    var dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
+                    if (File.Exists(dstPath)) return null;
+
+                    File.Move(path, dstPath);
+                    return Load(dstPath);
+                })
+                .Where(mod => mod != null)
+                .ToList()
+            );
         }
 
         #endregion

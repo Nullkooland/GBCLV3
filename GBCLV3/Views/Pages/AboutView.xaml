@@ -65,7 +65,7 @@
                        FontSize="36" FontWeight="Bold"
                        Text="GBCL"/>
 
-            <StackPanel Grid.Row="2" Margin="0,0,0,16"
+            <StackPanel Grid.Row="2" Margin="0,0,0,8"
                         Orientation="Vertical">
                 
                 <TextBlock Text="{Binding VersionCode, Mode=OneTime}"/>
@@ -82,7 +82,7 @@
                        FontSize="16" FontWeight="SemiBold"
                        Text="{DynamicResource Dependencies}"/>
 
-            <StackPanel Grid.Row="4" Margin="0,0,0,16"
+            <StackPanel Grid.Row="4" Margin="0,0,0,8"
                         Orientation="Vertical">
 
                 <TextBlock Text="{Binding Stylet, Mode=OneTime}"/>
@@ -111,7 +111,7 @@
                        FontSize="16" FontWeight="SemiBold"
                        Text="{DynamicResource ThanksTo}"/>
 
-            <StackPanel Grid.Row="6" Margin="0,0,0,16"
+            <StackPanel Grid.Row="6" Margin="0,0,0,8"
                         Orientation="Vertical">
 
                 <TextBlock Text="{Binding BMCLAPI, Mode=OneTime}"/>

@@ -50,20 +50,26 @@ namespace GBCLV3.ViewModels
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public void DropFiles(ListBox _, DragEventArgs e)
-            => CopyMods(e.Data.GetData(DataFormats.FileDrop) as string[]);
+        public async void DropFiles(ListBox _, DragEventArgs e)
+        {
+            var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
+                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
 
-        public void AddNew()
+            Mods.AddRange(await _modService.MoveLoadAll(modFiles));
+        }
+
+        public async void AddNew()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
+                Multiselect = true,
                 Title = _languageService.GetEntry("SelectMods"),
-                Filter = "Minecraft mod | *.jar",
+                Filter = "Minecraft mod | *.jar; *.jar.disabled;",
             };
 
             if (dialog.ShowDialog() ?? false)
             {
-                CopyMods(dialog.FileNames);
+                Mods.AddRange(await _modService.MoveLoadAll(dialog.FileNames));
             }
         }
 
@@ -118,23 +124,6 @@ namespace GBCLV3.ViewModels
         {
             await _modService.DeleteFromDiskAsync(_selectedMods);
             Mods.RemoveRange(_selectedMods);
-        }
-
-        #endregion
-
-        #region Private Methods
-
-        private void CopyMods(string[] srcPaths)
-        {
-            var modFiles = srcPaths.Where(path => path.EndsWith(".jar"))
-                                   .Where(path => _modService.IsValid(path));
-
-            foreach (string path in modFiles)
-            {
-                File.Move(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
-            }
-
-            Reload();
         }
 
         #endregion
