@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows.Documents;
 
 namespace GBCLV3.Models.JsonClasses
 {

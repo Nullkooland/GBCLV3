@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
@@ -54,7 +52,7 @@ namespace GBCLV3.Services
 
         public void ChangeExtension(Mod mod)
         {
-            var newName = Path.GetFileNameWithoutExtension(mod.Path) + (mod.IsEnabled ? ".jar" : ".jar.disabled");
+            string newName = Path.GetFileNameWithoutExtension(mod.Path) + (mod.IsEnabled ? ".jar" : ".jar.disabled");
             FileSystem.RenameFile(mod.Path + (mod.IsEnabled ? ".disabled" : null), newName);
         }
 

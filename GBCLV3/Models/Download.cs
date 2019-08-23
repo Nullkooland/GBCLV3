@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Documents;
+﻿using System.ComponentModel;
 using GBCLV3.Utils;
 
 namespace GBCLV3.Models

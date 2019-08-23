@@ -1,10 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Markup;
-using System.Windows.Media;
-using GBCLV3.Models;
+﻿using GBCLV3.Models;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using Stylet;
@@ -16,6 +10,7 @@ namespace GBCLV3.ViewModels
     {
         #region Private Members
 
+        // IoC
         private readonly Config _config;
         private readonly LanguageService _languageService;
         private readonly ThemeService _themeService;

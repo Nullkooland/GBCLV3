@@ -10,10 +10,10 @@ namespace GBCLV3.ViewModels
     {
         #region Private Members
 
+        private DownloadService _downloadService;
+
         // IoC
         private readonly IWindowManager _windowManager;
-
-        private DownloadService _downloadService;
 
         #endregion
 
@@ -43,7 +43,7 @@ namespace GBCLV3.ViewModels
 
         public void Cancel()
         {
-            if (_windowManager.ShowMessageBox("${WhetherCancelDownload}", "${CancelDownload}", 
+            if (_windowManager.ShowMessageBox("${WhetherCancelDownload}", "${CancelDownload}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 _downloadService.Cancel();
@@ -54,7 +54,7 @@ namespace GBCLV3.ViewModels
 
         #region Public Methods
 
-        public void NewDownload(DownloadType type, DownloadService downloadService)
+        public void Setup(DownloadType type, DownloadService downloadService)
         {
             _downloadService = downloadService;
             _downloadService.ProgressChanged += progress =>
@@ -101,7 +101,7 @@ namespace GBCLV3.ViewModels
             }
 
             return "--";
-        }  
+        }
 
         private static string GetSpeedText(double speed)
         {
@@ -119,7 +119,7 @@ namespace GBCLV3.ViewModels
                 return;
             }
 
-            var retryMessage = $"{FailedCount} " + "${DownloadFailures}" + '\n' + "${WhetherRetryDownload}";
+            string retryMessage = $"{FailedCount} " + "${DownloadFailures}" + '\n' + "${WhetherRetryDownload}";
 
             if (_windowManager.ShowMessageBox(retryMessage, "${IncompleteDownload}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)

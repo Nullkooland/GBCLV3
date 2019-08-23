@@ -1,9 +1,9 @@
-﻿using GBCLV3.Models;
+﻿using System.Diagnostics;
+using System.Linq;
+using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
-using System.Linq;
 
 namespace GBCLV3.Tests
 {
@@ -16,7 +16,7 @@ namespace GBCLV3.Tests
         private readonly ConfigService _configService;
         private readonly VersionService _versionService;
 
-        public  VersionTest()
+        public VersionTest()
         {
             _configService = new ConfigService();
             _configService.Load();

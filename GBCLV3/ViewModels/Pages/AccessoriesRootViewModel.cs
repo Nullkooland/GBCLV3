@@ -1,6 +1,4 @@
-﻿using System.Threading.Tasks;
-using GBCLV3.Models;
-using Stylet;
+﻿using Stylet;
 using StyletIoC;
 
 namespace GBCLV3.ViewModels

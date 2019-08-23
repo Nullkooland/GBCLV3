@@ -1,12 +1,9 @@
 ﻿using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
-using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -114,7 +111,7 @@ namespace GBCLV3.ViewModels
 
             if (dialog.ShowDialog() ?? false)
             {
-                foreach (var path in dialog.FileNames)
+                foreach (string path in dialog.FileNames)
                 {
                     if (_resourcePackService.IsValid(path))
                     {

@@ -24,9 +24,9 @@ namespace GBCLV3.Utils
             byte[] iv = Encoding.Unicode.GetBytes(_iv);
             byte[] data = Encoding.Default.GetBytes(str);
 
-            using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider() { Mode = CipherMode.CFB })
-            using (MemoryStream ms = new MemoryStream())
-            using (CryptoStream cs = new CryptoStream(ms, aes.CreateEncryptor(key, iv), CryptoStreamMode.Write))
+            using (var aes = new AesCryptoServiceProvider() { Mode = CipherMode.CFB })
+            using (var ms = new MemoryStream())
+            using (var cs = new CryptoStream(ms, aes.CreateEncryptor(key, iv), CryptoStreamMode.Write))
             {
                 cs.Write(data, 0, data.Length);
                 cs.FlushFinalBlock();
@@ -45,9 +45,9 @@ namespace GBCLV3.Utils
             byte[] iv = Encoding.Unicode.GetBytes(_iv);
             byte[] data = Convert.FromBase64String(str);
 
-            using (AesCryptoServiceProvider aes = new AesCryptoServiceProvider() { Mode = CipherMode.CFB })
-            using (MemoryStream ms = new MemoryStream())
-            using (CryptoStream cs = new CryptoStream(ms, aes.CreateDecryptor(key, iv), CryptoStreamMode.Write))
+            using (var aes = new AesCryptoServiceProvider() { Mode = CipherMode.CFB })
+            using (var ms = new MemoryStream())
+            using (var cs = new CryptoStream(ms, aes.CreateDecryptor(key, iv), CryptoStreamMode.Write))
             {
                 cs.Write(data, 0, data.Length);
                 try
@@ -64,10 +64,10 @@ namespace GBCLV3.Utils
 
         public static string GetStringMD5(string str)
         {
-            using (MD5CryptoServiceProvider md5Provider = new MD5CryptoServiceProvider())
+            using (var md5Provider = new MD5CryptoServiceProvider())
             {
                 byte[] md5Bytes = md5Provider.ComputeHash(Encoding.UTF8.GetBytes(str));
-                StringBuilder sb = new StringBuilder(32);
+                var sb = new StringBuilder(32);
 
                 foreach (byte b in md5Bytes)
                 {
@@ -79,10 +79,10 @@ namespace GBCLV3.Utils
 
         public static string GetFileSHA1(string path)
         {
-            using (SHA1CryptoServiceProvider sha1Provider = new SHA1CryptoServiceProvider())
+            using (var sha1Provider = new SHA1CryptoServiceProvider())
             {
                 byte[] sha1Bytes = sha1Provider.ComputeHash(File.OpenRead(path));
-                StringBuilder sb = new StringBuilder(40);
+                var sb = new StringBuilder(40);
 
                 foreach (byte b in sha1Bytes)
                 {

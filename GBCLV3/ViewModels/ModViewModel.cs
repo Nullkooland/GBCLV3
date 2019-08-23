@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
@@ -52,7 +50,7 @@ namespace GBCLV3.ViewModels
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public void DropFiles(ListBox _, DragEventArgs e) 
+        public void DropFiles(ListBox _, DragEventArgs e)
             => CopyMods(e.Data.GetData(DataFormats.FileDrop) as string[]);
 
         public void AddNew()
@@ -86,8 +84,8 @@ namespace GBCLV3.ViewModels
 
         public void SelectionChanged(ListBox _, SelectionChangedEventArgs e)
         {
-            foreach (var item in e.AddedItems) _selectedMods.Add(item as Mod);
-            foreach (var item in e.RemovedItems) _selectedMods.Remove(item as Mod);
+            foreach (object item in e.AddedItems) _selectedMods.Add(item as Mod);
+            foreach (object item in e.RemovedItems) _selectedMods.Remove(item as Mod);
         }
 
         public void Enable()
@@ -131,7 +129,7 @@ namespace GBCLV3.ViewModels
             var modFiles = srcPaths.Where(path => path.EndsWith(".jar"))
                                    .Where(path => _modService.IsValid(path));
 
-            foreach (var path in modFiles)
+            foreach (string path in modFiles)
             {
                 File.Move(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
             }

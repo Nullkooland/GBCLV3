@@ -3,10 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using GBCLV3.Models;
-using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
-using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 using Version = GBCLV3.Models.Launcher.Version;
@@ -24,8 +22,6 @@ namespace GBCLV3.ViewModels
         #region Private Members
 
         //IoC
-        private readonly IWindowManager _windowManager;
-
         private readonly Config _config;
         private readonly GamePathService _gamePathService;
         private readonly VersionService _versionService;
@@ -33,19 +29,22 @@ namespace GBCLV3.ViewModels
         private readonly GameInstallViewModel _gameInstallVM;
         private readonly ForgeInstallViewModel _forgeInstallVM;
 
+        private readonly IWindowManager _windowManager;
+
         #endregion
 
         #region Constructor
 
         [Inject]
         public VersionsManagementViewModel(
-            IWindowManager windowManager,
             ConfigService configService,
             GamePathService gamePathService,
             VersionService versionService,
-            
+
             GameInstallViewModel gameInstallVM,
-            ForgeInstallViewModel forgeInstallVM)
+            ForgeInstallViewModel forgeInstallVM,
+
+            IWindowManager windowManager)
         {
             _windowManager = windowManager;
             _config = configService.Entries;
@@ -83,13 +82,13 @@ namespace GBCLV3.ViewModels
 
         public void OpenDir()
         {
-            var versionsDir = $"{_gamePathService.VersionsDir}/{SelectedVersionID}";
+            string versionsDir = $"{_gamePathService.VersionsDir}/{SelectedVersionID}";
             if (Directory.Exists(versionsDir)) Process.Start(versionsDir);
         }
 
         public void OpenJson()
         {
-            var jsonPath = $"{_gamePathService.VersionsDir}/{SelectedVersionID}/{SelectedVersionID}.json";
+            string jsonPath = $"{_gamePathService.VersionsDir}/{SelectedVersionID}/{SelectedVersionID}.json";
             if (File.Exists(jsonPath)) Process.Start(jsonPath);
         }
 

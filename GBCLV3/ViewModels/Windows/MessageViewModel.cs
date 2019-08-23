@@ -126,8 +126,7 @@ namespace GBCLV3.Views.Windows
             this.ButtonList = buttonList;
             foreach (var val in ButtonToResults[buttons])
             {
-                string label;
-                if (buttonLabels == null || !buttonLabels.TryGetValue(val, out label))
+                if (buttonLabels == null || !buttonLabels.TryGetValue(val, out string label))
                     label = ButtonLabels[val];
 
                 var lbv = new LabelledValue<MessageBoxResult>(label, val);

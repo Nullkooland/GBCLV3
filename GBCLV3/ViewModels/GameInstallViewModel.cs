@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
@@ -28,8 +27,9 @@ namespace GBCLV3.ViewModels
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
 
-        private readonly IWindowManager _windowManager;
         private readonly DownloadViewModel _downloadVM;
+
+        private readonly IWindowManager _windowManager;
 
         #endregion
 
@@ -42,8 +42,8 @@ namespace GBCLV3.ViewModels
             LibraryService libraryService,
             AssetService assetService,
 
-            IWindowManager windowManager,
-            DownloadViewModel downloadVM)
+            DownloadViewModel downloadVM,
+            IWindowManager windowManager)
         {
             _config = configService.Entries;
             _versionService = versionService;
@@ -71,7 +71,7 @@ namespace GBCLV3.ViewModels
 
         public VersionInstallStatus Status { get; private set; }
 
-        public bool IsLoading => 
+        public bool IsLoading =>
             Status == VersionInstallStatus.ListLoading ||
             Status == VersionInstallStatus.FetchingJson ||
             Status == VersionInstallStatus.DownloadingDependencies;
@@ -107,7 +107,7 @@ namespace GBCLV3.ViewModels
             }
 
             Status = VersionInstallStatus.FetchingJson;
-            var json = await _versionService.GetJsonAsync(download);
+            string json = await _versionService.GetJsonAsync(download);
 
             if (json == null)
             {
@@ -159,7 +159,7 @@ namespace GBCLV3.ViewModels
         {
             using (var downloadService = new DownloadService(items))
             {
-                _downloadVM.NewDownload(type, downloadService);
+                _downloadVM.Setup(type, downloadService);
                 this.ActivateItem(_downloadVM);
 
                 return await downloadService.StartAsync();

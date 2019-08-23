@@ -26,7 +26,7 @@
 
         public override bool Equals(object obj)
         {
-            Library other = obj as Library;
+            var other = obj as Library;
             return other?.Name == this.Name;
         }
 

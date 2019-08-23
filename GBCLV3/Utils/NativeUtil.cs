@@ -10,7 +10,7 @@ namespace GBCLV3.Utils
 
         public static void EnableBlur(IntPtr hwnd)
         {
-            AccentPolicy accent = new AccentPolicy();
+            var accent = new AccentPolicy();
             int accentStructSize = Marshal.SizeOf(accent);
 
             accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
@@ -22,7 +22,7 @@ namespace GBCLV3.Utils
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
 
-            WindowCompositionAttributeData data = new WindowCompositionAttributeData
+            var data = new WindowCompositionAttributeData
             {
                 Attribute = WindowCompositionAttribute.WCA_ACCENT_POLICY,
                 SizeOfData = accentStructSize,
@@ -43,7 +43,7 @@ namespace GBCLV3.Utils
 
             return Color.FromArgb(
                 (byte)((0xFF000000 & colorSetEx) >> 24),
-                (byte) (0x000000FF & colorSetEx),
+                (byte)(0x000000FF & colorSetEx),
                 (byte)((0x0000FF00 & colorSetEx) >> 8),
                 (byte)((0x00FF0000 & colorSetEx) >> 16)
             );

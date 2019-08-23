@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -63,7 +62,7 @@ namespace GBCLV3.Services.Launcher
         {
             string GetUrl(Library lib)
             {
-                switch(lib.Type)
+                switch (lib.Type)
                 {
                     case LibraryType.Forge:
                         return _urlService.Base.Forge + lib.Url;
@@ -75,7 +74,7 @@ namespace GBCLV3.Services.Launcher
                 }
             }
 
-            return libraries.Select(lib => 
+            return libraries.Select(lib =>
             new DownloadItem
             {
                 Name = lib.Name,

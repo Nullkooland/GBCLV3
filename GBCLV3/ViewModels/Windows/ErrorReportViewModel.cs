@@ -1,9 +1,6 @@
 ﻿using System.Diagnostics;
-using System.Linq;
 using System.Media;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Shapes;
 using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Utils;

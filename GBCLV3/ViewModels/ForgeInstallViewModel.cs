@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Media;
 using GBCLV3.Models;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
-using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -23,8 +20,9 @@ namespace GBCLV3.ViewModels
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
 
-        private readonly IWindowManager _windowManager;
         private readonly DownloadViewModel _downloadVM;
+
+        private readonly IWindowManager _windowManager;
 
         #endregion
 
@@ -36,8 +34,8 @@ namespace GBCLV3.ViewModels
             VersionService versionService,
             LibraryService libraryService,
 
-            IWindowManager windowManager,
-            DownloadViewModel downloadVM)
+            DownloadViewModel downloadVM,
+            IWindowManager windowManager)
         {
             _forgeInstallService = forgeInstallService;
             _versionService = versionService;
@@ -132,7 +130,7 @@ namespace GBCLV3.ViewModels
         // Auto forge install only support 1.12.2 and earlier versions
         private bool IsAutoInsatllSupported()
         {
-            var versionCode = GameVersion.Split('.');
+            string[] versionCode = GameVersion.Split('.');
             if (versionCode.Length >= 2 && int.TryParse(versionCode[1], out int midCode))
             {
                 return midCode <= 12;
@@ -144,7 +142,7 @@ namespace GBCLV3.ViewModels
         {
             using (var downloadService = new DownloadService(items))
             {
-                _downloadVM.NewDownload(type, downloadService);
+                _downloadVM.Setup(type, downloadService);
                 this.ActivateItem(_downloadVM);
 
                 return await downloadService.StartAsync();

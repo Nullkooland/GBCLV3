@@ -12,6 +12,7 @@ using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Services.Launcher;
 using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services
 {
@@ -26,6 +27,7 @@ namespace GBCLV3.Services
 
         #region Constructor
 
+        [Inject]
         public ResourcePackService(GamePathService gamePathService)
         {
             _gamePathService = gamePathService;
@@ -73,7 +75,7 @@ namespace GBCLV3.Services
                                  .Where(pack => pack != null)
                                  .ToLookup(pack => pack.IsEnabled);
 
-                    // Enabled resourcepacks (followed the order in options)
+            // Enabled resourcepacks (followed the order in options)
             return (packs[true].OrderBy(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
                     // Disabled resourcepacks
                     packs[false]);
@@ -206,7 +208,7 @@ namespace GBCLV3.Services
 
         private static BitmapImage ReadImage(Stream imgStream)
         {
-            BitmapImage img = new BitmapImage();
+            var img = new BitmapImage();
             img.BeginInit();
             img.StreamSource = imgStream;
             img.DecodePixelWidth = 128;

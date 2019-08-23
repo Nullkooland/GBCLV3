@@ -6,7 +6,7 @@
     <Style x:Key="UniversalWindowStyle" TargetType="Window">
 
         <Style.Resources>
-            <ResourceDictionary Source="/GBCLV3;component/Resources/Styles/CaptionButtonStyle.xaml"/>
+            <ResourceDictionary Source="/GBCL;component/Resources/Styles/CaptionButtonStyle.xaml"/>
         </Style.Resources>
         
         <Setter Property="WindowChrome.WindowChrome">

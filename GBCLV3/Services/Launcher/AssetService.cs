@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -11,7 +10,6 @@ using System.Threading.Tasks;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Models.Launcher;
-using GBCLV3.Utils;
 using StyletIoC;
 
 namespace GBCLV3.Services.Launcher
@@ -71,7 +69,7 @@ namespace GBCLV3.Services.Launcher
                     return !File.Exists(path) || obj.Hash != Utils.CryptUtil.GetFileSHA1(path);
                 })
                 .ToList()
-            ); 
+            );
         }
 
         public async Task CopyToVirtualAsync(AssetsInfo info)
@@ -84,9 +82,9 @@ namespace GBCLV3.Services.Launcher
                 .AsParallel()
                 .ForAll(pair =>
                 {
-                    var objectPath = $"{_gamePathService.AssetsDir}/objects/{pair.Value.Path}";
-                    var virtualPath = $"{_gamePathService.AssetsDir}/virtual/legacy/{pair.Key}";
-                    var virtualDir = Path.GetDirectoryName(virtualPath);
+                    string objectPath = $"{_gamePathService.AssetsDir}/objects/{pair.Value.Path}";
+                    string virtualPath = $"{_gamePathService.AssetsDir}/virtual/legacy/{pair.Key}";
+                    string virtualDir = Path.GetDirectoryName(virtualPath);
 
                     if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
 
@@ -101,8 +99,8 @@ namespace GBCLV3.Services.Launcher
         {
             try
             {
-                var json = await _client.GetStringAsync(_urlService.Base.Json + info.IndexUrl);
-                var indexDir = $"{_gamePathService.AssetsDir}/indexes";
+                string json = await _client.GetStringAsync(_urlService.Base.Json + info.IndexUrl);
+                string indexDir = $"{_gamePathService.AssetsDir}/indexes";
 
                 //Make sure directory exists
                 Directory.CreateDirectory(indexDir);
@@ -123,7 +121,7 @@ namespace GBCLV3.Services.Launcher
 
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<AssetObject> assetObjects)
         {
-            return assetObjects.Select(obj => 
+            return assetObjects.Select(obj =>
             new DownloadItem
             {
                 Name = obj.Hash,

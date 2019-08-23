@@ -1,15 +1,14 @@
 ﻿using Stylet;
+using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
 {
     class SettingsRootViewModel : Screen
     {
-        #region Private Members
-
-        #endregion
 
         #region Constructor
 
+        [Inject]
         public SettingsRootViewModel(
             GameSettingsViewModel gameSettingsVM,
             LauncherSettingsViewModel launcherSettingsVM)
