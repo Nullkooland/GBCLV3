@@ -34,7 +34,6 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Margin="16,0,0,0"
@@ -48,22 +47,37 @@
                        Text="{DynamicResource VersionsManagement}"/>
 
             <Button Grid.Column="2"
-                    Content="{DynamicResource OpenVersionsDir}"
-                    Click="{s:Action OpenVersionsDir}"/>
-
-            <Button Grid.Column="3"
-                    Content="{DynamicResource ReloadVersions}"
+                    Content="{DynamicResource Reload}"
                     Click="{s:Action Reload}"/>
 
-            <Button Grid.Column="4"
-                    Content="{DynamicResource InstallNewVersion}"
-                    Click="{s:Action InstallNewVersion}"/>
+            <Button Grid.Column="3"
+                    Content="{DynamicResource InstallNew}"
+                    Click="{s:Action InstallNew}"/>
         </Grid>
 
         <ContentControl Grid.Row="1"
                         Style="{StaticResource TabPageStyle}">
 
-            <GroupBox Margin="8" Header="{DynamicResource AvailableVersions}">
+            <GroupBox Margin="8">
+                <GroupBox.Header>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   VerticalAlignment="Center"
+                                   Text="{DynamicResource AvailableVersions}"/>
+
+                        <CheckBox Grid.Column="1"
+                                  HorizontalAlignment="Right" VerticalAlignment="Top"
+                                  FontSize="14"
+                                  Content="{DynamicResource SegregateVersions}"
+                                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}"/>
+                    </Grid>
+                </GroupBox.Header>
+
                 <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
                          SelectedValuePath="ID"
                          BorderThickness="1"
@@ -121,28 +135,27 @@
                         <ContextMenu Visibility="{Binding SelectedVersionID, Mode=OneWay, 
                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
 
-                            <MenuItem Header="{DynamicResource OpenVersionDir}"
-                                      Click="{s:Action OpenVersionDir}"/>
+                            <MenuItem Header="{DynamicResource OpenDir}"
+                                      Click="{s:Action OpenDir}"/>
 
-                            <MenuItem Header="{DynamicResource OpenVersionJson}"
-                                      Click="{s:Action OpenVersionJson}"/>
+                            <MenuItem Header="{DynamicResource OpenJson}"
+                                      Click="{s:Action OpenJson}"/>
 
                             <MenuItem Header="{DynamicResource InstallForge}"
                                       Click="{s:Action InstallForge}"/>
 
-                            <MenuItem Header="{DynamicResource DeleteVersion}"
-                                      Click="{s:Action DeleteVersion}"/>
+                            <MenuItem Header="{DynamicResource Delete}"
+                                      Click="{s:Action Delete}"/>
                         </ContextMenu>
                     </ListBox.ContextMenu>
+
+                    <ListBox.InputBindings>
+                        <KeyBinding Key="F5" Command="{s:Action Reload}"/>
+                        <KeyBinding Key="Delete" Command="{s:Action Delete}"/>
+                    </ListBox.InputBindings>
                 </ListBox>
             </GroupBox>
         </ContentControl>
-
-        <CheckBox Grid.Row="1" Margin="16,13"
-                  HorizontalAlignment="Right" VerticalAlignment="Top"
-                  FontSize="14"
-                  Content="{DynamicResource SegregateVersions}"
-                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}"/>
 
     </Grid>
 

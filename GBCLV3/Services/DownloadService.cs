@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,8 +6,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Documents;
 using System.Windows.Threading;
 using GBCLV3.Models;
 
@@ -82,7 +79,7 @@ namespace GBCLV3.Services
         {
             var options = new ParallelOptions { MaxDegreeOfParallelism = 8 };
 
-            for (;;)
+            for (; ; )
             {
                 _timer.Start();
 

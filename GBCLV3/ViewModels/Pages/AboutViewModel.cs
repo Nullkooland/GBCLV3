@@ -34,9 +34,9 @@ namespace GBCLV3.ViewModels.Pages
 
         #region Bindings
 
-        public string GBCLV3 => "GBCLV3";
         public string VersionCode => AssemblyUtil.Version;
-        public string GBCLV3Page => "https://github.com/Goose-Bomb/";
+        public string Copyright => "MIT License, " + AssemblyUtil.Copyright;
+        public string GBCLV3Page => "https://github.com/Goose-Bomb/GBCLV3";
 
         public string Stylet => "Stylet MVVM Framework";
         public string StyletPage => "https://github.com/canton7/Stylet";
@@ -52,6 +52,9 @@ namespace GBCLV3.ViewModels.Pages
 
         public string BMCLAPI => "BMCLAPI Download Mirror";
         public string BMCLAPIPage => "https://bmclapidoc.bangbang93.com";
+
+        public string Forge => "Support Minecraft Forge";
+        public string ForgePage => "https://www.patreon.com/LexManos";
 
         public void OpenLink(string url) => Process.Start(url);
 

@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using GBCLV3.Models;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
@@ -17,6 +18,8 @@ namespace GBCLV3.ViewModels
         #region Private Members
 
         private bool _isVersionListLoaded;
+        private bool _isReleaseOnly;
+        private readonly BindableCollection<VersionDownload> _versionDownloads;
 
         //IoC
         private readonly Config _config;
@@ -24,8 +27,9 @@ namespace GBCLV3.ViewModels
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
 
-        private readonly IWindowManager _windowManager;
         private readonly DownloadViewModel _downloadVM;
+
+        private readonly IWindowManager _windowManager;
 
         #endregion
 
@@ -38,20 +42,27 @@ namespace GBCLV3.ViewModels
             LibraryService libraryService,
             AssetService assetService,
 
-            IWindowManager windowManager,
-            DownloadViewModel downloadVM)
+            DownloadViewModel downloadVM,
+            IWindowManager windowManager)
         {
             _config = configService.Entries;
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
 
-            VersionDownloads = new BindableCollection<VersionDownload>();
+            _versionDownloads = new BindableCollection<VersionDownload>();
+            VersionDownloads = CollectionViewSource.GetDefaultView(_versionDownloads);
+            VersionDownloads.Filter = obj =>
+            {
+                if (_isReleaseOnly) return (obj as VersionDownload).Type == VersionType.Release;
+                return true;
+            };
 
             _windowManager = windowManager;
             _downloadVM = downloadVM;
 
             _isVersionListLoaded = false;
+            _isReleaseOnly = true;
         }
 
         #endregion
@@ -60,14 +71,24 @@ namespace GBCLV3.ViewModels
 
         public VersionInstallStatus Status { get; private set; }
 
-        public bool IsLoading => 
+        public bool IsLoading =>
             Status == VersionInstallStatus.ListLoading ||
             Status == VersionInstallStatus.FetchingJson ||
             Status == VersionInstallStatus.DownloadingDependencies;
 
         public bool CanInstall => Status == VersionInstallStatus.ListLoaded;
 
-        public BindableCollection<VersionDownload> VersionDownloads { get; private set; }
+        public ICollectionView VersionDownloads { get; set; }
+
+        public bool IsReleaseOnly
+        {
+            get => _isReleaseOnly;
+            set
+            {
+                _isReleaseOnly = value;
+                VersionDownloads.Refresh();
+            }
+        }
 
         public bool IsDownloadAssets
         {
@@ -86,7 +107,7 @@ namespace GBCLV3.ViewModels
             }
 
             Status = VersionInstallStatus.FetchingJson;
-            var json = await _versionService.GetJsonAsync(download);
+            string json = await _versionService.GetJsonAsync(download);
 
             if (json == null)
             {
@@ -138,7 +159,7 @@ namespace GBCLV3.ViewModels
         {
             using (var downloadService = new DownloadService(items))
             {
-                _downloadVM.NewDownload(type, downloadService);
+                _downloadVM.Setup(type, downloadService);
                 this.ActivateItem(_downloadVM);
 
                 return await downloadService.StartAsync();
@@ -154,8 +175,8 @@ namespace GBCLV3.ViewModels
 
                 if (downloads != null)
                 {
-                    VersionDownloads.Clear();
-                    VersionDownloads.AddRange(downloads);
+                    _versionDownloads.Clear();
+                    _versionDownloads.AddRange(downloads);
 
                     Status = VersionInstallStatus.ListLoaded;
                     _isVersionListLoaded = true;

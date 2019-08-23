@@ -8,6 +8,14 @@
     <s:String x:Key="Yes">Yes</s:String>
     <s:String x:Key="No">No</s:String>
 
+    <!-- ErrorReport -->
+    <s:String x:Key="ErrorReport">Error Report</s:String>
+    <s:String x:Key="ReportUnexpectedExit">Game exited unexpectedly</s:String>
+    <s:String x:Key="ReportUnhandledException">Program has encountered unhandled exception</s:String>
+    <s:String x:Key="Alright">Alright</s:String>
+    <s:String x:Key="ReportOnGithub">Report on Github</s:String>
+    <s:String x:Key="CopyErrorMessage">Copy Error Message</s:String>
+
     <!-- Launch Procedure -->
     <s:String x:Key="Launch">Launch</s:String>
     <s:String x:Key="ProcessingDependencies">Processing game dependencies</s:String>
@@ -99,7 +107,7 @@
     <s:String x:Key="MainJar">Main Jar</s:String>
     <s:String x:Key="Libraries">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>
-    <s:String x:Key="InstallNewVersion">Install New Version</s:String>
+    <s:String x:Key="InstallNewVersion">Install New</s:String>
     <s:String x:Key="InstallForge">Install Forge</s:String>
 
     <!-- Download Progress -->
@@ -113,22 +121,19 @@
     <s:String x:Key="DownloadFailedCount">Failed</s:String>
     <s:String x:Key="DownloadSpeed">Speed</s:String>
 
-    <!-- Version management -->
+    <!-- Versions Management -->
     <s:String x:Key="AvailableVersions">Available Versions</s:String>
     <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
-    <s:String x:Key="ReloadVersions">Reload</s:String>
-    <s:String x:Key="OpenVersionsDir">Open Versions Directory</s:String>
-    <s:String x:Key="OpenVersionDir">Open Directory</s:String>
-    <s:String x:Key="OpenVersionJson">Open Json</s:String>
-    <s:String x:Key="DeleteVersion">Delete</s:String>
-    <s:String x:Key="WhetherDeleteVersion">Whether delete the version</s:String>
+    <s:String x:Key="OpenJson">Open Json</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
 
-    <!-- Version install -->
+    <!-- Version Install -->
     <s:String x:Key="NoVersionFound">No version found</s:String>
     <s:String x:Key="WhetherInstallNewVersion">Whether install new game version?</s:String>
     <s:String x:Key="Version">Version</s:String>
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="ReleaseTime">Release Date</s:String>
+    <s:String x:Key="ReleaseOnly">Release Only</s:String>
     
     <s:String x:Key="VersionListLoading">Loading version list</s:String>
     <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
@@ -144,7 +149,7 @@
     <s:String x:Key="DownloadAssetsOnInstall">Download assets upon install</s:String>
     <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
 
-    <!-- Forge install -->
+    <!-- Forge Install -->
     <s:String x:Key="ForgeListLoading">Loading forge download list</s:String>
     <s:String x:Key="ForgeListLoadFailed">Failed to load forge download list</s:String>
     <s:String x:Key="NoAvailableForge">No available forge for this version!</s:String>
@@ -157,20 +162,33 @@
     <s:String x:Key="ForgeJarDownloadFailed">Forge jar download failed!</s:String>
     <s:String x:Key="ForgeExtractFailed">Forge extract failed!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
-    
-    <!-- Mods -->
-    <s:String x:Key="AvailableMods">Available mods</s:String>
-    <s:String x:Key="AddMods">Add New</s:String>
+
+    <!-- Mods Management -->
+    <s:String x:Key="AvailableMods">Available Mods</s:String>
     <s:String x:Key="SelectMods">Select Mods</s:String>
-    <s:String x:Key="ReloadMods">Reload</s:String>
-    <s:String x:Key="OpenModsDir">Open Directory</s:String>
     <s:String x:Key="EnableSelected">Enable</s:String>
     <s:String x:Key="DisableSelected">Disable</s:String>
 
+    <!-- Resourcepacks Management -->
+    <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
+    <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
+    <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
+    <s:String x:Key="OpenPack">Open</s:String>
+    
+    <!-- About -->
+    <s:String x:Key="Dependencies">Dependencies</s:String>
+    <s:String x:Key="ThanksTo">Thanks to</s:String>
+
+    <!-- Common -->
+    <s:String x:Key="AddNew">Add New</s:String>
+    <s:String x:Key="InstallNew">Install New</s:String>
+    <s:String x:Key="Reload">Reload</s:String>
+    <s:String x:Key="OpenDir">Open Directory</s:String>
+    <s:String x:Key="OpenLink">Open Link</s:String>
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="Versions">Versions</s:String>
-    <s:String x:Key="VersionsManagement">Versions</s:String>
+    <s:String x:Key="VersionsManagement">Versions Management</s:String>
     <s:String x:Key="GameInstall">Game Install</s:String>
     <s:String x:Key="ForgeInstall">Forge Install</s:String>
     <s:String x:Key="Mods">Mods</s:String>

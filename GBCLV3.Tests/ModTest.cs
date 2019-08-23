@@ -1,7 +1,7 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using System.Diagnostics;
 using GBCLV3.Services;
-using System.Diagnostics;
 using GBCLV3.Services.Launcher;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
 {
@@ -28,7 +28,7 @@ namespace GBCLV3.Tests
         {
             Debug.WriteLine("[All Mods]");
 
-            foreach (var mod in _modService.GetAll().Result)
+            foreach (var mod in _modService.GetAll())
             {
                 Debug.WriteLine("---------------------------------------------------------------");
                 Debug.WriteLine($"Name:         {mod.Name}");

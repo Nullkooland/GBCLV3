@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
@@ -51,44 +50,48 @@ namespace GBCLV3.ViewModels
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public void DropFiles(ListBox _, DragEventArgs e) 
-            => CopyMods(e.Data.GetData(DataFormats.FileDrop) as string[]);
+        public async void DropFiles(ListBox _, DragEventArgs e)
+        {
+            var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
+                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
 
-        public void AddNew()
+            Mods.AddRange(await _modService.MoveLoadAll(modFiles));
+        }
+
+        public async void AddNew()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
+                Multiselect = true,
                 Title = _languageService.GetEntry("SelectMods"),
-                Filter = "Minecraft mod | *.jar",
+                Filter = "Minecraft mod | *.jar; *.jar.disabled;",
             };
 
             if (dialog.ShowDialog() ?? false)
             {
-                CopyMods(dialog.FileNames);
+                Mods.AddRange(await _modService.MoveLoadAll(dialog.FileNames));
             }
         }
 
         public async void Reload()
         {
             Mods.Clear();
-            var availableMods = await _modService.GetAll();
-
-            if (availableMods != null)
-            {
-                Mods.AddRange(await _modService.GetAll());
-            }
+            var availableMods = await Task.Run(() => _modService.GetAll().ToList());
+            Mods.AddRange(availableMods);
         }
 
-        public void OpenModsDir()
+        public void OpenDir()
         {
             Directory.CreateDirectory(_gamePathService.ModsDir);
             Process.Start(_gamePathService.ModsDir);
         }
 
+        public void OpenLink(string url) => Process.Start(url);
+
         public void SelectionChanged(ListBox _, SelectionChangedEventArgs e)
         {
-            foreach (var item in e.AddedItems) _selectedMods.Add(item as Mod);
-            foreach (var item in e.RemovedItems) _selectedMods.Remove(item as Mod);
+            foreach (object item in e.AddedItems) _selectedMods.Add(item as Mod);
+            foreach (object item in e.RemovedItems) _selectedMods.Remove(item as Mod);
         }
 
         public void Enable()
@@ -122,25 +125,6 @@ namespace GBCLV3.ViewModels
             await _modService.DeleteFromDiskAsync(_selectedMods);
             Mods.RemoveRange(_selectedMods);
         }
-
-        #endregion
-
-        #region Private Methods
-
-        private void CopyMods(string[] srcPaths)
-        {
-            var modFiles = srcPaths.Where(path => path.EndsWith(".jar"))
-                                   .Where(path => _modService.IsValid(path));
-
-            foreach (var path in modFiles)
-            {
-                File.Copy(path, $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}");
-            }
-
-            Reload();
-        }
-
-        protected override void OnViewLoaded() => Reload();
 
         #endregion
     }

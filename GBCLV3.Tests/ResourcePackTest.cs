@@ -26,7 +26,7 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void LoadTest()
         {
-            var (enabledPacks, disabledPacks) = _resourcePackService.GetAll();
+            var (enabledPacks, disabledPacks) = _resourcePackService.GetAllAsync();
             Debug.WriteLine("[All Resource Packs]");
 
             foreach (var pack in enabledPacks.Concat(disabledPacks))
@@ -45,7 +45,7 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void WriteOptionsTest()
         {
-            var (enabledPacks, disabledPacks) = _resourcePackService.GetAll();
+            var (enabledPacks, disabledPacks) = _resourcePackService.GetAllAsync();
             //packs.ForEach(pack => pack.IsEnabled = true);
 
             _resourcePackService.WriteToOptions(enabledPacks.Concat(disabledPacks));

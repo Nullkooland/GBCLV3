@@ -1,6 +1,5 @@
 ﻿using System.Text.Json.Serialization;
 using GBCLV3.Models.Launcher;
-using Stylet;
 
 namespace GBCLV3.Models
 {

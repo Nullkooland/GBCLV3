@@ -13,7 +13,7 @@ namespace GBCLV3.Utils
         {
             _resourceKey = resourceKey;
         }
-        
+
         public override string Description => LanguageService.GetEntry(_resourceKey);
     }
 }

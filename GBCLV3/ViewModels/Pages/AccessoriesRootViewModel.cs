@@ -1,5 +1,4 @@
-﻿using GBCLV3.Models;
-using Stylet;
+﻿using Stylet;
 using StyletIoC;
 
 namespace GBCLV3.ViewModels
@@ -24,6 +23,18 @@ namespace GBCLV3.ViewModels
         public ModViewModel ModVM { get; set; }
 
         public ResourcePackViewModel ResourcePackVM { get; set; }
+
+        #endregion
+
+        #region Override Methods
+
+        protected override void OnActivate()
+        {
+            ModVM.Reload();
+            ResourcePackVM.Reload();
+        }
+
+        protected override void OnDeactivate() => ResourcePackVM.SaveToOptions();
 
         #endregion
     }

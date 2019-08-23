@@ -9,7 +9,7 @@
     <ProjectGuid>{D0538262-7697-4A67-804D-1BFC6FDD141B}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <RootNamespace>GBCLV3</RootNamespace>
-    <AssemblyName>GBCLV3</AssemblyName>
+    <AssemblyName>GBCL</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -57,6 +57,10 @@
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>enderman.ico</ApplicationIcon>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>
+    </StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AdonisUI, Version=1.12.0.0, Culture=neutral, processorArchitecture=MSIL">
@@ -133,6 +137,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Behaviors\WindowBehavior.cs" />
+    <Compile Include="Models\ErrorReport.cs" />
     <Compile Include="Models\Forge.cs" />
     <Compile Include="Models\Install.cs" />
     <Compile Include="Models\JsonClasses\JArguments.cs" />
@@ -185,6 +190,7 @@
     <Compile Include="ViewModels\GameSettingsViewModel.cs" />
     <Compile Include="ViewModels\LauncherSettingsViewModel.cs" />
     <Compile Include="ViewModels\ResourcePackViewModel.cs" />
+    <Compile Include="ViewModels\Windows\ErrorReportViewModel.cs" />
     <Compile Include="ViewModels\Windows\MessageViewModel.cs" />
     <Compile Include="ViewModels\DownloadViewModel.cs" />
     <Compile Include="ViewModels\Pages\SettingsRootViewModel.cs" />
@@ -305,6 +311,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ResourcePackView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\ErrorReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -11,7 +9,7 @@ using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
 using GBCLV3.Utils;
-using GBCLV3.Views;
+using GBCLV3.ViewModels.Windows;
 using Stylet;
 using Version = GBCLV3.Models.Launcher.Version;
 
@@ -21,10 +19,9 @@ namespace GBCLV3.ViewModels.Pages
     {
         #region Private Members
 
-        // IoC
-        private readonly IWindowManager _windowManager;
-        private readonly IEventAggregator _eventAggregator;
+        private readonly StringBuilder _logger;
 
+        // IoC
         private readonly Config _config;
         private readonly VersionService _versionService;
         private readonly ForgeInstallService _forgeService;
@@ -32,10 +29,12 @@ namespace GBCLV3.ViewModels.Pages
         private readonly AssetService _assetService;
         private readonly LaunchService _launchService;
 
-        private readonly StringBuilder _logger;
-
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadViewModel _downloadVM;
+        private readonly ErrorReportViewModel _errorReportVM;
+
+        private readonly IWindowManager _windowManager;
+        private readonly IEventAggregator _eventAggregator;
 
         #endregion
 
@@ -53,7 +52,8 @@ namespace GBCLV3.ViewModels.Pages
             LaunchService launchService,
 
             LaunchStatusViewModel statusVM,
-            DownloadViewModel downloadVM)
+            DownloadViewModel downloadVM,
+            ErrorReportViewModel errorReportVM)
         {
             _windowManager = windowManager;
             _eventAggregator = eventAggregator;
@@ -117,6 +117,7 @@ namespace GBCLV3.ViewModels.Pages
 
             _statusVM = statusVM;
             _downloadVM = downloadVM;
+            _errorReportVM = errorReportVM;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
         }
@@ -244,7 +245,7 @@ namespace GBCLV3.ViewModels.Pages
             await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
 
             // All good to go, now build launch profile
-            LaunchProfile proile = new LaunchProfile
+            var proile = new LaunchProfile
             {
                 JvmArgs = _config.JvmArgs,
                 MaxMemory = _config.JavaMaxMem,
@@ -289,7 +290,7 @@ namespace GBCLV3.ViewModels.Pages
 
             using (var downloadService = new DownloadService(items))
             {
-                _downloadVM.NewDownload(type, downloadService);
+                _downloadVM.Setup(type, downloadService);
                 this.ActivateItem(_downloadVM);
 
                 bool isSuccessful = await downloadService.StartAsync();
@@ -329,12 +330,12 @@ namespace GBCLV3.ViewModels.Pages
 
             Execute.OnUIThread(() =>
             {
-                if (exitCode != 0)
+                if (_config.AfterLaunch != AfterLaunchBehavior.Exit && exitCode != 0 && _logger.Length > 0)
                 {
-                    var message = $"Exit Code: {exitCode}\n" + _logger.ToString();
+                    _errorReportVM.ErrorMessage = $"Exit Code: {exitCode}\n" + _logger.ToString();
+                    _errorReportVM.Type = ErrorReportType.UnexpectedExit;
 
-                    _windowManager.ShowMessageBox(message, "${UnexpectedExit}",
-                        MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    _windowManager.ShowDialog(_errorReportVM);
 
                     Debug.WriteLine("[Game exited with errors]");
                     Debug.WriteLine(_logger.ToString());
@@ -344,7 +345,7 @@ namespace GBCLV3.ViewModels.Pages
                 if (_config.AfterLaunch == AfterLaunchBehavior.Hide)
                 {
                     Application.Current.MainWindow.Show();
-                    Application.Current.MainWindow.Focus();
+                    Application.Current.MainWindow.Activate();
                 }
             });
         }

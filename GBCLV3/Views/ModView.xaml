@@ -8,7 +8,7 @@
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
                 Style="{StaticResource TabPageStyle}">
-    
+
     <ContentControl.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="8,8,0,0"/>
@@ -28,14 +28,14 @@
                     Orientation="Horizontal"
                     FlowDirection="RightToLeft">
 
-            <Button Content="{DynamicResource AddMods}"
+            <Button Content="{DynamicResource AddNew}"
                     Click="{s:Action AddNew}"/>
 
-            <Button Content="{DynamicResource ReloadMods}"
+            <Button Content="{DynamicResource Reload}"
                     Click="{s:Action Reload}"/>
 
-            <Button Content="{DynamicResource OpenModsDir}"
-                    Click="{s:Action OpenModsDir}"/>
+            <Button Content="{DynamicResource OpenDir}"
+                    Click="{s:Action OpenDir}"/>
 
         </StackPanel>
 
@@ -61,6 +61,7 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="36"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="24"/>
                             </Grid.ColumnDefinitions>
 
                             <CheckBox Grid.RowSpan="2" Grid.Column="0"
@@ -83,6 +84,22 @@
                                        TextTrimming="CharacterEllipsis"
                                        Text="{Binding FileName}"/>
 
+                            <Border Grid.RowSpan="2" Grid.Column="2"
+                                    Width="24" Height="36"
+                                    Cursor="Hand"
+                                    ToolTip="{Binding Url}"
+                                    Visibility="{Binding Url, Mode=OneWay,
+                                                 Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftClick"
+                                                  Command="{s:Action OpenLink}" CommandParameter="{Binding Url}"/>
+                                </Border.InputBindings>
+                                
+                                <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="20"
+                                           VerticalAlignment="Center"
+                                           Text="&#xE71B;"/>
+                            </Border>
+
                         </Grid>
                         <DataTemplate.Triggers>
                             <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
@@ -98,14 +115,19 @@
                     <ContextMenu>
                         <MenuItem Header="{DynamicResource EnableSelected}"
                                   Command="{s:Action Enable}"/>
-                        
+
                         <MenuItem Header="{DynamicResource DisableSelected}"
                                   Command="{s:Action Disable}"/>
-                        
+
                         <MenuItem Header="{DynamicResource Delete}"
                                   Command="{s:Action Delete}"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>
+
+                <ListBox.InputBindings>
+                    <KeyBinding Key="F5" Command="{s:Action Reload}"/>
+                    <KeyBinding Key="Delete" Command="{s:Action Delete}"/>
+                </ListBox.InputBindings>
             </ListBox>
         </GroupBox>
 

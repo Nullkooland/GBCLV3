@@ -17,9 +17,9 @@ namespace GBCLV3.Services
 
         private readonly Dictionary<string, string> _langSelections = new Dictionary<string, string>
         {
-            { "ZH-CN", "/GBCLV3;component/Resources/Languages/ZH-CN.xaml" },
-            //{ "ZH-TW", "/GBCLV3;component/Resources/Languages/ZH-TW.xaml" },
-            { "EN-US", "/GBCLV3;component/Resources/Languages/EN-US.xaml" },
+            { "ZH-CN", "/GBCL;component/Resources/Languages/ZH-CN.xaml" },
+            //{ "ZH-TW", "/GBCL;component/Resources/Languages/ZH-TW.xaml" },
+            { "EN-US", "/GBCL;component/Resources/Languages/EN-US.xaml" },
         };
 
         private string _currentTag;
@@ -73,7 +73,7 @@ namespace GBCLV3.Services
         {
             return Regex.Replace(src ?? string.Empty, "\\${.*?}", match =>
             {
-                var key = match.Value.Substring(2, match.Length - 3);
+                string key = match.Value.Substring(2, match.Length - 3);
                 return this.GetEntry(key);
             });
         }

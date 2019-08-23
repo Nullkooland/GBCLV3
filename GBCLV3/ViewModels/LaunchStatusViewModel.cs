@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media.TextFormatting;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Views;
+﻿using GBCLV3.Models.Launcher;
 using Stylet;
 
 namespace GBCLV3.ViewModels
@@ -19,7 +12,7 @@ namespace GBCLV3.ViewModels
             Status == LaunchStatus.ProcessingDependencies ||
             Status == LaunchStatus.StartingProcess;
 
-        public bool IsSucceeded => 
+        public bool IsSucceeded =>
             Status == LaunchStatus.Running;
 
         public LaunchStatus Status { get; set; }

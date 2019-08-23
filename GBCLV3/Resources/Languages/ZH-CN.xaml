@@ -8,6 +8,14 @@
     <s:String x:Key="Yes">是</s:String>
     <s:String x:Key="No">否</s:String>
 
+    <!-- 错误报告 -->
+    <s:String x:Key="ErrorReport">错误报告</s:String>
+    <s:String x:Key="ReportUnexpectedExit">游戏异常退出</s:String>
+    <s:String x:Key="ReportUnhandledException">程序遇到了无法处理的异常</s:String>
+    <s:String x:Key="Alright">彳亍口巴</s:String>
+    <s:String x:Key="ReportOnGithub">去Github提出问题</s:String>
+    <s:String x:Key="CopyErrorMessage">复制错误信息</s:String>
+
     <!-- 启动过程 -->
     <s:String x:Key="Launch">启动</s:String>
     <s:String x:Key="ProcessingDependencies">正在处理依赖文件</s:String>
@@ -117,11 +125,7 @@
     <!-- 版本管理 -->
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
-    <s:String x:Key="ReloadVersions">重新加载版本</s:String>
-    <s:String x:Key="OpenVersionsDir">打开版本目录</s:String>
-    <s:String x:Key="OpenVersionDir">打开目录</s:String>
-    <s:String x:Key="OpenVersionJson">打开Json</s:String>
-    <s:String x:Key="DeleteVersion">删除版本</s:String>
+    <s:String x:Key="OpenJson">打开Json文件</s:String>
     <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
 
     <!-- 版本安装 -->
@@ -130,6 +134,7 @@
     <s:String x:Key="Version">版本</s:String>
     <s:String x:Key="Type">类型</s:String>
     <s:String x:Key="ReleaseTime">发行日期</s:String>
+    <s:String x:Key="ReleaseOnly">只查看正式版</s:String>
 
     <s:String x:Key="VersionListLoading">正在获取版本列表</s:String>
     <s:String x:Key="VersionListLoaded">版本列表获取成功</s:String>
@@ -159,15 +164,28 @@
     <s:String x:Key="ForgeExtractFailed">Forge解压安装失败！</s:String>
     <s:String x:Key="ForgeInstallSuccessful">成功安装Forge</s:String>
 
-    <!-- Mods -->
+    <!-- 模组管理 -->
     <s:String x:Key="AvailableMods">可用模组</s:String>
-    <s:String x:Key="AddMods">添加新模组</s:String>
     <s:String x:Key="SelectMods">请选择模组</s:String>
-    <s:String x:Key="ReloadMods">重新加载模组</s:String>
-    <s:String x:Key="OpenModsDir">打开模组文件夹</s:String>
     <s:String x:Key="EnableSelected">启用选中</s:String>
     <s:String x:Key="DisableSelected">禁用选中</s:String>
 
+    <!-- 资源包管理 -->
+    <s:String x:Key="EnabledPacks">启用的资源包</s:String>
+    <s:String x:Key="SelectResourcepacks">请选择资源包</s:String>
+    <s:String x:Key="DisabledPacks">禁用的资源包</s:String>
+    <s:String x:Key="OpenPack">打开资源包</s:String>
+
+    <!-- 关于 -->
+    <s:String x:Key="Dependencies">依赖</s:String>
+    <s:String x:Key="ThanksTo">鸣谢</s:String>
+
+    <!-- 公共 -->
+    <s:String x:Key="AddNew">添加</s:String>
+    <s:String x:Key="InstallNew">安装新版本</s:String>
+    <s:String x:Key="Reload">重新加载</s:String>
+    <s:String x:Key="OpenDir">打开目录</s:String>
+    <s:String x:Key="OpenLink">打开链接</s:String>
     <s:String x:Key="Delete">删除</s:String>
     <s:String x:Key="Install">安装</s:String>
     <s:String x:Key="Versions">游戏版本</s:String>

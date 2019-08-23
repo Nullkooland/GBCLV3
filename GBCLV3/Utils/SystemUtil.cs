@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.VisualBasic.Devices;
 using Microsoft.VisualBasic.FileIO;
@@ -12,7 +12,7 @@ namespace GBCLV3.Utils
     {
         public static string GetJavaDir()
         {
-            using (RegistryKey localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+            using (var localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
             using (var javaKey = localMachineKey.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment\"))
             {
                 string currentVersion = javaKey.GetValue("CurrentVersion").ToString();
@@ -23,7 +23,7 @@ namespace GBCLV3.Utils
             }
         }
 
-        public static uint GetAvailableMemory()=> (uint)(new ComputerInfo().AvailablePhysicalMemory >> 20);
+        public static uint GetAvailableMemory() => (uint)(new ComputerInfo().AvailablePhysicalMemory >> 20);
 
         public static uint GetRecommendedMemory() => (uint)Math.Pow(2.0, Math.Floor(Math.Log(GetAvailableMemory(), 2.0)));
 

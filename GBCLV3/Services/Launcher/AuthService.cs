@@ -39,7 +39,7 @@ namespace GBCLV3.Services.Launcher
                 };
             }
 
-            AuthRequest request = new AuthRequest
+            var request = new AuthRequest
             {
                 Username = email,
                 Password = password,
@@ -52,7 +52,7 @@ namespace GBCLV3.Services.Launcher
 
         public static async Task<AuthResult> RefreshAsync(string accessToken, string uuid)
         {
-            RefreshRequest request = new RefreshRequest
+            var request = new RefreshRequest
             {
                 AccessToken = accessToken,
                 ClientToken = _guid,
@@ -93,7 +93,7 @@ namespace GBCLV3.Services.Launcher
 
         private static async Task<AuthResult> OnlineAuthenticateAsync(string requestJson, bool isRefresh)
         {
-            AuthResult result = new AuthResult();
+            var result = new AuthResult();
 
             try
             {
@@ -158,7 +158,7 @@ namespace GBCLV3.Services.Launcher
 
         public static bool IsValidEmailAddress(string emailAddress)
         {
-            Regex regex = new Regex("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$");
+            var regex = new Regex("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$");
             return (!string.IsNullOrEmpty(emailAddress) && regex.IsMatch(emailAddress));
         }
 

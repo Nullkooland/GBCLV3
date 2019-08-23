@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using System.Windows.Controls;
 using GBCLV3.Models;
 using GBCLV3.Services;
@@ -16,11 +15,11 @@ namespace GBCLV3.ViewModels
         #region Private Members
 
         // IoC
-        private readonly IEventAggregator _eventAggregator;
-
         private readonly Config _config;
         private readonly LanguageService _languageService;
         private readonly VersionService _versionService;
+
+        private readonly IEventAggregator _eventAggregator;
 
         #endregion
 
@@ -28,11 +27,11 @@ namespace GBCLV3.ViewModels
 
         [Inject]
         public GameSettingsViewModel(
-            IEventAggregator eventAggregator,
-
             ConfigService configService,
             LanguageService languageService,
-            VersionService versionService)
+            VersionService versionService,
+
+            IEventAggregator eventAggregator)
         {
             _eventAggregator = eventAggregator;
 
@@ -175,7 +174,7 @@ namespace GBCLV3.ViewModels
                 Title = _languageService.GetEntry("SelectJrePath"),
                 Filter = "JRE | javaw.exe; java.exe",
             };
- 
+
             if (dialog.ShowDialog() ?? false)
             {
                 JreDir = Path.GetDirectoryName(dialog.FileName);

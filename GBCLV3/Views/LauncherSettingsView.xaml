@@ -40,7 +40,6 @@
 
         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
             <Setter Property="Margin" Value="8,8,0,0"/>
-            <Setter Property="Height" Value="32"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="16"/>
@@ -60,8 +59,9 @@
     </ContentControl.Resources>
 
     <StackPanel Orientation="Vertical">
-        
-        <GroupBox Header="{DynamicResource FunctionSettings}">
+
+        <GroupBox Margin="8,8,8,0"
+                  Header="{DynamicResource FunctionSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -102,8 +102,9 @@
                           SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}"/>
             </Grid>
         </GroupBox>
-        
-        <GroupBox Header="{DynamicResource ThemeSettings}">
+
+        <GroupBox Margin="8"
+                  Header="{DynamicResource ThemeSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto"/>
@@ -148,7 +149,7 @@
                           ItemsSource="{Binding SystemFontNames, Mode=OneTime}"
                           SelectedItem="{Binding SelectedFontFamily, Mode=TwoWay}"
                           FontFamily="{Binding SelectedValue, RelativeSource={RelativeSource Self}}">
-                    
+
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
                             <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
@@ -173,9 +174,7 @@
                     </ComboBox.ItemTemplate>
 
                 </ComboBox>
-
             </Grid>
-            
         </GroupBox>
         
     </StackPanel>

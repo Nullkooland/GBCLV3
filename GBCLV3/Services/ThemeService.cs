@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -73,7 +72,7 @@ namespace GBCLV3.Services
             {
                 _config.BackgroundImagePath = null;
 
-                var imgSearchDir = Environment.CurrentDirectory + "/bg";
+                string imgSearchDir = Environment.CurrentDirectory + "/bg";
                 if (Directory.Exists(imgSearchDir))
                 {
                     string[] imgExtensions = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff" };
@@ -107,7 +106,7 @@ namespace GBCLV3.Services
             {
                 var nameDict = fontFamily.FamilyNames;
 
-                if (nameDict.TryGetValue(XmlLanguage.GetLanguage(_config.Language), out var fontName))
+                if (nameDict.TryGetValue(XmlLanguage.GetLanguage(_config.Language), out string fontName))
                 {
                     return fontName;
                 }

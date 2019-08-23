@@ -1,6 +1,6 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using GBCLV3.Services.Launcher;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
 {

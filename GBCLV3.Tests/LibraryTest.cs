@@ -1,10 +1,10 @@
-﻿using System.Linq;
-using System.Diagnostics;
-using GBCLV3.Services;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using GBCLV3.Services.Launcher;
-using GBCLV3.Models.Launcher;
+﻿using System.Diagnostics;
+using System.Linq;
 using GBCLV3.Models;
+using GBCLV3.Models.Launcher;
+using GBCLV3.Services;
+using GBCLV3.Services.Launcher;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
 {

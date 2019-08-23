@@ -1,6 +1,5 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Views;
-using Stylet;
+﻿using Stylet;
+using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -17,6 +16,7 @@ namespace GBCLV3.ViewModels.Pages
 
         #region Constructor
 
+        [Inject]
         public VersionsRootViewModel(
             VersionsManagementViewModel versionsManagementVM,
             GameInstallViewModel gameInstallVM,

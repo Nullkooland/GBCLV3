@@ -8,11 +8,11 @@ using System.Windows;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Goose Bomb")]
 [assembly: AssemblyProduct("Goose Bomb's Minecraft Launcher V3")]
-[assembly: AssemblyCopyright("Copyright ©  2019")]
+[assembly: AssemblyCopyright("Copyright © Goose Bomb 2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("3.0.0.0")]
-[assembly: AssemblyFileVersion("3.0.0.0")]
+[assembly: AssemblyVersion("3.0.1.27")]
+[assembly: AssemblyFileVersion("3.0.1.27")]
 
 [assembly: ComVisible(false)]
 

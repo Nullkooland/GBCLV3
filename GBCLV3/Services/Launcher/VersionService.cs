@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -8,12 +7,10 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Utils;
-using Stylet;
 using StyletIoC;
 using Version = GBCLV3.Models.Launcher.Version;
 
@@ -161,7 +158,7 @@ namespace GBCLV3.Services.Launcher
 
                     foreach (var lib in libsToDelete)
                     {
-                        var libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
+                        string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
 
                         if (lib.Type == LibraryType.Forge)
                         {
@@ -228,7 +225,7 @@ namespace GBCLV3.Services.Launcher
 
         public bool CheckIntegrity(Version version)
         {
-            var jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
+            string jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
             return File.Exists(jarPath) && (CryptUtil.GetFileSHA1(jarPath) == version.SHA1);
         }
 
@@ -304,7 +301,7 @@ namespace GBCLV3.Services.Launcher
             {
                 // Invalid forge version
                 if (version.InheritsFrom == null) return null;
-                var idNums = version.InheritsFrom.Split('.');
+                string[] idNums = version.InheritsFrom.Split('.');
                 version.Type = (int.Parse(idNums[1]) >= 13) ? VersionType.NewForge : VersionType.Forge;
             }
 

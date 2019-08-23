@@ -53,10 +53,12 @@
             <GroupBox Margin="8">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
-                        <ContentControl Margin="0,0,8,0" VerticalContentAlignment="Center"
+                        <ContentControl Margin="0,0,8,0"
+                                        VerticalContentAlignment="Center"
+                                        Width="16" Height="16"
                                         SnapsToDevicePixels="False"
                                         ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingCircle}}"
-                                        Visibility="{Binding IsLoading, Mode=OneWay, 
+                                        Visibility="{Binding IsLoading, Mode=OneWay,
                                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
                         <TextBlock Text="{Binding Status, Mode=OneWay}"/>

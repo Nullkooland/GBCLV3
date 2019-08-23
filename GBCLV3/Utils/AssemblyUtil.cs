@@ -14,5 +14,9 @@ namespace GBCLV3.Utils
         public static string Version =>
             (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyFileVersionAttribute), false)
             as AssemblyFileVersionAttribute).Version;
+
+        public static string Copyright =>
+            (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyCopyrightAttribute), false)
+            as AssemblyCopyrightAttribute).Copyright;
     }
 }

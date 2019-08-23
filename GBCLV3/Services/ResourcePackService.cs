@@ -6,10 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Services.Launcher;
+using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services
 {
@@ -24,6 +27,7 @@ namespace GBCLV3.Services
 
         #region Constructor
 
+        [Inject]
         public ResourcePackService(GamePathService gamePathService)
         {
             _gamePathService = gamePathService;
@@ -54,7 +58,10 @@ namespace GBCLV3.Services
                         if (line.StartsWith("resourcePacks"))
                         {
                             // Extract “resourcePacks:[${enabledPackIDs}]”
-                            enabledPackIDs = line.Substring(15, line.Length - 16).Split(',');
+                            enabledPackIDs = line.Substring(15, line.Length - 16)
+                                                 .Split(',')
+                                                 .Select(id => id.Trim('\"'))
+                                                 .ToArray();
                             break;
                         }
                     }
@@ -68,7 +75,7 @@ namespace GBCLV3.Services
                                  .Where(pack => pack != null)
                                  .ToLookup(pack => pack.IsEnabled);
 
-                    // Enabled resourcepacks (followed the order in options)
+            // Enabled resourcepacks (followed the order in options)
             return (packs[true].OrderBy(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
                     // Disabled resourcepacks
                     packs[false]);
@@ -101,9 +108,46 @@ namespace GBCLV3.Services
             return true;
         }
 
+        public async Task DeleteFromDiskAsync(ResourcePack pack)
+        {
+            if (pack.IsExtracted) await SystemUtil.SendDirToRecycleBin(pack.Path);
+            else await SystemUtil.SendFileToRecycleBin(pack.Path);
+        }
+
+        public async Task<IEnumerable<ResourcePack>> MoveLoadAll(IEnumerable<string> paths)
+        {
+            return await Task.Run(() =>
+                paths.Select(path =>
+                {
+                    var dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
+                    if (File.Exists(dstPath)) return null;
+
+                    File.Move(path, dstPath);
+                    return LoadZip(dstPath, null);
+                })
+                .Where(pack => pack != null)
+                .ToList()
+            );
+        }
+
         #endregion
 
         #region Private Methods
+
+        public bool IsValid(string path)
+        {
+            try
+            {
+                using (var archive = ZipFile.OpenRead(path))
+                {
+                    return (archive.GetEntry("pack.mcmeta") != null);
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
 
         private static ResourcePack LoadZip(string path, string[] enabledPackIDs)
         {
@@ -117,7 +161,8 @@ namespace GBCLV3.Services
 
                 var pack = ReadInfo(infoEntry.Open());
                 pack.Path = path;
-                pack.IsEnabled = enabledPackIDs?.Contains($"\"{pack.Name}\"") ?? false;
+                pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
+                pack.IsExtracted = false;
 
                 // Load cover image (if exists)
                 ZipArchiveEntry imgEntry;
@@ -147,7 +192,8 @@ namespace GBCLV3.Services
 
             var pack = ReadInfo(File.OpenRead(infoPath));
             pack.Path = packDir;
-            pack.IsEnabled = enabledPackIDs?.Contains($"\"{pack.Name}\"") ?? false;
+            pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
+            pack.IsExtracted = true;
 
             // Load cover image (if exists)
             if (File.Exists(imgPath))
@@ -178,7 +224,7 @@ namespace GBCLV3.Services
 
         private static BitmapImage ReadImage(Stream imgStream)
         {
-            BitmapImage img = new BitmapImage();
+            var img = new BitmapImage();
             img.BeginInit();
             img.StreamSource = imgStream;
             img.DecodePixelWidth = 128;

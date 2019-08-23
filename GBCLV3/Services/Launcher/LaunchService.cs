@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Linq;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GBCLV3.Models.Launcher;
@@ -47,7 +47,7 @@ namespace GBCLV3.Services.Launcher
         {
             bool isDebugMode = _gamePathService.JreExecutablePath.EndsWith("java.exe");
 
-            ProcessStartInfo startInfo = new ProcessStartInfo
+            var startInfo = new ProcessStartInfo
             {
                 FileName = _gamePathService.JreExecutablePath,
                 WorkingDirectory = _gamePathService.WorkingDir,
@@ -86,7 +86,7 @@ namespace GBCLV3.Services.Launcher
 
         private string BuildArguments(LaunchProfile profile, Version version)
         {
-            StringBuilder builder = new StringBuilder(8192);
+            var builder = new StringBuilder(8192);
 
             // User defined JVM arguments
             if (!string.IsNullOrWhiteSpace(profile.JvmArgs))
@@ -141,7 +141,7 @@ namespace GBCLV3.Services.Launcher
             // Minecraft Arguments
             var argsDict = version.MinecarftArgsDict;
 
-            argsDict["--username"] = '\"' +  profile.Username + '\"';
+            argsDict["--username"] = '\"' + profile.Username + '\"';
             argsDict["--version"] = '\"' + version.ID + '\"';
             argsDict["--gameDir"] = '\"' + _gamePathService.WorkingDir + '\"';
 
@@ -155,14 +155,14 @@ namespace GBCLV3.Services.Launcher
                 argsDict["--assetIndex"] = version.AssetsInfo.ID;
             }
 
-            if (argsDict.ContainsKey("--uuid"))  argsDict["--uuid"] = profile.UUID;
+            if (argsDict.ContainsKey("--uuid")) argsDict["--uuid"] = profile.UUID;
             if (argsDict.ContainsKey("--accessToken")) argsDict["--accessToken"] = profile.AccessToken;
             if (argsDict.ContainsKey("--session")) argsDict["--session"] = profile.AccessToken;
             if (argsDict.ContainsKey("--userType")) argsDict["--userType"] = profile.UserType;
             if (argsDict.ContainsKey("--versionType")) argsDict["--versionType"] = profile.VersionType;
             if (argsDict.ContainsKey("--userProperties")) argsDict["--userProperties"] = "{}";
 
-            var args = string.Join(" ", argsDict.Select(pair => pair.Key + ' ' + pair.Value));
+            string args = string.Join(" ", argsDict.Select(pair => pair.Key + ' ' + pair.Value));
             builder.Append(args).Append(' ');
 
             // Server Login

@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -6,7 +6,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
@@ -38,7 +37,7 @@ namespace GBCLV3.Services
 
         #region Public Methods
 
-        public async Task<IEnumerable<Mod>> GetAll()
+        public IEnumerable<Mod> GetAll()
         {
             if (!Directory.Exists(_gamePathService.ModsDir))
             {
@@ -46,18 +45,15 @@ namespace GBCLV3.Services
                 return null;
             }
 
-            return await Task.Run(() =>
-            Directory.EnumerateFiles(_gamePathService.ModsDir)
-                     .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
-                     .Select(path => Load(path))
-                     .OrderByDescending(mod => mod.IsEnabled)
-                     .ToList()
-            );
+            return Directory.EnumerateFiles(_gamePathService.ModsDir)
+                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
+                            .Select(path => Load(path))
+                            .OrderByDescending(mod => mod.IsEnabled);
         }
 
         public void ChangeExtension(Mod mod)
         {
-            var newName = Path.GetFileNameWithoutExtension(mod.Path) + (mod.IsEnabled ? ".jar" : ".jar.disabled");
+            string newName = Path.GetFileNameWithoutExtension(mod.Path) + (mod.IsEnabled ? ".jar" : ".jar.disabled");
             FileSystem.RenameFile(mod.Path + (mod.IsEnabled ? ".disabled" : null), newName);
         }
 
@@ -69,19 +65,20 @@ namespace GBCLV3.Services
             }
         }
 
-        public bool IsValid(string path)
+        public async Task<IEnumerable<Mod>> MoveLoadAll(IEnumerable<string> paths)
         {
-            try
-            {
-                using (var archive = ZipFile.OpenRead(path))
+            return await Task.Run(() =>
+                paths.Select(path =>
                 {
-                    return (archive.GetEntry("META-INF/") != null);
-                }
-            }
-            catch
-            {
-                return false;
-            }
+                    var dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
+                    if (File.Exists(dstPath)) return null;
+
+                    File.Move(path, dstPath);
+                    return Load(dstPath);
+                })
+                .Where(mod => mod != null)
+                .ToList()
+            );
         }
 
         #endregion
