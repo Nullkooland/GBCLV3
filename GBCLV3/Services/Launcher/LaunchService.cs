@@ -125,7 +125,7 @@ namespace GBCLV3.Services.Launcher
             builder.Append($"-Dminecraft.launcher.version={AssemblyUtil.Version} ");
 
             // Libraries
-            builder.Append("-cp ");
+            builder.Append("-cp \"");
             foreach (var lib in version.Libraries)
             {
                 if (lib.Type == LibraryType.Native) continue;
@@ -133,7 +133,7 @@ namespace GBCLV3.Services.Launcher
             }
 
             // Main Jar
-            builder.Append($"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar ");
+            builder.Append($"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar\" ");
 
             // Main Class
             builder.Append(version.MainClass).Append(' ');

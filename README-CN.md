@@ -1,7 +1,30 @@
-# <img src="./GBCLV3/enderman.ico" width="32" height="32"/> GBCLV3
-![Platform: Win64](https://img.shields.io/badge/platform-win--64-lightgrey) ![.NET Framework: 4.7.2](https://img.shields.io/badge/.NET%20Framework-%3E%3D4.7.2-blue) [![License: MIT](https://img.shields.io/badge/License-MIT-green)](./LICENSE) 
-
-鹅弹的Minecraft客户端启动器 V3
+<p align="center">
+  <a>
+    <img src="./GBCLV3/enderman.ico" alt="Icon" width=64 height=64>
+  </a>
+  <h2 align="center">GBCLV3</h2>
+  <p align="center">
+    <a href="https://github.com/Goose-Bomb/GBCLV3/blob/master/LICENSE">
+      <img src="https://img.shields.io/github/license/Goose-Bomb/GBCLV3.svg" alt="License" />
+    </a>
+    <a>
+      <img src="https://img.shields.io/badge/platform-win--64-lightgrey.svg" alt="Platform">
+    </a>
+        <a>
+      <img src="https://img.shields.io/badge/.NET%20Framework-%3E%3D4.7.2-blueviolet.svg" alt=".NET Version">
+    </a>
+    <a href="https://github.com/Goose-Bomb/GBCLV3/archive/master.zip">
+      <img src="https://img.shields.io/github/languages/code-size/Goose-Bomb/GBCLV3.svg" alt="Code Size" />
+    </a>
+    <a href="https://github.com/Goose-Bomb/GBCLV3/releases">
+      <img src="https://img.shields.io/github/release/Goose-Bomb/GBCLV3/all.svg" alt="Last Release">
+          <a href="https://github.com/Goose-Bomb/GBCLV3/releases">
+      <img src="https://img.shields.io/github/downloads/Goose-Bomb/GBCLV3/total.svg" alt="All Downloads" />
+    </a>
+    </a>
+  </p>
+  <p align="center">鹅弹的Minecraft客户端启动器 V3</p>
+</p>
 
 ## 特点
 
@@ -42,6 +65,8 @@
   - [x] 模组管理
   - [x] 资源包管理
   - [ ] 存档管理
+
+- [ ] 自动升级
 
 ## 运行截图
 <img src="./Screenshots/cover_0.png" width="720"/>
