@@ -182,10 +182,17 @@
     <!-- Update -->
     <s:String x:Key="Update">Update</s:String>
     <s:String x:Key="CheckUpdate">Check Update</s:String>
+    <s:String x:Key="CheckingUpdate">Checking update</s:String>
     <s:String x:Key="AlreadyUpToDate">Already up to date</s:String>
     <s:String x:Key="UpdateAvailable">Update available</s:String>
     <s:String x:Key="UpdateCheckFailed">Update check failed</s:String>
     <s:String x:Key="AutoCheckUpdate">Check on start</s:String>
+    <s:String x:Key="UpdateChangelog">Update Changelog</s:String>
+    <s:String x:Key="UpdateNow">Update Now</s:String>
+    <s:String x:Key="DeferUpdate">Defer Update</s:String>
+    <s:String x:Key="CancelUpdate">Cancel Update</s:String>
+    <s:String x:Key="WhetherCancelUpdate">Are you sure to cancel update?</s:String>
+    <s:String x:Key="UpdateFailed">Update failed</s:String>
     <s:String x:Key="SuccessfullyUpdatedTo">Successfully updated to</s:String>
     <s:String x:Key="UpdateSuccessful">Update Successful</s:String>
 

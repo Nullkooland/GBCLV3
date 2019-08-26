@@ -111,7 +111,7 @@ namespace GBCLV3.Services
                     return fontName;
                 }
 
-                if (nameDict.TryGetValue(XmlLanguage.GetLanguage("EN-US"), out fontName))
+                if (nameDict.TryGetValue(XmlLanguage.GetLanguage("en-us"), out fontName))
                 {
                     return fontName;
                 }

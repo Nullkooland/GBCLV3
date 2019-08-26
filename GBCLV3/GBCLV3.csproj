@@ -202,6 +202,7 @@
     <Compile Include="Bootstrapper.cs" />
     <Compile Include="Utils\SystemUtil.cs" />
     <Compile Include="Utils\CryptUtil.cs" />
+    <Compile Include="ViewModels\Windows\UpdateViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -232,11 +233,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Resources\Languages\EN-US.xaml">
+    <Page Include="Resources\Languages\en-us.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Resources\Languages\ZH-CN.xaml">
+    <Page Include="Resources\Languages\zh-cn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -345,6 +346,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Windows\MainView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Windows\UpdateView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

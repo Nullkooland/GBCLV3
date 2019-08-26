@@ -1,5 +1,5 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Linq;
 using GBCLV3.Services;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -12,7 +12,10 @@ namespace GBCLV3.Tests
 
         public UpdateTest()
         {
-            _updateService = new UpdateService();
+            var configService = new ConfigService();
+            configService.Load();
+
+            _updateService = new UpdateService(configService);
         }
 
         [TestMethod]
@@ -26,12 +29,30 @@ namespace GBCLV3.Tests
             }
             else
             {
-                Debug.WriteLine("New Version Found");
+                Debug.WriteLine("New Version Found\n");
 
+                Debug.WriteLine("[Info]");
                 Debug.WriteLine($"Name:         {info.Name}");
                 Debug.WriteLine($"Version:      {info.Version}");
                 Debug.WriteLine($"PreRelease:   {info.PreRelease}");
                 Debug.WriteLine($"ReleaseTime:  {info.Description}");
+
+                var changelog = _updateService.GetChangelog(info).Result;
+
+                Debug.WriteLine("[Changelog]");
+                Debug.WriteLine($"Title:        {changelog.Title}");
+                foreach (string detial in changelog.Details)
+                {
+                    Debug.WriteLine($"- {detial}");
+                }
+
+                var download = _updateService.GetDownload(info).FirstOrDefault();
+
+                Debug.WriteLine("[Download]");
+                Debug.WriteLine($"Name: {download.Name}");
+                Debug.WriteLine($"Size: {download.Size}");
+                Debug.WriteLine($"Url:  {download.Url}");
+                Debug.WriteLine($"Path: {download.Path}");
             }
         }
     }

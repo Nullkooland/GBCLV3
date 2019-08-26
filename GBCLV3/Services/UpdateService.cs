@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models;
 using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services
 {
@@ -21,12 +21,18 @@ namespace GBCLV3.Services
 
         private readonly HttpClient _client;
 
+        // IoC
+        private readonly Config _config;
+
         #endregion
 
         #region Constructor
 
-        public UpdateService()
+        [Inject]
+        public UpdateService(ConfigService configService)
         {
+            _config = configService.Entries;
+
             _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(30) };
             _client.DefaultRequestHeaders.Add("User-Agent", "request");
         }
@@ -54,14 +60,34 @@ namespace GBCLV3.Services
             return null;
         }
 
+        public async Task<UpdateChangelog> GetChangelog(UpdateInfo info)
+        {
+            var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
+
+            try
+            {
+                string json = await _client.GetStringAsync(changelogAsset.Url);
+                var dictByLang = JsonSerializer.Deserialize<Dictionary<string, UpdateChangelog>>(json);
+
+                return dictByLang[_config.Language];
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+        }
+
         public IEnumerable<DownloadItem> GetDownload(UpdateInfo info)
         {
+            var executableAsset = info.Assets.Find(asset => asset.Name == "GBCL.exe");
+
             var item = new DownloadItem
             {
-                Name = info.Name,
+                Name = executableAsset.Name,
                 Path = "GBCL.update",
-                Url = info.Assets[0].Url,
-                Size = info.Assets[0].Size,
+                Url = executableAsset.Url,
+                Size = executableAsset.Size,
                 IsCompleted = false,
                 DownloadedBytes = 0,
             };
@@ -74,6 +100,8 @@ namespace GBCLV3.Services
             string currentPath = Application.ResourceAssembly.Location;
             string tempPath = Path.ChangeExtension(currentPath, "old");
 
+            // 🌶️💉💧🐮🍺
+            // This is magic...
             File.Delete(tempPath);
             File.Move(currentPath, tempPath);
             File.Move("GBCL.update", currentPath);

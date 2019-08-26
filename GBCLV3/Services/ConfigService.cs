@@ -61,9 +61,10 @@ namespace GBCLV3.Services
                 Entries.JavaMaxMem = 2048;
             }
 
+            Entries.Language = Entries.Language?.ToLower();
             if (string.IsNullOrWhiteSpace(Entries.Language))
             {
-                Entries.Language = "ZH-CN";
+                Entries.Language = "zh-cn";
             }
         }
 

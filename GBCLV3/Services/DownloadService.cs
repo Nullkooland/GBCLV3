@@ -167,7 +167,10 @@ namespace GBCLV3.Services
         private void DownloadTask(DownloadItem item)
         {
             // Make sure directory exists
-            Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
+            if (Path.IsPathRooted(item.Path))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
+            }
 
             try
             {

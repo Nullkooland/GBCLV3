@@ -1,0 +1,71 @@
+﻿<Window x:Class="GBCLV3.Views.Windows.UpdateView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:s="https://github.com/canton7/Stylet"
+        xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+        Width="640" Height="360"
+        ResizeMode="NoResize"
+        UseLayoutRounding="True"
+        Topmost="True"
+        Background="#80333333"
+        FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
+        FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
+        Style="{StaticResource UniversalWindowStyle}"
+        Title="{DynamicResource UpdateAvailable}">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="36"/>
+        </Grid.RowDefinitions>
+        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <GroupBox Grid.Row="0" Grid.ColumnSpan="3" Margin="8"
+                  Header="{DynamicResource UpdateChangelog}">
+            <StackPanel Orientation="Vertical">
+                <TextBlock Margin="8,4"
+                           Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"
+                           FontSize="24"
+                           Text="{Binding Version, Mode=OneWay}"/>
+                
+                <TextBlock Margin="8,4"
+                           FontSize="16" FontWeight="Bold"
+                           TextWrapping="Wrap"
+                           Text="{Binding ChangelogTitle, Mode=OneWay}"/>
+
+                <TextBlock Margin="16,0"
+                           FontSize="14"
+                           TextWrapping="Wrap"
+                           Text="{Binding ChangelogDetails, Mode=OneWay}"/>
+            </StackPanel>
+        </GroupBox>
+
+        <Button Grid.Row="1" Grid.Column="1" Margin="0,0,8,8"
+                FontSize="14"
+                Content="{DynamicResource UpdateNow}"
+                Click="{s:Action Update}"
+                Visibility="{Binding IsDownloading, Mode=OneWay,
+                                  Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+
+        <Button Grid.Row="1" Grid.Column="2" Margin="0,0,8,8"
+                FontSize="14"
+                Content="{DynamicResource DeferUpdate}"
+                Click="{s:Action Defer}"
+                Visibility="{Binding IsDownloading, Mode=OneWay,
+                                  Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+
+        <ProgressBar Grid.Row="1" Grid.ColumnSpan="3" Margin="8,0,8,8"
+                     FontSize="14"
+                     adonisExtensions:ProgressBarExtension.Content="{Binding Percentage, Mode=OneWay}"
+                     Value="{Binding DownloadProgress, Mode=OneWay}" Maximum="1.0"
+                     Visibility="{Binding IsDownloading, Mode=OneWay,
+                                  Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
+        
+    </Grid>
+</Window>

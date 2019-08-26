@@ -1,6 +1,7 @@
 ﻿using GBCLV3.Models;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
+using GBCLV3.ViewModels.Windows;
 using Stylet;
 using StyletIoC;
 
@@ -16,6 +17,9 @@ namespace GBCLV3.ViewModels
         private readonly UpdateService _updateService;
         private readonly ThemeService _themeService;
 
+        private readonly UpdateViewModel _updateVM;
+        private readonly IWindowManager _windowManager;
+
         #endregion
 
         #region Constructor
@@ -25,12 +29,18 @@ namespace GBCLV3.ViewModels
             ConfigService configService,
             LanguageService languageService,
             UpdateService updateService,
-            ThemeService themeService)
+            ThemeService themeService,
+            
+            UpdateViewModel updateVM,
+            IWindowManager windowManager)
         {
             _config = configService.Entries;
             _languageService = languageService;
             _updateService = updateService;
             _themeService = themeService;
+
+            _updateVM = updateVM;
+            _windowManager = windowManager;
         }
 
         #endregion
@@ -39,8 +49,8 @@ namespace GBCLV3.ViewModels
 
         public LabelledValue<string>[] Languages { get; } =
         {
-            new LabelledValue<string>("简体中文", "ZH-CN"),
-            new LabelledValue<string>("English", "EN-US"),
+            new LabelledValue<string>("简体中文", "zh-cn"),
+            new LabelledValue<string>("English", "en-us"),
         };
 
         public string SelectedLanguage
@@ -71,7 +81,9 @@ namespace GBCLV3.ViewModels
             set => _config.AutoCheckUpdate = value;
         }
 
-        public UpdateStatus UpdateStatus { get; private set; }
+        public CheckUpdateStatus UpdateStatus { get; private set; }
+
+        public bool IsFreeToCheckUpdate => UpdateStatus != CheckUpdateStatus.Checking;
 
         public bool IsUseBackgroundImage
         {
@@ -113,24 +125,26 @@ namespace GBCLV3.ViewModels
 
         public async void CheckUpdate()
         {
-            if (UpdateStatus == UpdateStatus.UpToDate) return;
+            if (UpdateStatus == CheckUpdateStatus.UpToDate) return;
 
-            UpdateStatus = UpdateStatus.Unknown;
+            UpdateStatus = CheckUpdateStatus.Checking;
             var info = await _updateService.Check();
 
             if (info != null)
             {
                 if (info.IsCheckFailed)
                 {
-                    UpdateStatus = UpdateStatus.CheckFailed;
+                    UpdateStatus = CheckUpdateStatus.CheckFailed;
                     return;
                 }
-
-                UpdateStatus = UpdateStatus.UpdateAvailable;
+ 
+                _updateVM.Setup(info);
+                _windowManager.ShowWindow(_updateVM);
+                UpdateStatus = CheckUpdateStatus.Unknown;
             }
             else
             {
-                UpdateStatus = UpdateStatus.UpToDate;
+                UpdateStatus = CheckUpdateStatus.UpToDate;
             }
         }
 
@@ -154,7 +168,7 @@ namespace GBCLV3.ViewModels
 
         protected override void OnViewLoaded()
         {
-            if (UpdateStatus != UpdateStatus.UpToDate) UpdateStatus = UpdateStatus.Unknown;
+            if (UpdateStatus != CheckUpdateStatus.UpToDate) UpdateStatus = CheckUpdateStatus.Unknown;
         }
 
         #endregion

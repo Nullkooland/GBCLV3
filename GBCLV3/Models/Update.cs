@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using System.Windows.Documents;
 using GBCLV3.Utils;
 
 namespace GBCLV3.Models
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum UpdateStatus
+    enum CheckUpdateStatus
     {
         Unknown,
+
+        [LocalizedDescription("CheckingUpdate")]
+        Checking,
 
         [LocalizedDescription("AlreadyUpToDate")]
         UpToDate,
@@ -30,6 +29,9 @@ namespace GBCLV3.Models
 
     class UpdateAsset
     {
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
+
         [JsonPropertyName("browser_download_url")]
         public string Url { get; set; }
 
@@ -58,5 +60,14 @@ namespace GBCLV3.Models
         public List<UpdateAsset> Assets { get; set; }
 
         public bool IsCheckFailed { get; set; }
+    }
+
+    class UpdateChangelog
+    {
+        [JsonPropertyName("title")]
+        public string Title { get; set; }
+
+        [JsonPropertyName("details")]
+        public string[] Details { get; set; }
     }
 }

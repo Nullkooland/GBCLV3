@@ -108,7 +108,8 @@
                 <Button Grid.Row="3" Grid.Column="1"
                         Padding="24,0"
                         Content="{DynamicResource CheckUpdate}"
-                        Click="{s:Action CheckUpdate}"/>
+                        Click="{s:Action CheckUpdate}"
+                        IsEnabled="{Binding IsFreeToCheckUpdate, Mode=OneWay}"/>
 
                 <TextBlock Grid.Row="3" Grid.Column="2" Margin="16,8,8,0"
                            Style="{StaticResource DescriptionText}"

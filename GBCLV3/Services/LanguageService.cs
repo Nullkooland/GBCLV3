@@ -17,9 +17,9 @@ namespace GBCLV3.Services
 
         private readonly Dictionary<string, string> _langSelections = new Dictionary<string, string>
         {
-            { "ZH-CN", "/GBCL;component/Resources/Languages/ZH-CN.xaml" },
-            //{ "ZH-TW", "/GBCL;component/Resources/Languages/ZH-TW.xaml" },
-            { "EN-US", "/GBCL;component/Resources/Languages/EN-US.xaml" },
+            { "zh-cn", "/GBCL;component/Resources/Languages/zh-cn.xaml" },
+            //{ "zh-tw", "/GBCL;component/Resources/Languages/zh-tw.xaml" },
+            { "en-us", "/GBCL;component/Resources/Languages/en-us.xaml" },
         };
 
         private string _currentTag;
@@ -31,7 +31,7 @@ namespace GBCLV3.Services
 
         public LanguageService()
         {
-            _currentTag = "ZH-CN"; // Default language: ZH-CN
+            _currentTag = "zh-cn"; // Default language: zh-cn
         }
 
         #endregion
