@@ -114,7 +114,7 @@
                 <TextBlock Grid.Row="3" Grid.Column="2" Margin="16,8,8,0"
                            Style="{StaticResource DescriptionText}"
                            Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
-                           Text="{Binding UpdateStatus, Mode=OneWay}"/>
+                           Text="{Binding CheckStatus, Mode=OneWay}"/>
 
                 <CheckBox Grid.Row="3" Grid.Column="3"
                           HorizontalAlignment="Right"

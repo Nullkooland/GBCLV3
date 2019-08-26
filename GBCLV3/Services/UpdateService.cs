@@ -15,11 +15,19 @@ namespace GBCLV3.Services
 {
     class UpdateService
     {
+        #region Events
+
+        public event Action<CheckUpdateStatus> CheckStatusChanged;
+
+        #endregion
+
         #region Private Members
 
         private const string CHECK_UPDATE_URL = "https://api.github.com/repos/Goose-Bomb/GBCLV3/releases/latest";
 
         private readonly HttpClient _client;
+
+        private UpdateInfo _cachedInfo;
 
         // IoC
         private readonly Config _config;
@@ -43,20 +51,30 @@ namespace GBCLV3.Services
 
         public async Task<UpdateInfo> Check()
         {
+            if (_cachedInfo != null) return _cachedInfo;
+
             try
             {
+                CheckStatusChanged?.Invoke(CheckUpdateStatus.Checking);
+
                 string json = await _client.GetStringAsync(CHECK_UPDATE_URL);
                 var info = JsonSerializer.Deserialize<UpdateInfo>(json);
-                info.IsCheckFailed = false;
 
-                if (HasNewVersion(info.Version)) return info;
+                if (HasNewVersion(info.Version))
+                {
+                    CheckStatusChanged?.Invoke(CheckUpdateStatus.UpdateAvailable);
+                    _cachedInfo = info;
+                    return info;
+                }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
-                return new UpdateInfo { IsCheckFailed = true };
+                CheckStatusChanged?.Invoke(CheckUpdateStatus.CheckFailed);
+                return null;
             }
 
+            CheckStatusChanged?.Invoke(CheckUpdateStatus.UpToDate);
             return null;
         }
 

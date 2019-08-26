@@ -58,8 +58,6 @@ namespace GBCLV3.Models
 
         [JsonPropertyName("assets")]
         public List<UpdateAsset> Assets { get; set; }
-
-        public bool IsCheckFailed { get; set; }
     }
 
     class UpdateChangelog

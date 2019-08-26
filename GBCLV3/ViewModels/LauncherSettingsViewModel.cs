@@ -36,8 +36,10 @@ namespace GBCLV3.ViewModels
         {
             _config = configService.Entries;
             _languageService = languageService;
-            _updateService = updateService;
             _themeService = themeService;
+            _updateService = updateService;
+
+            _updateService.CheckStatusChanged += status => CheckStatus = status;
 
             _updateVM = updateVM;
             _windowManager = windowManager;
@@ -81,9 +83,9 @@ namespace GBCLV3.ViewModels
             set => _config.AutoCheckUpdate = value;
         }
 
-        public CheckUpdateStatus UpdateStatus { get; private set; }
+        public CheckUpdateStatus CheckStatus { get; private set; }
 
-        public bool IsFreeToCheckUpdate => UpdateStatus != CheckUpdateStatus.Checking;
+        public bool IsFreeToCheckUpdate => CheckStatus != CheckUpdateStatus.Checking;
 
         public bool IsUseBackgroundImage
         {
@@ -125,26 +127,14 @@ namespace GBCLV3.ViewModels
 
         public async void CheckUpdate()
         {
-            if (UpdateStatus == CheckUpdateStatus.UpToDate) return;
+            if (CheckStatus == CheckUpdateStatus.UpToDate) return;
 
-            UpdateStatus = CheckUpdateStatus.Checking;
             var info = await _updateService.Check();
 
             if (info != null)
             {
-                if (info.IsCheckFailed)
-                {
-                    UpdateStatus = CheckUpdateStatus.CheckFailed;
-                    return;
-                }
- 
                 _updateVM.Setup(info);
                 _windowManager.ShowWindow(_updateVM);
-                UpdateStatus = CheckUpdateStatus.Unknown;
-            }
-            else
-            {
-                UpdateStatus = CheckUpdateStatus.UpToDate;
             }
         }
 
@@ -168,7 +158,7 @@ namespace GBCLV3.ViewModels
 
         protected override void OnViewLoaded()
         {
-            if (UpdateStatus != CheckUpdateStatus.UpToDate) UpdateStatus = CheckUpdateStatus.Unknown;
+            if (CheckStatus == CheckUpdateStatus.CheckFailed) CheckStatus = CheckUpdateStatus.Unknown;
         }
 
         #endregion
