@@ -180,6 +180,16 @@
     <s:String x:Key="Dependencies">依赖</s:String>
     <s:String x:Key="ThanksTo">鸣谢</s:String>
 
+    <!-- 升级 -->
+    <s:String x:Key="Update">更新</s:String>
+    <s:String x:Key="CheckUpdate">检查更新</s:String>
+    <s:String x:Key="AlreadyUpToDate">已经是最新版</s:String>
+    <s:String x:Key="UpdateAvailable">有可用更新</s:String>
+    <s:String x:Key="UpdateCheckFailed">检查更新失败</s:String>
+    <s:String x:Key="AutoCheckUpdate">自动检查更新</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">成功升级至版本</s:String>
+    <s:String x:Key="UpdateSuccessful">升级成功</s:String>
+
     <!-- 公共 -->
     <s:String x:Key="AddNew">添加</s:String>
     <s:String x:Key="InstallNew">安装新版本</s:String>

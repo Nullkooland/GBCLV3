@@ -11,7 +11,7 @@
                 Style="{StaticResource TabPageStyle}">
     
     <ContentControl.Resources>
-        <Style x:Key="DescriptionText"  TargetType="TextBlock"
+        <Style x:Key="DescriptionText" TargetType="TextBlock"
                BasedOn="{StaticResource {x:Type TextBlock}}">
             <Setter Property="Margin" Value="16,8,16,0"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
@@ -31,15 +31,12 @@
 
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="0,8,0,0"/>
-            <Setter Property="Width" Value="32"/>
             <Setter Property="Height" Value="32"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
-            <Setter Property="FontFamily" Value="Segoe MDL2 Assets"/>
             <Setter Property="FontSize" Value="16"/>
         </Style>
 
         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-            <Setter Property="Margin" Value="8,8,0,0"/>
+            <Setter Property="Margin" Value="8,8,8,0"/>
             <Setter Property="HorizontalAlignment" Value="Left"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="16"/>
@@ -67,11 +64,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="8"/>
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="172"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
 
@@ -79,7 +79,7 @@
                            Style="{StaticResource DescriptionText}"
                            Text="{DynamicResource Language}"/>
 
-                <ComboBox Grid.Row="0" Grid.Column="1"
+                <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{Binding Languages, Mode=OneTime}"
                           DisplayMemberPath="Label"
                           SelectedValuePath="Value"
@@ -89,7 +89,7 @@
                            Style="{StaticResource DescriptionText}"
                            Text="{DynamicResource DownloadSource}"/>
 
-                <ComboBox Grid.Row="1" Grid.Column="1"
+                <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{util:EnumBindingSource {x:Type models:DownloadSource}}"
                           SelectedItem="{Binding SelectedDownloadSource, Mode=TwoWay}"/>
 
@@ -97,9 +97,28 @@
                            Style="{StaticResource DescriptionText}"
                            Text="{DynamicResource AfterLaunch}"/>
 
-                <ComboBox Grid.Row="2" Grid.Column="1"
+                <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{util:EnumBindingSource {x:Type launcher:AfterLaunchBehavior}}"
                           SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="0"
+                           Style="{StaticResource DescriptionText}"
+                           Text="{DynamicResource Update}"/>
+
+                <Button Grid.Row="3" Grid.Column="1"
+                        Padding="24,0"
+                        Content="{DynamicResource CheckUpdate}"
+                        Click="{s:Action CheckUpdate}"/>
+
+                <TextBlock Grid.Row="3" Grid.Column="2" Margin="16,8,8,0"
+                           Style="{StaticResource DescriptionText}"
+                           Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
+                           Text="{Binding UpdateStatus, Mode=OneWay}"/>
+
+                <CheckBox Grid.Row="3" Grid.Column="3"
+                          HorizontalAlignment="Right"
+                          Content="{DynamicResource AutoCheckUpdate}"
+                          IsChecked="{Binding IsAutoCheckUpdate}"/>
             </Grid>
         </GroupBox>
 
@@ -132,6 +151,8 @@
                          Text="{Binding BackgroundImagePath, Mode=TwoWay}"/>
 
                 <Button Grid.Row="1" Grid.Column="4" 
+                        Width="32" Height="32"
+                        FontFamily="Segoe MDL2 Assets"
                         Content="&#xED25;"
                         ToolTipService.Placement="Bottom"
                         ToolTip="{DynamicResource SelectImagePath}"

@@ -51,6 +51,7 @@
     <Compile Include="ModTest.cs" />
     <Compile Include="ResourcePackTest.cs" />
     <Compile Include="InstallTest.cs" />
+    <Compile Include="UpdateTest.cs" />
     <Compile Include="VersionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

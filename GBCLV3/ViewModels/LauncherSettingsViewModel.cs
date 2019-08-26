@@ -13,6 +13,7 @@ namespace GBCLV3.ViewModels
         // IoC
         private readonly Config _config;
         private readonly LanguageService _languageService;
+        private readonly UpdateService _updateService;
         private readonly ThemeService _themeService;
 
         #endregion
@@ -23,10 +24,12 @@ namespace GBCLV3.ViewModels
         public LauncherSettingsViewModel(
             ConfigService configService,
             LanguageService languageService,
+            UpdateService updateService,
             ThemeService themeService)
         {
             _config = configService.Entries;
             _languageService = languageService;
+            _updateService = updateService;
             _themeService = themeService;
         }
 
@@ -61,6 +64,14 @@ namespace GBCLV3.ViewModels
             get => _config.AfterLaunch;
             set => _config.AfterLaunch = value;
         }
+
+        public bool IsAutoCheckUpdate
+        {
+            get => _config.AutoCheckUpdate;
+            set => _config.AutoCheckUpdate = value;
+        }
+
+        public UpdateStatus UpdateStatus { get; private set; }
 
         public bool IsUseBackgroundImage
         {
@@ -100,6 +111,29 @@ namespace GBCLV3.ViewModels
             set => _themeService.FontWeight = value;
         }
 
+        public async void CheckUpdate()
+        {
+            if (UpdateStatus == UpdateStatus.UpToDate) return;
+
+            UpdateStatus = UpdateStatus.Unknown;
+            var info = await _updateService.Check();
+
+            if (info != null)
+            {
+                if (info.IsCheckFailed)
+                {
+                    UpdateStatus = UpdateStatus.CheckFailed;
+                    return;
+                }
+
+                UpdateStatus = UpdateStatus.UpdateAvailable;
+            }
+            else
+            {
+                UpdateStatus = UpdateStatus.UpToDate;
+            }
+        }
+
         public void SelectBackgoundImagePath()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
@@ -117,6 +151,11 @@ namespace GBCLV3.ViewModels
         #endregion
 
         #region Private Methods
+
+        protected override void OnViewLoaded()
+        {
+            if (UpdateStatus != UpdateStatus.UpToDate) UpdateStatus = UpdateStatus.Unknown;
+        }
 
         #endregion
     }

@@ -179,6 +179,16 @@
     <s:String x:Key="Dependencies">Dependencies</s:String>
     <s:String x:Key="ThanksTo">Thanks to</s:String>
 
+    <!-- Update -->
+    <s:String x:Key="Update">Update</s:String>
+    <s:String x:Key="CheckUpdate">Check Update</s:String>
+    <s:String x:Key="AlreadyUpToDate">Already up to date</s:String>
+    <s:String x:Key="UpdateAvailable">Update available</s:String>
+    <s:String x:Key="UpdateCheckFailed">Update check failed</s:String>
+    <s:String x:Key="AutoCheckUpdate">Check on start</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">Successfully updated to</s:String>
+    <s:String x:Key="UpdateSuccessful">Update Successful</s:String>
+
     <!-- Common -->
     <s:String x:Key="AddNew">Add New</s:String>
     <s:String x:Key="InstallNew">Install New</s:String>

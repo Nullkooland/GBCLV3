@@ -54,15 +54,17 @@ namespace GBCLV3.Models
 
         public string Language { get; set; }
 
-        public string FontFamily { get; set; }
-
-        public string FontWeight { get; set; }
+        public bool AutoCheckUpdate { get; set; }
 
         public AfterLaunchBehavior AfterLaunch { get; set; }
 
         public DownloadSource DownloadSource { get; set; }
 
         public bool DownloadAssetsOnInstall { get; set; }
+
+        public string FontFamily { get; set; }
+
+        public string FontWeight { get; set; }
 
         public bool UseBackgroundImage { get; set; }
 
