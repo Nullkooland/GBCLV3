@@ -12,9 +12,6 @@ namespace GBCLV3.ViewModels.Pages
         #region Private Members
 
         // IoC
-        private readonly int _;
-
-        private readonly Config _config;
         private readonly IWindowManager _windowManager;
 
         #endregion
@@ -22,11 +19,8 @@ namespace GBCLV3.ViewModels.Pages
         #region Constructor
 
         [Inject]
-        public AboutViewModel(
-            ConfigService configService,
-            IWindowManager windowManager)
+        public AboutViewModel(IWindowManager windowManager)
         {
-            _config = configService.Entries;
             _windowManager = windowManager;
         }
 

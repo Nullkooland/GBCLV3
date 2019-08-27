@@ -99,7 +99,7 @@ namespace GBCLV3.Services.Launcher
         {
             try
             {
-                string json = await _client.GetStringAsync(_urlService.Base.Json + info.IndexUrl);
+                string json = await _client.GetStringAsync(info.IndexUrl);
                 string indexDir = $"{_gamePathService.AssetsDir}/indexes";
 
                 //Make sure directory exists

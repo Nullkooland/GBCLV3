@@ -157,12 +157,12 @@ namespace GBCLV3.ViewModels
 
         public bool IsShowAdvancedSettings { get; set; }
 
-        public void OnPasswordLoaded(PasswordBox passwordBox, EventArgs args)
+        public void OnPasswordLoaded(PasswordBox passwordBox, EventArgs _)
         {
             passwordBox.Password = _config.Password;
         }
 
-        public void OnPasswordChanged(PasswordBox passwordBox, EventArgs args)
+        public void OnPasswordChanged(PasswordBox passwordBox, EventArgs _)
         {
             _config.Password = passwordBox.Password;
         }

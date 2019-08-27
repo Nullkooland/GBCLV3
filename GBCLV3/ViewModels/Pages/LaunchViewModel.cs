@@ -24,7 +24,6 @@ namespace GBCLV3.ViewModels.Pages
         // IoC
         private readonly Config _config;
         private readonly VersionService _versionService;
-        private readonly ForgeInstallService _forgeService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
         private readonly LaunchService _launchService;
@@ -46,7 +45,6 @@ namespace GBCLV3.ViewModels.Pages
 
             ConfigService configService,
             VersionService versionService,
-            ForgeInstallService forgeService,
             LibraryService libraryService,
             AssetService assetService,
             LaunchService launchService,
@@ -61,7 +59,6 @@ namespace GBCLV3.ViewModels.Pages
             _config = configService.Entries;
 
             _versionService = versionService;
-            _forgeService = forgeService;
             _libraryService = libraryService;
             _assetService = assetService;
             _launchService = launchService;

@@ -26,9 +26,6 @@ namespace GBCLV3.ViewModels
         private readonly GamePathService _gamePathService;
         private readonly VersionService _versionService;
 
-        private readonly GameInstallViewModel _gameInstallVM;
-        private readonly ForgeInstallViewModel _forgeInstallVM;
-
         private readonly IWindowManager _windowManager;
 
         #endregion
@@ -40,9 +37,6 @@ namespace GBCLV3.ViewModels
             ConfigService configService,
             GamePathService gamePathService,
             VersionService versionService,
-
-            GameInstallViewModel gameInstallVM,
-            ForgeInstallViewModel forgeInstallVM,
 
             IWindowManager windowManager)
         {
@@ -59,9 +53,6 @@ namespace GBCLV3.ViewModels
             };
             _versionService.Created += version => Versions.Insert(0, version);
             _versionService.Deleted += version => Versions.Remove(version);
-
-            _gameInstallVM = gameInstallVM;
-            _forgeInstallVM = forgeInstallVM;
         }
 
         #endregion
