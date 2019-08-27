@@ -67,6 +67,7 @@ namespace GBCLV3.Services.Launcher
                     case LibraryType.Forge:
                         return _urlService.Base.Forge + lib.Url;
                     case LibraryType.Minecraft:
+                    case LibraryType.Native:
                         return _urlService.Base.Library + (lib.Url ?? lib.Path);
                     case LibraryType.Maven:
                         return _urlService.Base.Maven + (lib.Url ?? lib.Path);

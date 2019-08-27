@@ -384,7 +384,7 @@ namespace GBCLV3.Services.Launcher
                 {
                     ID = jver.assetIndex.id,
                     IndexSize = jver.assetIndex.size,
-                    IndexUrl = jver.assetIndex.url.Substring(32),
+                    IndexUrl = jver.assetIndex.url,
                     IndexSHA1 = jver.assetIndex.sha1,
                     TotalSize = jver.assetIndex.totalSize,
                 };

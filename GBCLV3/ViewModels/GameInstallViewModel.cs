@@ -127,13 +127,12 @@ namespace GBCLV3.ViewModels
             var missingLibs = _libraryService.CheckIntegrity(version.Libraries);
             downloads = downloads.Concat(_libraryService.GetDownloads(missingLibs));
 
-            if (IsDownloadAssets)
-            {
-                if (await _assetService.DownloadIndexJsonAsync(version.AssetsInfo))
-                {
-                    _assetService.LoadAllObjects(version.AssetsInfo);
-                }
+            // Download assets index json
+            await _assetService.DownloadIndexJsonAsync(version.AssetsInfo);
 
+            // Download assets objects on user's discretion
+            if (IsDownloadAssets && _assetService.LoadAllObjects(version.AssetsInfo))
+            {
                 var missingAssets = await _assetService.CheckIntegrityAsync(version.AssetsInfo);
                 downloads = downloads.Concat(_assetService.GetDownloads(missingAssets));
             }
