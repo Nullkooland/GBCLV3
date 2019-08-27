@@ -130,10 +130,10 @@ namespace GBCLV3.ViewModels
 
         public bool IsRefreshAuth
         {
-            get => _config.RefreshAuth;
+            get => _config.UseToken;
             set
             {
-                _config.RefreshAuth = value;
+                _config.UseToken = value;
             }
         }
 

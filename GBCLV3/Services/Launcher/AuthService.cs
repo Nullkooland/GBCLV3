@@ -50,16 +50,12 @@ namespace GBCLV3.Services.Launcher
             return await OnlineAuthenticateAsync(JsonSerializer.Serialize(request, _jsonOptions), false);
         }
 
-        public static async Task<AuthResult> RefreshAsync(string accessToken, string uuid)
+        public static async Task<AuthResult> RefreshAsync(string clientToken, string accessToken)
         {
             var request = new RefreshRequest
             {
+                ClientToken = clientToken,
                 AccessToken = accessToken,
-                ClientToken = _guid,
-                SelectedProfile = new AuthUserProfile
-                {
-                    Id = uuid,
-                }
             };
 
             return await OnlineAuthenticateAsync(JsonSerializer.Serialize(request, _jsonOptions), true);
@@ -81,6 +77,7 @@ namespace GBCLV3.Services.Launcher
             {
                 Username = username,
                 UUID = CryptUtil.GetStringMD5(username),
+                ClientToken = _guid,
                 AccessToken = _guid,
                 UserType = "mojang",
                 IsSuccessful = true,
@@ -113,6 +110,7 @@ namespace GBCLV3.Services.Launcher
                     result.Username = response.SelectedProfile.Name;
                     result.UUID = response.SelectedProfile.Id;
                     result.AvailableProfiles = response.AvailableProfiles;
+                    result.ClientToken = response.ClientToken;
                     result.AccessToken = response.AccessToken;
                     result.UserType = response.SelectedProfile.Legacy ? "legacy" : "mojang";
                 }
