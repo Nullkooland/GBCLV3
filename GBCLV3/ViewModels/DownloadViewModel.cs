@@ -87,7 +87,7 @@ namespace GBCLV3.ViewModels
         {
             string GetMB(int bytes) => (bytes / (1024.0 * 1024.0)).ToString("0.00");
             // In case don't know the sizes of downloads in advance
-            if (downloaded > total)
+            if (downloaded >= total)
             {
                 if (downloaded < 1024) return $"{downloaded} B";
                 if (downloaded < 1024 * 1024) return $"{downloaded / 1024} KB";

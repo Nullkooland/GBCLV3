@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -39,12 +40,6 @@ namespace GBCLV3.Services
 
         public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) GetAll()
         {
-            if (!Directory.Exists(_gamePathService.ResourcePacksDir))
-            {
-                Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
-                return (null, null);
-            }
-
             string optionsFile = _gamePathService.WorkingDir + "/options.txt";
             string[] enabledPackIDs = null;
 
@@ -68,6 +63,9 @@ namespace GBCLV3.Services
                 }
             }
 
+            // Make sure directory exists
+            Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
+
             var packs = Directory.EnumerateFiles(_gamePathService.ResourcePacksDir, "*.zip")
                                  .Select(path => LoadZip(path, enabledPackIDs))
                                  .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePacksDir)
@@ -81,7 +79,7 @@ namespace GBCLV3.Services
                     packs[false]);
         }
 
-        public bool WriteToOptions(IEnumerable<ResourcePack> packs)
+        public bool WriteToOptions(IEnumerable<ResourcePack> enabledPacks)
         {
             string optionsPath = _gamePathService.WorkingDir + "/options.txt";
 
@@ -90,8 +88,7 @@ namespace GBCLV3.Services
                 return false;
             }
 
-            string enabledPackIDs = string.Join(",", packs.Where(pack => pack.IsEnabled)
-                                                          .Select(pack => $"\"{pack.Name}\""));
+            string enabledPackIDs = string.Join(",", enabledPacks.Select(pack => $"\"{pack.Name}\""));
 
             string options = File.ReadAllText(optionsPath, Encoding.Default);
 
@@ -209,15 +206,14 @@ namespace GBCLV3.Services
 
         private static ResourcePack ReadInfo(Stream infoStream)
         {
-            using (var sr = new StreamReader(infoStream, Encoding.UTF8))
+            using (var reader = new StreamReader(infoStream, Encoding.UTF8))
             {
-                var info = JsonSerializer.Deserialize<JResourcePack>(sr.ReadToEnd());
+                var info = JsonSerializer.Deserialize<JResourcePack>(reader.ReadToEnd());
 
                 return new ResourcePack
                 {
                     Format = info.pack.pack_format,
                     Description = info.pack.description,
-                    IsExtracted = true,
                 };
             }
         }

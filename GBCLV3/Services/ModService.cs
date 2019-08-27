@@ -38,11 +38,8 @@ namespace GBCLV3.Services
 
         public IEnumerable<Mod> GetAll()
         {
-            if (!Directory.Exists(_gamePathService.ModsDir))
-            {
-                Directory.CreateDirectory(_gamePathService.ModsDir);
-                return null;
-            }
+            // Make sure directory exists
+            Directory.CreateDirectory(_gamePathService.ModsDir);
 
             return Directory.EnumerateFiles(_gamePathService.ModsDir)
                             .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
