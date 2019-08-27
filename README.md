@@ -68,7 +68,7 @@
   - [x] Resourcepacks management
   - [ ] Saves management
 
-- [ ] Auto update
+- [x] Auto update (Github based)
 
 ## Screenshots
 

@@ -66,7 +66,7 @@
   - [x] 资源包管理
   - [ ] 存档管理
 
-- [ ] 自动升级
+- [x] 自动升级（基于Github）
 
 ## 运行截图
 <img src="./Screenshots/cover_0.png" width="720"/>
