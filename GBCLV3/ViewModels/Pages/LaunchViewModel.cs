@@ -152,10 +152,20 @@ namespace GBCLV3.ViewModels.Pages
 
             var authResult =
                 _config.OfflineMode ? AuthService.GetOfflineProfile(_config.Username) :
-                _config.RefreshAuth ? await AuthService.RefreshAsync(_config.AccessToken, _config.UUID) :
-                                      await AuthService.LoginAsync(_config.Email, _config.Password);
+                _config.UseToken ? await AuthService.RefreshAsync(_config.ClientToken, _config.AccessToken) :
+                                   await AuthService.LoginAsync(_config.Email, _config.Password);
 
-            if (!authResult.IsSuccessful)
+            if (authResult.IsSuccessful)
+            {
+                _config.UseToken = true;
+                _config.ClientToken = authResult.ClientToken;
+                _config.AccessToken = authResult.AccessToken;
+
+                _config.Username = authResult.Username;
+                _config.UUID = authResult.UUID;
+                _eventAggregator.Publish(new UsernameChangedEvent());
+            }
+            else
             {
                 _statusVM.Status = LaunchStatus.Failed;
 
@@ -163,7 +173,7 @@ namespace GBCLV3.ViewModels.Pages
                 {
                     // Clear the invalid token, using email and password for authentication next time
                     _config.AccessToken = null;
-                    _config.RefreshAuth = false;
+                    _config.UseToken = false;
                 }
 
                 _windowManager.ShowMessageBox(authResult.ErrorMessage, "${AuthFailed}",
@@ -171,11 +181,6 @@ namespace GBCLV3.ViewModels.Pages
 
                 return;
             }
-
-            _config.Username = authResult.Username;
-            _config.AccessToken = authResult.AccessToken;
-            _config.UUID = authResult.UUID;
-            _eventAggregator.Publish(new UsernameChangedEvent());
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
             var launchVersion = _versionService.GetByID(SelectedVersionID);

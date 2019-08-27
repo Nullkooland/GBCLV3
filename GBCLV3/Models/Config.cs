@@ -26,7 +26,9 @@ namespace GBCLV3.Models
         [JsonIgnore]
         public string Password { get; set; }
 
-        public bool RefreshAuth { get; set; }
+        public bool UseToken { get; set; }
+
+        public string ClientToken { get; set; }
 
         public string AccessToken { get; set; }
 

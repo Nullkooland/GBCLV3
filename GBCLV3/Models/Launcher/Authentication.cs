@@ -37,6 +37,8 @@ namespace GBCLV3.Models.Launcher
 
         public List<AuthUserProfile> AvailableProfiles { get; set; }
 
+        public string ClientToken { get; set; }
+
         public string AccessToken { get; set; }
 
         public string UserType { get; set; }
@@ -55,7 +57,6 @@ namespace GBCLV3.Models.Launcher
         public AuthAgent Agent => new AuthAgent { Name = "Minecraft", Version = 1 };
 
         public string Username { get; set; }
-
 
         public string Password { get; set; }
 
