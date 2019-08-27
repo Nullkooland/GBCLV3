@@ -41,7 +41,10 @@
   - [x] Version segregation
   - [x] 1.13+ Support
   - [x] Forge version
-  - [x] Authentication
+
+- [x] Authentication
+  - [x] Email and Password Login
+  - [x] Token Refresh
 
 - [x] Download
   - [x] Parallel download
