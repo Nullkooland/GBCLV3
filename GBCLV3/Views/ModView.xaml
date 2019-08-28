@@ -14,6 +14,7 @@
             <Setter Property="Margin" Value="8,8,0,0"/>
             <Setter Property="Padding" Value="16,0"/>
             <Setter Property="Height" Value="28"/>
+            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
     </ContentControl.Resources>

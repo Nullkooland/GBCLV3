@@ -74,7 +74,7 @@ namespace GBCLV3.Models
 
         public bool UseSystemColor { get; set; }
 
-        public string ThemeColor { get; set; }
+        public string AccentColor { get; set; }
 
         #endregion
     }

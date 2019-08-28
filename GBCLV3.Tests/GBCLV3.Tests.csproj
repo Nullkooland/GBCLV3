@@ -47,7 +47,6 @@
     <Compile Include="AssetTest.cs" />
     <Compile Include="LibraryTest.cs" />
     <Compile Include="LaunchTest.cs" />
-    <Compile Include="AuthTest.cs" />
     <Compile Include="ModTest.cs" />
     <Compile Include="ResourcePackTest.cs" />
     <Compile Include="InstallTest.cs" />

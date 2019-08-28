@@ -18,12 +18,12 @@
                         
                         <TabPanel Grid.Row="0"
                                   IsItemsHost="True"
-                                  Background="#80FFFFFF"/>
+                                  Background="{DynamicResource LightTranslucentBrush}"/>
 
                         <Rectangle Grid.Row="1" Opacity="0.25"
                                    Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
 
-                        <Border Grid.Row="1" Background="#50999999">
+                        <Border Grid.Row="1" Background="{DynamicResource DarkTranslucentBrush}">
                             <ContentPresenter x:Name="PART_SelectedContentHost"
                                               ContentSource="SelectedContent"/>
                         </Border>
@@ -69,7 +69,8 @@
 
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
-                            <Setter TargetName="Border" Property="Background" Value="#B0CCCCCC"/>
+                            <Setter TargetName="Border" Property="Background"
+                                    Value="{DynamicResource ControlTranslucentBrush}"/>
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="SlectionIdentifier" Property="Visibility" Value="Visible"/>
