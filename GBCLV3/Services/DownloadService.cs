@@ -174,7 +174,7 @@ namespace GBCLV3.Services
 
             try
             {
-                using (var fs = File.OpenWrite(item.Path))
+                using (var fs = new FileStream(item.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
                 {
                     var waitResponceTask = _client.GetStreamAsync(item.Url);
 

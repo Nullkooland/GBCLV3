@@ -299,8 +299,13 @@ namespace GBCLV3.Services.Launcher
 
             if (args.Any(arg => arg.Contains("fml")))
             {
-                // Invalid forge version
-                if (version.InheritsFrom == null) return null;
+                if (version.InheritsFrom == null)
+                {
+                    // For 1.7.2 and earlier forge version, there's no 'inheritsFrom' property
+                    // So it needs to be assigned in order to launch correctly
+                    version.InheritsFrom = version.ID.Split('-')[0];
+                }
+
                 string[] idNums = version.InheritsFrom.Split('.');
                 version.Type = (int.Parse(idNums[1]) >= 13) ? VersionType.NewForge : VersionType.Forge;
             }
@@ -438,7 +443,7 @@ namespace GBCLV3.Services.Launcher
                     }
                 }
 
-                version.Libraries = parent.Libraries.Union(version.Libraries).ToList();
+                version.Libraries = version.Libraries.Union(parent.Libraries).ToList();
                 version.AssetsInfo = parent.AssetsInfo;
                 version.Size = parent.Size;
                 version.SHA1 = parent.SHA1;

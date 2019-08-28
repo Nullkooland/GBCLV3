@@ -268,11 +268,10 @@ namespace GBCLV3.ViewModels.Pages
             void UpdateLogDisplay(string logMessage) => _statusVM.GameOutputLog = logMessage;
             _launchService.LogReceived += UpdateLogDisplay;
 
-            var result = await _launchService.LaunchGameAsync(proile, launchVersion);
-
-            if (!result.IsSuccessful)
+            if (!await _launchService.LaunchGameAsync(proile, launchVersion))
             {
                 _statusVM.Status = LaunchStatus.Failed;
+                _launchService.LogReceived -= UpdateLogDisplay;
                 return;
             }
 

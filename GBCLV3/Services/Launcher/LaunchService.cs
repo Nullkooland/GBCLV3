@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Utils;
@@ -43,7 +44,7 @@ namespace GBCLV3.Services.Launcher
 
         #region Public Methods
 
-        public async Task<LaunchResult> LaunchGameAsync(LaunchProfile profile, Version version)
+        public async Task<bool> LaunchGameAsync(LaunchProfile profile, Version version)
         {
             bool isDebugMode = _gamePathService.JreExecutablePath.EndsWith("java.exe");
 
@@ -74,10 +75,13 @@ namespace GBCLV3.Services.Launcher
                 _gameProcess.OutputDataReceived += (s, e) => LogReceived?.Invoke(e.Data);
                 _gameProcess.BeginOutputReadLine();
 
-                await Task.Run(() => _gameProcess.WaitForInputIdle());
+                if (!_gameProcess.HasExited)
+                {
+                    await Task.Run(() => _gameProcess.WaitForInputIdle());
+                }
             }
 
-            return new LaunchResult { IsSuccessful = true };
+            return !_gameProcess.HasExited;
         }
 
         #endregion
