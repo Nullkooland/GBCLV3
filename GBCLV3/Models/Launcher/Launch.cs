@@ -64,9 +64,4 @@ namespace GBCLV3.Models.Launcher
 
         public string ExtraArgs { get; set; }
     }
-
-    class LaunchResult
-    {
-        public bool IsSuccessful { get; set; }
-    }
 }

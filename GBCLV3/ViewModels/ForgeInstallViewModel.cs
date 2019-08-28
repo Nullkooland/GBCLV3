@@ -77,9 +77,7 @@ namespace GBCLV3.ViewModels
             }
 
             Status = ForgeInstallStatus.DownloadingInstaller;
-            bool isAutoInstall = IsAutoInsatllSupported();
-
-            var download = _forgeInstallService.GetDownload(forge, isAutoInstall);
+            var download = _forgeInstallService.GetDownload(forge);
 
             if (!await StartDownloadAsync(DownloadType.InstallForge, download))
             {
@@ -90,10 +88,17 @@ namespace GBCLV3.ViewModels
                 return;
             }
 
-            if (!isAutoInstall) Status = ForgeInstallStatus.ManualInstalling;
+            Version version = null;
 
-            var version = isAutoInstall ? _forgeInstallService.AutoInstall(forge)
-                                        : await _forgeInstallService.ManualInstall(forge);
+            if (forge.IsAutoInstall)
+            {
+                version = _forgeInstallService.AutoInstall(forge);
+            }
+            else
+            {
+                Status = ForgeInstallStatus.ManualInstalling;
+                version = await _forgeInstallService.ManualInstall(forge);
+            }
 
             if (version == null)
             {
@@ -126,17 +131,6 @@ namespace GBCLV3.ViewModels
         #endregion
 
         #region Private Methods
-
-        // Auto forge install only support 1.12.2 and earlier versions
-        private bool IsAutoInsatllSupported()
-        {
-            string[] versionCode = GameVersion.Split('.');
-            if (versionCode.Length >= 2 && int.TryParse(versionCode[1], out int midCode))
-            {
-                return midCode <= 12;
-            }
-            return false;
-        }
 
         private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {

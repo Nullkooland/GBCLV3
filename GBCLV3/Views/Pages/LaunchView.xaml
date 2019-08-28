@@ -24,15 +24,15 @@
         <Path Grid.ColumnSpan="3" Margin="32,56,8,16"
               HorizontalAlignment="Right" VerticalAlignment="Bottom"
               Stretch="Uniform" Opacity="0.3"
-              Data="{StaticResource DragonIcon}"
+              Data="{Binding ThemeService.BackgroundIcon, Mode=OneTime}"
               Fill="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
-              Visibility="{Binding IsBackgroundIconVisible, Mode=OneWay, 
-                           Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
+              Visibility="{Binding ThemeService.BackgroundImage, Mode=OneWay, 
+                           Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
 
         <ComboBox Grid.Column="1" Margin="8"
                   HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                   Height="32"
-                  Background="#C0CCCCCC"
+                  Background="{DynamicResource ControlTranslucentBrush}"
                   FontSize="16"
                   ItemsSource="{Binding Versions, Mode=OneWay}" DisplayMemberPath="ID"
                   SelectedValue="{Binding SelectedVersionID}" SelectedValuePath="ID"/>
@@ -40,7 +40,7 @@
         <Button Grid.Column="2" Margin="0,8,8,8"
                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                 Height="32"
-                Background="#C0CCCCCC"
+                Background="{DynamicResource ControlTranslucentBrush}"
                 FontSize="16"
                 Content="{DynamicResource Launch}"
                 Click="{s:Action Launch}"

@@ -7,7 +7,7 @@
       xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
       xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
       mc:Ignorable="d" d:DesignWidth="540"
-      Background="#80FFFFFF">
+      Background="{DynamicResource LightTranslucentBrush}">
 
     <Grid.Triggers>
         <EventTrigger RoutedEvent="Loaded">

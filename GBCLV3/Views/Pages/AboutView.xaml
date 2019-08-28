@@ -41,7 +41,7 @@
         </Style>
     </ContentControl.Resources>
 
-    <Grid Background="#80FFFFFF">
+    <Grid Background="{DynamicResource LightTranslucentBrush}">
         
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3*"/>

@@ -44,6 +44,7 @@ namespace GBCLV3.ViewModels.Pages
             IEventAggregator eventAggregator,
 
             ConfigService configService,
+            ThemeService themeService,
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
@@ -117,13 +118,15 @@ namespace GBCLV3.ViewModels.Pages
             _errorReportVM = errorReportVM;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
+
+            ThemeService = themeService;
         }
 
         #endregion
 
         #region Bindings
 
-        public bool IsBackgroundIconVisible => !_config.UseBackgroundImage;
+        public ThemeService ThemeService { get; private set; }
 
         public BindableCollection<Version> Versions { get; private set; }
 
@@ -268,11 +271,10 @@ namespace GBCLV3.ViewModels.Pages
             void UpdateLogDisplay(string logMessage) => _statusVM.GameOutputLog = logMessage;
             _launchService.LogReceived += UpdateLogDisplay;
 
-            var result = await _launchService.LaunchGameAsync(proile, launchVersion);
-
-            if (!result.IsSuccessful)
+            if (!await _launchService.LaunchGameAsync(proile, launchVersion))
             {
                 _statusVM.Status = LaunchStatus.Failed;
+                _launchService.LogReceived -= UpdateLogDisplay;
                 return;
             }
 
@@ -359,7 +361,6 @@ namespace GBCLV3.ViewModels.Pages
         protected override void OnViewLoaded()
         {
             if (_statusVM.Status == LaunchStatus.Failed) CanLaunch = true;
-            NotifyOfPropertyChange(nameof(IsBackgroundIconVisible));
         }
 
         #endregion

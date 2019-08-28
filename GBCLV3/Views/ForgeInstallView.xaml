@@ -15,7 +15,7 @@
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
-              Background="#80FFFFFF"
+              Background="{DynamicResource LightTranslucentBrush}"
               Visibility="{Binding ActiveItem, Mode=OneWay,
                              Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}">
 

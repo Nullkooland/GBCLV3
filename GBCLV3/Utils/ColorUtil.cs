@@ -20,5 +20,14 @@ namespace GBCLV3.Utils
 
             return color;
         }
+
+        public static float CalcL2Norm(Color a, Color b)
+        {
+            float dR = a.ScR - b.ScR;
+            float dG = a.ScG - b.ScG;
+            float dB = a.ScB - b.ScB;
+
+            return (dR * dR + dG * dG + dB * dB) / 3.0f;
+        }
     }
 }

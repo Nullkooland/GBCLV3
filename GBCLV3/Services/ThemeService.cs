@@ -1,11 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
+using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using GBCLV3.Models;
+using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -13,9 +16,11 @@ namespace GBCLV3.Services
 {
     class ThemeService : PropertyChangedBase
     {
-        #region Properties
+        #region Binding Properties
 
         public BitmapImage BackgroundImage { get; private set; }
+
+        public StreamGeometry BackgroundIcon { get; private set; }
 
         public string FontFamily
         {
@@ -33,7 +38,15 @@ namespace GBCLV3.Services
 
         #region Private Members
 
+        private const string ICONS_SOURCE = "/GBCL;component/Resources/Styles/Icons.xaml";
         private const string DEFAULT_BACKGROUND_IMAGE = "pack://application:,,,/Resources/Images/default_background.png";
+
+        private static readonly Color REF_COLOR_SPIKE       = Color.FromRgb(15, 105, 200);
+        private static readonly Color REF_COLOR_BULLZEYE    = Color.FromRgb(115, 25, 10);
+        private static readonly Color REF_COLOR_TBONE       = Color.FromRgb(165, 125, 10);
+        private static readonly Color REF_COLOR_STEGZ       = Color.FromRgb(105, 175, 5);
+        private const float COLOR_L2_THRESHOLD              = 0.0075f;
+
         private readonly Config _config;
 
         #endregion
@@ -96,10 +109,6 @@ namespace GBCLV3.Services
             BackgroundImage.Freeze();
         }
 
-        #endregion
-
-        #region Public Methods
-
         public string[] GetSystemFontNames()
         {
             return Fonts.SystemFontFamilies.Select(fontFamily =>
@@ -135,6 +144,40 @@ namespace GBCLV3.Services
             };
 
             return fontWeights.Select(weight => weight.ToString()).ToArray();
+        }
+
+        public void LoadBackgroundIcon(Color accentColor)
+        {
+            ResourceDictionary iconsDict = null;
+            foreach (var dict in Application.Current.Resources.MergedDictionaries)
+            {
+                if (dict.Source?.ToString() == ICONS_SOURCE)
+                {
+                    iconsDict = dict;
+                    break;
+                }
+            }
+
+            if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE) < COLOR_L2_THRESHOLD)
+            {
+                BackgroundIcon = iconsDict["Spike"] as StreamGeometry;
+            }
+            //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE) < COLOR_L2_THRESHOLD)
+            //{
+            //    BackgorundIcon = iconsDict["Bullzeye"] as StreamGeometry;
+            //}
+            //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE) < COLOR_L2_THRESHOLD)
+            //{
+            //    BackgorundIcon = iconsDict["TBone"] as StreamGeometry;
+            //}
+            //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ) < COLOR_L2_THRESHOLD)
+            //{
+            //    BackgorundIcon = iconsDict["Stegz"] as StreamGeometry;
+            //}
+            else
+            {
+                BackgroundIcon = iconsDict["DragonIcon"] as StreamGeometry;
+            }
         }
 
         #endregion

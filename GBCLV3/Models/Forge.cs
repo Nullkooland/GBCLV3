@@ -4,6 +4,8 @@ namespace GBCLV3.Models
 {
     class Forge
     {
+        public string Version { get; set; }
+
         public int Build { get; set; }
 
         public DateTime ReleaseTime { get; set; }
@@ -12,6 +14,8 @@ namespace GBCLV3.Models
 
         public string GameVersion { get; set; }
 
-        public string Version { get; set; }
+        public bool IsAutoInstall { get; set; }
+
+        public bool HasSuffix { get; set; }
     }
 }

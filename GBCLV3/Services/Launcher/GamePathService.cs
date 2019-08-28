@@ -27,7 +27,7 @@ namespace GBCLV3.Services.Launcher
 
         public string SavesDir => WorkingDir + "/saves";
 
-        public string LogDir => WorkingDir + "/logs";
+        public string LogsDir => WorkingDir + "/logs";
 
         public string JreExecutablePath => _config.JreDir + (_config.JavaDebugMode ? "/java.exe" : "/javaw.exe");
 

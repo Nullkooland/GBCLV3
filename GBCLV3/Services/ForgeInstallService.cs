@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GBCLV3.Models;
 using GBCLV3.Models.JsonClasses;
@@ -57,14 +58,33 @@ namespace GBCLV3.Services
                 string json = await _client.GetStringAsync(FORGE_LIST_URL + id);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
+                var nums = id.Split('.')
+                             .Select(numStr =>
+                             {
+                                 if (int.TryParse(numStr, out int num))
+                                 {
+                                     return num;
+                                 }
+                                 else
+                                 {
+                                     return -1;
+                                 }
+                             })
+                             .ToArray();
+
+                bool hasSuffix = ((nums[1] == 7 || nums[1] == 8) && nums[2] != 2);
+                bool isAutoInstall = (nums[1] < 13);
+
                 return forgeList.Select(jforge =>
                     new Forge
                     {
+                        Version = jforge.version,
                         Build = jforge.build,
                         ReleaseTime = jforge.modified,
                         Branch = jforge.branch,
                         GameVersion = jforge.mcversion,
-                        Version = jforge.version,
+                        HasSuffix = hasSuffix,
+                        IsAutoInstall = isAutoInstall,
                     }
                 ).OrderByDescending(forge => forge.Build);
             }
@@ -81,19 +101,19 @@ namespace GBCLV3.Services
             }
         }
 
-        public IEnumerable<DownloadItem> GetDownload(Forge forge, bool isAutoInstall)
+        public IEnumerable<DownloadItem> GetDownload(Forge forge)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}";
+            string fullName = $"{forge.GameVersion}-{forge.Version}" + (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
 
             var item = new DownloadItem
             {
                 Name = $"Forge-{fullName}",
 
-                Path = isAutoInstall ? $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar"
-                                     : $"{_gamePathService.RootDir}/{fullName}-installer.jar",
+                Path = forge.IsAutoInstall ? $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar"
+                                           : $"{_gamePathService.RootDir}/{fullName}-installer.jar",
 
-                Url = isAutoInstall ? $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-universal.jar"
-                                    : $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-installer.jar",
+                Url = forge.IsAutoInstall ? $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-universal.jar"
+                                          : $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-installer.jar",
 
                 IsCompleted = false,
                 DownloadedBytes = 0,
@@ -132,7 +152,7 @@ namespace GBCLV3.Services
 
         public Version AutoInstall(Forge forge)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}";
+            string fullName = $"{forge.GameVersion}-{forge.Version}" + (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
             string jarPath = $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar";
 
             if (!File.Exists(jarPath))
@@ -146,12 +166,15 @@ namespace GBCLV3.Services
 
                 using (var reader = new StreamReader(entry.Open(), Encoding.UTF8))
                 {
-                    return _versionService.AddNew(reader.ReadToEnd());
+                    string json = reader.ReadToEnd();
+                    string versionID = $"{forge.GameVersion}-forge-{forge.Version}";
+
+                    json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{versionID}\"");
+                    return _versionService.AddNew(json);
                 }
             }
         }
 
         #endregion
-
     }
 }
