@@ -51,7 +51,7 @@ namespace GBCLV3.Services
                 Entries.GameDir = Environment.CurrentDirectory + "\\.minecraft";
             }
 
-            if (string.IsNullOrWhiteSpace(Entries.JreDir))
+            if (!File.Exists(Entries.JreDir + "\\javaw.exe"))
             {
                 Entries.JreDir = SystemUtil.GetJavaDir();
             }

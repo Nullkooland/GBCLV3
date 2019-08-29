@@ -143,6 +143,16 @@ namespace GBCLV3.ViewModels.Pages
 
         public async void Launch()
         {
+            // Check JRE
+            if (_config.JreDir == null)
+            {
+                _windowManager.ShowMessageBox("${JreNotFoundError}\n${PleaseInstallJre}", null,
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+
+                _statusVM.Status = LaunchStatus.Failed;
+                return;
+            }
+
             CanLaunch = false;
 
             _statusVM.GameOutputLog = null;
@@ -252,6 +262,7 @@ namespace GBCLV3.ViewModels.Pages
             // All good to go, now build launch profile
             var proile = new LaunchProfile
             {
+                IsDebugMode = _config.JavaDebugMode,
                 JvmArgs = _config.JvmArgs,
                 MaxMemory = _config.JavaMaxMem,
                 Username = _config.Username,

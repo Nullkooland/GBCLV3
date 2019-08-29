@@ -24,6 +24,11 @@
     <s:String x:Key="Boohoo">哦豁！启动失败。。。</s:String>
     <s:String x:Key="HappyGame">游戏愉快！</s:String>
 
+    <!-- JRE 未找到错误 -->
+    <s:String x:Key="JreNotFoundError">未找到 Java 运行环境！</s:String>
+    <s:String x:Key="PleaseInstallJre">请手动指定路径或者安装 Java 运行环境</s:String>
+    <s:String x:Key="DonwloadJreInstaller">下载 JRE 安装包</s:String>
+
     <!-- 验证登录错误 -->
     <s:String x:Key="AuthFailed">验证登录失败</s:String>
     <s:String x:Key="UsernameEmptyError">用户名不能为空！</s:String>
@@ -47,14 +52,14 @@
     <s:String x:Key="Settings">设置</s:String>
     <s:String x:Key="GameSettings">游戏设置</s:String>
     <s:String x:Key="LauncherSettings">启动器设置</s:String>
-    <s:String x:Key="JvmSettings">Java虚拟机设置</s:String>
+    <s:String x:Key="JvmSettings">Java 虚拟机设置</s:String>
     <s:String x:Key="OtherSettings">其他设置</s:String>
     <s:String x:Key="FunctionSettings">功能设置</s:String>
     <s:String x:Key="ThemeSettings">外观设置</s:String>
 
     <!-- 游戏设置 -->
-    <s:String x:Key="JreDir">JRE路径</s:String>
-    <s:String x:Key="SelectJrePath">选取JRE路径</s:String>
+    <s:String x:Key="JreDir">JRE 路径</s:String>
+    <s:String x:Key="SelectJrePath">选取 JRE 路径</s:String>
     <s:String x:Key="JavaMaxMem">最大运行内存</s:String>
     <s:String x:Key="AvailableMem">可用物理内存</s:String>
 
@@ -76,11 +81,11 @@
     <s:String x:Key="ShowAdvancedSettings">显示高级设置</s:String>
 
     <s:String x:Key="DebugMode">调试模式</s:String>
-    <s:String x:Key="DebugModeDescription">使用java.exe运行</s:String>
+    <s:String x:Key="DebugModeDescription">使用 java.exe 运行</s:String>
 
-    <s:String x:Key="CustomJvmArgs">自定义JVM参数</s:String>
-    <s:String x:Key="CustomJvmArgsDescription">将会覆盖默认的JVM参数（如GC配置）</s:String>
-    <s:String x:Key="ExtraMinecraftArgs">附加Minecraft参数</s:String>
+    <s:String x:Key="CustomJvmArgs">自定义 JVM 参数</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">将会覆盖默认的 JVM 参数（如 GC 配置）</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">附加 Minecraft 参数</s:String>
 
     <!-- 启动器设置 -->
     <s:String x:Key="Language">语言</s:String>
@@ -109,7 +114,7 @@
     <s:String x:Key="Libraries">下载依赖库</s:String>
     <s:String x:Key="Assets">下载资源文件</s:String>
     <s:String x:Key="InstallNewVersion">安装新版本</s:String>
-    <s:String x:Key="InstallForge">安装Forge</s:String>
+    <s:String x:Key="InstallForge">安装 Forge</s:String>
 
     <!-- 下载进度 -->
     <s:String x:Key="DownloadProgress">进度</s:String>
@@ -125,7 +130,7 @@
     <!-- 版本管理 -->
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
-    <s:String x:Key="OpenJson">打开Json文件</s:String>
+    <s:String x:Key="OpenJson">打开 Json 文件</s:String>
     <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
 
     <!-- 版本安装 -->
@@ -144,25 +149,25 @@
     
     <s:String x:Key="VersionInstallFailed">安装失败</s:String>
     <s:String x:Key="VersionAlreadyExists">已经有相同的本地版本存在！</s:String>
-    <s:String x:Key="VersionJsonFetchFailed">json文件获取失败！</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">json 文件获取失败！</s:String>
     <s:String x:Key="VersionDependenciesIncomplete">依赖项未下载完全</s:String>
     <s:String x:Key="TryCompleteDependenciesOnLaunch">将会在启动该游戏版本时补全所有依赖项</s:String>
     <s:String x:Key="DownloadAssetsOnInstall">同时下载资源文件</s:String>
     <s:String x:Key="VersionInstallSuccessful">成功安装版本</s:String>
 
     <!-- Forge安装 -->
-    <s:String x:Key="ForgeListLoading">正在获取Forge安装列表</s:String>
-    <s:String x:Key="ForgeListLoadFailed">获取Forge安装列表失败</s:String>
-    <s:String x:Key="NoAvailableForge">该版本没有可用的Forge！</s:String>
-    <s:String x:Key="SelectForgeVersion">请选择要安装的Forge版本</s:String>
-    <s:String x:Key="ForgeDownloadingInstaller">正在下载Forge安装文件</s:String>
-    <s:String x:Key="ForgeManualInstalling">正在手动安装Forge</s:String>
-    <s:String x:Key="ForgeDownloadingLibraries">正在下载Forge依赖库</s:String>
+    <s:String x:Key="ForgeListLoading">正在获取 Forge 安装列表</s:String>
+    <s:String x:Key="ForgeListLoadFailed">获取 Forge 安装列表失败</s:String>
+    <s:String x:Key="NoAvailableForge">该版本没有可用的 Forge！</s:String>
+    <s:String x:Key="SelectForgeVersion">请选择要安装的 Forge 版本</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">正在下载 Forge 安装文件</s:String>
+    <s:String x:Key="ForgeManualInstalling">正在手动安装 Forge</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">正在下载 Forge 依赖库</s:String>
 
-    <s:String x:Key="ForgeInstallFailed">Forge安装失败</s:String>
-    <s:String x:Key="ForgeJarDownloadFailed">Forge安装文件下载失败！</s:String>
-    <s:String x:Key="ForgeExtractFailed">Forge解压安装失败！</s:String>
-    <s:String x:Key="ForgeInstallSuccessful">成功安装Forge</s:String>
+    <s:String x:Key="ForgeInstallFailed">Forge 安装失败</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge 安装文件下载失败！</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge 解压安装失败！</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">成功安装 Forge</s:String>
 
     <!-- 模组管理 -->
     <s:String x:Key="AvailableMods">可用模组</s:String>
