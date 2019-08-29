@@ -1,8 +1,7 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Runtime.Versioning;
 using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
@@ -42,10 +41,9 @@ namespace GBCLV3.Services
         private const string DEFAULT_BACKGROUND_IMAGE = "pack://application:,,,/Resources/Images/default_background.png";
 
         private static readonly Color REF_COLOR_SPIKE       = Color.FromRgb(15, 105, 200);
-        private static readonly Color REF_COLOR_BULLZEYE    = Color.FromRgb(115, 25, 10);
+        private static readonly Color REF_COLOR_BULLZEYE    = Color.FromRgb(210, 50, 55);
         private static readonly Color REF_COLOR_TBONE       = Color.FromRgb(165, 125, 10);
         private static readonly Color REF_COLOR_STEGZ       = Color.FromRgb(105, 175, 5);
-        private const float COLOR_L2_THRESHOLD              = 0.0075f;
 
         private readonly Config _config;
 
@@ -158,21 +156,33 @@ namespace GBCLV3.Services
                 }
             }
 
-            if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE) < COLOR_L2_THRESHOLD)
+            float l0 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE);
+            float l1 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE);
+            float l2 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE);
+            float l3 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
+
+            Debug.WriteLine("[REF COLOR L2]");
+            Debug.WriteLine(l0);
+            Debug.WriteLine(l1);
+            Debug.WriteLine(l2);
+            Debug.WriteLine(l3);
+
+
+            if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE) < 0.0075f)
             {
                 BackgroundIcon = iconsDict["Spike"] as StreamGeometry;
             }
-            //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE) < COLOR_L2_THRESHOLD)
-            //{
-            //    BackgorundIcon = iconsDict["Bullzeye"] as StreamGeometry;
-            //}
+            else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE) < 0.0005f)
+            {
+                BackgroundIcon = iconsDict["Bullzeye"] as StreamGeometry;
+            }
             //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE) < COLOR_L2_THRESHOLD)
             //{
-            //    BackgorundIcon = iconsDict["TBone"] as StreamGeometry;
+            //    BackgroundIcon = iconsDict["TBone"] as StreamGeometry;
             //}
             //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ) < COLOR_L2_THRESHOLD)
             //{
-            //    BackgorundIcon = iconsDict["Stegz"] as StreamGeometry;
+            //    BackgroundIcon = iconsDict["Stegz"] as StreamGeometry;
             //}
             else
             {

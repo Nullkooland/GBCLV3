@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,14 +13,22 @@ namespace GBCLV3.Utils
     {
         public static string GetJavaDir()
         {
-            using (var localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
-            using (var javaKey = localMachineKey.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment\"))
+            try
             {
-                string currentVersion = javaKey.GetValue("CurrentVersion").ToString();
-                using (var subkey = javaKey.OpenSubKey(currentVersion))
+                using (var localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64))
+                using (var javaKey = localMachineKey.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment\"))
                 {
-                    return subkey.GetValue("JavaHome").ToString() + @"\bin";
+                    string currentVersion = javaKey.GetValue("CurrentVersion").ToString();
+                    using (var subkey = javaKey.OpenSubKey(currentVersion))
+                    {
+                        return subkey.GetValue("JavaHome").ToString() + @"\bin";
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
             }
         }
 

@@ -40,6 +40,8 @@ namespace GBCLV3.Models.Launcher
 
     class LaunchProfile
     {
+        public bool IsDebugMode { get; set; }
+
         public string JvmArgs { get; set; }
 
         public uint MaxMemory { get; set; }

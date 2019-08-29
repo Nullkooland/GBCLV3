@@ -25,6 +25,11 @@
     <s:String x:Key="HappyGame">Happy gaming!</s:String>
     <s:String x:Key="UnexpectedExit">Unexpected Exit</s:String>
 
+    <!-- JRE Not Found Error -->
+    <s:String x:Key="JreNotFoundError">JRE not found!</s:String>
+    <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
+    <s:String x:Key="DonwloadJreInstaller">Donwload Jre installer</s:String>
+
     <!-- Authentication Errors -->
     <s:String x:Key="AuthFailed">Authentication Failed</s:String>
     <s:String x:Key="UsernameEmptyError">Username cannot be empty!</s:String>
@@ -187,7 +192,7 @@
     <s:String x:Key="UpdateAvailable">Update available</s:String>
     <s:String x:Key="UpdateCheckFailed">Update check failed</s:String>
     <s:String x:Key="AutoCheckUpdate">Check on start</s:String>
-    <s:String x:Key="UpdateChangelog">Update Changelog</s:String>
+    <s:String x:Key="UpdateChangelog">Changelog</s:String>
     <s:String x:Key="UpdateNow">Update Now</s:String>
     <s:String x:Key="DeferUpdate">Defer Update</s:String>
     <s:String x:Key="CancelUpdate">Cancel Update</s:String>

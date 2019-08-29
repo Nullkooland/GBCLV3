@@ -46,16 +46,14 @@ namespace GBCLV3.Services.Launcher
 
         public async Task<bool> LaunchGameAsync(LaunchProfile profile, Version version)
         {
-            bool isDebugMode = _gamePathService.JreExecutablePath.EndsWith("java.exe");
-
             var startInfo = new ProcessStartInfo
             {
                 FileName = _gamePathService.JreExecutablePath,
                 WorkingDirectory = _gamePathService.WorkingDir,
                 Arguments = BuildArguments(profile, version),
-                UseShellExecute = isDebugMode,
-                RedirectStandardOutput = !isDebugMode,
-                RedirectStandardError = !isDebugMode,
+                UseShellExecute = profile.IsDebugMode,
+                RedirectStandardOutput = !profile.IsDebugMode,
+                RedirectStandardError = !profile.IsDebugMode,
             };
 
             _gameProcess = new Process
@@ -67,7 +65,7 @@ namespace GBCLV3.Services.Launcher
             _gameProcess.Start();
             _gameProcess.Exited += (s, e) => Exited?.Invoke(_gameProcess.ExitCode);
 
-            if (!isDebugMode)
+            if (!profile.IsDebugMode)
             {
                 _gameProcess.ErrorDataReceived += (s, e) => ErrorReceived?.Invoke(e.Data);
                 _gameProcess.BeginErrorReadLine();

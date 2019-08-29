@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using GBCLV3.Models;
@@ -180,6 +181,8 @@ namespace GBCLV3.ViewModels
                 JreDir = Path.GetDirectoryName(dialog.FileName);
             }
         }
+
+        public void DonwloadJreInstaller() => Process.Start("https://bmclapi.bangbang93.com/java/jre_x64.exe");
 
         public void SelectGameDir()
         {

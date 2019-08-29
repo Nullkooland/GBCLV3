@@ -25,6 +25,7 @@
               HorizontalAlignment="Right" VerticalAlignment="Bottom"
               Stretch="Uniform" Opacity="0.3"
               Data="{Binding ThemeService.BackgroundIcon, Mode=OneTime}"
+              Stroke="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
               Fill="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
               Visibility="{Binding ThemeService.BackgroundImage, Mode=OneWay, 
                            Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
