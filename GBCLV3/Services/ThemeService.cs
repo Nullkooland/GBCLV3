@@ -156,17 +156,18 @@ namespace GBCLV3.Services
                 }
             }
 
-            float l0 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE);
-            float l1 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE);
-            float l2 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE);
-            float l3 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
+#if DEBUG
+            float l2_norm_0 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE);
+            float l2_norm_1 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE);
+            float l2_norm_2 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE);
+            float l2_norm_3 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
 
-            Debug.WriteLine("[REF COLOR L2]");
-            Debug.WriteLine(l0);
-            Debug.WriteLine(l1);
-            Debug.WriteLine(l2);
-            Debug.WriteLine(l3);
-
+            Debug.WriteLine("[REF COLOR L2 NORM]");
+            Debug.WriteLine(l2_norm_0);
+            Debug.WriteLine(l2_norm_1);
+            Debug.WriteLine(l2_norm_2);
+            Debug.WriteLine(l2_norm_3);
+#endif
 
             if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE) < 0.0075f)
             {

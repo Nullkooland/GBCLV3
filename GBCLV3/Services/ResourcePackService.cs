@@ -118,8 +118,16 @@ namespace GBCLV3.Services
                     var dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                     if (File.Exists(dstPath)) return null;
 
-                    File.Move(path, dstPath);
-                    return LoadZip(dstPath, null);
+                    var pack = LoadZip(dstPath, null);
+                    if (pack != null)
+                    {
+                        File.Move(path, dstPath);
+                        return pack;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 })
                 .Where(pack => pack != null)
                 .ToList()
