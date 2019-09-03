@@ -20,6 +20,12 @@ namespace GBCLV3.Models.Launcher
 
         [Description("Forge")]
         NewForge,
+
+        [Description("OptiFine")]
+        OptiFine,
+
+        [Description("Fabric")]
+        Fabric,
     }
 
     class Version

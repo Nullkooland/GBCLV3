@@ -260,7 +260,7 @@ namespace GBCLV3.ViewModels.Pages
             await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
 
             // All good to go, now build launch profile
-            var proile = new LaunchProfile
+            var profile = new LaunchProfile
             {
                 IsDebugMode = _config.JavaDebugMode,
                 JvmArgs = _config.JvmArgs,
@@ -282,7 +282,7 @@ namespace GBCLV3.ViewModels.Pages
             void UpdateLogDisplay(string logMessage) => _statusVM.GameOutputLog = logMessage;
             _launchService.LogReceived += UpdateLogDisplay;
 
-            if (!await _launchService.LaunchGameAsync(proile, launchVersion))
+            if (!await _launchService.LaunchGameAsync(profile, launchVersion))
             {
                 _statusVM.Status = LaunchStatus.Failed;
                 _launchService.LogReceived -= UpdateLogDisplay;

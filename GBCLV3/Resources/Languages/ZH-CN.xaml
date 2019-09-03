@@ -70,7 +70,7 @@
     <s:String x:Key="Email">邮箱地址</s:String>
     <s:String x:Key="Password">登录密码</s:String>
     <s:String x:Key="OfflineMode">离线模式</s:String>
-    <s:String x:Key="RefreshAuth">使用令牌</s:String>
+    <s:String x:Key="UseToken">使用令牌</s:String>
 
     <s:String x:Key="WindowResolution">窗口分辨率</s:String>
     <s:String x:Key="FullScreen">全屏</s:String>

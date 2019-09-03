@@ -129,7 +129,7 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public bool IsRefreshAuth
+        public bool IsUseToken
         {
             get => _config.UseToken;
             set
@@ -214,7 +214,7 @@ namespace GBCLV3.ViewModels
             IsShowAdvancedSettings =
                 !(string.IsNullOrEmpty(_config.JvmArgs) && string.IsNullOrEmpty(_config.ExtraMinecraftArgs));
 
-            NotifyOfPropertyChange(nameof(IsRefreshAuth));
+            NotifyOfPropertyChange(nameof(IsUseToken));
         }
 
         #endregion

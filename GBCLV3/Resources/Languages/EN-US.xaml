@@ -71,7 +71,7 @@
     <s:String x:Key="Email">Email</s:String>
     <s:String x:Key="Password">Password</s:String>
     <s:String x:Key="OfflineMode">Offline Mode</s:String>
-    <s:String x:Key="RefreshAuth">Use Token</s:String>
+    <s:String x:Key="UseToken">Use Token</s:String>
 
     <s:String x:Key="WindowResolution">Window Resolution</s:String>
     <s:String x:Key="FullScreen">Full Screen</s:String>

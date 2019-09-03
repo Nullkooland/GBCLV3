@@ -19,6 +19,10 @@ namespace GBCLV3.Utils
                 case VersionType.Forge:
                 case VersionType.NewForge:
                     return "/GBCL;component/Resources/Images/observer.png";
+                case VersionType.OptiFine:
+                    return "/GBCL;component/Resources/Images/snow.png";
+                case VersionType.Fabric:
+                    return "/GBCL;component/Resources/Images/glass.png";
                 default: return null;
             }
         }

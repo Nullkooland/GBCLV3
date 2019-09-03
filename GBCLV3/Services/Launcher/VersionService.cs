@@ -297,17 +297,30 @@ namespace GBCLV3.Services.Launcher
             version.MinecarftArgsDict = Enumerable.Range(0, args.Length / 2)
                                                   .ToDictionary(i => args[i * 2], i => args[i * 2 + 1]);
 
-            if (args.Any(arg => arg.Contains("fml")))
+            if (version.MinecarftArgsDict.TryGetValue("--tweakClass", out string tweakClass))
             {
-                if (version.InheritsFrom == null)
+                if (tweakClass.EndsWith("FMLTweaker"))
                 {
                     // For 1.7.2 and earlier forge version, there's no 'inheritsFrom' property
                     // So it needs to be assigned in order to launch correctly
-                    version.InheritsFrom = version.ID.Split('-')[0];
+                    version.InheritsFrom = version.InheritsFrom ?? version.ID.Split('-')[0];
+                    version.Type = VersionType.Forge;
                 }
 
-                string[] idNums = version.InheritsFrom.Split('.');
-                version.Type = (int.Parse(idNums[1]) >= 13) ? VersionType.NewForge : VersionType.Forge;
+                if (tweakClass == "optifine.OptiFineTweaker")
+                {
+                    version.Type = VersionType.OptiFine;
+                }
+            }
+
+            if (version.MainClass == "cpw.mods.modlauncher.Launcher")
+            {
+                version.Type = VersionType.NewForge;
+            }
+
+            if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient")
+            {
+                version.Type = VersionType.Fabric;
             }
 
             foreach (var jlib in jver.libraries)
