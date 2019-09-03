@@ -3,9 +3,10 @@
     enum LibraryType
     {
         Minecraft,
+        Native,
         Maven,
         Forge,
-        Native,
+        Fabric,
     }
 
     class Library

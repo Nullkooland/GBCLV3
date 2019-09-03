@@ -357,18 +357,22 @@ namespace GBCLV3.Services.Launcher
                         lib.Type = LibraryType.Forge;
                         lib.Url = $"{names[2]}/forge-{names[2]}-universal.jar";
                     }
-                    else if (jlib.downloads != null)
+                    else if (jlib.downloads?.artifact.url.StartsWith("https://files.minecraftforge.net/maven/") ?? false ||
+                             jlib.url == "http://files.minecraftforge.net/maven/")
                     {
-                        lib.Type = (jlib.downloads.artifact.url.StartsWith("https://files.minecraftforge.net/maven/"))
-                                 ? LibraryType.Maven : LibraryType.Minecraft;
+                        lib.Type = LibraryType.Maven;
+                        lib.Url = jlib.downloads?.artifact.url.Substring(39);
+                    }
+                    else if (jlib.url == "https://maven.fabricmc.net/")
+                    {
+                        lib.Type = LibraryType.Fabric;
+                        lib.Url = jlib.url + lib.Path;
                     }
                     else
                     {
-                        lib.Type = (jlib.url == null) ? LibraryType.Minecraft : LibraryType.Maven;
+                        lib.Type = LibraryType.Minecraft;
+                        lib.Url = jlib.downloads?.artifact.url.Substring(32);
                     }
-
-                    if (lib.Type == LibraryType.Minecraft) lib.Url = jlib.downloads?.artifact.url.Substring(32);
-                    if (lib.Type == LibraryType.Maven) lib.Url = jlib.downloads?.artifact.url.Substring(39);
 
                     version.Libraries.Add(lib);
                 }

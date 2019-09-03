@@ -137,6 +137,7 @@ namespace GBCLV3.Services
                 var process = Process.Start(installerPath);
                 await Task.Run(() => process.WaitForExit());
                 File.Delete(installerPath);
+                File.Delete($"{forge.GameVersion}-{forge.Version}-installer.jar.log");
 
                 if (!File.Exists(jsonPath)) return null;
 
