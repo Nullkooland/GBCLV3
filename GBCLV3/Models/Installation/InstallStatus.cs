@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using GBCLV3.Utils;
 
-namespace GBCLV3.Models
+namespace GBCLV3.Models.Installation
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum VersionInstallStatus

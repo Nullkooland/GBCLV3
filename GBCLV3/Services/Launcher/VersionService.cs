@@ -345,7 +345,7 @@ namespace GBCLV3.Services.Launcher
                     var libInfo = jlib.downloads?.artifact;
                     var lib = new Library
                     {
-                        Name = $"{names[1]}-{names[2]}",
+                        Name = jlib.name,
                         Path = libInfo?.path ??
                                string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
                         Size = libInfo?.size ?? 0,
@@ -418,7 +418,7 @@ namespace GBCLV3.Services.Launcher
         private static bool IsValidVersion(JVersion jver)
         {
             return (!string.IsNullOrWhiteSpace(jver.id)
-                && (!string.IsNullOrWhiteSpace(jver.minecraftArguments) || jver.arguments != null)
+                && !(string.IsNullOrWhiteSpace(jver.minecraftArguments) && jver.arguments == null)
                 && !string.IsNullOrWhiteSpace(jver.mainClass)
                 && jver.libraries != null);
         }

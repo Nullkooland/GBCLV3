@@ -30,6 +30,9 @@ namespace GBCLV3.Models
 
         [LocalizedDescription("InstallForge")]
         InstallForge,
+
+        [LocalizedDescription("InstallFabric")]
+        InstallFabric,
     }
 
     enum DownloadResult

@@ -138,8 +138,10 @@
     </ApplicationDefinition>
     <Compile Include="Behaviors\WindowBehavior.cs" />
     <Compile Include="Models\ErrorReport.cs" />
-    <Compile Include="Models\Forge.cs" />
-    <Compile Include="Models\Install.cs" />
+    <Compile Include="Models\Installation\Fabric.cs" />
+    <Compile Include="Models\Installation\Forge.cs" />
+    <Compile Include="Models\Installation\InstallStatus.cs" />
+    <Compile Include="Models\Installation\OptiFine.cs" />
     <Compile Include="Models\JsonClasses\JArguments.cs" />
     <Compile Include="Models\JsonClasses\JForge.cs" />
     <Compile Include="Models\Launcher\Asset.cs" />
@@ -159,9 +161,10 @@
     <Compile Include="Models\Launcher\Version.cs" />
     <Compile Include="Models\Save.cs" />
     <Compile Include="Models\Update.cs" />
-    <Compile Include="Services\OptiFineInstallService.cs" />
+    <Compile Include="Services\Installation\FabricInstallService.cs" />
+    <Compile Include="Services\Installation\OptiFineInstallService.cs" />
     <Compile Include="Services\ThemeService.cs" />
-    <Compile Include="Services\ForgeInstallService.cs" />
+    <Compile Include="Services\Installation\ForgeInstallService.cs" />
     <Compile Include="Services\Launcher\AssetService.cs" />
     <Compile Include="Services\ConfigService.cs" />
     <Compile Include="Services\DownloadService.cs" />

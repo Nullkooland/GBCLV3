@@ -114,6 +114,7 @@
     <s:String x:Key="Assets">Assets</s:String>
     <s:String x:Key="InstallNewVersion">Install New</s:String>
     <s:String x:Key="InstallForge">Install Forge</s:String>
+    <s:String x:Key="InstallFabric">Install Fabric</s:String>
 
     <!-- Download Progress -->
     <s:String x:Key="DownloadProgress">Progress</s:String>

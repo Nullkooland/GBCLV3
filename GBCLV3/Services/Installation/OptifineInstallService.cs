@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GBCLV3.Services
+namespace GBCLV3.Services.Installation
 {
     class OptiFineInstallService
     {

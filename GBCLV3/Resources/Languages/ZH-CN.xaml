@@ -115,6 +115,7 @@
     <s:String x:Key="Assets">下载资源文件</s:String>
     <s:String x:Key="InstallNewVersion">安装新版本</s:String>
     <s:String x:Key="InstallForge">安装 Forge</s:String>
+    <s:String x:Key="InstallFabric">安装 Fabric</s:String>
 
     <!-- 下载进度 -->
     <s:String x:Key="DownloadProgress">进度</s:String>
