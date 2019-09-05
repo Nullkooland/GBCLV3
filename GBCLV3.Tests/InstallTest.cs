@@ -2,6 +2,7 @@
 using System.Linq;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
+using GBCLV3.Services.Installation;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
@@ -9,12 +10,13 @@ namespace GBCLV3.Tests
     [TestClass]
     public class InstallTest
     {
-        private const string GAME_ROOT_DIR = "G:/Minecraft/1.12.2/.minecraft";
-        private const string ID = "1.12.2";
+        private const string GAME_ROOT_DIR = "G:/Minecraft/1.14.4/.minecraft";
+        private const string ID = "1.14.4";
 
         private readonly ConfigService _configService;
         private readonly VersionService _versionService;
         private readonly ForgeInstallService _forgeInstallService;
+        private readonly FabricInstallService _fabricInstallService;
 
         public InstallTest()
         {
@@ -30,6 +32,7 @@ namespace GBCLV3.Tests
 
             _versionService = new VersionService(gamePathService, urlServie);
             _forgeInstallService = new ForgeInstallService(gamePathService, urlServie, _versionService);
+            _fabricInstallService = new FabricInstallService(gamePathService, _versionService);
         }
 
         [TestMethod]
@@ -49,30 +52,55 @@ namespace GBCLV3.Tests
         }
 
         [TestMethod]
-        public void GetForgeDownloadListTest()
+        public void ForgeInstallTest()
         {
-            var forgeDownloads = _forgeInstallService.GetDownloadListAsync(ID).Result;
+            var forges = _forgeInstallService.GetDownloadListAsync(ID).Result.Take(5);
 
             Debug.WriteLine($"[Available Forge Downloads for {ID}]");
 
-            foreach (var download in forgeDownloads)
+            foreach (var forge in forges)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
-                Debug.WriteLine($"ID:       {download.Build}");
-                Debug.WriteLine($"Version:  {download.Version}");
-                Debug.WriteLine($"Date:     {download.ReleaseTime}");
+                Debug.WriteLine($"ID:       {forge.Build}");
+                Debug.WriteLine($"Version:  {forge.Version}");
+                Debug.WriteLine($"Date:     {forge.ReleaseTime}");
             }
+
+            var installer = _forgeInstallService.GetDownload(forges.Last()).FirstOrDefault();
+
+            Debug.WriteLine($"[Latest Forge Installer]");
+
+            Debug.WriteLine($"Name:         {installer.Name}");
+            Debug.WriteLine($"Path:         {installer.Path}");
+            Debug.WriteLine($"Url:          {installer.Url}");
         }
 
         [TestMethod]
-        public void ForgeInstallTest()
+        public void FabricInstallTest()
         {
-            var forgeDownloads = _forgeInstallService.GetDownloadListAsync(ID).Result;
-            var installer = _forgeInstallService.GetDownload(forgeDownloads.Last(), true).FirstOrDefault();
+            var fabrics = _fabricInstallService.GetDownloadListAsync(ID).Result.Take(5);
 
-            Debug.WriteLine($"Name:     {installer.Name}");
-            Debug.WriteLine($"Path:     {installer.Path}");
-            Debug.WriteLine($"Url:      {installer.Url}");
+            Debug.WriteLine($"[Available Fabric Downloads for {ID}]");
+
+            foreach (var fabric in fabrics)
+            {
+                Debug.WriteLine("---------------------------------------------------------------");
+                Debug.WriteLine($"ID:           {fabric.Loader.Build}");
+                Debug.WriteLine($"Version:      {fabric.Loader.Version}");
+            }
+
+            var downloads = _fabricInstallService.GetDownloads(fabrics.First());
+
+            Debug.WriteLine($"[Fabric Downloads]");
+
+            foreach (var download in downloads)
+            {
+                Debug.WriteLine("---------------------------------------------------------------");
+                Debug.WriteLine($"Name:         {download.Name}");
+                Debug.WriteLine($"Path:         {download.Path}");
+                Debug.WriteLine($"Url:          {download.Url}");
+                Debug.WriteLine($"Downloadable: {TestUtils.IsDownloadable(download)}");
+            }
         }
     }
 }

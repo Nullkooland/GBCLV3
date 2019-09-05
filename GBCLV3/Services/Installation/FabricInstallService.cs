@@ -57,7 +57,7 @@ namespace GBCLV3.Services.Installation
             return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
         }
 
-        public IEnumerable<DownloadItem> GetDownload(Fabric fabric)
+        public IEnumerable<DownloadItem> GetDownloads(Fabric fabric)
         {
             string GetPath(string name)
             {

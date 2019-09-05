@@ -42,6 +42,7 @@
     <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Net.Http" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssetTest.cs" />
@@ -51,6 +52,7 @@
     <Compile Include="ResourcePackTest.cs" />
     <Compile Include="InstallTest.cs" />
     <Compile Include="UpdateTest.cs" />
+    <Compile Include="TestUtils.cs" />
     <Compile Include="VersionTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

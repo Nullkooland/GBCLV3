@@ -66,13 +66,14 @@ namespace GBCLV3.Tests
             Debug.WriteLine($"downloads TotalBytes: {totalBytes}");
 
             Debug.WriteLine("[Library Downloads]");
-            foreach (var item in downloads)
+            foreach (var download in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");
-                Debug.WriteLine($"Name: {item.Name}");
-                Debug.WriteLine($"Size: {item.Size}");
-                Debug.WriteLine($"Url:  {item.Url}");
-                Debug.WriteLine($"Path: {item.Path}");
+                Debug.WriteLine($"Name:         {download.Name}");
+                Debug.WriteLine($"Path:         {download.Path}");
+                Debug.WriteLine($"Size:         {download.Size}");
+                Debug.WriteLine($"Url:          {download.Url}");
+                Debug.WriteLine($"Downloadable: {TestUtils.IsDownloadable(download)}");
             }
         }
     }

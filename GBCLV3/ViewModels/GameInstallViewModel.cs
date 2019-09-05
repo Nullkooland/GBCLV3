@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using GBCLV3.Models;
+using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
