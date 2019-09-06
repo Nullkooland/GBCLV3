@@ -177,10 +177,10 @@ namespace GBCLV3.Services
             {
                 BackgroundIcon = iconsDict["Bullzeye"] as StreamGeometry;
             }
-            //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE) < COLOR_L2_THRESHOLD)
-            //{
-            //    BackgroundIcon = iconsDict["TBone"] as StreamGeometry;
-            //}
+            else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE) < 0.0082f)
+            {
+                BackgroundIcon = iconsDict["T-Bone"] as StreamGeometry;
+            }
             //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ) < COLOR_L2_THRESHOLD)
             //{
             //    BackgroundIcon = iconsDict["Stegz"] as StreamGeometry;
