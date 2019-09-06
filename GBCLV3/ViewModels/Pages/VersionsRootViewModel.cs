@@ -1,4 +1,5 @@
-﻿using Stylet;
+﻿using GBCLV3.Models.Installation;
+using Stylet;
 using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
@@ -11,6 +12,7 @@ namespace GBCLV3.ViewModels.Pages
         private readonly VersionsManagementViewModel _versionsManagementVM;
         private readonly GameInstallViewModel _gameInstallVM;
         private readonly ForgeInstallViewModel _forgeInstallVM;
+        private readonly FabricInstallViewModel _fabricInstallVM;
 
         #endregion
 
@@ -20,27 +22,41 @@ namespace GBCLV3.ViewModels.Pages
         public VersionsRootViewModel(
             VersionsManagementViewModel versionsManagementVM,
             GameInstallViewModel gameInstallVM,
-            ForgeInstallViewModel forgeInstallVM)
+            ForgeInstallViewModel forgeInstallVM,
+            FabricInstallViewModel fabricInstallVM)
         {
             _versionsManagementVM = versionsManagementVM;
             _gameInstallVM = gameInstallVM;
             _forgeInstallVM = forgeInstallVM;
+            _fabricInstallVM = fabricInstallVM;
 
             this.ActivateItem(_versionsManagementVM);
-            _versionsManagementVM.NavigateView += OnNavigateView;
+            _versionsManagementVM.NavigateInstallView += OnNavigateInstallView;
         }
 
         #endregion
 
         #region Public Methods
 
-        public void OnNavigateView(string versionID)
+        public void OnNavigateInstallView(string versionID, InstallType type)
         {
-            if (versionID == null) this.ActivateItem(_gameInstallVM);
-            else
+            switch (type)
             {
-                _forgeInstallVM.GameVersion = versionID;
-                this.ActivateItem(_forgeInstallVM);
+                case InstallType.Version:
+                    this.ActivateItem(_gameInstallVM);
+                    return;
+
+                case InstallType.Forge:
+                    _forgeInstallVM.GameVersion = versionID;
+                    this.ActivateItem(_forgeInstallVM);
+                    return;
+
+                case InstallType.Fabric:
+                    _fabricInstallVM.GameVersion = versionID;
+                    this.ActivateItem(_fabricInstallVM);
+                    return;
+
+                default: return;
             }
         }
 

@@ -12,8 +12,8 @@
     <Grid >
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="300"/>
-            <ColumnDefinition Width="100"/>
+            <ColumnDefinition Width="312"/>
+            <ColumnDefinition Width="96"/>
         </Grid.ColumnDefinitions>
 
         <ContentControl Grid.ColumnSpan="3"

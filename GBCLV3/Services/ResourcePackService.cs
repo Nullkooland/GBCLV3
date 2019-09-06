@@ -74,7 +74,7 @@ namespace GBCLV3.Services
                                  .ToLookup(pack => pack.IsEnabled);
 
             // Enabled resourcepacks (followed the order in options)
-            return (packs[true].OrderBy(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
+            return (packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
                     // Disabled resourcepacks
                     packs[false]);
         }
@@ -88,8 +88,7 @@ namespace GBCLV3.Services
                 return false;
             }
 
-            string enabledPackIDs = string.Join(",", enabledPacks.Select(pack => $"\"{pack.Name}\""));
-
+            string enabledPackIDs = string.Join(",", enabledPacks.Reverse().Select(pack => $"\"{pack.Name}\""));
             string options = File.ReadAllText(optionsPath, Encoding.Default);
 
             if (options.Contains("resourcePacks:["))
@@ -119,8 +118,16 @@ namespace GBCLV3.Services
                     var dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                     if (File.Exists(dstPath)) return null;
 
-                    File.Move(path, dstPath);
-                    return LoadZip(dstPath, null);
+                    var pack = LoadZip(dstPath, null);
+                    if (pack != null)
+                    {
+                        File.Move(path, dstPath);
+                        return pack;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 })
                 .Where(pack => pack != null)
                 .ToList()

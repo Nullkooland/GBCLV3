@@ -10,12 +10,13 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GBCLV3.Models;
+using GBCLV3.Models.Installation;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Services.Launcher;
 using StyletIoC;
 using Version = GBCLV3.Models.Launcher.Version;
 
-namespace GBCLV3.Services
+namespace GBCLV3.Services.Installation
 {
     class ForgeInstallService
     {
@@ -137,6 +138,7 @@ namespace GBCLV3.Services
                 var process = Process.Start(installerPath);
                 await Task.Run(() => process.WaitForExit());
                 File.Delete(installerPath);
+                File.Delete($"{forge.GameVersion}-{forge.Version}-installer.jar.log");
 
                 if (!File.Exists(jsonPath)) return null;
 

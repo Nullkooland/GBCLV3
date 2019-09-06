@@ -145,6 +145,12 @@
                             <MenuItem Header="{DynamicResource InstallForge}"
                                       Click="{s:Action InstallForge}"/>
 
+                            <MenuItem Header="{DynamicResource InstallFabric}"
+                                      Click="{s:Action InstallFabric}"/>
+
+                            <!--<MenuItem Header="{DynamicResource InstallOptiFine}"
+                                      Click="{s:Action InstallOptiFine}"/>-->
+
                             <MenuItem Header="{DynamicResource Delete}"
                                       Click="{s:Action Delete}"/>
                         </ContextMenu>

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GBCLV3.Models
+namespace GBCLV3.Models.Installation
 {
     class Forge
     {

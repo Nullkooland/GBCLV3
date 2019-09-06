@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using GBCLV3.Models;
+using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
@@ -143,7 +144,7 @@ namespace GBCLV3.ViewModels
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            _windowManager.ShowMessageBox("${VersionInstallSuccessful} " + download.ID);
+            _windowManager.ShowMessageBox("${VersionInstallSuccessful} " + download.ID, "${InstallSuccessful}");
             Status = VersionInstallStatus.ListLoaded;
         }
 

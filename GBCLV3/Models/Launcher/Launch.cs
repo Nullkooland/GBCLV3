@@ -17,7 +17,6 @@ namespace GBCLV3.Models.Launcher
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-
     enum LaunchStatus
     {
         Downloading,

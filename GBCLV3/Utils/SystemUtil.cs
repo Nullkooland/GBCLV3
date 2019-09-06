@@ -64,6 +64,8 @@ namespace GBCLV3.Utils
 
         public static void DeleteEmptyDirs(string dir)
         {
+            if (!Directory.Exists(dir)) return;
+
             while (!Directory.EnumerateFileSystemEntries(dir).Any())
             {
                 Directory.Delete(dir);

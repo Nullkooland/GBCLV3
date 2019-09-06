@@ -71,6 +71,8 @@ namespace GBCLV3.Services.Launcher
                         return _urlService.Base.Library + (lib.Url ?? lib.Path);
                     case LibraryType.Maven:
                         return _urlService.Base.Maven + (lib.Url ?? lib.Path);
+                    case LibraryType.Fabric:
+                        return lib.Url;
                     default: return null;
                 }
             }

@@ -297,17 +297,30 @@ namespace GBCLV3.Services.Launcher
             version.MinecarftArgsDict = Enumerable.Range(0, args.Length / 2)
                                                   .ToDictionary(i => args[i * 2], i => args[i * 2 + 1]);
 
-            if (args.Any(arg => arg.Contains("fml")))
+            if (version.MinecarftArgsDict.TryGetValue("--tweakClass", out string tweakClass))
             {
-                if (version.InheritsFrom == null)
+                if (tweakClass.EndsWith("FMLTweaker"))
                 {
                     // For 1.7.2 and earlier forge version, there's no 'inheritsFrom' property
                     // So it needs to be assigned in order to launch correctly
-                    version.InheritsFrom = version.ID.Split('-')[0];
+                    version.InheritsFrom = version.InheritsFrom ?? version.ID.Split('-')[0];
+                    version.Type = VersionType.Forge;
                 }
 
-                string[] idNums = version.InheritsFrom.Split('.');
-                version.Type = (int.Parse(idNums[1]) >= 13) ? VersionType.NewForge : VersionType.Forge;
+                if (tweakClass == "optifine.OptiFineTweaker")
+                {
+                    version.Type = VersionType.OptiFine;
+                }
+            }
+
+            if (version.MainClass == "cpw.mods.modlauncher.Launcher")
+            {
+                version.Type = VersionType.NewForge;
+            }
+
+            if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient")
+            {
+                version.Type = VersionType.Fabric;
             }
 
             foreach (var jlib in jver.libraries)
@@ -332,7 +345,7 @@ namespace GBCLV3.Services.Launcher
                     var libInfo = jlib.downloads?.artifact;
                     var lib = new Library
                     {
-                        Name = $"{names[1]}-{names[2]}",
+                        Name = jlib.name,
                         Path = libInfo?.path ??
                                string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
                         Size = libInfo?.size ?? 0,
@@ -344,18 +357,22 @@ namespace GBCLV3.Services.Launcher
                         lib.Type = LibraryType.Forge;
                         lib.Url = $"{names[2]}/forge-{names[2]}-universal.jar";
                     }
-                    else if (jlib.downloads != null)
+                    else if (jlib.downloads?.artifact.url.StartsWith("https://files.minecraftforge.net/maven/") ?? false ||
+                             jlib.url == "http://files.minecraftforge.net/maven/")
                     {
-                        lib.Type = (jlib.downloads.artifact.url.StartsWith("https://files.minecraftforge.net/maven/"))
-                                 ? LibraryType.Maven : LibraryType.Minecraft;
+                        lib.Type = LibraryType.Maven;
+                        lib.Url = jlib.downloads?.artifact.url.Substring(39);
+                    }
+                    else if (jlib.url == "https://maven.fabricmc.net/")
+                    {
+                        lib.Type = LibraryType.Fabric;
+                        lib.Url = jlib.url + lib.Path;
                     }
                     else
                     {
-                        lib.Type = (jlib.url == null) ? LibraryType.Minecraft : LibraryType.Maven;
+                        lib.Type = LibraryType.Minecraft;
+                        lib.Url = jlib.downloads?.artifact.url.Substring(32);
                     }
-
-                    if (lib.Type == LibraryType.Minecraft) lib.Url = jlib.downloads?.artifact.url.Substring(32);
-                    if (lib.Type == LibraryType.Maven) lib.Url = jlib.downloads?.artifact.url.Substring(39);
 
                     version.Libraries.Add(lib);
                 }
@@ -401,7 +418,7 @@ namespace GBCLV3.Services.Launcher
         private static bool IsValidVersion(JVersion jver)
         {
             return (!string.IsNullOrWhiteSpace(jver.id)
-                && (!string.IsNullOrWhiteSpace(jver.minecraftArguments) || jver.arguments != null)
+                && !(string.IsNullOrWhiteSpace(jver.minecraftArguments) && jver.arguments == null)
                 && !string.IsNullOrWhiteSpace(jver.mainClass)
                 && jver.libraries != null);
         }

@@ -71,7 +71,7 @@
     <s:String x:Key="Email">Email</s:String>
     <s:String x:Key="Password">Password</s:String>
     <s:String x:Key="OfflineMode">Offline Mode</s:String>
-    <s:String x:Key="RefreshAuth">Use Token</s:String>
+    <s:String x:Key="UseToken">Use Token</s:String>
 
     <s:String x:Key="WindowResolution">Window Resolution</s:String>
     <s:String x:Key="FullScreen">Full Screen</s:String>
@@ -114,6 +114,7 @@
     <s:String x:Key="Assets">Assets</s:String>
     <s:String x:Key="InstallNewVersion">Install New</s:String>
     <s:String x:Key="InstallForge">Install Forge</s:String>
+    <s:String x:Key="InstallFabric">Install Fabric</s:String>
 
     <!-- Download Progress -->
     <s:String x:Key="DownloadProgress">Progress</s:String>
@@ -133,6 +134,7 @@
     <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
 
     <!-- Version Install -->
+    <s:String x:Key="DownloadAndInstall">Download and install</s:String>
     <s:String x:Key="NoVersionFound">No version found</s:String>
     <s:String x:Key="WhetherInstallNewVersion">Whether install new game version?</s:String>
     <s:String x:Key="Version">Version</s:String>
@@ -167,6 +169,16 @@
     <s:String x:Key="ForgeJarDownloadFailed">Forge jar download failed!</s:String>
     <s:String x:Key="ForgeExtractFailed">Forge extract failed!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
+
+    <!-- Fabric Install -->
+    <s:String x:Key="FabricListLoading">Loading Fabric download list</s:String>
+    <s:String x:Key="FabricListLoadFailed">Failed to load Fabric download list</s:String>
+    <s:String x:Key="NoAvailableFabric">No available Fabric for this version!</s:String>
+    <s:String x:Key="SelectFabricVersion">Please select a Fabric version to install</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Downloading Fabric libraries</s:String>
+
+    <s:String x:Key="FabricInstallFailed">Fabric Install Failed</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Successfully install Fabric</s:String>
 
     <!-- Mods Management -->
     <s:String x:Key="AvailableMods">Available Mods</s:String>
@@ -209,10 +221,12 @@
     <s:String x:Key="OpenLink">Open Link</s:String>
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
+    <s:String x:Key="InstallSuccessful">Install Successful</s:String>
     <s:String x:Key="Versions">Versions</s:String>
     <s:String x:Key="VersionsManagement">Versions Management</s:String>
     <s:String x:Key="GameInstall">Game Install</s:String>
     <s:String x:Key="ForgeInstall">Forge Install</s:String>
+    <s:String x:Key="FabricInstall">Fabric Install</s:String>
     <s:String x:Key="Mods">Mods</s:String>
     <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
     <s:String x:Key="Saves">Saves</s:String>

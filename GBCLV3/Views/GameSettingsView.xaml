@@ -175,8 +175,8 @@
                                         Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
 
                 <CheckBox Grid.Row="2" Grid.Column="4"
-                          Content="{DynamicResource RefreshAuth}"
-                          IsChecked="{Binding IsRefreshAuth, Mode=TwoWay}"
+                          Content="{DynamicResource UseToken}"
+                          IsChecked="{Binding IsUseToken, Mode=TwoWay}"
                           Visibility="{Binding IsOfflineMode, Mode=OneWay,
                                         Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
 

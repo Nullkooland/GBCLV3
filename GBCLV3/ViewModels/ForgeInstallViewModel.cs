@@ -3,8 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models;
+using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
+using GBCLV3.Services.Installation;
 using GBCLV3.Services.Launcher;
 using Stylet;
 using StyletIoC;
@@ -41,7 +43,7 @@ namespace GBCLV3.ViewModels
             _versionService = versionService;
             _libraryService = libraryService;
 
-            ForgeDownloads = new BindableCollection<Forge>();
+            Forges = new BindableCollection<Forge>();
 
             _windowManager = windowManager;
             _downloadVM = downloadVM;
@@ -59,9 +61,9 @@ namespace GBCLV3.ViewModels
 
         public bool CanInstall => Status == ForgeInstallStatus.ListLoaded;
 
-        public BindableCollection<Forge> ForgeDownloads { get; private set; }
+        public BindableCollection<Forge> Forges { get; private set; }
 
-        public async void InstallSelectedForge(Forge forge)
+        public async void InstallSelected(Forge forge)
         {
             bool hasLocal = _versionService.GetAvailable()
                                            .Where(v => v.Type == VersionType.Forge || v.Type == VersionType.NewForge)
@@ -120,9 +122,7 @@ namespace GBCLV3.ViewModels
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            _windowManager.ShowMessageBox("${ForgeInstallSuccessful} " + version.ID);
-
-            Status = ForgeInstallStatus.ListLoaded;
+            _windowManager.ShowMessageBox("${ForgeInstallSuccessful} " + version.ID, "${InstallSuccessful}");
             this.RequestClose();
         }
 
@@ -150,16 +150,16 @@ namespace GBCLV3.ViewModels
                 Status != ForgeInstallStatus.DownloadingLibraries)
             {
                 Status = ForgeInstallStatus.ListLoading;
-                ForgeDownloads.Clear();
+                Forges.Clear();
 
-                var downloads = await _forgeInstallService.GetDownloadListAsync(GameVersion);
+                var forges = await _forgeInstallService.GetDownloadListAsync(GameVersion);
 
                 // Since the user has clicked the return button
                 // Nobody cares about the fetching result!
                 // まっそんなのもう関係ないですけどね！
                 if (!this.IsActive) return;
 
-                if (downloads == null)
+                if (forges == null)
                 {
                     _windowManager.ShowMessageBox("${ForgeListLoadFailed}", "${ForgeInstallFailed}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -168,7 +168,7 @@ namespace GBCLV3.ViewModels
                     return;
                 }
 
-                if (!downloads.Any())
+                if (!forges.Any())
                 {
                     _windowManager.ShowMessageBox("${NoAvailableForge}", "${ForgeInstallFailed}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -177,7 +177,7 @@ namespace GBCLV3.ViewModels
                     return;
                 }
 
-                ForgeDownloads.AddRange(downloads);
+                Forges.AddRange(forges);
                 Status = ForgeInstallStatus.ListLoaded;
             }
         }
