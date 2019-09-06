@@ -26,7 +26,7 @@ namespace GBCLV3.Services.Installation
 
         private readonly HttpClient _client;
         private readonly JsonSerializerOptions _jsonOptions
-            = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, IgnoreNullValues = true };
 
         // IoC
         private readonly GamePathService _gamePathService;
@@ -57,55 +57,11 @@ namespace GBCLV3.Services.Installation
             return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
         }
 
-        public IEnumerable<DownloadItem> GetDownloads(Fabric fabric)
-        {
-            string GetPath(string name)
-            {
-                string[] names = name.Split(':');
-                return string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]);
-            }
-
-            var downloads = fabric.LauncherMeta.Libraries.Common
-                .Concat(fabric.LauncherMeta.Libraries.Client)
-                .Concat(fabric.LauncherMeta.Libraries.Server)
-                .Select(lib =>
-                new DownloadItem
-                {
-                    Name = lib.name,
-                    Path = _gamePathService.LibrariesDir + GetPath(lib.name),
-                    Url = FABRIC_MAVEN_URL + GetPath(lib.name),
-                    IsCompleted = false,
-                    DownloadedBytes = 0,
-                });
-
-            downloads = downloads.Append(
-                new DownloadItem
-                {
-                    Name = fabric.Loader.Maven,
-                    Path = _gamePathService.LibrariesDir + GetPath(fabric.Loader.Maven),
-                    Url = FABRIC_MAVEN_URL + GetPath(fabric.Loader.Maven),
-                    IsCompleted = false,
-                    DownloadedBytes = 0,
-                });
-
-            downloads = downloads.Append(
-                new DownloadItem
-                {
-                    Name = fabric.Intermediary.Maven,
-                    Path = _gamePathService.LibrariesDir + GetPath(fabric.Intermediary.Maven),
-                    Url = FABRIC_MAVEN_URL + GetPath(fabric.Intermediary.Maven),
-                    IsCompleted = false,
-                    DownloadedBytes = 0,
-                });
-
-            return downloads;
-        }
-
         public Version Install(Fabric fabric)
         {
             var jver = new JVersion
             {
-                id = $"{fabric.Intermediary.Version}-{fabric.Loader.Version}",
+                id = $"{fabric.Intermediary.Version}-fabric-{fabric.Loader.Version}",
                 inheritsFrom = fabric.Intermediary.Version,
                 type = "release",
                 mainClass = "net.fabricmc.loader.launch.knot.KnotClient",
@@ -113,6 +69,8 @@ namespace GBCLV3.Services.Installation
                 libraries = fabric.LauncherMeta.Libraries.Common
                                   .Concat(fabric.LauncherMeta.Libraries.Client)
                                   .Concat(fabric.LauncherMeta.Libraries.Server)
+                                  .Append(new JLibrary { name = fabric.Intermediary.Maven, url = FABRIC_MAVEN_URL })
+                                  .Append(new JLibrary { name = fabric.Loader.Maven, url = FABRIC_MAVEN_URL })
                                   .ToList(),
             };
             jver.arguments.game = new List<JsonElement>(0);

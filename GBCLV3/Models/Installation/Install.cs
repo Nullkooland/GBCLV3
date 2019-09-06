@@ -3,6 +3,14 @@ using GBCLV3.Utils;
 
 namespace GBCLV3.Models.Installation
 {
+    enum InstallType
+    {
+        Version,
+        Forge,
+        Fabric,
+        OptiFine,
+    }
+
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum VersionInstallStatus
     {
@@ -38,6 +46,19 @@ namespace GBCLV3.Models.Installation
         ManualInstalling,
 
         [LocalizedDescription("ForgeDownloadingLibraries")]
+        DownloadingLibraries,
+    }
+
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    enum FabricInstallStatus
+    {
+        [LocalizedDescription("FabricListLoading")]
+        ListLoading,
+
+        [LocalizedDescription("SelectFabricVersion")]
+        ListLoaded,
+
+        [LocalizedDescription("FabricDownloadingLibraries")]
         DownloadingLibraries,
     }
 }

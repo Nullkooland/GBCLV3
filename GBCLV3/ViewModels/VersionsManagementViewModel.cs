@@ -3,6 +3,8 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using GBCLV3.Models;
+using GBCLV3.Models.Installation;
+using GBCLV3.Models.Launcher;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
 using Stylet;
@@ -15,7 +17,7 @@ namespace GBCLV3.ViewModels
     {
         #region Events
 
-        public event Action<string> NavigateView;
+        public event Action<string, InstallType> NavigateInstallView;
 
         #endregion
 
@@ -92,12 +94,24 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public void InstallNew() => NavigateView?.Invoke(null);
+        public void InstallNew() => NavigateInstallView?.Invoke(null, InstallType.Version);
 
         public void InstallForge()
         {
             var version = _versionService.GetByID(SelectedVersionID);
-            NavigateView?.Invoke(version.JarID);
+            NavigateInstallView?.Invoke(version.JarID, InstallType.Forge);
+        }
+
+        public void InstallFabric()
+        {
+            var version = _versionService.GetByID(SelectedVersionID);
+            NavigateInstallView?.Invoke(version.JarID, InstallType.Fabric);
+        }
+
+        public void InstallOptiFine()
+        {
+            var version = _versionService.GetByID(SelectedVersionID);
+            NavigateInstallView?.Invoke(version.JarID, InstallType.OptiFine);
         }
 
         #endregion

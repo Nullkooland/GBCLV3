@@ -144,7 +144,7 @@ namespace GBCLV3.ViewModels
                     MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            _windowManager.ShowMessageBox("${VersionInstallSuccessful} " + download.ID);
+            _windowManager.ShowMessageBox("${VersionInstallSuccessful} " + download.ID, "${InstallSuccessful}");
             Status = VersionInstallStatus.ListLoaded;
         }
 

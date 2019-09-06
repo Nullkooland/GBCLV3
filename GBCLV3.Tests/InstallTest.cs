@@ -88,19 +88,6 @@ namespace GBCLV3.Tests
                 Debug.WriteLine($"ID:           {fabric.Loader.Build}");
                 Debug.WriteLine($"Version:      {fabric.Loader.Version}");
             }
-
-            var downloads = _fabricInstallService.GetDownloads(fabrics.First());
-
-            Debug.WriteLine($"[Fabric Downloads]");
-
-            foreach (var download in downloads)
-            {
-                Debug.WriteLine("---------------------------------------------------------------");
-                Debug.WriteLine($"Name:         {download.Name}");
-                Debug.WriteLine($"Path:         {download.Path}");
-                Debug.WriteLine($"Url:          {download.Url}");
-                Debug.WriteLine($"Downloadable: {TestUtils.IsDownloadable(download)}");
-            }
         }
     }
 }

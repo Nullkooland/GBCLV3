@@ -70,7 +70,7 @@
                           VirtualizingPanel.IsVirtualizing="True"
                           VirtualizingPanel.VirtualizationMode="Recycling"
                           IsEnabled="{Binding CanInstall, Mode=OneWay}"
-                          ItemsSource="{Binding ForgeDownloads, Mode=OneWay}">
+                          ItemsSource="{Binding Forges, Mode=OneWay}">
 
                     <ListView.ItemContainerStyle>
                         <Style TargetType="ListViewItem" BasedOn="{StaticResource {x:Type ListViewItem}}">
@@ -86,12 +86,11 @@
                             <GridViewColumn Width="64">
                                 <GridViewColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button x:Name="InstallButton"
-                                                Style="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}"
-                                                Width="32" Height="28"
-                                                FontFamily="Segoe MDL2 Assets" FontSize="16"
+                                        <Button Style="{StaticResource LinkButtonStyle}"
+                                                Height="28" FontSize="16"
                                                 Content="&#xE896;"
-                                                Command="{s:Action InstallSelectedForge}"
+                                                ToolTip="{DynamicResource DownloadAndInstall}"
+                                                Command="{s:Action InstallSelected}"
                                                 CommandParameter="{Binding}"/>
                                     </DataTemplate>
                                 </GridViewColumn.CellTemplate>
