@@ -37,7 +37,7 @@
 ## Development Progress
 
 - [x] Game Launch
-  - [x] Auto JRE detection
+  - [x] Auto JRE path detection
   - [x] Version segregation
   - [x] 1.13+ Support
   - [x] Forge version
@@ -46,12 +46,13 @@
   - [x] Email and Password Login
   - [x] Token Refresh
 
-- [x] Download
+- [x] Download and Installation
   - [x] Parallel download
   - [x] Retry incomplete downloads
   - [x] Fix damaged dependencies (main jar, libraries, assets)
   - [x] Install new version
-  - [x] Install forge
+  - [x] Install Forge
+  - [x] Install Fabric
 
 - [ ] Custom Theme
   - [x] Blur-behind window

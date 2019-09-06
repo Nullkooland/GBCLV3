@@ -221,7 +221,7 @@
     <s:String x:Key="OpenLink">Open Link</s:String>
     <s:String x:Key="Delete">Delete</s:String>
     <s:String x:Key="Install">Install</s:String>
-    <s:String x:Key="InstallSuccessful">Install successful</s:String>
+    <s:String x:Key="InstallSuccessful">Install Successful</s:String>
     <s:String x:Key="Versions">Versions</s:String>
     <s:String x:Key="VersionsManagement">Versions Management</s:String>
     <s:String x:Key="GameInstall">Game Install</s:String>
