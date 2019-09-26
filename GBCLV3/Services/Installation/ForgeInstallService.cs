@@ -162,19 +162,15 @@ namespace GBCLV3.Services.Installation
                 return null;
             }
 
-            using (var archive = ZipFile.OpenRead(jarPath))
-            {
-                var entry = archive.GetEntry("version.json");
+            using var archive = ZipFile.OpenRead(jarPath);
+            var entry = archive.GetEntry("version.json");
 
-                using (var reader = new StreamReader(entry.Open(), Encoding.UTF8))
-                {
-                    string json = reader.ReadToEnd();
-                    string versionID = $"{forge.GameVersion}-forge-{forge.Version}";
+            using var reader = new StreamReader(entry.Open(), Encoding.UTF8);
+            string json = reader.ReadToEnd();
+            string versionID = $"{forge.GameVersion}-forge-{forge.Version}";
 
-                    json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{versionID}\"");
-                    return _versionService.AddNew(json);
-                }
-            }
+            json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{versionID}\"");
+            return _versionService.AddNew(json);
         }
 
         #endregion

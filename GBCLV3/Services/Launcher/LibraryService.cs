@@ -38,13 +38,11 @@ namespace GBCLV3.Services.Launcher
 
             foreach (var native in nativeLibraries)
             {
-                using (var archive = ZipFile.OpenRead($"{_gamePathService.LibrariesDir}/{native.Path}"))
+                using var archive = ZipFile.OpenRead($"{_gamePathService.LibrariesDir}/{native.Path}");
+                // You know what, the "Exclude" property is a joke...
+                foreach (var entry in archive.Entries.Where(e => !e.FullName.StartsWith("META-INF")))
                 {
-                    // You know what, the "Exclude" property is a joke...
-                    foreach (var entry in archive.Entries.Where(e => !e.FullName.StartsWith("META-INF")))
-                    {
-                        entry.ExtractToFile($"{_gamePathService.NativesDir}/{entry.FullName}", true);
-                    }
+                    entry.ExtractToFile($"{_gamePathService.NativesDir}/{entry.FullName}", true);
                 }
             }
         }

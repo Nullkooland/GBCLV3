@@ -57,12 +57,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GBCLV3\GBCLV3.csproj">
-      <Project>{d0538262-7697-4a67-804d-1bfc6fdd141b}</Project>
-      <Name>GBCLV3</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="MSTest.TestAdapter">
       <Version>2.0.0</Version>
     </PackageReference>

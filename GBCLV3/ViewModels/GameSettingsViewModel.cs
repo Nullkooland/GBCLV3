@@ -135,6 +135,7 @@ namespace GBCLV3.ViewModels
             set
             {
                 _config.UseToken = value;
+                if (value && _config.AccessToken == null) _config.UseToken = false;
             }
         }
 

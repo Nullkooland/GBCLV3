@@ -45,20 +45,18 @@ namespace GBCLV3.Services
 
             if (File.Exists(optionsFile))
             {
-                using (var reader = new StreamReader(optionsFile, Encoding.Default))
+                using var reader = new StreamReader(optionsFile, Encoding.Default);
+                string line;
+                while ((line = reader.ReadLine()) != null)
                 {
-                    string line;
-                    while ((line = reader.ReadLine()) != null)
+                    if (line.StartsWith("resourcePacks"))
                     {
-                        if (line.StartsWith("resourcePacks"))
-                        {
-                            // Extract “resourcePacks:[${enabledPackIDs}]”
-                            enabledPackIDs = line.Substring(15, line.Length - 16)
-                                                 .Split(',')
-                                                 .Select(id => id.Trim('\"'))
-                                                 .ToArray();
-                            break;
-                        }
+                        // Extract “resourcePacks:[${enabledPackIDs}]”
+                        enabledPackIDs = line.Substring(15, line.Length - 16)
+                                             .Split(',')
+                                             .Select(id => id.Trim('\"'))
+                                             .ToArray();
+                        break;
                     }
                 }
             }
@@ -142,10 +140,8 @@ namespace GBCLV3.Services
         {
             try
             {
-                using (var archive = ZipFile.OpenRead(path))
-                {
-                    return (archive.GetEntry("pack.mcmeta") != null);
-                }
+                using var archive = ZipFile.OpenRead(path);
+                return (archive.GetEntry("pack.mcmeta") != null);
             }
             catch
             {
@@ -155,33 +151,29 @@ namespace GBCLV3.Services
 
         private static ResourcePack LoadZip(string path, string[] enabledPackIDs)
         {
-            using (var archive = ZipFile.OpenRead(path))
+            using var archive = ZipFile.OpenRead(path);
+            ZipArchiveEntry infoEntry;
+            if ((infoEntry = archive.GetEntry("pack.mcmeta")) == null)
             {
-                ZipArchiveEntry infoEntry;
-                if ((infoEntry = archive.GetEntry("pack.mcmeta")) == null)
-                {
-                    return null;
-                }
-
-                var pack = ReadInfo(infoEntry.Open());
-                pack.Path = path;
-                pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
-                pack.IsExtracted = false;
-
-                // Load cover image (if exists)
-                ZipArchiveEntry imgEntry;
-                if ((imgEntry = archive.GetEntry("pack.png")) != null)
-                {
-                    using (var es = imgEntry.Open())
-                    using (var ms = new MemoryStream())
-                    {
-                        es.CopyTo(ms);
-                        pack.Image = ReadImage(ms);
-                    }
-                }
-
-                return pack;
+                return null;
             }
+
+            var pack = ReadInfo(infoEntry.Open());
+            pack.Path = path;
+            pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
+            pack.IsExtracted = false;
+
+            // Load cover image (if exists)
+            ZipArchiveEntry imgEntry;
+            if ((imgEntry = archive.GetEntry("pack.png")) != null)
+            {
+                using var es = imgEntry.Open();
+                using var ms = new MemoryStream();
+                es.CopyTo(ms);
+                pack.Image = ReadImage(ms);
+            }
+
+            return pack;
         }
 
         private static ResourcePack LoadDir(string packDir, string[] enabledPackIDs)
@@ -202,10 +194,8 @@ namespace GBCLV3.Services
             // Load cover image (if exists)
             if (File.Exists(imgPath))
             {
-                using (var fs = File.OpenRead(imgPath))
-                {
-                    pack.Image = ReadImage(fs);
-                }
+                using var fs = File.OpenRead(imgPath);
+                pack.Image = ReadImage(fs);
             }
 
             return pack;
@@ -213,16 +203,14 @@ namespace GBCLV3.Services
 
         private static ResourcePack ReadInfo(Stream infoStream)
         {
-            using (var reader = new StreamReader(infoStream, Encoding.UTF8))
-            {
-                var info = JsonSerializer.Deserialize<JResourcePack>(reader.ReadToEnd());
+            using var reader = new StreamReader(infoStream, Encoding.UTF8);
+            var info = JsonSerializer.Deserialize<JResourcePack>(reader.ReadToEnd());
 
-                return new ResourcePack
-                {
-                    Format = info.pack.pack_format,
-                    Description = info.pack.description,
-                };
-            }
+            return new ResourcePack
+            {
+                Format = info.pack.pack_format,
+                Description = info.pack.description,
+            };
         }
 
         private static BitmapImage ReadImage(Stream imgStream)

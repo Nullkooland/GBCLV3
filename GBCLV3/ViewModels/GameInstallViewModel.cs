@@ -157,13 +157,11 @@ namespace GBCLV3.ViewModels
 
         private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
-            using (var downloadService = new DownloadService(items))
-            {
-                _downloadVM.Setup(type, downloadService);
-                this.ActivateItem(_downloadVM);
+            using var downloadService = new DownloadService(items);
+            _downloadVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadVM);
 
-                return await downloadService.StartAsync();
-            }
+            return await downloadService.StartAsync();
         }
 
         protected override async void OnActivate()
