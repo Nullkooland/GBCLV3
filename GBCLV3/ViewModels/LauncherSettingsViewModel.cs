@@ -30,7 +30,7 @@ namespace GBCLV3.ViewModels
             LanguageService languageService,
             UpdateService updateService,
             ThemeService themeService,
-            
+
             UpdateViewModel updateVM,
             IWindowManager windowManager)
         {

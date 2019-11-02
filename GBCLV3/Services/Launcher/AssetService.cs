@@ -48,13 +48,12 @@ namespace GBCLV3.Services.Launcher
 
             if (info.Objects != null) return true;
 
-            using (var sr = new StreamReader(jsonPath, Encoding.UTF8))
-            {
-                var opetions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var jasset = JsonSerializer.Deserialize<JAsset>(sr.ReadToEnd(), opetions);
-                info.Objects = jasset.objects;
-                return true;
-            }
+            using var reader = new StreamReader(jsonPath, Encoding.UTF8);
+            var opetions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
+            var jasset = JsonSerializer.Deserialize<JAsset>(reader.ReadToEnd(), opetions);
+
+            info.Objects = jasset.objects;
+            return true;
         }
 
         public async Task<IEnumerable<AssetObject>> CheckIntegrityAsync(AssetsInfo info)

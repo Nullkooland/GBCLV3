@@ -1,5 +1,4 @@
-﻿using System.Diagnostics;
-using System.Media;
+﻿using System.Media;
 using System.Windows;
 using GBCLV3.Models;
 using GBCLV3.Services;
@@ -13,7 +12,7 @@ namespace GBCLV3.ViewModels.Windows
     {
         #region Private Members
 
-        private const string _issuesUrl = "https://github.com/Goose-Bomb/GBCLV3/issues";
+        private const string ISSUES_URL = "https://github.com/Goose-Bomb/GBCLV3/issues";
         private string _errorMessage;
 
         #endregion
@@ -48,7 +47,7 @@ namespace GBCLV3.ViewModels.Windows
 
         public void Close() => this.RequestClose();
 
-        public void Report() => Process.Start(_issuesUrl);
+        public void Report() => SystemUtil.OpenLink(ISSUES_URL);
 
         public void CopyMessage() => Clipboard.SetText(ErrorMessage, TextDataFormat.UnicodeText);
 

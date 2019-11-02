@@ -1,8 +1,8 @@
-﻿using System.Diagnostics;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
+using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -43,9 +43,9 @@ namespace GBCLV3.ViewModels
 
         public BindableCollection<ResourcePack> DisabledPacks { get; private set; }
 
-        public void OpenDir() => Process.Start(_gamePathService.ResourcePacksDir);
+        public void OpenDir() => SystemUtil.OpenLink(_gamePathService.ResourcePacksDir);
 
-        public void Open(string path) => Process.Start(path);
+        public void Open(string path) => SystemUtil.OpenLink(path);
 
         public async void Delete(ResourcePack pack)
         {

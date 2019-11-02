@@ -133,10 +133,7 @@ namespace GBCLV3.ViewModels.Pages
         public string SelectedVersionID
         {
             get => _config.SelectedVersion;
-            set
-            {
-                _config.SelectedVersion = value;
-            }
+            set => _config.SelectedVersion = value;
         }
 
         public bool CanLaunch { get; private set; }
@@ -303,18 +300,16 @@ namespace GBCLV3.ViewModels.Pages
         {
             _statusVM.Status = LaunchStatus.Downloading;
 
-            using (var downloadService = new DownloadService(items))
-            {
-                _downloadVM.Setup(type, downloadService);
-                this.ActivateItem(_downloadVM);
+            using var downloadService = new DownloadService(items);
+            _downloadVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadVM);
 
-                bool isSuccessful = await downloadService.StartAsync();
+            bool isSuccessful = await downloadService.StartAsync();
 
-                this.ActivateItem(_statusVM);
-                _statusVM.Status = LaunchStatus.ProcessingDependencies;
+            this.ActivateItem(_statusVM);
+            _statusVM.Status = LaunchStatus.ProcessingDependencies;
 
-                return isSuccessful;
-            }
+            return isSuccessful;
         }
 
         private void OnLaunchCompleted()

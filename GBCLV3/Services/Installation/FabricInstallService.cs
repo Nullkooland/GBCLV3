@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows.Documents;
-using GBCLV3.Models;
 using GBCLV3.Models.Installation;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Services.Launcher;
@@ -53,8 +49,23 @@ namespace GBCLV3.Services.Installation
 
         public async Task<IEnumerable<Fabric>> GetDownloadListAsync(string id)
         {
-            string json = await _client.GetStringAsync(FABRIC_LIST_URL + id);
-            return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
+            try
+            {
+                string json = await _client.GetStringAsync(FABRIC_LIST_URL + id);
+                return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
+            }
+            catch (HttpRequestException ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            catch (OperationCanceledException)
+            {
+                // Timeout
+                Debug.WriteLine("[ERROR] Get fabric download list timeout");
+                return null;
+            }
+
         }
 
         public Version Install(Fabric fabric)

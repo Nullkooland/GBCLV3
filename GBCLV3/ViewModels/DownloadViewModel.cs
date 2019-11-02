@@ -85,7 +85,7 @@ namespace GBCLV3.ViewModels
 
         private static string GetBytesProgressText(int downloaded, int total)
         {
-            string GetMB(int bytes) => (bytes / (1024.0 * 1024.0)).ToString("0.00");
+            static string GetMB(int bytes) => (bytes / (1024.0 * 1024.0)).ToString("0.00");
             // In case don't know the sizes of downloads in advance
             if (downloaded >= total)
             {

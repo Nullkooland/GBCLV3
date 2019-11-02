@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +7,7 @@ using System.Windows.Controls;
 using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launcher;
+using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -83,10 +83,10 @@ namespace GBCLV3.ViewModels
         public void OpenDir()
         {
             Directory.CreateDirectory(_gamePathService.ModsDir);
-            Process.Start(_gamePathService.ModsDir);
+            SystemUtil.OpenLink(_gamePathService.ModsDir);
         }
 
-        public void OpenLink(string url) => Process.Start(url);
+        public void OpenLink(string url) => SystemUtil.OpenLink(url);
 
         public void SelectionChanged(ListBox _, SelectionChangedEventArgs e)
         {

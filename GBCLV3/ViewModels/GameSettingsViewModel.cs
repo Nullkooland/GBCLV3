@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows.Controls;
 using GBCLV3.Models;
@@ -14,6 +13,8 @@ namespace GBCLV3.ViewModels
     class GameSettingsViewModel : Screen
     {
         #region Private Members
+
+        const string JRE_DOWNLOAD_URL = "https://bmclapi.bangbang93.com/java/jre_x64.exe";
 
         // IoC
         private readonly Config _config;
@@ -135,6 +136,7 @@ namespace GBCLV3.ViewModels
             set
             {
                 _config.UseToken = value;
+                if (value && _config.AccessToken == null) _config.UseToken = false;
             }
         }
 
@@ -182,7 +184,7 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public void DonwloadJreInstaller() => Process.Start("https://bmclapi.bangbang93.com/java/jre_x64.exe");
+        public void DonwloadJreInstaller() => SystemUtil.OpenLink(JRE_DOWNLOAD_URL);
 
         public void SelectGameDir()
         {

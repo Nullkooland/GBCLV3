@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using GBCLV3.Models;
-using GBCLV3.Services;
-using GBCLV3.Utils;
+﻿using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -50,7 +47,7 @@ namespace GBCLV3.ViewModels.Pages
         public string Forge => "Support Minecraft Forge";
         public string ForgePage => "https://www.patreon.com/LexManos";
 
-        public void OpenLink(string url) => Process.Start(url);
+        public void OpenLink(string url) => SystemUtil.OpenLink(url);
 
         public void DontStop() => _windowManager.ShowMessageBox("${DontStop}", "${FlowerOfHope}");
 
