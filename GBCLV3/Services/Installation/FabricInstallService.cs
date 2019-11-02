@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows.Documents;
-using GBCLV3.Models;
 using GBCLV3.Models.Installation;
 using GBCLV3.Models.JsonClasses;
 using GBCLV3.Services.Launcher;

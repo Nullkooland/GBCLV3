@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -52,7 +51,7 @@ namespace GBCLV3.Services
                     if (line.StartsWith("resourcePacks"))
                     {
                         // Extract “resourcePacks:[${enabledPackIDs}]”
-                        enabledPackIDs = line.Substring(15, line.Length - 16)
+                        enabledPackIDs = line[15..^1]
                                              .Split(',')
                                              .Select(id => id.Trim('\"'))
                                              .ToArray();
@@ -113,7 +112,7 @@ namespace GBCLV3.Services
             return await Task.Run(() =>
                 paths.Select(path =>
                 {
-                    var dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
+                    string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                     if (File.Exists(dstPath)) return null;
 
                     var pack = LoadZip(dstPath, null);

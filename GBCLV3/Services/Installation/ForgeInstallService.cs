@@ -59,7 +59,7 @@ namespace GBCLV3.Services.Installation
                 string json = await _client.GetStringAsync(FORGE_LIST_URL + id);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
-                var nums = id.Split('.')
+                int[] nums = id.Split('.')
                              .Select(numStr =>
                              {
                                  if (int.TryParse(numStr, out int num))
@@ -135,7 +135,12 @@ namespace GBCLV3.Services.Installation
                 // Just a dummy json...but required by forge installer
                 if (!File.Exists(profilePath)) File.WriteAllText(profilePath, "{}");
 
-                var process = Process.Start(installerPath);
+                var process = Process.Start(new ProcessStartInfo
+                {
+                    FileName = installerPath,
+                    UseShellExecute = true,
+                });
+
                 await Task.Run(() => process.WaitForExit());
                 File.Delete(installerPath);
                 File.Delete($"{forge.GameVersion}-{forge.Version}-installer.jar.log");

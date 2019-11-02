@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Documents;
+﻿using System.Collections.Generic;
 using GBCLV3.Models.JsonClasses;
-using GBCLV3.Models.Launcher;
 
 namespace GBCLV3.Models.Installation
 {

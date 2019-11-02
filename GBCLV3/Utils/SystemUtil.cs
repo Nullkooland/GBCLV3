@@ -28,6 +28,15 @@ namespace GBCLV3.Utils
             }
         }
 
+        public static void OpenLink(string url)
+        {
+            Process.Start(new ProcessStartInfo
+            {
+                FileName = url,
+                UseShellExecute = true,
+            });
+        }
+
         public static uint GetAvailableMemory()
         {
             using var counter = new PerformanceCounter("Memory", "Available MBytes", true);

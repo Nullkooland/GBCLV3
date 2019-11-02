@@ -40,10 +40,10 @@ namespace GBCLV3.Services
         private const string ICONS_SOURCE = "/GBCL;component/Resources/Styles/Icons.xaml";
         private const string DEFAULT_BACKGROUND_IMAGE = "pack://application:,,,/Resources/Images/default_background.png";
 
-        private static readonly Color REF_COLOR_SPIKE       = Color.FromRgb(15, 105, 200);
-        private static readonly Color REF_COLOR_BULLZEYE    = Color.FromRgb(210, 50, 55);
-        private static readonly Color REF_COLOR_TBONE       = Color.FromRgb(165, 125, 10);
-        private static readonly Color REF_COLOR_STEGZ       = Color.FromRgb(105, 175, 5);
+        private static readonly Color REF_COLOR_SPIKE = Color.FromRgb(15, 105, 200);
+        private static readonly Color REF_COLOR_BULLZEYE = Color.FromRgb(210, 50, 55);
+        private static readonly Color REF_COLOR_TBONE = Color.FromRgb(165, 125, 10);
+        private static readonly Color REF_COLOR_STEGZ = Color.FromRgb(105, 175, 5);
 
         private readonly Config _config;
 

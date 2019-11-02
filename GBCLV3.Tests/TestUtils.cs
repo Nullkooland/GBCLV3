@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using System.Net.Http;
-using GBCLV3.Models;
 
 namespace GBCLV3.Tests
 {

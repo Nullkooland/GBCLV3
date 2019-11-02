@@ -66,7 +66,7 @@ namespace GBCLV3.Services
             return await Task.Run(() =>
                 paths.Select(path =>
                 {
-                    var dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
+                    string dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
                     if (File.Exists(dstPath)) return null;
 
                     File.Move(path, dstPath);
@@ -85,7 +85,7 @@ namespace GBCLV3.Services
         {
             using var archive = ZipFile.OpenRead(path);
             bool isEnabled = path.EndsWith(".jar");
-            if (!isEnabled) path = path.Substring(0, path.Length - 9);
+            if (!isEnabled) path = path[0..^9];
 
             var info = archive.GetEntry("mcmod.info");
             if (info != null)
