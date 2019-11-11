@@ -27,6 +27,7 @@ namespace GBCLV3.ViewModels.Pages
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
         private readonly LaunchService _launchService;
+        private readonly SkinService _skinService;
 
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadViewModel _downloadVM;
@@ -49,7 +50,9 @@ namespace GBCLV3.ViewModels.Pages
             LibraryService libraryService,
             AssetService assetService,
             LaunchService launchService,
+            SkinService skinService,
 
+            GreetingViewModel greetingVM,
             LaunchStatusViewModel statusVM,
             DownloadViewModel downloadVM,
             ErrorReportViewModel errorReportVM)
@@ -63,6 +66,7 @@ namespace GBCLV3.ViewModels.Pages
             _libraryService = libraryService;
             _assetService = assetService;
             _launchService = launchService;
+            _skinService = skinService;
 
             _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
             _launchService.Exited += OnGameExited;
@@ -120,11 +124,14 @@ namespace GBCLV3.ViewModels.Pages
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
 
             ThemeService = themeService;
+            GreetingVM = greetingVM;
         }
 
         #endregion
 
         #region Bindings
+
+        public GreetingViewModel GreetingVM { get; private set; }
 
         public ThemeService ThemeService { get; private set; }
 

@@ -1,4 +1,5 @@
-﻿using GBCLV3.Models.Launcher;
+﻿using System.Windows.Media.Imaging;
+using GBCLV3.Models.Launcher;
 using Stylet;
 
 namespace GBCLV3.ViewModels

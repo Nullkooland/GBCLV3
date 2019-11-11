@@ -73,7 +73,7 @@ namespace GBCLV3.Services
         {
             return Regex.Replace(src ?? string.Empty, "\\${.*?}", match =>
             {
-                string key = match.Value.Substring(2, match.Length - 3);
+                string key = match.Value[2..^1];
                 return this.GetEntry(key);
             });
         }
