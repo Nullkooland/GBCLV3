@@ -57,9 +57,9 @@ namespace GBCLV3.ViewModels
             get => _config.JavaMaxMem;
             set
             {
-                if (value > SystemUtil.GetAvailableMemory())
+                if (value > NativeUtil.GetAvailablePhysicalMemory())
                 {
-                    _config.JavaMaxMem = SystemUtil.GetRecommendedMemory();
+                    _config.JavaMaxMem = NativeUtil.GetRecommendedMemory();
                     NotifyOfPropertyChange(nameof(JavaMaxMemory));
                 }
                 else
@@ -75,8 +75,7 @@ namespace GBCLV3.ViewModels
             set => _config.JavaDebugMode = value;
         }
 
-        public string AvailableMemory =>
-            _languageService.GetEntry("AvailableMem") + $" {SystemUtil.GetAvailableMemory()} MB";
+        public string AvailableMemory { get; private set; }
 
         public string GameDir
         {
@@ -203,6 +202,12 @@ namespace GBCLV3.ViewModels
             }
         }
 
+        public void UpdateAvailableMemoryDisplay()
+        {
+            AvailableMemory =
+                _languageService.GetEntry("AvailableMem") + $" {NativeUtil.GetAvailablePhysicalMemory()} MB";
+        }
+
         #endregion
 
         #region Private Methods
@@ -217,6 +222,7 @@ namespace GBCLV3.ViewModels
                 !(string.IsNullOrEmpty(_config.JvmArgs) && string.IsNullOrEmpty(_config.ExtraMinecraftArgs));
 
             NotifyOfPropertyChange(nameof(IsUseToken));
+            UpdateAvailableMemoryDisplay();
         }
 
         #endregion

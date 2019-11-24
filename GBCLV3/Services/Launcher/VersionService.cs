@@ -186,7 +186,7 @@ namespace GBCLV3.Services.Launcher
                 new VersionDownload
                 {
                     ID = download.id,
-                    Url = download.url.Substring(32),
+                    Url = download.url[32..],
                     ReleaseTime = download.releaseTime,
                     Type = download.type == "release" ? VersionType.Release : VersionType.Snapshot,
                 });
@@ -272,7 +272,7 @@ namespace GBCLV3.Services.Launcher
                 JarID = jver.jar ?? jver.id,
                 Size = jver.downloads?.client.size ?? 0,
                 SHA1 = jver.downloads?.client.sha1,
-                Url = jver.downloads?.client.url.Substring(28),
+                Url = jver.downloads?.client.url[28..],
                 InheritsFrom = jver.inheritsFrom,
                 MainClass = jver.mainClass,
                 Libraries = new List<Library>(),
@@ -361,7 +361,7 @@ namespace GBCLV3.Services.Launcher
                              jlib.url == "http://files.minecraftforge.net/maven/")
                     {
                         lib.Type = LibraryType.Maven;
-                        lib.Url = jlib.downloads?.artifact.url.Substring(39);
+                        lib.Url = jlib.downloads?.artifact.url[39..];
                     }
                     else if (jlib.url == "https://maven.fabricmc.net/")
                     {
@@ -371,7 +371,7 @@ namespace GBCLV3.Services.Launcher
                     else
                     {
                         lib.Type = LibraryType.Minecraft;
-                        lib.Url = jlib.downloads?.artifact.url.Substring(32);
+                        lib.Url = jlib.downloads?.artifact.url[32..];
                     }
 
                     version.Libraries.Add(lib);

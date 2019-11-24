@@ -16,6 +16,12 @@
             <ColumnDefinition Width="96"/>
         </Grid.ColumnDefinitions>
 
+        <!-- Greetings -->
+        <ContentControl Grid.ColumnSpan="3" Margin="8"
+                        HorizontalAlignment="Left" VerticalAlignment="Top"
+                        s:View.Model="{Binding GreetingVM, Mode=OneWay}"/>
+
+        <!-- Launch or Download Status -->
         <ContentControl Grid.ColumnSpan="3"
                         HorizontalAlignment="Stretch" VerticalAlignment="Top"
                         s:View.Model="{Binding ActiveItem, Mode=OneWay}"/>

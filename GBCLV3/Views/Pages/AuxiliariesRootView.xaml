@@ -1,4 +1,4 @@
-﻿<ContentControl x:Class="GBCLV3.Views.AccessoriesView"
+﻿<ContentControl x:Class="GBCLV3.Views.AuxiliariesRootView"
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
@@ -16,6 +16,10 @@
         <!--<TabItem Header="&#xEA35;" Tag="{DynamicResource Saves}">
             <ContentControl s:View.Model="{Binding SaveVM}"/>
         </TabItem>-->
+
+        <!--TabItem Header="&#xE790;" Tag="{DynamicResource Skins}">
+            <ContentControl s:View.Model="{Binding SkinVM}"/>
+        </TabItem-->
     </TabControl>
     
 </ContentControl>

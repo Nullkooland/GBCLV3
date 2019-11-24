@@ -32,7 +32,7 @@ namespace GBCLV3.Models.Launcher
         /// <summary>
         /// Relative path to ./assets/objects directory
         /// </summary>
-        public string Path => $"{Hash.Substring(0, 2)}/{Hash}";
+        public string Path => $"{Hash[..2]}/{Hash}";
 
         /// <summary>
         ///  Size of asset file

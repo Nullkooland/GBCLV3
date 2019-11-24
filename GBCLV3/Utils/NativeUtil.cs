@@ -49,8 +49,15 @@ namespace GBCLV3.Utils
             );
         }
 
-        public static bool MoveFileOnReboot(string dstPath, string srcPath)
-            => MoveFileEx(srcPath, dstPath, MoveFileFlags.MOVEFILE_DELAY_UNTIL_REBOOT);
+        public static uint GetAvailablePhysicalMemory()
+        {
+            var status = new MemoryStatusEx { Length = (uint)Marshal.SizeOf(typeof(MemoryStatusEx)) };
+            GlobalMemoryStatusEx(ref status);
+            return (uint)(status.AvailablePhysicalMemory / (1024 * 1024));
+        }
+
+        public static uint GetRecommendedMemory() => 
+            (uint)Math.Pow(2.0, Math.Floor(Math.Log(GetAvailablePhysicalMemory(), 2.0)));
 
         #endregion
 
@@ -106,21 +113,25 @@ namespace GBCLV3.Utils
 
         #endregion
 
-        #region Update
+        #region Memory Info
 
-        [Flags]
-        enum MoveFileFlags
+        [StructLayout(LayoutKind.Sequential)]
+        private struct MemoryStatusEx
         {
-            MOVEFILE_REPLACE_EXISTING = 0x00000001,
-            MOVEFILE_COPY_ALLOWED = 0x00000002,
-            MOVEFILE_DELAY_UNTIL_REBOOT = 0x00000004,
-            MOVEFILE_WRITE_THROUGH = 0x00000008,
-            MOVEFILE_CREATE_HARDLINK = 0x00000010,
-            MOVEFILE_FAIL_IF_NOT_TRACKABLE = 0x00000020
+            public uint Length;
+            public uint MemoryLoad;
+            public ulong TotalPhysicalMemory;
+            public ulong AvailablePhysicalMemory;
+            public ulong TotalPageFile;
+            public ulong AvailablePageFile;
+            public ulong TotalVirtualMemory;
+            public ulong AvailableVirtualMemory;
+            public ulong AvailableExtendedVirtualMemory;
         }
 
-        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Unicode)]
-        static extern bool MoveFileEx(string lpExistingFileName, string lpNewFileName, MoveFileFlags dwFlags);
+        [return: MarshalAs(UnmanagedType.Bool)]
+        [DllImport("kernel32.dll")]
+        static extern bool GlobalMemoryStatusEx(ref MemoryStatusEx lpBuffer);
 
         #endregion
     }

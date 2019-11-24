@@ -59,8 +59,7 @@
     <Style x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Width" Value="13"/>
-        <Setter Property="Margin" Value="1,2,1,1"/>
+        <Setter Property="Width" Value="12"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
