@@ -12,7 +12,7 @@ using System.Windows;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: AssemblyVersion("3.0.7.59")]
-[assembly: AssemblyFileVersion("3.0.6.59")]
+[assembly: AssemblyFileVersion("3.0.7.59")]
 
 [assembly: ComVisible(false)]
 

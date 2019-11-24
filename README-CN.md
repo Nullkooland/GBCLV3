@@ -11,7 +11,7 @@
       <img src="https://img.shields.io/badge/platform-win--64-lightgrey.svg" alt="Platform">
     </a>
         <a>
-      <img src="https://img.shields.io/badge/.NET%20Framework-%3E%3D4.7.2-blueviolet.svg" alt=".NET Version">
+      <img src="https://img.shields.io/badge/.NET%20Core-%3E%3D3.0-blueviolet.svg" alt=".NET Version">
     </a>
     <a href="https://github.com/Goose-Bomb/GBCLV3/archive/master.zip">
       <img src="https://img.shields.io/github/languages/code-size/Goose-Bomb/GBCLV3.svg" alt="Code Size" />
@@ -26,13 +26,13 @@
   <p align="center">鹅弹的Minecraft客户端启动器 V3</p>
 </p>
 
-## 特点
+## 亮点
 
 * MVVM框架 🧶
 * 简单易用 (但愿吧 🤣)
 * Win10风格 😎✨
 
-## 开发进度
+## 功能
 
 - [x] 游戏启动
   - [x] 自动检测 JRE 路径
@@ -69,6 +69,7 @@
   - [x] 模组管理
   - [x] 资源包管理
   - [ ] 存档管理
+  - [ ] 皮肤管理
 
 - [x] 自动升级（基于Github）
 
