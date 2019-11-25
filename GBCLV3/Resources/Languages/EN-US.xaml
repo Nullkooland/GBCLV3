@@ -230,8 +230,9 @@
     <s:String x:Key="Mods">Mods</s:String>
     <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
     <s:String x:Key="Saves">Saves</s:String>
+    <s:String x:Key="Skins">Skins</s:String>
     <s:String x:Key="About">About</s:String>
-    <s:String x:Key="Accessories">Accessories</s:String>
+    <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
 
     <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
     <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>

@@ -231,8 +231,9 @@
     <s:String x:Key="Mods">模组管理</s:String>
     <s:String x:Key="Resourcepacks">资源包管理</s:String>
     <s:String x:Key="Saves">存档管理</s:String>
+    <s:String x:Key="Skins">皮肤管理</s:String>
     <s:String x:Key="About">关于</s:String>
-    <s:String x:Key="Accessories">辅助功能</s:String>
+    <s:String x:Key="Auxiliaries">辅助功能</s:String>
 
     <s:String x:Key="FlowerOfHope">希望之花🎵</s:String>
     <s:String x:Key="DontStop">不要停下来啊！</s:String>

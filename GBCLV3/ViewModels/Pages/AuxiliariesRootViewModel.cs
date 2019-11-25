@@ -3,17 +3,19 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels
 {
-    class AccessoriesViewModel : Screen
+    class AuxiliariesRootViewModel : Screen
     {
         #region Constructor
 
         [Inject]
-        public AccessoriesViewModel(
+        public AuxiliariesRootViewModel(
             ModViewModel modVM,
-            ResourcePackViewModel resourcePackVM)
+            ResourcePackViewModel resourcePackVM,
+            SkinViewModel skinVM)
         {
             ModVM = modVM;
             ResourcePackVM = resourcePackVM;
+            SkinVM = skinVM;
         }
 
         #endregion
@@ -23,6 +25,8 @@ namespace GBCLV3.ViewModels
         public ModViewModel ModVM { get; set; }
 
         public ResourcePackViewModel ResourcePackVM { get; set; }
+
+        public SkinViewModel SkinVM { get; set; }
 
         #endregion
 
