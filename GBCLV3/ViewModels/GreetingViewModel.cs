@@ -61,7 +61,7 @@ namespace GBCLV3.ViewModels
             }
             else
             {
-                SkinFace = new BitmapImage(new Uri("/Resources/Images/steve.png", UriKind.Relative));
+                SkinFace = new BitmapImage(new Uri("/Resources/Images/enderman.png", UriKind.Relative));
             }
 
             IsReady = true;

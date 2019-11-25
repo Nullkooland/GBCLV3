@@ -17,9 +17,9 @@
             <ContentControl s:View.Model="{Binding SaveVM}"/>
         </TabItem>-->
 
-        <TabItem Header="&#xE790;" Tag="{DynamicResource Skins}">
+        <!--TabItem Header="&#xE790;" Tag="{DynamicResource Skins}">
             <ContentControl s:View.Model="{Binding SkinVM}"/>
-        </TabItem>
+        </TabItem-->
     </TabControl>
     
 </ContentControl>

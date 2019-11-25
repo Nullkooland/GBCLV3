@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:s="https://github.com/canton7/Stylet"
       xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-      Background="#80161616"
+      Background="#A0161616"
       Width="320" Height="80"
       Visibility="Hidden"
       Loaded="{s:Action OnLoaded}">
@@ -77,12 +77,12 @@
 
     <TextBlock Grid.Row="1" Grid.Column="1" Margin="8,4"
                HorizontalAlignment="Left" VerticalAlignment="Center"
-               FontSize="18" Foreground="WhiteSmoke"
+               FontSize="18" Foreground="White"
                Text="{Binding Username, Mode=OneWay}"/>
 
     <TextBlock Grid.Row="2" Grid.Column="1" Margin="8,4"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                FontSize="12" 
-               Foreground="{DynamicResource {x:Static adonisUI:Brushes.DisabledAccentForegroundBrush}}"
+               Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
                Text="{Binding Email, Mode=OneWay}"/>
 </Grid>
