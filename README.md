@@ -11,7 +11,7 @@
       <img src="https://img.shields.io/badge/platform-win--64-lightgrey.svg" alt="Platform">
     </a>
         <a>
-      <img src="https://img.shields.io/badge/.NET%20Framework-%3E%3D4.7.2-blueviolet.svg" alt=".NET Version">
+      <img src="https://img.shields.io/badge/.NET%20Core-%3E%3D3.0-blueviolet.svg" alt=".NET Version">
     </a>
     <a href="https://github.com/Goose-Bomb/GBCLV3/archive/master.zip">
       <img src="https://img.shields.io/github/languages/code-size/Goose-Bomb/GBCLV3.svg" alt="Code Size" />
@@ -28,13 +28,13 @@
 
 [简体中文](./README-CN.md)
 
-## Features
+## Highlights
 
 * MVVM Framework 🧶
 * Simple and easy to use (I hope so 🤣)
 * Win10-style 😎✨
 
-## Development Progress
+## Features
 
 - [x] Game Launch
   - [x] Auto JRE path detection
@@ -71,6 +71,7 @@
   - [x] Mods management
   - [x] Resourcepacks management
   - [ ] Saves management
+  - [ ] Skin managemnet
 
 - [x] Auto update (Github based)
 
