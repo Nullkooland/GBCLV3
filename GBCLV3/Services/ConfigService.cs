@@ -38,7 +38,7 @@ namespace GBCLV3.Services
                 {
                     Username = "Steve",
                     OfflineMode = true,
-                    JavaMaxMem = SystemUtil.GetRecommendedMemory(),
+                    JavaMaxMem = NativeUtil.GetRecommendedMemory(),
                     WindowWidth = 854,
                     WindowHeight = 480,
                     AfterLaunch = AfterLaunchBehavior.Hide,

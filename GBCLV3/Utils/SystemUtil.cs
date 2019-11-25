@@ -37,14 +37,6 @@ namespace GBCLV3.Utils
             });
         }
 
-        public static uint GetAvailableMemory()
-        {
-            using var counter = new PerformanceCounter("Memory", "Available MBytes", true);
-            return (uint)counter.NextValue();
-        }
-
-        public static uint GetRecommendedMemory() => (uint)Math.Pow(2.0, Math.Floor(Math.Log(GetAvailableMemory(), 2.0)));
-
         public static async Task SendDirToRecycleBin(string path)
         {
             if (!Directory.Exists(path))

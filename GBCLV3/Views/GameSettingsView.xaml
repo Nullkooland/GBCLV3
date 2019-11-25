@@ -88,7 +88,8 @@
                 <TextBox Grid.Row="1" Grid.Column="1"
                          Text="{Binding JavaMaxMemory, Mode=TwoWay}"
                          ToolTipService.Placement="Bottom"
-                         ToolTip="{Binding AvailableMemory, Mode=OneWay}"/>
+                         ToolTip="{Binding AvailableMemory, Mode=OneWay}"
+                         ToolTipOpening="{s:Action UpdateAvailableMemoryDisplay}"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="2" Margin="8,8,0,0"
                            HorizontalAlignment="Center"
