@@ -15,7 +15,7 @@ namespace GBCLV3.Services
     {
         #region Private Members
 
-        private const string _profileServer = "https://sessionserver.mojang.com/session/minecraft/profile/";
+        private const string PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile/";
 
         private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
 
@@ -28,7 +28,7 @@ namespace GBCLV3.Services
         {
             try
             {
-                string profileJson = await _client.GetStringAsync(_profileServer + uuid);
+                string profileJson = await _client.GetStringAsync(PROFILE_SERVER + uuid);
                 using var profileDoc = JsonDocument.Parse(profileJson);
 
                 string profile = profileDoc.RootElement
@@ -48,14 +48,14 @@ namespace GBCLV3.Services
                     skin.IsSlim = body.TryGetProperty("metadata", out _);
 
                     var httpStream = await _client.GetStreamAsync(url);
-                    skin.Body = await DownloadImage(httpStream);
+                    skin.Body = await DownloadImageAsync(httpStream);
                 }
 
                 if (textures.TryGetProperty("CAPE", out var cape))
                 {
                     string url = cape.GetProperty("url").GetString();
                     var httpStream = await _client.GetStreamAsync(url);
-                    skin.Cape = await DownloadImage(httpStream);
+                    skin.Cape = await DownloadImageAsync(httpStream);
                 }
 
                 return skin;
@@ -85,7 +85,7 @@ namespace GBCLV3.Services
 
         #region Private Methods
 
-        private static async Task<BitmapImage> DownloadImage(Stream httpStream)
+        private static async Task<BitmapImage> DownloadImageAsync(Stream httpStream)
         {
             using var memStream = new MemoryStream();
             await httpStream.CopyToAsync(memStream);

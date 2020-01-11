@@ -14,7 +14,7 @@ namespace GBCLV3.Services.Launcher
     {
         #region Private Members
 
-        private const string _authServer = "https://authserver.mojang.com/";
+        private const string AUTH_SERVER = "https://authserver.mojang.com/";
 
         private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
 
@@ -95,7 +95,7 @@ namespace GBCLV3.Services.Launcher
             try
             {
                 var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                var requestUri = new Uri(_authServer + (isRefresh ? "/refresh" : "/authenticate"));
+                var requestUri = new Uri(AUTH_SERVER + (isRefresh ? "/refresh" : "/authenticate"));
                 var responseMsg = await _client.PostAsync(requestUri, requestContent);
                 string responseJson = await responseMsg.Content.ReadAsStringAsync();
 

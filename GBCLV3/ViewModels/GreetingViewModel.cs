@@ -44,6 +44,8 @@ namespace GBCLV3.ViewModels
 
         public async void OnLoaded()
         {
+            if (IsReady) return;
+
             Skin skin = null;
             if (!_config.OfflineMode)
             {
