@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,12 +11,8 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using GBCLV3.Models;
-using GBCLV3.Models.JsonClasses;
-using GBCLV3.Models.Launcher;
-using StyletIoC;
 
-namespace GBCLV3.Services.Launcher
+namespace GBCLV3.Services.Launch
 {
     class AssetService
     {

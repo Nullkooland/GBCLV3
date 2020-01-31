@@ -1,6 +1,6 @@
 ﻿using System.Windows.Media.Imaging;
 
-namespace GBCLV3.Models
+namespace GBCLV3.Models.Auxiliary
 {
     class ResourcePack
     {
@@ -18,4 +18,20 @@ namespace GBCLV3.Models
 
         public bool IsExtracted { get; set; }
     }
+
+    #region Json Class
+
+    class JResourcePack
+    {
+        public JResourcePackInfo pack { get; set; }
+    }
+
+    class JResourcePackInfo
+    {
+        public int pack_format { get; set; }
+
+        public string description { get; set; }
+    }
+
+    #endregion
 }

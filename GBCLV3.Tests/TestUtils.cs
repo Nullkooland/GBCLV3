@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Net.Http;
+﻿using System.Net.Http;
 
 namespace GBCLV3.Tests
 {
@@ -9,10 +8,8 @@ namespace GBCLV3.Tests
 
         public static bool IsDownloadable(DownloadItem item)
         {
-            using (var response = _client.GetAsync(item.Url).Result)
-            {
-                return (response.StatusCode == HttpStatusCode.OK);
-            }
+            using var response = _client.GetAsync(item.Url).Result;
+            return response.IsSuccessStatusCode;
         }
     }
 }

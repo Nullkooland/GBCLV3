@@ -1,14 +1,14 @@
-﻿using System;
+﻿using GBCLV3.Models.Launch;
+using GBCLV3.Utils;
+using StyletIoC;
+using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Utils;
-using StyletIoC;
-using Version = GBCLV3.Models.Launcher.Version;
+using Version = GBCLV3.Models.Launch.Version;
 
-namespace GBCLV3.Services.Launcher
+namespace GBCLV3.Services.Launch
 {
     class LaunchService
     {

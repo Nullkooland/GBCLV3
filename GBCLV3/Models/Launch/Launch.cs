@@ -1,20 +1,10 @@
-﻿using System.ComponentModel;
-using GBCLV3.Utils;
+﻿using GBCLV3.Utils;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Text.Json;
 
-namespace GBCLV3.Models.Launcher
+namespace GBCLV3.Models.Launch
 {
-    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AfterLaunchBehavior
-    {
-        [LocalizedDescription("Exit")]
-        Exit,
-
-        [LocalizedDescription("Hide")]
-        Hide,
-
-        [LocalizedDescription("KeepVisible")]
-        KeepVisible,
-    }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum LaunchStatus
@@ -35,6 +25,19 @@ namespace GBCLV3.Models.Launcher
 
         [LocalizedDescription("HappyGame")]
         Running,
+    }
+
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    enum AfterLaunchBehavior
+    {
+        [LocalizedDescription("Exit")]
+        Exit,
+
+        [LocalizedDescription("Hide")]
+        Hide,
+
+        [LocalizedDescription("KeepVisible")]
+        KeepVisible,
     }
 
     class LaunchProfile
@@ -65,4 +68,17 @@ namespace GBCLV3.Models.Launcher
 
         public string ExtraArgs { get; set; }
     }
+
+    #region Json Class
+
+    class JArguments
+    {
+        // Heinous heterogeneous json
+        public List<JsonElement> game { get; set; }
+
+        // Useless for now
+        // public List<JsonElement> jvm { get; set; }
+    }
+
+    #endregion
 }

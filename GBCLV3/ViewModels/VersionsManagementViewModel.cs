@@ -1,14 +1,14 @@
-﻿using System;
-using System.IO;
-using System.Windows;
-using GBCLV3.Models;
+﻿using GBCLV3.Models;
 using GBCLV3.Models.Installation;
 using GBCLV3.Services;
-using GBCLV3.Services.Launcher;
+using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using Version = GBCLV3.Models.Launcher.Version;
+using System;
+using System.IO;
+using System.Windows;
+using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.ViewModels
 {

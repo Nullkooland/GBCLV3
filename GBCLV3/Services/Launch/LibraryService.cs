@@ -1,12 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using StyletIoC;
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using GBCLV3.Models;
-using GBCLV3.Models.Launcher;
-using StyletIoC;
 
-namespace GBCLV3.Services.Launcher
+namespace GBCLV3.Services.Launch
 {
     class LibraryService
     {
@@ -52,7 +53,7 @@ namespace GBCLV3.Services.Launcher
             return libraries.Where(lib =>
             {
                 string path = $"{_gamePathService.LibrariesDir}/{lib.Path}";
-                return !File.Exists(path) || (lib.SHA1 != null && lib.SHA1 != Utils.CryptUtil.GetFileSHA1(path));
+                return !File.Exists(path) || lib.SHA1 != null && lib.SHA1 != Utils.CryptUtil.GetFileSHA1(path);
             }).ToList();
         }
 

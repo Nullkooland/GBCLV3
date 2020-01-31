@@ -1,5 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services;
+using GBCLV3.Services.Authentication;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
@@ -7,12 +12,13 @@ namespace GBCLV3.Tests
     [TestClass]
     public class LaunchTest
     {
-        private const string GAME_ROOT_DIR = "G:/Minecraft/1.12.2/.minecraft";
-        private const string ID = "1.12.2-forge1.12.2-14.23.5.2838";
+        private const string GAME_ROOT_DIR = "D:/Minecraft/.minecraft";
+        private const string ID = "1.14.4";
 
         private readonly ConfigService _configService;
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
+        private readonly AuthService _authService;
         private readonly LaunchService _launchService;
 
         public LaunchTest()
@@ -30,6 +36,7 @@ namespace GBCLV3.Tests
             _versionService = new VersionService(gamePathService, urlServie);
             _libraryService = new LibraryService(gamePathService, urlServie);
 
+            _authService = new AuthService(_configService);
             _launchService = new LaunchService(gamePathService);
 
             _versionService.LoadAll();
@@ -65,7 +72,7 @@ namespace GBCLV3.Tests
 
             _libraryService.ExtractNatives(version.Libraries.Where(lib => lib.Type == LibraryType.Native));
 
-            var authResult = AuthService.GetOfflineProfile("goose_bomb");
+            var authResult = _authService.LoginAsync().Result;
 
             var proile = new LaunchProfile
             {

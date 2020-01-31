@@ -1,16 +1,8 @@
-﻿using System.ComponentModel;
-using GBCLV3.Utils;
+﻿using GBCLV3.Utils;
+using System.ComponentModel;
 
 namespace GBCLV3.Models.Installation
 {
-    enum InstallType
-    {
-        Version,
-        Forge,
-        Fabric,
-        OptiFine,
-    }
-
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum VersionInstallStatus
     {

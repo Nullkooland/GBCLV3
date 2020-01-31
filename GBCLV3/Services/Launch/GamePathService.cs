@@ -1,7 +1,7 @@
 ﻿using GBCLV3.Models;
 using StyletIoC;
 
-namespace GBCLV3.Services.Launcher
+namespace GBCLV3.Services.Launch
 {
     class GamePathService
     {

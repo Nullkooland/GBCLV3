@@ -1,12 +1,13 @@
-﻿using System;
-using System.IO;
-using System.Windows.Controls;
-using GBCLV3.Models;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
-using GBCLV3.Services.Launcher;
+using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
+using System;
+using System.IO;
+using System.Windows.Controls;
 
 namespace GBCLV3.ViewModels
 {
@@ -105,12 +106,22 @@ namespace GBCLV3.ViewModels
             set => _config.FullScreen = value;
         }
 
+        public AuthMode AuthMode
+        {
+            get => _config.AuthMode;
+            set => _config.AuthMode = value;
+        }
+
+        public bool IsOffline => AuthMode == AuthMode.Offline;
+
+        public bool IsExternalAuth => AuthMode == AuthMode.AuthLibInjector;
+
         public string Username
         {
-            get => (_config.OfflineMode) ? _config.Username : _config.Email;
+            get => (AuthMode == AuthMode.Offline) ? _config.Username : _config.Email;
             set
             {
-                if (_config.OfflineMode)
+                if (AuthMode == AuthMode.Offline)
                 {
                     _config.Username = value;
                     _eventAggregator.Publish(new UsernameChangedEvent());
@@ -119,25 +130,10 @@ namespace GBCLV3.ViewModels
             }
         }
 
-        public bool IsOfflineMode
+        public string AuthServer
         {
-            get => _config.OfflineMode;
-            set
-            {
-                _config.OfflineMode = value;
-                NotifyOfPropertyChange(nameof(Username));
-            }
-        }
-
-        public bool IsUseToken
-        {
-            get => _config.UseToken;
-            set
-            {
-                _config.UseToken = value;
-                if (value && _config.AccessToken == null) _config.UseToken = false;
-
-            }
+            get => _config.AuthServer;
+            set => _config.AuthServer = value;
         }
 
         public string ServerAddress
@@ -222,7 +218,6 @@ namespace GBCLV3.ViewModels
             IsShowAdvancedSettings =
                 !(string.IsNullOrEmpty(_config.JvmArgs) && string.IsNullOrEmpty(_config.ExtraMinecraftArgs));
 
-            NotifyOfPropertyChange(nameof(IsUseToken));
             UpdateAvailableMemoryDisplay();
         }
 

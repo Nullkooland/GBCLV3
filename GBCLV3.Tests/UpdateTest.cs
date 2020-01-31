@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using GBCLV3.Services;
+using GBCLV3.Services.Download;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests

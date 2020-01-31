@@ -1,10 +1,12 @@
-﻿using System;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Utils;
+using System;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using GBCLV3.Models;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Utils;
 
 namespace GBCLV3.Services
 {
@@ -37,7 +39,7 @@ namespace GBCLV3.Services
                 Entries = new Config
                 {
                     Username = "Steve",
-                    OfflineMode = true,
+                    AuthMode = AuthMode.Offline,
                     JavaMaxMem = NativeUtil.GetRecommendedMemory(),
                     WindowWidth = 854,
                     WindowHeight = 480,
@@ -59,6 +61,11 @@ namespace GBCLV3.Services
             if (Entries.JavaMaxMem == 0)
             {
                 Entries.JavaMaxMem = 2048;
+            }
+
+            if (!Entries.OfflineMode && Entries.AuthMode == AuthMode.Offline)
+            {
+                Entries.AuthMode = AuthMode.Yggdrasil;
             }
 
             Entries.Language = Entries.Language?.ToLower();

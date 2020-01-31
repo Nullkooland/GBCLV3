@@ -1,17 +1,22 @@
-﻿using System.Collections.Generic;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services;
+using GBCLV3.Services.Authentication;
+using GBCLV3.Services.Auxiliary;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
+using GBCLV3.Utils;
+using GBCLV3.ViewModels.Windows;
+using Stylet;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GBCLV3.Models;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Services;
-using GBCLV3.Services.Launcher;
-using GBCLV3.Utils;
-using GBCLV3.ViewModels.Windows;
-using Stylet;
-using Version = GBCLV3.Models.Launcher.Version;
+using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -26,6 +31,7 @@ namespace GBCLV3.ViewModels.Pages
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
+        private readonly AuthService _authService;
         private readonly LaunchService _launchService;
         private readonly SkinService _skinService;
 
@@ -49,6 +55,7 @@ namespace GBCLV3.ViewModels.Pages
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
+            AuthService authService,
             LaunchService launchService,
             SkinService skinService,
 
@@ -65,6 +72,7 @@ namespace GBCLV3.ViewModels.Pages
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
+            _authService = authService;
             _launchService = launchService;
             _skinService = skinService;
 
@@ -164,10 +172,7 @@ namespace GBCLV3.ViewModels.Pages
 
             _statusVM.Status = LaunchStatus.LoggingIn;
 
-            var authResult =
-                _config.OfflineMode ? AuthService.GetOfflineProfile(_config.Username) :
-                _config.UseToken ? await AuthService.RefreshAsync(_config.ClientToken, _config.AccessToken) :
-                                   await AuthService.LoginAsync(_config.Email, _config.Password);
+            var authResult = await _authService.LoginAsync();
 
             if (authResult.IsSuccessful)
             {

@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Models.Installation;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Installation;
+using GBCLV3.Services.Launch;
+using Stylet;
+using StyletIoC;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using GBCLV3.Models;
-using GBCLV3.Models.Installation;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Services;
-using GBCLV3.Services.Installation;
-using GBCLV3.Services.Launcher;
-using Stylet;
-using StyletIoC;
 
 namespace GBCLV3.ViewModels
 {

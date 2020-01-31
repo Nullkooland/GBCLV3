@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=mscorlib">
+                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
     <!-- MessageBox Button Labels -->
     <s:String x:Key="OK">OK</s:String>
@@ -32,7 +32,7 @@
 
     <!-- Authentication Errors -->
     <s:String x:Key="AuthFailed">Authentication Failed</s:String>
-    <s:String x:Key="UsernameEmptyError">Username cannot be empty!</s:String>
+    <s:String x:Key="EmptyUsernameError">Username cannot be empty!</s:String>
     <s:String x:Key="InvalidEmailError">Invalid email address!</s:String>
     <s:String x:Key="AuthTimeoutError">Authentication timeout!</s:String>
     <s:String x:Key="NoInternetConnectionError">Please check your Internet connection!</s:String>
@@ -234,6 +234,7 @@
     <s:String x:Key="About">About</s:String>
     <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
 
+    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
     <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
     <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
 

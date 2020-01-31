@@ -1,15 +1,15 @@
-﻿using System;
+﻿using GBCLV3.Models.Installation;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Launch;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using GBCLV3.Models.Installation;
-using GBCLV3.Models.JsonClasses;
-using GBCLV3.Services.Launcher;
-using StyletIoC;
-using Version = GBCLV3.Models.Launcher.Version;
+using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {

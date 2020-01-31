@@ -1,33 +1,82 @@
-﻿using System;
-using System.Net;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Utils;
+using StyletIoC;
+using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Utils;
 
-namespace GBCLV3.Services.Launcher
+namespace GBCLV3.Services.Authentication
 {
-    static class AuthService
+    class AuthService
     {
         #region Private Members
 
-        private const string AUTH_SERVER = "https://authserver.mojang.com/";
+        private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com/";
 
         private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
 
         private static readonly JsonSerializerOptions _jsonOptions
             = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
-        private static readonly string _guid = Guid.NewGuid().ToString("N");
+        private readonly Config _config;
+
+        #endregion
+
+        #region Constructor
+
+        [Inject]
+        public AuthService(ConfigService configService)
+        {
+            _config = configService.Entries;
+        }
 
         #endregion
 
         #region Public Methods
 
-        public static async Task<AuthResult> LoginAsync(string email, string password)
+        public async ValueTask<AuthResult> LoginAsync()
+        {
+            return _config.AuthMode switch
+            {
+                AuthMode.Offline => BuildOfflineResult(_config.Username),
+                AuthMode.Yggdrasil => await RefreshAsync(_config.ClientToken, _config.AccessToken, MOJANG_AUTH_SERVER),
+                AuthMode.AuthLibInjector => await RefreshAsync(_config.ClientToken, _config.AccessToken, _config.AuthServer),
+                _ => null,
+            };
+        }
+
+        #endregion
+
+        #region Helper Method
+
+        private static AuthResult BuildOfflineResult(string username)
+        {
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                return new AuthResult
+                {
+                    IsSuccessful = false,
+                    ErrorType = AuthErrorType.EmptyUsername,
+                    ErrorMessage = "${EmptyUsernameError}",
+                };
+            }
+
+            return new AuthResult
+            {
+                Username = username,
+                UUID = CryptUtil.GetStringMD5(username),
+                ClientToken = CryptUtil.Guid,
+                AccessToken = CryptUtil.Guid,
+                UserType = "mojang",
+                IsSuccessful = true,
+            };
+        }
+
+        private static async ValueTask<AuthResult> LoginAsync(string email, string password, string authServer)
         {
             if (!IsValidEmailAddress(email))
             {
@@ -43,14 +92,19 @@ namespace GBCLV3.Services.Launcher
             {
                 Username = email,
                 Password = password,
-                ClientToken = _guid,
+                ClientToken = CryptUtil.Guid,
                 RequestUser = false,
             };
 
-            return await OnlineAuthenticateAsync(JsonSerializer.Serialize(request, _jsonOptions), false);
+            return await AuthenticateAsync(JsonSerializer.Serialize(request, _jsonOptions), false, authServer);
         }
 
-        public static async Task<AuthResult> RefreshAsync(string clientToken, string accessToken)
+        internal static object GetOfflineProfile(string v)
+        {
+            throw new NotImplementedException();
+        }
+
+        private static async ValueTask<AuthResult> RefreshAsync(string clientToken, string accessToken, string authServer)
         {
             var request = new RefreshRequest
             {
@@ -58,51 +112,24 @@ namespace GBCLV3.Services.Launcher
                 AccessToken = accessToken,
             };
 
-            return await OnlineAuthenticateAsync(JsonSerializer.Serialize(request, _jsonOptions), true);
+            return await AuthenticateAsync(JsonSerializer.Serialize(request, _jsonOptions), true, authServer);
         }
 
-        public static AuthResult GetOfflineProfile(string username)
-        {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                return new AuthResult
-                {
-                    IsSuccessful = false,
-                    ErrorType = AuthErrorType.UsernameEmpty,
-                    ErrorMessage = "${UsernameEmptyError}",
-                };
-            }
-
-            return new AuthResult
-            {
-                Username = username,
-                UUID = CryptUtil.GetStringMD5(username),
-                ClientToken = _guid,
-                AccessToken = _guid,
-                UserType = "mojang",
-                IsSuccessful = true,
-            };
-        }
-
-        #endregion
-
-        #region Helper Method
-
-        private static async Task<AuthResult> OnlineAuthenticateAsync(string requestJson, bool isRefresh)
+        private static async ValueTask<AuthResult> AuthenticateAsync(string requestJson, bool isRefresh, string authServer)
         {
             var result = new AuthResult();
 
             try
             {
                 var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                var requestUri = new Uri(AUTH_SERVER + (isRefresh ? "/refresh" : "/authenticate"));
+                var requestUri = new Uri(authServer + (isRefresh ? "/refresh" : "/authenticate"));
                 var responseMsg = await _client.PostAsync(requestUri, requestContent);
                 string responseJson = await responseMsg.Content.ReadAsStringAsync();
 
                 requestContent.Dispose();
                 responseMsg.Dispose();
 
-                if (responseMsg.StatusCode == HttpStatusCode.OK)
+                if (responseMsg.IsSuccessStatusCode)
                 {
                     var response = JsonSerializer.Deserialize<AuthResponse>(responseJson, _jsonOptions);
 
@@ -157,7 +184,7 @@ namespace GBCLV3.Services.Launcher
         public static bool IsValidEmailAddress(string emailAddress)
         {
             var regex = new Regex("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$");
-            return (!string.IsNullOrEmpty(emailAddress) && regex.IsMatch(emailAddress));
+            return !string.IsNullOrEmpty(emailAddress) && regex.IsMatch(emailAddress);
         }
 
         #endregion

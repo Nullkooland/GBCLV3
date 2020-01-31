@@ -1,4 +1,9 @@
-﻿using System;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using GBCLV3.Utils;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,14 +12,9 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using GBCLV3.Models;
-using GBCLV3.Models.JsonClasses;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Utils;
-using StyletIoC;
-using Version = GBCLV3.Models.Launcher.Version;
+using Version = GBCLV3.Models.Launch.Version;
 
-namespace GBCLV3.Services.Launcher
+namespace GBCLV3.Services.Launch
 {
     class VersionService
     {
@@ -49,7 +49,7 @@ namespace GBCLV3.Services.Launcher
             _urlService = urlService;
             _versions = new Dictionary<string, Version>(8);
 
-            _client = new HttpClient() { Timeout = System.TimeSpan.FromSeconds(15) };
+            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
         }
 
         #endregion
@@ -96,7 +96,7 @@ namespace GBCLV3.Services.Launcher
 
         public bool Any() => _versions.Any();
 
-        public bool Has(string id) => (id != null) ? _versions.ContainsKey(id) : false;
+        public bool Has(string id) => id != null ? _versions.ContainsKey(id) : false;
 
         public IEnumerable<Version> GetAvailable() => _versions.Values;
 
@@ -226,7 +226,7 @@ namespace GBCLV3.Services.Launcher
         public bool CheckIntegrity(Version version)
         {
             string jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
-            return File.Exists(jarPath) && (CryptUtil.GetFileSHA1(jarPath) == version.SHA1);
+            return File.Exists(jarPath) && CryptUtil.GetFileSHA1(jarPath) == version.SHA1;
         }
 
         public IEnumerable<DownloadItem> GetDownload(Version version)
@@ -276,7 +276,7 @@ namespace GBCLV3.Services.Launcher
                 InheritsFrom = jver.inheritsFrom,
                 MainClass = jver.mainClass,
                 Libraries = new List<Library>(),
-                Type = (jver.type == "release") ? VersionType.Release : VersionType.Snapshot,
+                Type = jver.type == "release" ? VersionType.Release : VersionType.Snapshot,
             };
 
             string[] args;
@@ -417,10 +417,10 @@ namespace GBCLV3.Services.Launcher
 
         private static bool IsValidVersion(JVersion jver)
         {
-            return (!string.IsNullOrWhiteSpace(jver.id)
+            return !string.IsNullOrWhiteSpace(jver.id)
                 && !(string.IsNullOrWhiteSpace(jver.minecraftArguments) && jver.arguments == null)
                 && !string.IsNullOrWhiteSpace(jver.mainClass)
-                && jver.libraries != null);
+                && jver.libraries != null;
         }
 
         private static bool IsLibAllowed(List<JRule> rules)
@@ -435,12 +435,12 @@ namespace GBCLV3.Services.Launcher
             {
                 if (rule.os == null)
                 {
-                    isAllowed = (rule.action == "allow");
+                    isAllowed = rule.action == "allow";
                     continue;
                 }
                 if (rule.os.name == "windows")
                 {
-                    isAllowed = (rule.action == "allow");
+                    isAllowed = rule.action == "allow";
                 }
             }
             return isAllowed;
