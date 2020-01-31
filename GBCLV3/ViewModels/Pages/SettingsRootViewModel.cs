@@ -1,4 +1,5 @@
-﻿using Stylet;
+﻿using GBCLV3.ViewModels.Tabs;
+using Stylet;
 using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
@@ -11,9 +12,11 @@ namespace GBCLV3.ViewModels.Pages
         [Inject]
         public SettingsRootViewModel(
             GameSettingsViewModel gameSettingsVM,
+            AccountSettingsViewModel accountSettingsVM,
             LauncherSettingsViewModel launcherSettingsVM)
         {
             GameSettingsVM = gameSettingsVM;
+            AccountSettingsVM = accountSettingsVM;
             LauncherSettingsVM = launcherSettingsVM;
         }
 
@@ -23,7 +26,10 @@ namespace GBCLV3.ViewModels.Pages
 
         public Screen GameSettingsVM { get; private set; }
 
+        public Screen AccountSettingsVM { get; private set; }
+
         public Screen LauncherSettingsVM { get; private set; }
+
 
         #endregion
 

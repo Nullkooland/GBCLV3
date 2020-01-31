@@ -7,7 +7,7 @@ using GBCLV3.ViewModels.Windows;
 using Stylet;
 using StyletIoC;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
     class LauncherSettingsViewModel : Screen
     {

@@ -7,7 +7,7 @@ using Stylet;
 using StyletIoC;
 using System.Threading.Tasks;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
     class ResourcePackViewModel : Screen
     {

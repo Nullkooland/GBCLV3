@@ -14,9 +14,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
-    class GameInstallViewModel : Conductor<DownloadViewModel>.Collection.OneActive
+    class GameInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Members
 
@@ -30,7 +30,7 @@ namespace GBCLV3.ViewModels
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
 
-        private readonly DownloadViewModel _downloadVM;
+        private readonly DownloadStatusViewModel _downloadStatusVM;
 
         private readonly IWindowManager _windowManager;
 
@@ -45,7 +45,7 @@ namespace GBCLV3.ViewModels
             LibraryService libraryService,
             AssetService assetService,
 
-            DownloadViewModel downloadVM,
+            DownloadStatusViewModel downloadVM,
             IWindowManager windowManager)
         {
             _config = configService.Entries;
@@ -62,7 +62,7 @@ namespace GBCLV3.ViewModels
             };
 
             _windowManager = windowManager;
-            _downloadVM = downloadVM;
+            _downloadStatusVM = downloadVM;
 
             _isVersionListLoaded = false;
             _isReleaseOnly = true;
@@ -160,8 +160,8 @@ namespace GBCLV3.ViewModels
         private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
             using var downloadService = new DownloadService(items);
-            _downloadVM.Setup(type, downloadService);
-            this.ActivateItem(_downloadVM);
+            _downloadStatusVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadStatusVM);
 
             return await downloadService.StartAsync();
         }

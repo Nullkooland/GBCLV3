@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
     class ModViewModel : Screen
     {

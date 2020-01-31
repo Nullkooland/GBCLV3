@@ -51,16 +51,16 @@
     <!-- 设置项 -->
     <s:String x:Key="Settings">设置</s:String>
     <s:String x:Key="GameSettings">游戏设置</s:String>
+    <s:String x:Key="AccountSettings">账户设置</s:String>
     <s:String x:Key="LauncherSettings">启动器设置</s:String>
-    <s:String x:Key="JvmSettings">Java 虚拟机设置</s:String>
-    <s:String x:Key="OtherSettings">其他设置</s:String>
+    <s:String x:Key="AdvancedSettings">高级设置</s:String>
     <s:String x:Key="FunctionSettings">功能设置</s:String>
     <s:String x:Key="ThemeSettings">外观设置</s:String>
 
     <!-- 游戏设置 -->
     <s:String x:Key="JreDir">JRE 路径</s:String>
     <s:String x:Key="SelectJrePath">选取 JRE 路径</s:String>
-    <s:String x:Key="JavaMaxMem">最大运行内存</s:String>
+    <s:String x:Key="JavaMaxMem">最大运行内存（MB）</s:String>
     <s:String x:Key="AvailableMem">可用物理内存</s:String>
 
     <s:String x:Key="GameDir">游戏路径</s:String>
@@ -75,10 +75,9 @@
     <s:String x:Key="WindowResolution">窗口分辨率</s:String>
     <s:String x:Key="FullScreen">全屏</s:String>
 
-    <!-- 其他设置 -->
+    <!-- 高级设置 -->
     <s:String x:Key="ServerAddress">直入服务器地址</s:String>
     <s:String x:Key="JoinServerOnLaunch">若填入地址，启动后将直接加入服务器</s:String>
-    <s:String x:Key="ShowAdvancedSettings">显示高级设置</s:String>
 
     <s:String x:Key="DebugMode">调试模式</s:String>
     <s:String x:Key="DebugModeDescription">使用 java.exe 运行</s:String>
@@ -86,6 +85,9 @@
     <s:String x:Key="CustomJvmArgs">自定义 JVM 参数</s:String>
     <s:String x:Key="CustomJvmArgsDescription">将会覆盖默认的 JVM 参数（如 GC 配置）</s:String>
     <s:String x:Key="ExtraMinecraftArgs">附加 Minecraft 参数</s:String>
+
+    <!-- 账户设置 -->
+    <s:String x:Key="AccountManagement">管理账户</s:String>
 
     <!-- 启动器设置 -->
     <s:String x:Key="Language">语言</s:String>
@@ -106,7 +108,7 @@
 
     <s:String x:Key="Font">字体</s:String>
     <s:String x:Key="FontWeight">字重</s:String>
-    
+
     <!-- 下载 -->
 
     <!-- 下载类型 -->

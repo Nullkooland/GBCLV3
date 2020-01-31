@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels
 {
-    class DownloadViewModel : Screen
+    class DownloadStatusViewModel : Screen
     {
         #region Private Members
 
@@ -20,7 +20,7 @@ namespace GBCLV3.ViewModels
         #region Constructor
 
         [Inject]
-        public DownloadViewModel(IWindowManager windowManager)
+        public DownloadStatusViewModel(IWindowManager windowManager)
         {
             _windowManager = windowManager;
         }

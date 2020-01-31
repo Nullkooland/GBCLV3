@@ -52,16 +52,16 @@
     <!-- Settings -->
     <s:String x:Key="Settings">Settings</s:String>
     <s:String x:Key="GameSettings">Game Settings</s:String>
+    <s:String x:Key="AccountSettings">Account Settings</s:String>
     <s:String x:Key="LauncherSettings">Launcher Settings</s:String>
-    <s:String x:Key="JvmSettings">JVM Settings</s:String>
-    <s:String x:Key="OtherSettings">Other Settings</s:String>
+    <s:String x:Key="AdvancedSettings">Advanced Settings</s:String>
     <s:String x:Key="FunctionSettings">Function Settings</s:String>
     <s:String x:Key="ThemeSettings">Theme Settings</s:String>
 
     <!-- Game Settings -->
     <s:String x:Key="JreDir">JRE Directory</s:String>
     <s:String x:Key="SelectJrePath">Select JRE path</s:String>
-    <s:String x:Key="JavaMaxMem">Java Max Memory</s:String>
+    <s:String x:Key="JavaMaxMem">Java Max Memory (MB)</s:String>
     <s:String x:Key="AvailableMem">Available physical memory</s:String>
 
     <s:String x:Key="GameDir">Game Directory</s:String>
@@ -78,7 +78,6 @@
 
     <s:String x:Key="ServerAddress">Server Address</s:String>
     <s:String x:Key="JoinServerOnLaunch">When filled this with server address, minecraft will join the server directly after launching.</s:String>
-    <s:String x:Key="ShowAdvancedSettings">Show advanced settings</s:String>
 
     <s:String x:Key="DebugMode">Debug Mode</s:String>
     <s:String x:Key="DebugModeDescription">Use java.exe to run</s:String>
@@ -86,6 +85,9 @@
     <s:String x:Key="CustomJvmArgs">Custom JVM Args</s:String>
     <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g GC configurations)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
+
+    <!-- Account Settings -->
+    <s:String x:Key="AccountManagement">Manage Account</s:String>
 
     <!-- Launcher Settings -->
     <s:String x:Key="Language">Language</s:String>

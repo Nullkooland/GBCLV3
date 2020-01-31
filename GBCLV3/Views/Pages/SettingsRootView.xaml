@@ -9,6 +9,10 @@
             <ContentControl s:View.Model="{Binding GameSettingsVM}"/>
         </TabItem>
 
+        <TabItem Header="&#xE77B;" Tag="{DynamicResource AccountSettings}">
+            <ContentControl s:View.Model="{Binding AccountSettingsVM}"/>
+        </TabItem>
+
         <TabItem Header="&#xE9E9;" Tag="{DynamicResource LauncherSettings}">
             <ContentControl s:View.Model="{Binding LauncherSettingsVM}"/>
         </TabItem>

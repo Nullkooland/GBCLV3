@@ -9,7 +9,7 @@ using System;
 using System.IO;
 using System.Windows.Controls;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
     class GameSettingsViewModel : Screen
     {
@@ -154,8 +154,6 @@ namespace GBCLV3.ViewModels
             set => _config.ExtraMinecraftArgs = value;
         }
 
-        public bool IsShowAdvancedSettings { get; set; }
-
         public void OnPasswordLoaded(PasswordBox passwordBox, EventArgs _)
         {
             passwordBox.Password = _config.Password;
@@ -215,9 +213,6 @@ namespace GBCLV3.ViewModels
 
         protected override void OnViewLoaded()
         {
-            IsShowAdvancedSettings =
-                !(string.IsNullOrEmpty(_config.JvmArgs) && string.IsNullOrEmpty(_config.ExtraMinecraftArgs));
-
             UpdateAvailableMemoryDisplay();
         }
 

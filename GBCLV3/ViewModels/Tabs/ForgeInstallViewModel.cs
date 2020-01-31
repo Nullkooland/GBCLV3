@@ -11,9 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
-    class ForgeInstallViewModel : Conductor<DownloadViewModel>.Collection.OneActive
+    class ForgeInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Members
 
@@ -22,7 +22,7 @@ namespace GBCLV3.ViewModels
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
 
-        private readonly DownloadViewModel _downloadVM;
+        private readonly DownloadStatusViewModel _downloadStatusVM;
 
         private readonly IWindowManager _windowManager;
 
@@ -36,7 +36,7 @@ namespace GBCLV3.ViewModels
             VersionService versionService,
             LibraryService libraryService,
 
-            DownloadViewModel downloadVM,
+            DownloadStatusViewModel downloadVM,
             IWindowManager windowManager)
         {
             _forgeInstallService = forgeInstallService;
@@ -46,7 +46,7 @@ namespace GBCLV3.ViewModels
             Forges = new BindableCollection<Forge>();
 
             _windowManager = windowManager;
-            _downloadVM = downloadVM;
+            _downloadStatusVM = downloadVM;
         }
 
         #endregion
@@ -135,8 +135,8 @@ namespace GBCLV3.ViewModels
         private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
             using var downloadService = new DownloadService(items);
-            _downloadVM.Setup(type, downloadService);
-            this.ActivateItem(_downloadVM);
+            _downloadStatusVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadStatusVM);
 
             return await downloadService.StartAsync();
         }

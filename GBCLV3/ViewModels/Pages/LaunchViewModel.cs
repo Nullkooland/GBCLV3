@@ -36,7 +36,7 @@ namespace GBCLV3.ViewModels.Pages
         private readonly SkinService _skinService;
 
         private readonly LaunchStatusViewModel _statusVM;
-        private readonly DownloadViewModel _downloadVM;
+        private readonly DownloadStatusViewModel _downloadStatusVM;
         private readonly ErrorReportViewModel _errorReportVM;
 
         private readonly IWindowManager _windowManager;
@@ -61,7 +61,7 @@ namespace GBCLV3.ViewModels.Pages
 
             GreetingViewModel greetingVM,
             LaunchStatusViewModel statusVM,
-            DownloadViewModel downloadVM,
+            DownloadStatusViewModel downloadVM,
             ErrorReportViewModel errorReportVM)
         {
             _windowManager = windowManager;
@@ -126,7 +126,7 @@ namespace GBCLV3.ViewModels.Pages
             _logger = new StringBuilder(4096);
 
             _statusVM = statusVM;
-            _downloadVM = downloadVM;
+            _downloadStatusVM = downloadVM;
             _errorReportVM = errorReportVM;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
@@ -313,8 +313,8 @@ namespace GBCLV3.ViewModels.Pages
             _statusVM.Status = LaunchStatus.Downloading;
 
             using var downloadService = new DownloadService(items);
-            _downloadVM.Setup(type, downloadService);
-            this.ActivateItem(_downloadVM);
+            _downloadStatusVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadStatusVM);
 
             bool isSuccessful = await downloadService.StartAsync();
 

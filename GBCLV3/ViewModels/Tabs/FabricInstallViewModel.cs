@@ -11,9 +11,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
-    class FabricInstallViewModel : Conductor<DownloadViewModel>.Collection.OneActive
+    class FabricInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Members
 
@@ -24,7 +24,7 @@ namespace GBCLV3.ViewModels
 
         private readonly IWindowManager _windowManager;
 
-        private readonly DownloadViewModel _downloadVM;
+        private readonly DownloadStatusViewModel _downloadStatusVM;
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace GBCLV3.ViewModels
             LibraryService libraryService,
 
             IWindowManager windowManager,
-            DownloadViewModel downloadVM)
+            DownloadStatusViewModel downloadVM)
         {
             _fabricInstallService = fabricInstallService;
             _versionService = versionService;
@@ -46,7 +46,7 @@ namespace GBCLV3.ViewModels
             Fabrics = new BindableCollection<Fabric>();
 
             _windowManager = windowManager;
-            _downloadVM = downloadVM;
+            _downloadStatusVM = downloadVM;
         }
 
         #endregion
@@ -102,8 +102,8 @@ namespace GBCLV3.ViewModels
         private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
             using var downloadService = new DownloadService(items);
-            _downloadVM.Setup(type, downloadService);
-            this.ActivateItem(_downloadVM);
+            _downloadStatusVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadStatusVM);
 
             return await downloadService.StartAsync();
         }

@@ -10,7 +10,7 @@ using System.IO;
 using System.Windows;
 using Version = GBCLV3.Models.Launch.Version;
 
-namespace GBCLV3.ViewModels
+namespace GBCLV3.ViewModels.Tabs
 {
     class VersionsManagementViewModel : Screen
     {
