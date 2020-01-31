@@ -102,11 +102,11 @@ namespace GBCLV3.Services.Auxiliary
 
         public async Task DeleteFromDiskAsync(ResourcePack pack)
         {
-            if (pack.IsExtracted) await SystemUtil.SendDirToRecycleBin(pack.Path);
-            else await SystemUtil.SendFileToRecycleBin(pack.Path);
+            if (pack.IsExtracted) await SystemUtil.SendDirToRecycleBinAsync(pack.Path);
+            else await SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
-        public async Task<IEnumerable<ResourcePack>> MoveLoadAll(IEnumerable<string> paths)
+        public async Task<IEnumerable<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths)
         {
             return await Task.Run(() =>
                 paths.Select(path =>

@@ -123,7 +123,7 @@ namespace GBCLV3.Services.Installation
             return new List<DownloadItem>(1) { item };
         }
 
-        public async Task<Version> ManualInstall(Forge forge)
+        public async Task<Version> ManualInstallAsync(Forge forge)
         {
             string id = $"{forge.GameVersion}-forge-{forge.Version}";
             string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";

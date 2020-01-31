@@ -56,7 +56,7 @@ namespace GBCLV3.ViewModels.Tabs
             var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
                             .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
 
-            Mods.AddRange(await _modService.MoveLoadAll(modFiles));
+            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles));
         }
 
         public async void AddNew()
@@ -70,7 +70,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             if (dialog.ShowDialog() ?? false)
             {
-                Mods.AddRange(await _modService.MoveLoadAll(dialog.FileNames));
+                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames));
             }
         }
 

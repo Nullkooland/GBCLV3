@@ -131,7 +131,7 @@ namespace GBCLV3.ViewModels.Tabs
         {
             if (CheckStatus == CheckUpdateStatus.UpToDate) return;
 
-            var info = await _updateService.Check();
+            var info = await _updateService.CheckAsync();
 
             if (info != null)
             {

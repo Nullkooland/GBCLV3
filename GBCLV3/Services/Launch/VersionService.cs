@@ -141,7 +141,7 @@ namespace GBCLV3.Services.Launch
                 Deleted?.Invoke(versionToDelete);
 
                 // Delete version directory
-                await SystemUtil.SendDirToRecycleBin($"{_gamePathService.VersionsDir}/{id}");
+                await SystemUtil.SendDirToRecycleBinAsync($"{_gamePathService.VersionsDir}/{id}");
 
                 // Delete unused libraries
                 if (isDeleteLibs)
@@ -162,11 +162,11 @@ namespace GBCLV3.Services.Launch
 
                         if (lib.Type == LibraryType.Forge)
                         {
-                            await SystemUtil.SendDirToRecycleBin(Path.GetDirectoryName(libPath));
+                            await SystemUtil.SendDirToRecycleBinAsync(Path.GetDirectoryName(libPath));
                         }
                         else
                         {
-                            await SystemUtil.SendFileToRecycleBin(libPath);
+                            await SystemUtil.SendFileToRecycleBinAsync(libPath);
                             SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
                         }
 

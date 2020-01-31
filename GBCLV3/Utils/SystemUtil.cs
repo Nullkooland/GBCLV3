@@ -37,7 +37,7 @@ namespace GBCLV3.Utils
             });
         }
 
-        public static async Task SendDirToRecycleBin(string path)
+        public static async Task SendDirToRecycleBinAsync(string path)
         {
             if (!Directory.Exists(path))
             {
@@ -50,7 +50,7 @@ namespace GBCLV3.Utils
             });
         }
 
-        public static async Task SendFileToRecycleBin(string path)
+        public static async Task SendFileToRecycleBinAsync(string path)
         {
             if (!File.Exists(path))
             {

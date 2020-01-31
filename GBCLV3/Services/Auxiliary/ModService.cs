@@ -56,11 +56,11 @@ namespace GBCLV3.Services.Auxiliary
         {
             foreach (var mod in mods)
             {
-                await SystemUtil.SendFileToRecycleBin(mod.Path + (mod.IsEnabled ? null : ".disabled"));
+                await SystemUtil.SendFileToRecycleBinAsync(mod.Path + (mod.IsEnabled ? null : ".disabled"));
             }
         }
 
-        public async Task<IEnumerable<Mod>> MoveLoadAll(IEnumerable<string> paths)
+        public async Task<IEnumerable<Mod>> MoveLoadAllAsync(IEnumerable<string> paths)
         {
             return await Task.Run(() =>
                 paths.Select(path =>

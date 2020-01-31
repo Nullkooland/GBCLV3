@@ -112,7 +112,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             if (dialog.ShowDialog() ?? false)
             {
-                DisabledPacks.AddRange(await _resourcePackService.MoveLoadAll(dialog.FileNames));
+                DisabledPacks.AddRange(await _resourcePackService.MoveLoadAllAsync(dialog.FileNames));
             }
         }
 

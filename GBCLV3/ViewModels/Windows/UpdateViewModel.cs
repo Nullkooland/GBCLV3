@@ -108,7 +108,7 @@ namespace GBCLV3.ViewModels.Windows
             Version = $"{info.Name} - {info.ReleaseTime.ToString("yyyy/MM/dd")}";
 
             // Download and display changelog
-            var changelog = await _updateService.GetChangelog(info);
+            var changelog = await _updateService.GetChangelogAsync(info);
             ChangelogTitle = changelog.Title;
 
             var builder = new StringBuilder(512);

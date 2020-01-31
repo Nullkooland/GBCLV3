@@ -99,7 +99,7 @@ namespace GBCLV3.ViewModels.Tabs
             else
             {
                 Status = ForgeInstallStatus.ManualInstalling;
-                version = await _forgeInstallService.ManualInstall(forge);
+                version = await _forgeInstallService.ManualInstallAsync(forge);
             }
 
             if (version == null)

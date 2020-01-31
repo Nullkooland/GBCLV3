@@ -22,7 +22,7 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void GetUpdateInfoTest()
         {
-            var info = _updateService.Check().Result;
+            var info = _updateService.CheckAsync().Result;
 
             if (info == null)
             {
@@ -38,7 +38,7 @@ namespace GBCLV3.Tests
                 Debug.WriteLine($"PreRelease:   {info.PreRelease}");
                 Debug.WriteLine($"ReleaseTime:  {info.Description}");
 
-                var changelog = _updateService.GetChangelog(info).Result;
+                var changelog = _updateService.GetChangelogAsync(info).Result;
 
                 Debug.WriteLine("[Changelog]");
                 Debug.WriteLine($"Title:        {changelog.Title}");

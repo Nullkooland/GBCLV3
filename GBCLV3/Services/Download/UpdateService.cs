@@ -50,7 +50,7 @@ namespace GBCLV3.Services.Download
 
         #region Public Methods
 
-        public async Task<UpdateInfo> Check()
+        public async Task<UpdateInfo> CheckAsync()
         {
             if (_cachedInfo != null) return _cachedInfo;
 
@@ -79,7 +79,7 @@ namespace GBCLV3.Services.Download
             return null;
         }
 
-        public async Task<UpdateChangelog> GetChangelog(UpdateInfo info)
+        public async Task<UpdateChangelog> GetChangelogAsync(UpdateInfo info)
         {
             var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
 
