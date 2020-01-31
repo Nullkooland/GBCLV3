@@ -1,10 +1,10 @@
-﻿using System;
+﻿using GBCLV3.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
-using GBCLV3.Utils;
 
-namespace GBCLV3.Models
+namespace GBCLV3.Models.Download
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum CheckUpdateStatus

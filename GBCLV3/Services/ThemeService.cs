@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GBCLV3.Models;
+using GBCLV3.Utils;
+using Stylet;
+using StyletIoC;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,10 +10,6 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using GBCLV3.Models;
-using GBCLV3.Utils;
-using Stylet;
-using StyletIoC;
 
 namespace GBCLV3.Services
 {

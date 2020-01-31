@@ -5,8 +5,8 @@
                 xmlns:s="https://github.com/canton7/Stylet"
                 xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
                 xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-                xmlns:models="clr-namespace:GBCLV3.Models"
-                xmlns:launcher="clr-namespace:GBCLV3.Models.Launch"
+                xmlns:download="clr-namespace:GBCLV3.Models.Download"
+                xmlns:launch="clr-namespace:GBCLV3.Models.Launch"
                 xmlns:util="clr-namespace:GBCLV3.Utils"
                 Style="{StaticResource TabPageStyle}">
     
@@ -90,7 +90,7 @@
                            Text="{DynamicResource DownloadSource}"/>
 
                 <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                          ItemsSource="{util:EnumBindingSource {x:Type models:DownloadSource}}"
+                          ItemsSource="{util:EnumBindingSource {x:Type download:DownloadSource}}"
                           SelectedItem="{Binding SelectedDownloadSource, Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
@@ -98,7 +98,7 @@
                            Text="{DynamicResource AfterLaunch}"/>
 
                 <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
-                          ItemsSource="{util:EnumBindingSource {x:Type launcher:AfterLaunchBehavior}}"
+                          ItemsSource="{util:EnumBindingSource {x:Type launch:AfterLaunchBehavior}}"
                           SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}"/>
 
                 <TextBlock Grid.Row="3" Grid.Column="0"

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GBCLV3.Models.Auxiliary;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
@@ -7,9 +8,8 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using GBCLV3.Models;
 
-namespace GBCLV3.Services
+namespace GBCLV3.Services.Auxiliary
 {
     class SkinService
     {

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Download;
+using GBCLV3.Utils;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,11 +11,8 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
-using GBCLV3.Models;
-using GBCLV3.Utils;
-using StyletIoC;
 
-namespace GBCLV3.Services
+namespace GBCLV3.Services.Download
 {
     class UpdateService
     {
@@ -136,7 +137,7 @@ namespace GBCLV3.Services
         {
             int localVersionNum = int.Parse(AssemblyUtil.Version.Split('.').Last());
             int remoteVersionNum = int.Parse(remoteVersion.Split('.').Last());
-            return (remoteVersionNum > localVersionNum);
+            return remoteVersionNum > localVersionNum;
         }
 
         #endregion

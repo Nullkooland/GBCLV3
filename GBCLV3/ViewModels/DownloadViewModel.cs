@@ -1,8 +1,8 @@
-﻿using System.Windows;
-using GBCLV3.Models;
-using GBCLV3.Services;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Services.Download;
 using Stylet;
 using StyletIoC;
+using System.Windows;
 
 namespace GBCLV3.ViewModels
 {
