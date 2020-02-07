@@ -1,7 +1,10 @@
 ﻿using GBCLV3.Models.Auxiliary;
+using GBCLV3.Services.Launch;
+using StyletIoC;
 using System;
 using System.Buffers.Text;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Net.Http;
 using System.Text;
@@ -16,7 +19,9 @@ namespace GBCLV3.Services.Auxiliary
     {
         #region Private Fields
 
-        private const string PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile/";
+        private readonly GamePathService _gamePathService;
+
+        private const string DEFAULT_PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile/";
 
         private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
 
@@ -25,11 +30,21 @@ namespace GBCLV3.Services.Auxiliary
 
         #endregion
 
-        public async ValueTask<string> GetProfileAsync(string uuid)
+        #region Constructor
+
+        [Inject]
+        public SkinService(GamePathService gamePathService)
+        {
+            _gamePathService = gamePathService;
+        }
+
+        #endregion
+
+        public async ValueTask<string> GetProfileAsync(string uuid, string profileServer = null)
         {
             try
             {
-                string profileJson = await _client.GetStringAsync(PROFILE_SERVER + uuid);
+                string profileJson = await _client.GetStringAsync(profileServer ?? DEFAULT_PROFILE_SERVER + uuid);
                 using var profile = JsonDocument.Parse(profileJson);
 
                 return profile.RootElement
@@ -65,18 +80,15 @@ namespace GBCLV3.Services.Auxiliary
 
                 if (textures.TryGetProperty("SKIN", out var body))
                 {
-                    string url = body.GetProperty("url").GetString();
                     skin.IsSlim = body.TryGetProperty("metadata", out _);
-
-                    using var httpStream = await _client.GetStreamAsync(url);
-                    skin.Body = await DownloadImageAsync(httpStream);
+                    string url = body.GetProperty("url").GetString();
+                    skin.Body = await LoadSkin(url);
                 }
 
                 if (textures.TryGetProperty("CAPE", out var cape))
                 {
-                    string url = cape.GetProperty("url").GetString();
-                    using var httpStream = await _client.GetStreamAsync(url);
-                    skin.Cape = await DownloadImageAsync(httpStream);
+                    string url = body.GetProperty("url").GetString();
+                    skin.Body = await LoadSkin(url);
                 }
 
                 skin.Face = GetFace(skin.Body);
@@ -91,19 +103,40 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Private Methods
 
-        private static async ValueTask<BitmapImage> DownloadImageAsync(Stream httpStream)
+        private async ValueTask<BitmapImage> LoadSkin(string url)
         {
-            using var memStream = new MemoryStream();
-            await httpStream.CopyToAsync(memStream);
+            int pos = url.LastIndexOf('/') + 1;
+            string hash = url[pos..];
+            string path = $"{_gamePathService.AssetsDir}/{hash[..2]}/{hash}";
 
+            if (!File.Exists(path))
+            {
+                await DownloadAsync(url, path);
+            }
+
+            return LoadFromDisk(path);
+        }
+
+        private static BitmapImage LoadFromDisk(string path)
+        {
             var img = new BitmapImage();
             img.BeginInit();
-            img.StreamSource = memStream;
+            img.UriSource = new Uri(path, UriKind.Absolute);
             img.CacheOption = BitmapCacheOption.OnLoad;
             img.EndInit();
             img.Freeze();
 
             return img;
+        }
+
+        private static async Task DownloadAsync(string url, string path)
+        {
+            Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+            using var httpStream = await _client.GetStreamAsync(url);
+            using var fileStream = File.OpenWrite(path);
+            await httpStream.CopyToAsync(fileStream);
+            fileStream.Flush();
         }
 
         private static CroppedBitmap GetFace(BitmapImage body)

@@ -10,7 +10,7 @@ namespace GBCLV3.Models.Authentication
 
         public string[] SkinDomains { get; set; }
 
-        public string SignaturePublickey { get; set; }
+        //public string SignaturePublickey { get; set; }
     }
 
     class AuthServerMeta

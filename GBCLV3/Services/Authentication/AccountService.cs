@@ -13,6 +13,12 @@ namespace GBCLV3.Services.Authentication
 {
     class AccountService
     {
+        #region Events
+
+        public event Action<Account> SelectedAccountChanged;
+
+        #endregion
+
         #region Private Fields
 
         // IoC
@@ -63,11 +69,12 @@ namespace GBCLV3.Services.Authentication
             return account;
         }
 
-        public async ValueTask<Account> AddOnlineAccount(AuthResult authResult, AuthMode mode, string authServer = null)
+        public async ValueTask<Account> AddOnlineAccount(string email, AuthResult authResult, AuthMode mode, string authServer = null)
         {
             var account = new Account
             {
                 AuthMode = mode,
+                Email = email,
                 Username = authResult.Username,
                 ClientToken = authResult.ClientToken,
                 AccessToken = authResult.AccessToken,
@@ -89,7 +96,10 @@ namespace GBCLV3.Services.Authentication
         {
             if (account.AuthMode != AuthMode.Offline)
             {
-                account.SkinProfile ??= await _skinService.GetProfileAsync(account.UUID);
+                string profileServer = (account.AuthMode == AuthMode.AuthLibInjector) ?
+                    account.AuthServer + "/sessionserver/session/minecraft/profile/" : null;
+
+                account.SkinProfile ??= await _skinService.GetProfileAsync(account.UUID, profileServer);
                 account.Skin = await _skinService.GetSkinAsync(account.SkinProfile);
             }
         }

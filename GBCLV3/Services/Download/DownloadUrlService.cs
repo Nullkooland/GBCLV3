@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.Services.Download
 {
-    public interface IUrlBase
+    public interface IDownloadUrlBase
     {
         string VersionList { get; }
 
@@ -21,22 +21,16 @@ namespace GBCLV3.Services.Download
         string Forge { get; }
     }
 
-    class UrlService
+    class DownloadUrlService
     {
         #region Properties
 
-        public IUrlBase Base
+        public IDownloadUrlBase Base => _config.DownloadSource switch
         {
-            get
-            {
-                switch (_config.DownloadSource)
-                {
-                    case DownloadSource.Official: return _officialUrlBase;
-                    case DownloadSource.BMCLAPI: return _bmclapiUrlBase;
-                    default: return _officialUrlBase;
-                }
-            }
-        }
+            DownloadSource.Official => _officialUrlBase,
+            DownloadSource.BMCLAPI => _bmclapiUrlBase,
+            _ => _officialUrlBase,
+        };
 
         #endregion
 
@@ -49,7 +43,7 @@ namespace GBCLV3.Services.Download
         #region Constructor
 
         [Inject]
-        public UrlService(ConfigService configService)
+        public DownloadUrlService(ConfigService configService)
         {
             _config = configService.Entries;
         }
@@ -60,7 +54,7 @@ namespace GBCLV3.Services.Download
 
         private static readonly OfficialUrlBase _officialUrlBase = new OfficialUrlBase();
 
-        private class OfficialUrlBase : IUrlBase
+        private class OfficialUrlBase : IDownloadUrlBase
         {
             public string VersionList => "https://launchermeta.mojang.com/mc/game/version_manifest.json";
 
@@ -83,7 +77,7 @@ namespace GBCLV3.Services.Download
 
         private static readonly BMCLAPIUrlBase _bmclapiUrlBase = new BMCLAPIUrlBase();
 
-        private class BMCLAPIUrlBase : IUrlBase
+        private class BMCLAPIUrlBase : IDownloadUrlBase
         {
             public string VersionList => "https://bmclapi2.bangbang93.com/mc/game/version_manifest.json";
 

@@ -32,7 +32,7 @@ namespace GBCLV3.Tests
             _configService.Entries.JavaDebugMode = false;
 
             var gamePathService = new GamePathService(_configService);
-            var urlServie = new UrlService(_configService);
+            var urlServie = new DownloadUrlService(_configService);
 
             _versionService = new VersionService(gamePathService, urlServie);
             _libraryService = new LibraryService(gamePathService, urlServie);

@@ -36,14 +36,14 @@ namespace GBCLV3.Services.Launch
 
         // IoC
         private readonly GamePathService _gamePathService;
-        private readonly UrlService _urlService;
+        private readonly DownloadUrlService _urlService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public VersionService(GamePathService gamePathService, UrlService urlService)
+        public VersionService(GamePathService gamePathService, DownloadUrlService urlService)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;

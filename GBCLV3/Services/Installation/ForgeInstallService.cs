@@ -28,7 +28,7 @@ namespace GBCLV3.Services.Installation
 
         // IoC
         private readonly GamePathService _gamePathService;
-        private readonly UrlService _urlService;
+        private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
 
         #endregion
@@ -38,7 +38,7 @@ namespace GBCLV3.Services.Installation
         [Inject]
         public ForgeInstallService(
             GamePathService gamePathService,
-            UrlService urlService,
+            DownloadUrlService urlService,
             VersionService versionService)
         {
             _gamePathService = gamePathService;

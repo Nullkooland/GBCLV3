@@ -24,7 +24,7 @@ namespace GBCLV3.Tests
             _configService.Entries.GameDir = GAME_ROOT_DIR;
 
             var gamePathService = new GamePathService(_configService);
-            var urlServie = new UrlService(_configService);
+            var urlServie = new DownloadUrlService(_configService);
 
             _versionService = new VersionService(gamePathService, urlServie);
 

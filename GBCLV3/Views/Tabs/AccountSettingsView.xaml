@@ -3,14 +3,73 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                xmlns:local="clr-namespace:GBCLV3.Views.Tabs"
+                xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+                xmlns:utils="clr-namespace:GBCLV3.Utils"
                 mc:Ignorable="d" 
                 d:DesignHeight="450" d:DesignWidth="800"
                 Style="{StaticResource TabPageStyle}">
-    
+
+    <ContentControl.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Margin" Value="0,8,8,8"/>
+            <Setter Property="Padding" Value="16,0"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}"/>
+            <Setter Property="FontSize" Value="14"/>
+        </Style>
+        <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
+    </ContentControl.Resources>
+
     <GroupBox Margin="8"
               Header="{DynamicResource AccountManagement}">
-        <ListBox>
+        
+        <ListBox ItemsSource="{Binding Accounts, Mode=OneWay}"
+                 BorderThickness="1">
+            
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid Margin="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="32"/>
+                            <RowDefinition Height="32"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="64"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Image x:Name="Avatar"
+                               Grid.RowSpan="2" Grid.Column="0"
+                               Source="{Binding Skin.Face}"
+                               RenderOptions.BitmapScalingMode="NearestNeighbor"
+                               Width="48" Height="48" Stretch="Uniform"/>
+
+                        <TextBlock x:Name="NameBox"
+                                           Grid.Row="0" Grid.Column="1" Margin="8,0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                                           FontSize="16"
+                                           Text="{Binding Username}"/>
+
+                        <TextBlock x:Name="TypeBox"
+                                           Grid.Row="1" Grid.Column="1" Margin="8,0"
+                                           HorizontalAlignment="Left" VerticalAlignment="Top"
+                                           FontSize="12"
+                                           Foreground="{DynamicResource
+                                                       {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
+                                           Text="{Binding AuthMode}"/>
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                               Path=IsSelected}" Value="True">
+                            <Setter TargetName="Avatar" Property="Effect"
+                                            Value="{StaticResource AccentColorShadow}"/>
+                            <Setter TargetName="TypeBox" Property="Foreground"
+                                            Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
             
         </ListBox>
     </GroupBox>

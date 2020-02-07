@@ -95,6 +95,12 @@ namespace GBCLV3.Services.Authentication
             }
         }
 
+        public async Task<bool> IsAuthServerValid(string authServer)
+        {
+            var info = await GetAuthServerInfo(authServer);
+            return info?.Meta != null;
+        }
+
         #endregion
 
         #region Helper Methods

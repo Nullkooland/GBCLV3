@@ -30,6 +30,17 @@
     <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
     <s:String x:Key="DonwloadJreInstaller">Donwload Jre installer</s:String>
 
+    <!-- Add Account -->
+    <s:String x:Key="AddAccount">Add Account</s:String>
+    <s:String x:Key="AuthMode">Authenentication Mode</s:String>
+    <s:String x:Key="Offline">Offline</s:String>
+    <s:String x:Key="Yggdrasil">Mojang</s:String>
+    <s:String x:Key="AuthLibInjector">External (authlib-injector)</s:String>
+    <s:String x:Key="Username">Username</s:String>
+    <s:String x:Key="Email">Email</s:String>
+    <s:String x:Key="Password">Password</s:String>
+    <s:String x:Key="AuthServer">Authentication Server</s:String>
+
     <!-- Authentication Errors -->
     <s:String x:Key="AuthFailed">Authentication Failed</s:String>
     <s:String x:Key="EmptyUsernameError">Username cannot be empty!</s:String>
@@ -38,6 +49,7 @@
     <s:String x:Key="NoInternetConnectionError">Please check your Internet connection!</s:String>
     <s:String x:Key="InvalidCredentialsError">Invalid credentials! Please check your email or password!</s:String>
     <s:String x:Key="InvalidTokenError">Invalid token! Please re-login using email and password!</s:String>
+    <s:String x:Key="InlaidAuthServerError">Invalid authentication server, please check the url or your Internet connection!</s:String>
     <s:String x:Key="UnkownError">Unknown error!</s:String>
     <s:String x:Key="ErrorMessage">Error message:</s:String>
 
@@ -66,13 +78,6 @@
 
     <s:String x:Key="GameDir">Game Directory</s:String>
     <s:String x:Key="SelectGameDir">Select game directory</s:String>
-
-    <s:String x:Key="Username">User Name</s:String>
-    <s:String x:Key="Email">Email</s:String>
-    <s:String x:Key="Password">Password</s:String>
-    <s:String x:Key="OfflineMode">Offline Mode</s:String>
-    <s:String x:Key="UseToken">Use Token</s:String>
-
     <s:String x:Key="WindowResolution">Window Resolution</s:String>
     <s:String x:Key="FullScreen">Full Screen</s:String>
 
