@@ -73,7 +73,8 @@ namespace GBCLV3.Services
 
         public void Save()
         {
-            string json = JsonSerializer.Serialize(Entries, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(Entries, 
+                new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
             File.WriteAllText(CONFIG_FILENAME, json, Encoding.UTF8);
         }
 

@@ -27,7 +27,7 @@ namespace GBCLV3.ViewModels.Windows
 
             RuleFor(x => x.Email).NotEmpty().Must(email => IsEmailAddressValid(email)).WithMessage("Invalid email");
 
-            RuleFor(x => x.AuthServer).MustAsync(async (authServer, cancellation) => {
+            RuleFor(x => x.AuthServerBase).MustAsync(async (authServer, cancellation) => {
                 return await _authService.IsAuthServerValid(authServer);
             }).WithMessage("Invalid authServer");
         }

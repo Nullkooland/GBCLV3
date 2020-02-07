@@ -43,7 +43,7 @@ namespace GBCLV3.Services.Launch
 
         #region Public Methods
 
-        public async ValueTask<bool> LaunchGameAsync(LaunchProfile profile, Version version)
+        public async Task<bool> LaunchGameAsync(LaunchProfile profile, Version version)
         {
             var startInfo = new ProcessStartInfo
             {
@@ -183,9 +183,6 @@ namespace GBCLV3.Services.Launch
             {
                 builder.Append("--fullscreen ");
             }
-
-            float[] arr = new float[8];
-            var arr2 = arr.Cast<double>().ToArray();
 
             // Window Size
             if (profile.WinWidth != 0 && profile.WinHeight != 0)

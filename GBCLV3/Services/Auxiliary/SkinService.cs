@@ -21,7 +21,7 @@ namespace GBCLV3.Services.Auxiliary
 
         private readonly GamePathService _gamePathService;
 
-        private const string DEFAULT_PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile/";
+        private const string MOJANG_PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile";
 
         private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
 
@@ -44,7 +44,7 @@ namespace GBCLV3.Services.Auxiliary
         {
             try
             {
-                string profileJson = await _client.GetStringAsync(profileServer ?? DEFAULT_PROFILE_SERVER + uuid);
+                string profileJson = await _client.GetStringAsync($"{profileServer ?? MOJANG_PROFILE_SERVER}/{uuid}");
                 using var profile = JsonDocument.Parse(profileJson);
 
                 return profile.RootElement

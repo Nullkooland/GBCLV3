@@ -22,7 +22,7 @@ namespace GBCLV3.Services.Authentication
 
         #region Private Fields
 
-        private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com/";
+        private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com";
 
         private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
 
@@ -95,7 +95,7 @@ namespace GBCLV3.Services.Authentication
             }
         }
 
-        public async Task<bool> IsAuthServerValid(string authServer)
+        public async ValueTask<bool> IsAuthServerValid(string authServer)
         {
             var info = await GetAuthServerInfo(authServer);
             return info?.Meta != null;
@@ -134,15 +134,15 @@ namespace GBCLV3.Services.Authentication
 
             try
             {
-                var requestContent = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                var requestUri = new Uri(authServer + (isRefresh ? "/refresh" : "/authenticate"));
-                var responseMsg = await _client.PostAsync(requestUri, requestContent);
-                string responseJson = await responseMsg.Content.ReadAsStringAsync();
+                var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+                var uri = new Uri(authServer + (isRefresh ? "/refresh" : "/authenticate"));
+                var msg = await _client.PostAsync(uri, content);
+                string responseJson = await msg.Content.ReadAsStringAsync();
 
-                requestContent.Dispose();
-                responseMsg.Dispose();
+                content.Dispose();
+                msg.Dispose();
 
-                if (responseMsg.IsSuccessStatusCode)
+                if (msg.IsSuccessStatusCode)
                 {
                     var response = JsonSerializer.Deserialize<AuthResponse>(responseJson, _jsonOptions);
 

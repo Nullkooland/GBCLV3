@@ -30,7 +30,14 @@ namespace GBCLV3.Models.Authentication
 
         public string UUID { get; set; }
 
-        public string AuthServer { get; set; }
+        public string AuthServerBase { get; set; }
+
+        [JsonIgnore]
+        public string AuthServer => AuthServerBase != null ? $"{AuthServerBase}/authserver" : null;
+
+        [JsonIgnore]
+        public string ProfileServer => AuthServerBase != null ? 
+            $"{AuthServerBase}/sessionserver/session/minecraft/profile" : null;
 
         public bool IsSelected { get; set; }
     }

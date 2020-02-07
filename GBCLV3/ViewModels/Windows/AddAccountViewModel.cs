@@ -27,7 +27,7 @@ namespace GBCLV3.ViewModels.Windows
         private string _username;
         private string _email;
         private string _password;
-        private string _authServer;
+        private string _authServerBase;
 
         #endregion
 
@@ -42,6 +42,8 @@ namespace GBCLV3.ViewModels.Windows
             IModelValidator<AddAccountViewModel> validator) : base(validator)
         {
             AutoValidate = false;
+            CanConfirm = true;
+
             _accountService = accountService;
             _authService = authService;
             ThemeService = themeService;
@@ -86,24 +88,28 @@ namespace GBCLV3.ViewModels.Windows
             _password = passwordBox.Password;
         }
 
-        public string AuthServer
+        public string AuthServerBase
         {
-            get => _authServer;
+            get => _authServerBase;
             set
             {
                 if (value.StartsWith("http"))
                 {
-                    _authServer = value.Replace("http://", "https://");
+                    _authServerBase = value.Replace("http://", "https://");
                 }
                 else
                 {
-                    _authServer = "https://" + value;
+                    _authServerBase = "https://" + value;
                 }
             }
         }
 
+        public bool CanConfirm { get; private set; }
+
         public async void Confirm()
         {
+            CanConfirm = false;
+
             if (IsOfflineMode)
             {
                 if (ValidateProperty(nameof(Username)))
@@ -112,22 +118,24 @@ namespace GBCLV3.ViewModels.Windows
                 }
                 else
                 {
+                    CanConfirm = true;
                     return;
                 }
             }
 
             if (!ValidateProperty(nameof(Email))) return;
 
-            AuthResult authResult = null;
+            AuthResult authResult;
 
             if (IsExternalMode)
             {
-                if (await ValidatePropertyAsync(nameof(AuthServer)))
+                if (await ValidatePropertyAsync(nameof(AuthServerBase)))
                 {
-                    authResult = await _authService.AuthenticateAsync(_email, _password, _authServer);
+                    authResult = await _authService.AuthenticateAsync(_email, _password, _authServerBase + "/authserver");
                 }
                 else
                 {
+                    CanConfirm = true;
                     return;
                 }
             }
@@ -138,10 +146,12 @@ namespace GBCLV3.ViewModels.Windows
 
             if (authResult.IsSuccessful)
             {
-                CurrentAccount = await _accountService.AddOnlineAccount(_email, authResult, AuthMode, _authServer);
+                CurrentAccount = await _accountService.AddOnlineAccount(_email, authResult, AuthMode, _authServerBase);
                 await Task.Delay(2341); // 2 boba perals, 3 peanuts, 4 raisins and a bizarre spoon!
                 this.RequestClose(true);
             }
+
+            CanConfirm = true;
         }
 
         public void Cancel() => this.RequestClose(false);

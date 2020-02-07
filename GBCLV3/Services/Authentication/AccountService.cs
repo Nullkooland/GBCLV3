@@ -79,7 +79,7 @@ namespace GBCLV3.Services.Authentication
                 ClientToken = authResult.ClientToken,
                 AccessToken = authResult.AccessToken,
                 UUID = authResult.UUID,
-                AuthServer = mode == AuthMode.AuthLibInjector ? authServer : null,
+                AuthServerBase = mode == AuthMode.AuthLibInjector ? authServer : null,
             };
 
             await LoadSkinAsync(account);
@@ -96,10 +96,7 @@ namespace GBCLV3.Services.Authentication
         {
             if (account.AuthMode != AuthMode.Offline)
             {
-                string profileServer = (account.AuthMode == AuthMode.AuthLibInjector) ?
-                    account.AuthServer + "/sessionserver/session/minecraft/profile/" : null;
-
-                account.SkinProfile ??= await _skinService.GetProfileAsync(account.UUID, profileServer);
+                account.SkinProfile ??= await _skinService.GetProfileAsync(account.UUID, account.ProfileServer);
                 account.Skin = await _skinService.GetSkinAsync(account.SkinProfile);
             }
         }

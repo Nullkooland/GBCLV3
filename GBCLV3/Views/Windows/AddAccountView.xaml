@@ -117,7 +117,7 @@
                                 Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
             <TextBox Grid.Row="3" Grid.Column="1"
-                 Text="{Binding AuthServer, Mode=TwoWay}"
+                 Text="{Binding AuthServerBase, Mode=TwoWay}"
                  Visibility="{Binding IsExternalMode, Mode=OneWay,
                               Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
