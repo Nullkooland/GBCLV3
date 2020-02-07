@@ -15,7 +15,7 @@ namespace GBCLV3.Services.Installation
 {
     class FabricInstallService
     {
-        #region Private Members
+        #region Private Fields
 
         private const string FABRIC_LIST_URL = "https://meta.fabricmc.net//v2/versions/loader/";
         private const string FABRIC_MAVEN_URL = "https://maven.fabricmc.net/";
@@ -47,7 +47,7 @@ namespace GBCLV3.Services.Installation
 
         #region Public Methods
 
-        public async Task<IEnumerable<Fabric>> GetDownloadListAsync(string id)
+        public async ValueTask<IEnumerable<Fabric>> GetDownloadListAsync(string id)
         {
             try
             {

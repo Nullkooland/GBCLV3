@@ -5,8 +5,7 @@
       xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
       Background="#A0161616"
       Width="320" Height="80"
-      Visibility="Hidden"
-      Loaded="{s:Action OnLoaded}">
+      Visibility="Hidden">
 
     <Grid.Effect>
         <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality"/>

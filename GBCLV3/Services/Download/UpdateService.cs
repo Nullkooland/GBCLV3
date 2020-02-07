@@ -22,7 +22,7 @@ namespace GBCLV3.Services.Download
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private const string CHECK_UPDATE_URL = "https://api.github.com/repos/Goose-Bomb/GBCLV3/releases/latest";
 
@@ -50,7 +50,7 @@ namespace GBCLV3.Services.Download
 
         #region Public Methods
 
-        public async Task<UpdateInfo> CheckAsync()
+        public async ValueTask<UpdateInfo> CheckAsync()
         {
             if (_cachedInfo != null) return _cachedInfo;
 
@@ -79,7 +79,7 @@ namespace GBCLV3.Services.Download
             return null;
         }
 
-        public async Task<UpdateChangelog> GetChangelogAsync(UpdateInfo info)
+        public async ValueTask<UpdateChangelog> GetChangelogAsync(UpdateInfo info)
         {
             var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
 

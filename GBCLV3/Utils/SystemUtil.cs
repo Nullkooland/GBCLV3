@@ -56,7 +56,7 @@ namespace GBCLV3.Utils
             {
                 return;
             }
-
+            
             await Task.Run(() =>
             {
                 FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);

@@ -1,4 +1,5 @@
-﻿using GBCLV3.Services.Download;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Services.Download;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.Diagnostics;

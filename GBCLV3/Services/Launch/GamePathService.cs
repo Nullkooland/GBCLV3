@@ -33,7 +33,7 @@ namespace GBCLV3.Services.Launch
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private readonly Config _config;
 

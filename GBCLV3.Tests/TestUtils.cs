@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using GBCLV3.Models.Download;
+using System.Net.Http;
 
 namespace GBCLV3.Tests
 {

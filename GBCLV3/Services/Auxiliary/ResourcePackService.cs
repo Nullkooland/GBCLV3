@@ -17,7 +17,7 @@ namespace GBCLV3.Services.Auxiliary
 {
     class ResourcePackService
     {
-        #region Private Members
+        #region Private Fields
 
         // IoC
         private readonly GamePathService _gamePathService;
@@ -106,7 +106,7 @@ namespace GBCLV3.Services.Auxiliary
             else await SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
-        public async Task<IEnumerable<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths)
+        public async ValueTask<IEnumerable<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths)
         {
             return await Task.Run(() =>
                 paths.Select(path =>

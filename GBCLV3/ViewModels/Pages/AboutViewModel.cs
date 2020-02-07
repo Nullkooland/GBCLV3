@@ -6,7 +6,7 @@ namespace GBCLV3.ViewModels.Pages
 {
     class AboutViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         // IoC
         private readonly IWindowManager _windowManager;

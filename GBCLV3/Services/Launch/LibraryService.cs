@@ -11,7 +11,7 @@ namespace GBCLV3.Services.Launch
 {
     class LibraryService
     {
-        #region Private Members
+        #region Private Fields
 
         // IoC
         private readonly GamePathService _gamePathService;

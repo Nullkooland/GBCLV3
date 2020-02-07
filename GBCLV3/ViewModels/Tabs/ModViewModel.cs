@@ -16,7 +16,7 @@ namespace GBCLV3.ViewModels.Tabs
 {
     class ModViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         private readonly List<Mod> _selectedMods;
 

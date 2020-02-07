@@ -16,7 +16,7 @@ namespace GBCLV3.Services.Auxiliary
 {
     class ModService
     {
-        #region Private Members
+        #region Private Fields
 
         // IoC
         private readonly GamePathService _gamePathService;
@@ -60,7 +60,7 @@ namespace GBCLV3.Services.Auxiliary
             }
         }
 
-        public async Task<IEnumerable<Mod>> MoveLoadAllAsync(IEnumerable<string> paths)
+        public async ValueTask<IEnumerable<Mod>> MoveLoadAllAsync(IEnumerable<string> paths)
         {
             return await Task.Run(() =>
                 paths.Select(path =>

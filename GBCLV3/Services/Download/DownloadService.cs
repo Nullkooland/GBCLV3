@@ -21,7 +21,7 @@ namespace GBCLV3.Services.Download
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private const int BUFFER_SIZE = 4096; // byte
         private const double INFO_UPDATE_INTERVAL = 1.0; // second
@@ -75,7 +75,7 @@ namespace GBCLV3.Services.Download
 
         #region Public Methods
 
-        public async Task<bool> StartAsync()
+        public async ValueTask<bool> StartAsync()
         {
             var options = new ParallelOptions { MaxDegreeOfParallelism = 8 };
 

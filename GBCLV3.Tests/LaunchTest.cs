@@ -19,6 +19,7 @@ namespace GBCLV3.Tests
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AuthService _authService;
+        private readonly AccountService _accountService;
         private readonly LaunchService _launchService;
 
         public LaunchTest()
@@ -36,7 +37,8 @@ namespace GBCLV3.Tests
             _versionService = new VersionService(gamePathService, urlServie);
             _libraryService = new LibraryService(gamePathService, urlServie);
 
-            _authService = new AuthService(_configService);
+            _authService = new AuthService();
+            _accountService = new AccountService(_configService, null);
             _launchService = new LaunchService(gamePathService);
 
             _versionService.LoadAll();
@@ -72,7 +74,8 @@ namespace GBCLV3.Tests
 
             _libraryService.ExtractNatives(version.Libraries.Where(lib => lib.Type == LibraryType.Native));
 
-            var authResult = _authService.LoginAsync().Result;
+            var account = _accountService.GetSelected();
+            var authResult = _authService.LoginAsync(account).Result;
 
             var proile = new LaunchProfile
             {

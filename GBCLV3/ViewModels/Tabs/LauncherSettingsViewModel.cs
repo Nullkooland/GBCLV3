@@ -11,7 +11,7 @@ namespace GBCLV3.ViewModels.Tabs
 {
     class LauncherSettingsViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         // IoC
         private readonly Config _config;

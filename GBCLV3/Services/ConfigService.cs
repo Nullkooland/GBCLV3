@@ -4,6 +4,7 @@ using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Utils;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -18,7 +19,7 @@ namespace GBCLV3.Services
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private const string CONFIG_FILENAME = "GBCL.json";
 
@@ -38,8 +39,6 @@ namespace GBCLV3.Services
                 // Default configurations
                 Entries = new Config
                 {
-                    Username = "Steve",
-                    AuthMode = AuthMode.Offline,
                     JavaMaxMem = NativeUtil.GetRecommendedMemory(),
                     WindowWidth = 854,
                     WindowHeight = 480,
@@ -47,6 +46,8 @@ namespace GBCLV3.Services
                     DownloadSource = DownloadSource.Official,
                 };
             }
+
+            Entries.Accounts ??= new List<Account>(4);
 
             if (string.IsNullOrWhiteSpace(Entries.GameDir))
             {
@@ -61,11 +62,6 @@ namespace GBCLV3.Services
             if (Entries.JavaMaxMem == 0)
             {
                 Entries.JavaMaxMem = 2048;
-            }
-
-            if (!Entries.OfflineMode && Entries.AuthMode == AuthMode.Offline)
-            {
-                Entries.AuthMode = AuthMode.Yggdrasil;
             }
 
             Entries.Language = Entries.Language?.ToLower();

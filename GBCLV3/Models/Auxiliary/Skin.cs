@@ -9,5 +9,7 @@ namespace GBCLV3.Models.Auxiliary
         public BitmapImage Body { get; set; }
 
         public BitmapImage Cape { get; set; }
+
+        public BitmapSource Face { get; set; }
     }
 }

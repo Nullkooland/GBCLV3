@@ -13,7 +13,7 @@ namespace GBCLV3.ViewModels.Tabs
 {
     class GameSettingsViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         const string JRE_DOWNLOAD_URL = "https://bmclapi.bangbang93.com/java/jre_x64.exe";
 
@@ -106,35 +106,29 @@ namespace GBCLV3.ViewModels.Tabs
             set => _config.FullScreen = value;
         }
 
-        public AuthMode AuthMode
-        {
-            get => _config.AuthMode;
-            set => _config.AuthMode = value;
-        }
+        //public AuthMode AuthMode
+        //{
+        //    get => _config.AuthMode;
+        //    set => _config.AuthMode = value;
+        //}
 
-        public bool IsOffline => AuthMode == AuthMode.Offline;
+        //public bool IsOffline => AuthMode == AuthMode.Offline;
 
-        public bool IsExternalAuth => AuthMode == AuthMode.AuthLibInjector;
+        //public bool IsExternalAuth => AuthMode == AuthMode.AuthLibInjector;
 
-        public string Username
-        {
-            get => (AuthMode == AuthMode.Offline) ? _config.Username : _config.Email;
-            set
-            {
-                if (AuthMode == AuthMode.Offline)
-                {
-                    _config.Username = value;
-                    _eventAggregator.Publish(new UsernameChangedEvent());
-                }
-                else _config.Email = value;
-            }
-        }
-
-        public string AuthServer
-        {
-            get => _config.AuthServer;
-            set => _config.AuthServer = value;
-        }
+        //public string Username
+        //{
+        //    get => (AuthMode == AuthMode.Offline) ? _config.Username : _config.Email;
+        //    set
+        //    {
+        //        if (AuthMode == AuthMode.Offline)
+        //        {
+        //            _config.Username = value;
+        //            _eventAggregator.Publish(new UsernameChangedEvent());
+        //        }
+        //        else _config.Email = value;
+        //    }
+        //}
 
         public string ServerAddress
         {
@@ -152,16 +146,6 @@ namespace GBCLV3.ViewModels.Tabs
         {
             get => _config.ExtraMinecraftArgs;
             set => _config.ExtraMinecraftArgs = value;
-        }
-
-        public void OnPasswordLoaded(PasswordBox passwordBox, EventArgs _)
-        {
-            passwordBox.Password = _config.Password;
-        }
-
-        public void OnPasswordChanged(PasswordBox passwordBox, EventArgs _)
-        {
-            _config.Password = passwordBox.Password;
         }
 
         public void SelectJrePath()

@@ -16,7 +16,7 @@ namespace GBCLV3.Services.Launch
 {
     class AssetService
     {
-        #region Private Members
+        #region Private Fields
 
         private readonly HttpClient _client;
 
@@ -56,7 +56,7 @@ namespace GBCLV3.Services.Launch
             return true;
         }
 
-        public async Task<IEnumerable<AssetObject>> CheckIntegrityAsync(AssetsInfo info)
+        public async ValueTask<IEnumerable<AssetObject>> CheckIntegrityAsync(AssetsInfo info)
         {
             return await Task.Run(() =>
             info.Objects?
@@ -94,7 +94,7 @@ namespace GBCLV3.Services.Launch
             );
         }
 
-        public async Task<bool> DownloadIndexJsonAsync(AssetsInfo info)
+        public async ValueTask<bool> DownloadIndexJsonAsync(AssetsInfo info)
         {
             try
             {

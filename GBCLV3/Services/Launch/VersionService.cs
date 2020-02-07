@@ -28,7 +28,7 @@ namespace GBCLV3.Services.Launch
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private readonly Dictionary<string, Version> _versions;
 
@@ -175,7 +175,7 @@ namespace GBCLV3.Services.Launch
             }
         }
 
-        public async Task<IEnumerable<VersionDownload>> GetDownloadListAsync()
+        public async ValueTask<IEnumerable<VersionDownload>> GetDownloadListAsync()
         {
             try
             {
@@ -204,7 +204,7 @@ namespace GBCLV3.Services.Launch
             }
         }
 
-        public async Task<string> GetJsonAsync(VersionDownload download)
+        public async ValueTask<string> GetJsonAsync(VersionDownload download)
         {
             try
             {

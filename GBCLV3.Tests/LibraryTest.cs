@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
 using GBCLV3.Services;
 using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;

@@ -20,7 +20,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         //IoC
         private readonly Config _config;

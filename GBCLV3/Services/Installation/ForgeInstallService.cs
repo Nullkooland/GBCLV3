@@ -20,7 +20,7 @@ namespace GBCLV3.Services.Installation
 {
     class ForgeInstallService
     {
-        #region Private Members
+        #region Private Fields
 
         private const string FORGE_LIST_URL = "https://bmclapi2.bangbang93.com/forge/minecraft/";
 
@@ -52,7 +52,7 @@ namespace GBCLV3.Services.Installation
 
         #region Public Methods
 
-        public async Task<IEnumerable<Forge>> GetDownloadListAsync(string id)
+        public async ValueTask<IEnumerable<Forge>> GetDownloadListAsync(string id)
         {
             try
             {
@@ -123,7 +123,7 @@ namespace GBCLV3.Services.Installation
             return new List<DownloadItem>(1) { item };
         }
 
-        public async Task<Version> ManualInstallAsync(Forge forge)
+        public async ValueTask<Version> ManualInstallAsync(Forge forge)
         {
             string id = $"{forge.GameVersion}-forge-{forge.Version}";
             string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";

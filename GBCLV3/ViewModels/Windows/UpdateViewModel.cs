@@ -10,7 +10,7 @@ namespace GBCLV3.ViewModels.Windows
 {
     class UpdateViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         private DownloadService _downloadService;
 

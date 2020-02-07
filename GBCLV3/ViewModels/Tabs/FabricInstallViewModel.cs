@@ -15,7 +15,7 @@ namespace GBCLV3.ViewModels.Tabs
 {
     class FabricInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
-        #region Private Members
+        #region Private Fields
 
         //// IoC
         private readonly FabricInstallService _fabricInstallService;
@@ -99,7 +99,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         #region Private Methods
 
-        private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
+        private async ValueTask<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
             using var downloadService = new DownloadService(items);
             _downloadStatusVM.Setup(type, downloadService);

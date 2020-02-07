@@ -11,7 +11,7 @@ namespace GBCLV3.ViewModels.Tabs
 {
     class ResourcePackViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         // IoC
         private readonly GamePathService _gamePathService;

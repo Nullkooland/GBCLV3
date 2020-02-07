@@ -35,7 +35,7 @@ namespace GBCLV3.Services
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private const string ICONS_SOURCE = "/GBCL;component/Resources/Styles/Icons.xaml";
         private const string DEFAULT_BACKGROUND_IMAGE = "pack://application:,,,/Resources/Images/default_background.png";

@@ -11,10 +11,9 @@ namespace GBCLV3.ViewModels
 {
     class GreetingViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         private readonly Config _config;
-        private readonly SkinService _skinService;
 
         #endregion
 
@@ -22,12 +21,10 @@ namespace GBCLV3.ViewModels
 
         [Inject]
         public GreetingViewModel(
-            ConfigService configService,
-            SkinService skinService
+            ConfigService configService
             )
         {
             _config = configService.Entries;
-            _skinService = skinService;
         }
 
         #endregion
@@ -36,38 +33,11 @@ namespace GBCLV3.ViewModels
 
         public bool IsReady { get; private set; }
 
-        public string Username => _config.Username;
+        public string Username { get; private set; }
 
         public string Email { get; private set; }
 
         public BitmapSource SkinFace { get; private set; }
-
-        public async void OnLoaded()
-        {
-            if (IsReady) return;
-
-            Skin skin = null;
-            if (!_config.OfflineMode)
-            {
-                skin = await _skinService.GetSkinAsync(_config.UUID);
-                Email = _config.Email;
-            }
-            else
-            {
-                Email = "offline";
-            }
-
-            if (skin != null)
-            {
-                SkinFace = _skinService.GetFace(skin.Body);
-            }
-            else
-            {
-                SkinFace = new BitmapImage(new Uri("/Resources/Images/enderman.png", UriKind.Relative));
-            }
-
-            IsReady = true;
-        }
 
         public void OnAnimationCompleted()
         {
