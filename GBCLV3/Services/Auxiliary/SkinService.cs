@@ -11,6 +11,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace GBCLV3.Services.Auxiliary
@@ -107,7 +108,7 @@ namespace GBCLV3.Services.Auxiliary
         {
             int pos = url.LastIndexOf('/') + 1;
             string hash = url[pos..];
-            string path = $"{_gamePathService.AssetsDir}/{hash[..2]}/{hash}";
+            string path = $"{_gamePathService.AssetsDir}/skins/{hash[..2]}/{hash}";
 
             if (!File.Exists(path))
             {
@@ -139,10 +140,44 @@ namespace GBCLV3.Services.Auxiliary
             fileStream.Flush();
         }
 
-        private static CroppedBitmap GetFace(BitmapImage body)
+        private static BitmapSource GetFace(BitmapImage body)
         {
-            int regionSize = body.PixelWidth / 8;
-            return new CroppedBitmap(body, new Int32Rect(regionSize, regionSize, regionSize, regionSize));
+            if (body.PixelWidth % 8 != 0)
+            {
+                throw new InvalidOperationException("Invalid skin size!");
+            }
+
+            int size = body.PixelWidth / 8;
+            int bytesPerPixel = PixelFormats.Bgra32.BitsPerPixel / 8;
+            int stride = size * bytesPerPixel;
+
+            int bufferSize = size * size * bytesPerPixel;
+            var bufferMain = new byte[bufferSize];
+            var bufferOverlay = new byte[bufferSize];
+
+            var faceMain = new CroppedBitmap(body, new Int32Rect(size, size, size, size));
+            var faceOverlay = new CroppedBitmap(body, new Int32Rect(size * 5, size, size, size));
+
+            faceMain.CopyPixels(bufferMain, stride, 0);
+            faceOverlay.CopyPixels(bufferOverlay, stride, 0);
+
+            // I can't believe I'm doing manual alpha blending
+            for (int i = 0; i < bufferSize; i += bytesPerPixel)
+            {
+                byte alpha = bufferOverlay[i + 3];
+                if (alpha != 0x00)
+                {
+                    bufferMain[i] = bufferOverlay[i];
+                    bufferMain[i + 1] = bufferOverlay[i + 1];
+                    bufferMain[i + 2] = bufferOverlay[i + 2];
+                }
+            }
+
+            var faceCombined = BitmapSource.Create(size, size, 96, 96, 
+                                                   PixelFormats.Bgra32, null, 
+                                                   bufferMain, size * bytesPerPixel);
+            faceCombined.Freeze();
+            return faceCombined;
         }
 
         #endregion

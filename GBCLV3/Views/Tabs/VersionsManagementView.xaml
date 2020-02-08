@@ -18,7 +18,7 @@
             <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}"/>
             <Setter Property="FontSize" Value="14"/>
         </Style>
-        <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
+        <DropShadowEffect x:Key="SelectedShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
     </ContentControl.Resources>
 
     <Grid>
@@ -92,19 +92,19 @@
                         <DataTemplate>
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="21"/>
-                                    <RowDefinition Height="20"/>
+                                    <RowDefinition Height="24"/>
+                                    <RowDefinition Height="24"/>
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="40"/>
+                                    <ColumnDefinition Width="56"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
 
                                 <Image x:Name="TypeIcon"
                                        Grid.RowSpan="2" Grid.Column="0"
                                        Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}"
-                                       Width="40" Height="40" Stretch="Uniform"/>
+                                       Width="40" Height="40"/>
 
                                 <TextBlock x:Name="NameBox"
                                            Grid.Row="0" Grid.Column="1" Margin="8,0"
@@ -124,7 +124,7 @@
                                 <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
                                                        Path=IsSelected}" Value="True">
                                     <Setter TargetName="TypeIcon" Property="Effect"
-                                            Value="{StaticResource AccentColorShadow}"/>
+                                            Value="{StaticResource SelectedShadow}"/>
                                     <Setter TargetName="TypeBox" Property="Foreground"
                                             Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
                                 </DataTrigger>
