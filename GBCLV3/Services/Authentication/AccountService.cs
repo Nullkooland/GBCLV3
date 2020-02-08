@@ -15,7 +15,7 @@ namespace GBCLV3.Services.Authentication
     {
         #region Events
 
-        public event Action<Account> SelectedAccountChanged;
+        public event Action<Account> Created;
 
         #endregion
 
@@ -59,6 +59,11 @@ namespace GBCLV3.Services.Authentication
 
         public Account AddOfflineAccount(string username)
         {
+            bool isDuplicate = _accounts.Where(account => account.AuthMode == AuthMode.Offline)
+                                        .Any(account => account.Username == username);
+
+            if (isDuplicate) return null;
+
             var account = new Account
             {
                 AuthMode = AuthMode.Offline,
@@ -66,26 +71,42 @@ namespace GBCLV3.Services.Authentication
             };
 
             _accounts.Add(account);
+            Created?.Invoke(account);
             return account;
         }
 
-        public async ValueTask<Account> AddOnlineAccount(string email, AuthResult authResult, AuthMode mode, string authServer = null)
+        public async ValueTask<Account> AddOnlineAccount(string email,
+                                                         AuthResult authResult,
+                                                         AuthMode authMode,
+                                                         string authServer = null)
         {
+
+            bool isDuplicate = _accounts.Where(account => account.AuthMode == authMode)
+                                        .Any(account => account.Email == email);
+
+            if (isDuplicate) return null;
+
             var account = new Account
             {
-                AuthMode = mode,
+                AuthMode = authMode,
                 Email = email,
                 Username = authResult.Username,
                 ClientToken = authResult.ClientToken,
                 AccessToken = authResult.AccessToken,
                 UUID = authResult.UUID,
-                AuthServerBase = mode == AuthMode.AuthLibInjector ? authServer : null,
+                AuthServerBase = authMode == AuthMode.AuthLibInjector ? authServer : null,
             };
 
             await LoadSkinAsync(account);
 
             _accounts.Add(account);
+            Created?.Invoke(account);
             return account;
+        }
+
+        public void Delete(Account account)
+        {
+            _accounts.Remove(account);
         }
 
         #endregion

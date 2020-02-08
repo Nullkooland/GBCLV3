@@ -5,6 +5,7 @@ using Stylet;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace GBCLV3.ViewModels.Tabs
@@ -31,6 +32,12 @@ namespace GBCLV3.ViewModels.Tabs
             _accountService = accountService;
             Accounts = new BindableCollection<Account>(_accountService.GetAll());
 
+            _accountService.Created += account =>
+            {
+                if (!Accounts.Any()) account.IsSelected = true;
+                Accounts.Add(account);
+            };
+
             _windowManager = windowManager;
             _addAccountVM = addAccountVM;
         }
@@ -41,12 +48,21 @@ namespace GBCLV3.ViewModels.Tabs
 
         public BindableCollection<Account> Accounts { get; private set; }
 
+        public Account SelectedAccount { get; set; }
+
         public void AddNew()
         {
             if (_windowManager.ShowDialog(_addAccountVM) ?? false)
             {
                 
             }
+        }
+
+        public void Delete(Account account)
+        {
+            _accountService.Delete(account);
+            Accounts.Remove(account);
+            SelectedAccount ??= Accounts.FirstOrDefault();
         }
 
         #endregion

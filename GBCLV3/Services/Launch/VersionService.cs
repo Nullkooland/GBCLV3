@@ -98,7 +98,7 @@ namespace GBCLV3.Services.Launch
 
         public bool Has(string id) => id != null ? _versions.ContainsKey(id) : false;
 
-        public IEnumerable<Version> GetAvailable() => _versions.Values;
+        public IEnumerable<Version> GetAll() => _versions.Values;
 
         public Version GetByID(string id)
         {

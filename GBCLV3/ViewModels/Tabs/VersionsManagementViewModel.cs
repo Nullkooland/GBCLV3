@@ -7,6 +7,7 @@ using Stylet;
 using StyletIoC;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using Version = GBCLV3.Models.Launch.Version;
 
@@ -47,13 +48,28 @@ namespace GBCLV3.ViewModels.Tabs
             _versionService = versionService;
 
             Versions = new BindableCollection<Version>();
+
+            // OnVersionsLoaded
             _versionService.Loaded += hasAny =>
             {
                 Versions.Clear();
-                Versions.AddRange(_versionService.GetAvailable());
+                Versions.AddRange(_versionService.GetAll());
+                SelectedVersionID ??= Versions.FirstOrDefault()?.ID;
             };
-            _versionService.Created += version => Versions.Insert(0, version);
-            _versionService.Deleted += version => Versions.Remove(version);
+
+            // OnVersionCreated
+            _versionService.Created += version =>
+            {
+                Versions.Insert(0, version);
+                SelectedVersionID = version.ID;
+            };
+
+            // OnVersionDeleted
+            _versionService.Deleted += version =>
+            {
+                Versions.Remove(version);
+                SelectedVersionID ??= Versions.FirstOrDefault()?.ID;
+            };
         }
 
         #endregion
@@ -61,6 +77,12 @@ namespace GBCLV3.ViewModels.Tabs
         #region Bindings
 
         public BindableCollection<Version> Versions { get; set; }
+
+        public string SelectedVersionID
+        {
+            get => _config.SelectedVersion;
+            set => _config.SelectedVersion = value;
+        }
 
         public bool IsSegregateVersions
         {
@@ -70,46 +92,37 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void Reload() => _versionService.LoadAll();
 
-        public void OpenDir(Version version)
+        public void OpenDir(string id)
         {
-            string versionsDir = $"{_gamePathService.VersionsDir}/{version.ID}";
+            string versionsDir = $"{_gamePathService.VersionsDir}/{id}";
             if (Directory.Exists(versionsDir)) SystemUtil.OpenLink(versionsDir);
         }
 
-        public void OpenJson(Version version)
+        public void OpenJson(string id)
         {
-            string jsonPath = $"{_gamePathService.VersionsDir}/{version.ID}/{version.ID}.json";
+            string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";
             if (File.Exists(jsonPath)) SystemUtil.OpenLink(jsonPath);
         }
 
-        public async void Delete(Version version)
+        public async void Delete(string id)
         {
-            if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + version.ID + " ?", "${DeleteVersion}",
+            if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + id + " ?", "${DeleteVersion}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                await _versionService.DeleteFromDiskAsync(version.ID, true);
+                await _versionService.DeleteFromDiskAsync(id, true);
             }
         }
 
         public void InstallNew() => NavigateInstallView?.Invoke(null, InstallType.Version);
 
-        public void InstallForge(Version version)
-        {
-            NavigateInstallView?.Invoke(version.JarID, InstallType.Forge);
-        }
+        public void InstallForge(string jarID) => NavigateInstallView?.Invoke(jarID, InstallType.Forge);
 
-        public void InstallFabric(Version version)
-        {
-            NavigateInstallView?.Invoke(version.JarID, InstallType.Fabric);
-        }
+        public void InstallFabric(string jarID) => NavigateInstallView?.Invoke(jarID, InstallType.Fabric);
+        
 
         //public void InstallOptiFine()
         //{
         //}
-
-        #endregion
-
-        #region Private Methods
 
         #endregion
     }

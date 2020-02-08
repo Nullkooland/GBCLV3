@@ -17,7 +17,7 @@ namespace GBCLV3.Services.Installation
     {
         #region Private Fields
 
-        private const string FABRIC_LIST_URL = "https://meta.fabricmc.net//v2/versions/loader/";
+        private const string FABRIC_LIST_URL = "https://meta.fabricmc.net/v2/versions/loader/";
         private const string FABRIC_MAVEN_URL = "https://maven.fabricmc.net/";
 
         private readonly HttpClient _client;

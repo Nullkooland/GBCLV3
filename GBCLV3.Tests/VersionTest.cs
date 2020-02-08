@@ -31,7 +31,7 @@ namespace GBCLV3.Tests
             _versionService.LoadAll();
             Assert.IsTrue(_versionService.Any(), "No available versions!");
 
-            foreach (var version in _versionService.GetAvailable())
+            foreach (var version in _versionService.GetAll())
             {
                 Debug.WriteLine(version.ID);
                 //Debug.WriteLine();
@@ -41,7 +41,7 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void GetDownloadsTest()
         {
-            var downloads = _versionService.GetAvailable()
+            var downloads = _versionService.GetAll()
                                            .Select(version => _versionService.GetDownload(version))
                                            .Aggregate((prev, current) => prev.Concat(current));
 

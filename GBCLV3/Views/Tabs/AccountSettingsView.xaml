@@ -40,6 +40,7 @@
         </GroupBox.Header>
 
         <ListBox ItemsSource="{Binding Accounts, Mode=OneWay}"
+                 SelectedItem="{Binding SelectedAccount, Mode=TwoWay}"
                  BorderThickness="1">
 
             <ListBox.Resources>
@@ -49,6 +50,12 @@
                     <Setter Property="FontSize" Value="18"/>
                 </Style>
             </ListBox.Resources>
+
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemWithoutRippleStyle}">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                </Style>
+            </ListBox.ItemContainerStyle>
             
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -90,14 +97,14 @@
                                 Grid.Row="1" Grid.Column="2"
                                 Content="&#xE70F;"
                                 ToolTip="{DynamicResource Edit}"
-                                Command="{s:Action EditSelected}"
+                                Command="{s:Action Edit}"
                                 CommandParameter="{Binding}"/>
 
                         <Button x:Name="DeleteButton"
                                 Grid.Row="1" Grid.Column="3"
                                 Content="&#xE74D;"
                                 ToolTip="{DynamicResource Delete}"
-                                Command="{s:Action DeleteSelected}"
+                                Command="{s:Action Delete}"
                                 CommandParameter="{Binding}"/>
                     </Grid>
                     <DataTemplate.Triggers>

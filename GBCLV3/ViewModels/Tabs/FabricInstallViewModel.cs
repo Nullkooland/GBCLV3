@@ -65,7 +65,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public async void InstallSelected(Fabric fabric)
         {
-            bool hasLocal = _versionService.GetAvailable()
+            bool hasLocal = _versionService.GetAll()
                                            .Where(v => v.Type == VersionType.Fabric)
                                            .Any(v => v.ID.EndsWith(fabric.Loader.Version));
 

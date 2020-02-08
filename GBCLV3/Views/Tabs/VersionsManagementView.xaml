@@ -83,6 +83,7 @@
 
                 <ListBox ItemsSource="{Binding Versions, Mode=OneWay}"
                          SelectedValuePath="ID"
+                         SelectedValue="{Binding SelectedVersionID}"
                          BorderThickness="1">
 
                     <ListBox.Resources>
@@ -135,7 +136,7 @@
                                         Content="&#xED25;"
                                         ToolTip="{DynamicResource OpenDir}"
                                         Command="{s:Action OpenDir}"
-                                        CommandParameter="{Binding}"/>
+                                        CommandParameter="{Binding ID}"/>
 
                                 <Button x:Name="InstallAddonButton"
                                         Grid.Row="1" Grid.Column="3"
@@ -146,11 +147,11 @@
                                         <ContextMenu s:View.ActionTarget="{Binding Data, Source={StaticResource Proxy}}">
                                             <MenuItem Header="{DynamicResource InstallForge}"
                                                       Command="{s:Action InstallForge}"
-                                                      CommandParameter="{Binding}"/>
+                                                      CommandParameter="{Binding JarID}"/>
 
                                             <MenuItem Header="{DynamicResource InstallFabric}"
                                                       Command="{s:Action InstallFabric}"
-                                                      CommandParameter="{Binding}"/>
+                                                      CommandParameter="{Binding JarID}"/>
                                         </ContextMenu>
                                     </Button.ContextMenu>
                                 </Button>
@@ -160,25 +161,25 @@
                                         Content="&#xE74D;"
                                         ToolTip="{DynamicResource Delete}"
                                         Command="{s:Action Delete}"
-                                        CommandParameter="{Binding}"/>
+                                        CommandParameter="{Binding ID}"/>
 
                                 <Grid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="{DynamicResource OpenDir}"
                                                   Command="{s:Action OpenDir}"
-                                                  CommandParameter="{Binding}"/>
+                                                  CommandParameter="{Binding ID}"/>
 
                                         <MenuItem Header="{DynamicResource OpenJson}"
                                                   Command="{s:Action OpenJson}"
-                                                  CommandParameter="{Binding}"/>
+                                                  CommandParameter="{Binding ID}"/>
 
                                         <MenuItem Header="{DynamicResource InstallForge}"
                                                   Command="{s:Action InstallForge}"
-                                                  CommandParameter="{Binding}"/>
+                                                  CommandParameter="{Binding JarID}"/>
 
                                         <MenuItem Header="{DynamicResource InstallFabric}"
                                                   Command="{s:Action InstallFabric}"
-                                                  CommandParameter="{Binding}"/>
+                                                  CommandParameter="{Binding JarID}"/>
 
                                         <!--<MenuItem Header="{DynamicResource InstallOptiFine}"
                                                       Command="{s:Action InstallOptiFine}"
@@ -186,7 +187,7 @@
 
                                         <MenuItem Header="{DynamicResource Delete}"
                                                   Command="{s:Action Delete}"
-                                                  CommandParameter="{Binding}"/>
+                                                  CommandParameter="{Binding ID}"/>
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                             </Grid>

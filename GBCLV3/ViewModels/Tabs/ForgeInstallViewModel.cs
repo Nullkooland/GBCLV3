@@ -65,7 +65,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public async void InstallSelected(Forge forge)
         {
-            bool hasLocal = _versionService.GetAvailable()
+            bool hasLocal = _versionService.GetAll()
                                            .Where(v => v.Type == VersionType.Forge || v.Type == VersionType.NewForge)
                                            .Any(v => v.ID.EndsWith(forge.Version));
 

@@ -1,13 +1,12 @@
 ﻿using GBCLV3.Models;
-using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services;
 using GBCLV3.Services.Authentication;
-using GBCLV3.Services.Auxiliary;
 using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
+using GBCLV3.ViewModels.Tabs;
 using GBCLV3.ViewModels.Windows;
 using Stylet;
 using System.Collections.Generic;
@@ -16,7 +15,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -24,7 +22,7 @@ namespace GBCLV3.ViewModels.Pages
     {
         #region Private Fields
 
-        private readonly StringBuilder _logger;
+        private readonly StringBuilder _logger = new StringBuilder(4096);
 
         // IoC
         private readonly Config _config;
@@ -58,6 +56,7 @@ namespace GBCLV3.ViewModels.Pages
             AuthService authService,
             LaunchService launchService,
 
+            VersionsManagementViewModel versionsVM,
             GreetingViewModel greetingVM,
             LaunchStatusViewModel statusVM,
             DownloadStatusViewModel downloadVM,
@@ -73,80 +72,30 @@ namespace GBCLV3.ViewModels.Pages
             _accountService = accountService;
             _launchService = launchService;
 
-            _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
-            _launchService.Exited += OnGameExited;
-
-            Versions = new BindableCollection<Version>();
-
-            // OnVersionLoaded
-            _versionService.Loaded += hasAny =>
-            {
-                Versions.Clear();
-                Versions.AddRange(_versionService.GetAvailable());
-
-                if (hasAny)
-                {
-                    if (!_versionService.Has(SelectedVersionID))
-                    {
-                        SelectedVersionID = Versions.FirstOrDefault().ID;
-                    }
-
-                    CanLaunch = true;
-                }
-                else
-                {
-                    CanLaunch = false;
-                }
-            };
-
-            // OnVersionCreated
-            _versionService.Created += version =>
-            {
-                Versions.Insert(0, version);
-                SelectedVersionID = version.ID;
-                CanLaunch = true;
-            };
-
-            // OnVersionDeleted
-            _versionService.Deleted += version =>
-            {
-                Versions.Remove(version);
-
-                if (SelectedVersionID == null)
-                {
-                    SelectedVersionID = Versions.FirstOrDefault()?.ID;
-                }
-
-                if (!Versions.Any()) CanLaunch = false;
-            };
-
-            _logger = new StringBuilder(4096);
-
             _statusVM = statusVM;
             _downloadStatusVM = downloadVM;
             _errorReportVM = errorReportVM;
 
+            _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
+            _launchService.Exited += OnGameExited;
+
+            _versionService.Loaded += hasAny => CanLaunch = hasAny;
+
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
 
             ThemeService = themeService;
+            VersionsVM = versionsVM;
             GreetingVM = greetingVM;
         }
 
         #endregion
 
         #region Bindings
+        public VersionsManagementViewModel VersionsVM { get; set; }
 
         public GreetingViewModel GreetingVM { get; private set; }
 
         public ThemeService ThemeService { get; private set; }
-
-        public BindableCollection<Version> Versions { get; private set; }
-
-        public string SelectedVersionID
-        {
-            get => _config.SelectedVersion;
-            set => _config.SelectedVersion = value;
-        }
 
         public bool CanLaunch { get; private set; }
 
@@ -181,7 +130,7 @@ namespace GBCLV3.ViewModels.Pages
             }
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
-            var launchVersion = _versionService.GetByID(SelectedVersionID);
+            var launchVersion = _versionService.GetByID(_config.SelectedVersion);
 
             // Check main jar and fix possible damage
             if (!_versionService.CheckIntegrity(launchVersion))
