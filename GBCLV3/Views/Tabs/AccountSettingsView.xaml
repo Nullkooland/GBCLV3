@@ -15,7 +15,6 @@
     </ContentControl.Resources>
 
     <GroupBox Margin="8">
-
         <GroupBox.Header>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -30,7 +29,7 @@
                 <Button Grid.Column="1"
                         Style="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}"
                         HorizontalAlignment="Right"
-                        Width="24" Height="24"
+                        Width="32" Height="32"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="16"
                         Content="&#xE710;"
@@ -42,6 +41,14 @@
 
         <ListBox ItemsSource="{Binding Accounts, Mode=OneWay}"
                  BorderThickness="1">
+
+            <ListBox.Resources>
+                <Style TargetType="Button" BasedOn="{StaticResource LinkButtonStyle}">
+                    <Setter Property="Width" Value="32"/>
+                    <Setter Property="Height" Value="32"/>
+                    <Setter Property="FontSize" Value="18"/>
+                </Style>
+            </ListBox.Resources>
             
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -54,6 +61,9 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="72"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="8"/>
                         </Grid.ColumnDefinitions>
 
                         <Image x:Name="Avatar"
@@ -63,18 +73,32 @@
                                Width="48" Height="48" Stretch="Uniform"/>
 
                         <TextBlock x:Name="NameBox"
-                                           Grid.Row="0" Grid.Column="1"
-                                           HorizontalAlignment="Left" VerticalAlignment="Center"
-                                           FontSize="18"
-                                           Text="{Binding Username}"/>
+                                   Grid.Row="0" Grid.Column="1"
+                                   HorizontalAlignment="Left" VerticalAlignment="Center"
+                                   FontSize="18"
+                                   Text="{Binding Username}"/>
 
                         <TextBlock x:Name="TypeBox"
-                                           Grid.Row="1" Grid.Column="1"
-                                           HorizontalAlignment="Left" VerticalAlignment="Top"
-                                           FontSize="12"
-                                           Foreground="{DynamicResource
-                                                       {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
-                                           Text="{Binding AuthMode}"/>
+                                   Grid.Row="1" Grid.Column="1"
+                                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                                   FontSize="12"
+                                   Foreground="{DynamicResource
+                                               {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
+                                   Text="{Binding AuthMode}"/>
+
+                        <Button x:Name="EditButton"
+                                Grid.Row="1" Grid.Column="2"
+                                Content="&#xE70F;"
+                                ToolTip="{DynamicResource Edit}"
+                                Command="{s:Action EditSelected}"
+                                CommandParameter="{Binding}"/>
+
+                        <Button x:Name="DeleteButton"
+                                Grid.Row="1" Grid.Column="3"
+                                Content="&#xE74D;"
+                                ToolTip="{DynamicResource Delete}"
+                                Command="{s:Action DeleteSelected}"
+                                CommandParameter="{Binding}"/>
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
@@ -83,6 +107,10 @@
                                             Value="{StaticResource SelectedShadow}"/>
                             <Setter TargetName="TypeBox" Property="Foreground"
                                             Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                            <Setter TargetName="EditButton" Property="Foreground"
+                                    Value="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}"/>
+                            <Setter TargetName="DeleteButton" Property="Foreground"
+                                    Value="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}"/>
                         </DataTrigger>
                     </DataTemplate.Triggers>
                 </DataTemplate>

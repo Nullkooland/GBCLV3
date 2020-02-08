@@ -227,6 +227,7 @@
     <s:String x:Key="OpenDir">Open Directory</s:String>
     <s:String x:Key="OpenLink">Open Link</s:String>
     <s:String x:Key="Delete">Delete</s:String>
+    <s:String x:Key="Edit">Edit</s:String>
     <s:String x:Key="Install">Install</s:String>
     <s:String x:Key="InstallSuccessful">Install Successful</s:String>
     <s:String x:Key="Versions">Versions</s:String>

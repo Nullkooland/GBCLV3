@@ -68,50 +68,44 @@ namespace GBCLV3.ViewModels.Tabs
             set => _config.SegregateVersions = value;
         }
 
-        public string SelectedVersionID { get; set; }
-
         public void Reload() => _versionService.LoadAll();
 
-        public void OpenDir()
+        public void OpenDir(Version version)
         {
-            string versionsDir = $"{_gamePathService.VersionsDir}/{SelectedVersionID}";
+            string versionsDir = $"{_gamePathService.VersionsDir}/{version.ID}";
             if (Directory.Exists(versionsDir)) SystemUtil.OpenLink(versionsDir);
         }
 
-        public void OpenJson()
+        public void OpenJson(Version version)
         {
-            string jsonPath = $"{_gamePathService.VersionsDir}/{SelectedVersionID}/{SelectedVersionID}.json";
+            string jsonPath = $"{_gamePathService.VersionsDir}/{version.ID}/{version.ID}.json";
             if (File.Exists(jsonPath)) SystemUtil.OpenLink(jsonPath);
         }
 
-        public async void Delete()
+        public async void Delete(Version version)
         {
-            if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + SelectedVersionID + " ?", "${DeleteVersion}",
+            if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + version.ID + " ?", "${DeleteVersion}",
                 MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                await _versionService.DeleteFromDiskAsync(SelectedVersionID, true);
+                await _versionService.DeleteFromDiskAsync(version.ID, true);
             }
         }
 
         public void InstallNew() => NavigateInstallView?.Invoke(null, InstallType.Version);
 
-        public void InstallForge()
+        public void InstallForge(Version version)
         {
-            var version = _versionService.GetByID(SelectedVersionID);
             NavigateInstallView?.Invoke(version.JarID, InstallType.Forge);
         }
 
-        public void InstallFabric()
+        public void InstallFabric(Version version)
         {
-            var version = _versionService.GetByID(SelectedVersionID);
             NavigateInstallView?.Invoke(version.JarID, InstallType.Fabric);
         }
 
-        public void InstallOptiFine()
-        {
-            var version = _versionService.GetByID(SelectedVersionID);
-            NavigateInstallView?.Invoke(version.JarID, InstallType.OptiFine);
-        }
+        //public void InstallOptiFine()
+        //{
+        //}
 
         #endregion
 

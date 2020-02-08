@@ -229,6 +229,7 @@
     <s:String x:Key="OpenDir">打开目录</s:String>
     <s:String x:Key="OpenLink">打开链接</s:String>
     <s:String x:Key="Delete">删除</s:String>
+    <s:String x:Key="Edit">编辑</s:String>
     <s:String x:Key="Install">安装</s:String>
     <s:String x:Key="InstallSuccessful">安装成功</s:String>
     <s:String x:Key="Versions">游戏版本</s:String>
