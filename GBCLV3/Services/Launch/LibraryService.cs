@@ -63,15 +63,15 @@ namespace GBCLV3.Services.Launch
             {
                 switch (lib.Type)
                 {
-                    case LibraryType.Forge:
+                    case LibraryType.ForgeMain:
                         return _urlService.Base.Forge + lib.Url;
                     case LibraryType.Minecraft:
                     case LibraryType.Native:
                         return _urlService.Base.Library + (lib.Url ?? lib.Path);
-                    case LibraryType.Maven:
-                        return _urlService.Base.Maven + (lib.Url ?? lib.Path);
+                    case LibraryType.Forge:
+                        return _urlService.Base.ForgeMaven + (lib.Url ?? lib.Path);
                     case LibraryType.Fabric:
-                        return lib.Url;
+                        return _urlService.Base.FabricMaven + lib.Path;
                     default: return null;
                 }
             }

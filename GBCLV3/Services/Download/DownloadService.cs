@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -77,7 +78,7 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<bool> StartAsync()
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = 8 };
+            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
 
             for (; ; )
             {
@@ -167,41 +168,51 @@ namespace GBCLV3.Services.Download
         private void DownloadTask(DownloadItem item)
         {
             // Make sure directory exists
-            if (Path.IsPathRooted(item.Path))
-            {
-                Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
-            }
+            Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
 
             try
             {
-                using (var fs = new FileStream(item.Path, FileMode.OpenOrCreate, FileAccess.Write, FileShare.Write))
+                var response = _client.GetAsync(item.Url, HttpCompletionOption.ResponseHeadersRead, _cts.Token).Result;
+
+                if (response.StatusCode == HttpStatusCode.Found)
                 {
-                    var waitResponceTask = _client.GetStreamAsync(item.Url);
+                    // Handle redirection
+                    var redirection = response.Headers.Location; 
+                    response = _client.GetAsync(redirection, HttpCompletionOption.ResponseHeadersRead, _cts.Token).Result;
+                }
 
-                    waitResponceTask.Wait(_cts.Token);
-                    var httpStream = waitResponceTask.Result;
-                    _cts.Token.Register(() => httpStream.Close());
+                if (item.Size == 0)
+                {
+                    item.Size = (int)response.Content.Headers.ContentLength;
+                    Interlocked.Add(ref _totalBytes, item.Size);
+                }
 
+                using var httpStream = response.Content.ReadAsStreamAsync().Result;
+                using var fileStream = File.OpenWrite(item.Path);
 
-                    Span<byte> buffer = stackalloc byte[BUFFER_SIZE];
-                    int bytesReceived;
+                // Close the stream if download is canceled
+                _cts.Token.Register(() => httpStream.Close());
 
-                    while ((bytesReceived = httpStream.Read(buffer)) > 0)
-                    {
-                        fs.Write(buffer.Slice(0, bytesReceived));
-                        item.DownloadedBytes += bytesReceived;
-                        Interlocked.Add(ref _downloadedBytes, bytesReceived);
-                    }
+                Span<byte> buffer = stackalloc byte[BUFFER_SIZE];
+                int bytesReceived;
+
+                while ((bytesReceived = httpStream.Read(buffer)) > 0)
+                {
+                    fileStream.Write(buffer.Slice(0, bytesReceived));
+                    item.DownloadedBytes += bytesReceived;
+                    Interlocked.Add(ref _downloadedBytes, bytesReceived);
                 }
 
                 // Download successful
                 item.IsCompleted = true;
                 Interlocked.Increment(ref _completedCount);
+
+                response.Dispose();
                 return;
             }
             catch (OperationCanceledException ex)
             {
-                // You are the one who canceled me :D
+                // You are the one who anceled me :D
                 Debug.WriteLine(ex.ToString());
             }
             catch (AggregateException ex) when (ex.InnerException is HttpRequestException)

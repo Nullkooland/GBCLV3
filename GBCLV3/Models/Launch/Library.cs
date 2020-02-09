@@ -7,7 +7,7 @@ namespace GBCLV3.Models.Launch
     {
         Minecraft,
         Native,
-        Maven,
+        ForgeMain,
         Forge,
         Fabric,
     }

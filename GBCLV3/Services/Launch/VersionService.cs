@@ -160,7 +160,7 @@ namespace GBCLV3.Services.Launch
                     {
                         string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
 
-                        if (lib.Type == LibraryType.Forge)
+                        if (lib.Type == LibraryType.ForgeMain)
                         {
                             await SystemUtil.SendDirToRecycleBinAsync(Path.GetDirectoryName(libPath));
                         }
@@ -169,7 +169,6 @@ namespace GBCLV3.Services.Launch
                             await SystemUtil.SendFileToRecycleBinAsync(libPath);
                             SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
                         }
-
                     }
                 }
             }
@@ -354,13 +353,13 @@ namespace GBCLV3.Services.Launch
 
                     if (names[0] == "net.minecraftforge" && names[1] == "forge")
                     {
-                        lib.Type = LibraryType.Forge;
+                        lib.Type = LibraryType.ForgeMain;
                         lib.Url = $"{names[2]}/forge-{names[2]}-universal.jar";
                     }
                     else if (jlib.downloads?.artifact.url.StartsWith("https://files.minecraftforge.net/maven/") ?? false ||
                              jlib.url == "http://files.minecraftforge.net/maven/")
                     {
-                        lib.Type = LibraryType.Maven;
+                        lib.Type = LibraryType.Forge;
                         lib.Url = jlib.downloads?.artifact.url[39..];
                     }
                     else if (jlib.url == "https://maven.fabricmc.net/")
@@ -465,6 +464,10 @@ namespace GBCLV3.Services.Launch
                 version.Size = parent.Size;
                 version.SHA1 = parent.SHA1;
                 version.Url = parent.Url;
+            }
+            else
+            {
+                _versions.Remove(version.ID);
             }
         }
     }
