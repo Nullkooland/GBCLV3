@@ -66,13 +66,13 @@
                                    VerticalAlignment="Center"
                                    Text="{Binding Status, Mode=OneWay}"/>
 
-                        <CheckBox Grid.Column="2" Margin="16,0"
+                        <CheckBox Grid.Column="2" Margin="8,0"
                                   HorizontalAlignment="Right" VerticalAlignment="Center"
                                   FontSize="14"
                                   Content="{DynamicResource ReleaseOnly}"
                                   IsChecked="{Binding IsReleaseOnly, Mode=TwoWay}"/>
 
-                        <CheckBox Grid.Column="3"
+                        <CheckBox Grid.Column="3" Margin="8,0"
                                   FontSize="14"
                                   HorizontalAlignment="Right" VerticalAlignment="Center"
                                   Content="{DynamicResource DownloadAssetsOnInstall}"

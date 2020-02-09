@@ -1,12 +1,22 @@
 ﻿using GBCLV3.Models.Auxiliary;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.ComponentModel;
 using System.Text.Json.Serialization;
 using System.Windows.Media.Imaging;
+using GBCLV3.Utils;
 
 namespace GBCLV3.Models.Authentication
 {
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    enum EditAccountType
+    {
+        [LocalizedDescription(nameof(AddAccount))]
+        AddAccount,
+
+        [LocalizedDescription(nameof(EditAccount))]
+        EditAccount,
+    }
+
     class Account
     {
         public string Username { get; set; }

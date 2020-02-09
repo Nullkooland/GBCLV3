@@ -30,9 +30,13 @@
     <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
     <s:String x:Key="DonwloadJreInstaller">Donwload Jre installer</s:String>
 
-    <!-- Add Account -->
+    <!-- Account Management -->
+    <s:String x:Key="AccountManagement">Account Management</s:String>
     <s:String x:Key="AddAccount">Add Account</s:String>
-    <s:String x:Key="AuthMode">Authenentication Mode</s:String>
+    <s:String x:Key="EditAccount">Edit Account</s:String>
+    <s:String x:Key="DeleteAccount">Delete Account</s:String>
+    <s:String x:Key="WhetherDeleteAccount">Are you sure to delete this account?</s:String>
+    <s:String x:Key="AuthMode">Authentication Mode</s:String>
     <s:String x:Key="Offline">Offline</s:String>
     <s:String x:Key="Yggdrasil">Mojang</s:String>
     <s:String x:Key="AuthLibInjector">External (authlib-injector)</s:String>
@@ -41,10 +45,12 @@
     <s:String x:Key="Password">Password</s:String>
     <s:String x:Key="AuthServer">Authentication Server</s:String>
 
-    <!-- Authentication Errors -->
-    <s:String x:Key="AuthFailed">Authentication Failed</s:String>
     <s:String x:Key="EmptyUsernameError">Username cannot be empty!</s:String>
     <s:String x:Key="InvalidEmailError">Invalid email address!</s:String>
+    <s:String x:Key="InvalidAuthServerError">Invalid authentication server, please check the url or your Internet connection!</s:String>
+
+    <!-- Authentication Errors -->
+    <s:String x:Key="AuthFailed">Authentication Failed</s:String>
     <s:String x:Key="AuthTimeoutError">Authentication timeout!</s:String>
     <s:String x:Key="NoInternetConnectionError">Please check your Internet connection!</s:String>
     <s:String x:Key="InvalidCredentialsError">Invalid credentials! Please check your email or password!</s:String>
@@ -91,9 +97,6 @@
     <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g GC configurations)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
 
-    <!-- Account Settings -->
-    <s:String x:Key="AccountManagement">Manage Account</s:String>
-
     <!-- Launcher Settings -->
     <s:String x:Key="Language">Language</s:String>
 
@@ -138,6 +141,7 @@
     <s:String x:Key="AvailableVersions">Available Versions</s:String>
     <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
     <s:String x:Key="OpenJson">Open Json</s:String>
+    <s:String x:Key="DeleteVersion">Delete Version</s:String>
     <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
 
     <!-- Version Install -->

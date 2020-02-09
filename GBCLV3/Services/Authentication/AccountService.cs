@@ -2,11 +2,9 @@
 using GBCLV3.Models.Authentication;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 using StyletIoC;
 using GBCLV3.Services.Auxiliary;
-using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Authentication

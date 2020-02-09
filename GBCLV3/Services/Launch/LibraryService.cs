@@ -48,13 +48,13 @@ namespace GBCLV3.Services.Launch
             }
         }
 
-        public IEnumerable<Library> CheckIntegrity(IEnumerable<Library> libraries)
+        public Library[] CheckIntegrity(IEnumerable<Library> libraries)
         {
             return libraries.Where(lib =>
             {
                 string path = $"{_gamePathService.LibrariesDir}/{lib.Path}";
                 return !File.Exists(path) || lib.SHA1 != null && lib.SHA1 != Utils.CryptUtil.GetFileSHA1(path);
-            }).ToList();
+            }).ToArray();
         }
 
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)
@@ -77,15 +77,15 @@ namespace GBCLV3.Services.Launch
             }
 
             return libraries.Select(lib =>
-            new DownloadItem
-            {
-                Name = lib.Name,
-                Size = lib.Size,
-                Path = $"{_gamePathService.LibrariesDir}/{lib.Path}",
-                Url = GetUrl(lib),
-                IsCompleted = false,
-                DownloadedBytes = 0,
-            }).ToList();
+                new DownloadItem
+                {
+                    Name = lib.Name,
+                    Size = lib.Size,
+                    Path = $"{_gamePathService.LibrariesDir}/{lib.Path}",
+                    Url = GetUrl(lib),
+                    IsCompleted = false,
+                    DownloadedBytes = 0,
+                });
         }
 
         #endregion

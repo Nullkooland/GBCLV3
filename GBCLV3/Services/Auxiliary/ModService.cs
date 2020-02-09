@@ -46,6 +46,20 @@ namespace GBCLV3.Services.Auxiliary
                             .OrderByDescending(mod => mod.IsEnabled);
         }
 
+        public async ValueTask<Mod[]> MoveLoadAllAsync(IEnumerable<string> paths)
+        {
+            var query = paths.Select(path =>
+            {
+                string dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
+                if (File.Exists(dstPath)) return null;
+
+                File.Move(path, dstPath);
+                return Load(dstPath);
+            }).Where(mod => mod != null);
+
+            return await Task.FromResult(query.ToArray());
+        }
+
         public void ChangeExtension(Mod mod)
         {
             string newName = Path.GetFileNameWithoutExtension(mod.Path) + (mod.IsEnabled ? ".jar" : ".jar.disabled");
@@ -58,22 +72,6 @@ namespace GBCLV3.Services.Auxiliary
             {
                 await SystemUtil.SendFileToRecycleBinAsync(mod.Path + (mod.IsEnabled ? null : ".disabled"));
             }
-        }
-
-        public async ValueTask<IEnumerable<Mod>> MoveLoadAllAsync(IEnumerable<string> paths)
-        {
-            return await Task.Run(() =>
-                paths.Select(path =>
-                {
-                    string dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
-                    if (File.Exists(dstPath)) return null;
-
-                    File.Move(path, dstPath);
-                    return Load(dstPath);
-                })
-                .Where(mod => mod != null)
-                .ToList()
-            );
         }
 
         #endregion
@@ -134,7 +132,6 @@ namespace GBCLV3.Services.Auxiliary
                 IsEnabled = isEnabled,
             };
         }
-
         #endregion
     }
 }

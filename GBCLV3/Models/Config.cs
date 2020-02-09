@@ -2,8 +2,6 @@
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using System.Collections.Generic;
-using System.Text.Json.Serialization;
-using System.Windows.Documents;
 
 namespace GBCLV3.Models
 {

@@ -3,10 +3,8 @@ using GBCLV3.Services.Authentication;
 using GBCLV3.ViewModels.Windows;
 using Stylet;
 using StyletIoC;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -17,7 +15,7 @@ namespace GBCLV3.ViewModels.Tabs
         // IoC
         private readonly AccountService _accountService;
         private readonly IWindowManager _windowManager;
-        private readonly AddAccountViewModel _addAccountVM;
+        private readonly AccountEditViewModel _accountEditVM;
 
         #endregion
 
@@ -27,7 +25,7 @@ namespace GBCLV3.ViewModels.Tabs
         public AccountSettingsViewModel(
             AccountService accountService, 
             IWindowManager windowManager,
-            AddAccountViewModel addAccountVM)
+            AccountEditViewModel addAccountVM)
         {
             _accountService = accountService;
             Accounts = new BindableCollection<Account>(_accountService.GetAll());
@@ -39,7 +37,7 @@ namespace GBCLV3.ViewModels.Tabs
             };
 
             _windowManager = windowManager;
-            _addAccountVM = addAccountVM;
+            _accountEditVM = addAccountVM;
         }
 
         #endregion
@@ -52,17 +50,27 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void AddNew()
         {
-            if (_windowManager.ShowDialog(_addAccountVM) ?? false)
+            _accountEditVM.Setup(EditAccountType.AddAccount);
+            if (_windowManager.ShowDialog(_accountEditVM) ?? false)
             {
                 
             }
         }
-
         public void Delete(Account account)
         {
-            _accountService.Delete(account);
-            Accounts.Remove(account);
-            SelectedAccount ??= Accounts.FirstOrDefault();
+            if (_windowManager.ShowMessageBox("${WhetherDeleteAccount}", "${DeleteAccount}",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                _accountService.Delete(account);
+                Accounts.Remove(account);
+                SelectedAccount ??= Accounts.FirstOrDefault();
+            }
+        }
+
+        public void Edit(Account account)
+        {
+            _accountEditVM.Setup(EditAccountType.EditAccount, account);
+            _windowManager.ShowDialog(_accountEditVM);
         }
 
         #endregion

@@ -80,7 +80,7 @@ namespace GBCLV3.Services.Download
         {
             var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
 
-            for (; ; )
+            for (;;)
             {
                 _timer.Start();
 
@@ -177,13 +177,13 @@ namespace GBCLV3.Services.Download
                 if (response.StatusCode == HttpStatusCode.Found)
                 {
                     // Handle redirection
-                    var redirection = response.Headers.Location; 
+                    var redirection = response.Headers.Location;
                     response = _client.GetAsync(redirection, HttpCompletionOption.ResponseHeadersRead, _cts.Token).Result;
                 }
 
                 if (item.Size == 0)
                 {
-                    item.Size = (int)response.Content.Headers.ContentLength;
+                    item.Size = (int)(response.Content.Headers.ContentLength ?? 0);
                     Interlocked.Add(ref _totalBytes, item.Size);
                 }
 

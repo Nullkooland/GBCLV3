@@ -56,19 +56,19 @@ namespace GBCLV3.Services.Launch
             return true;
         }
 
-        public async ValueTask<IEnumerable<AssetObject>> CheckIntegrityAsync(AssetsInfo info)
+        public async ValueTask<AssetObject[]> CheckIntegrityAsync(AssetsInfo info)
         {
-            return await Task.Run(() =>
-            info.Objects?
-                .Select(pair => pair.Value)
-                .AsParallel()
-                .Where(obj =>
-                {
-                    string path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
-                    return !File.Exists(path) || obj.Hash != Utils.CryptUtil.GetFileSHA1(path);
-                })
-                .ToList()
-            );
+            var query =
+                info.Objects?
+                    .Select(pair => pair.Value)
+                    .AsParallel()
+                    .Where(obj =>
+                    {
+                        string path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
+                        return !File.Exists(path) || obj.Hash != Utils.CryptUtil.GetFileSHA1(path);
+                    });
+
+            return await Task.FromResult(query?.ToArray());
         }
 
         public async Task CopyToVirtualAsync(AssetsInfo info)
@@ -121,15 +121,15 @@ namespace GBCLV3.Services.Launch
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<AssetObject> assetObjects)
         {
             return assetObjects.Select(obj =>
-            new DownloadItem
-            {
-                Name = obj.Hash,
-                Path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}",
-                Url = _urlService.Base.Asset + obj.Path,
-                Size = obj.Size,
-                IsCompleted = false,
-                DownloadedBytes = 0,
-            }).ToList();
+                new DownloadItem
+                {
+                    Name = obj.Hash,
+                    Path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}",
+                    Url = _urlService.Base.Asset + obj.Path,
+                    Size = obj.Size,
+                    IsCompleted = false,
+                    DownloadedBytes = 0,
+                });
         }
 
         #endregion

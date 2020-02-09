@@ -106,28 +106,21 @@ namespace GBCLV3.Services.Auxiliary
             else await SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
-        public async ValueTask<IEnumerable<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths)
+        public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths)
         {
-            return await Task.Run(() =>
-                paths.Select(path =>
-                {
-                    string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
-                    if (File.Exists(dstPath)) return null;
+            var query = paths.Select(path =>
+            {
+                string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
+                if (File.Exists(dstPath)) return null;
 
-                    var pack = LoadZip(dstPath, null);
-                    if (pack != null)
-                    {
-                        File.Move(path, dstPath);
-                        return pack;
-                    }
-                    else
-                    {
-                        return null;
-                    }
-                })
-                .Where(pack => pack != null)
-                .ToList()
-            );
+                var pack = LoadZip(dstPath, null);
+                if (pack == null) return null;
+
+                File.Move(path, dstPath);
+                return pack;
+            }).Where(pack => pack != null);
+
+            return await Task.FromResult(query.ToArray());
         }
 
         #endregion

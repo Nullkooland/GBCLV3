@@ -1,22 +1,15 @@
-﻿using FluentValidation;
+﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
 using GBCLV3.Services.Authentication;
-using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    class AddAccountViewModel : Screen
+    internal class AccountEditViewModel : Screen
     {
         #region Private Fields
 
@@ -34,12 +27,11 @@ namespace GBCLV3.ViewModels.Windows
         #region Constructor
 
         [Inject]
-        public AddAccountViewModel(
+        public AccountEditViewModel(
             AccountService accountService,
             AuthService authService,
             ThemeService themeService,
-
-            IModelValidator<AddAccountViewModel> validator) : base(validator)
+            IModelValidator<AccountEditViewModel> validator) : base(validator)
         {
             AutoValidate = false;
             CanConfirm = true;
@@ -49,11 +41,24 @@ namespace GBCLV3.ViewModels.Windows
             ThemeService = themeService;
         }
 
+        public void Setup(EditAccountType type, Account currentAccount = null)
+        {
+            Type = type;
+
+            CurrentAccount = currentAccount;
+            AuthMode = currentAccount?.AuthMode ?? AuthMode.Offline;
+            Username = currentAccount?.Username;
+            Email = currentAccount?.Email;
+            AuthServerBase = currentAccount?.AuthServerBase;
+        }
+
         #endregion
 
         #region Bindings
 
-        public ThemeService ThemeService { get; private set; }
+        public EditAccountType Type { get; private set; }
+
+        public ThemeService ThemeService { get; }
 
         public Account CurrentAccount { get; private set; }
 
@@ -63,14 +68,13 @@ namespace GBCLV3.ViewModels.Windows
 
         public bool IsExternalMode => AuthMode == AuthMode.AuthLibInjector;
 
-        public bool IsAuthServerValid { get; private set; }
-
         public string Username
         {
             get => _username;
             set
             {
-                _username = value;
+                SetAndNotify(ref _username, value);
+                ValidateProperty();
             }
         }
 
@@ -79,7 +83,8 @@ namespace GBCLV3.ViewModels.Windows
             get => _email;
             set
             {
-                _email = value;
+                SetAndNotify(ref _email, value);
+                ValidateProperty();
             }
         }
 
@@ -93,14 +98,12 @@ namespace GBCLV3.ViewModels.Windows
             get => _authServerBase;
             set
             {
+                if (value == null) return;
+
                 if (value.StartsWith("http"))
-                {
                     _authServerBase = value.Replace("http://", "https://");
-                }
                 else
-                {
                     _authServerBase = "https://" + value;
-                }
             }
         }
 
@@ -115,6 +118,7 @@ namespace GBCLV3.ViewModels.Windows
                 if (ValidateProperty(nameof(Username)))
                 {
                     _accountService.AddOfflineAccount(Username);
+                    this.RequestClose(true);
                 }
                 else
                 {
@@ -123,7 +127,11 @@ namespace GBCLV3.ViewModels.Windows
                 }
             }
 
-            if (!ValidateProperty(nameof(Email))) return;
+            if (!ValidateProperty(nameof(Email)))
+            {
+                CanConfirm = true;
+                return;
+            }
 
             AuthResult authResult;
 
@@ -131,7 +139,8 @@ namespace GBCLV3.ViewModels.Windows
             {
                 if (await ValidatePropertyAsync(nameof(AuthServerBase)))
                 {
-                    authResult = await _authService.AuthenticateAsync(_email, _password, _authServerBase + "/authserver");
+                    authResult =
+                        await _authService.AuthenticateAsync(Email, _password, _authServerBase + "/authserver");
                 }
                 else
                 {
@@ -141,30 +150,27 @@ namespace GBCLV3.ViewModels.Windows
             }
             else
             {
-                authResult = await _authService.AuthenticateAsync(_email, _password);
+                authResult = await _authService.AuthenticateAsync(Email, _password);
             }
 
             if (authResult.IsSuccessful)
             {
-                CurrentAccount = await _accountService.AddOnlineAccount(_email, authResult, AuthMode, _authServerBase);
-                await Task.Delay(2341); // 2 boba perals, 3 peanuts, 4 raisins and a bizarre spoon!
-                this.RequestClose(true);
+                CurrentAccount = await _accountService.AddOnlineAccount(Email, authResult, AuthMode, _authServerBase);
+                await Task.Delay(500);
+                RequestClose(true);
             }
 
             CanConfirm = true;
         }
 
-        public void Cancel() => this.RequestClose(false);
+        public void Cancel()
+        {
+            RequestClose(false);
+        }
 
         #endregion
 
         #region Private Methods
-
-        public static bool IsValidEmailAddress(string emailAddress)
-        {
-            var regex = new Regex("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$");
-            return regex.IsMatch(emailAddress);
-        }
 
         #endregion
     }

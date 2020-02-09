@@ -1,13 +1,10 @@
 ﻿using GBCLV3.Models;
-using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System;
 using System.IO;
-using System.Windows.Controls;
 
 namespace GBCLV3.ViewModels.Tabs
 {

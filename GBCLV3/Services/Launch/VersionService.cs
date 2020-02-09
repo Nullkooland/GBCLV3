@@ -76,12 +76,12 @@ namespace GBCLV3.Services.Launch
 
             var inheritVersions = new List<Version>(8);
 
-            foreach (var verion in availableVersions)
+            foreach (var version in availableVersions)
             {
-                _versions.Add(verion.ID, verion);
-                if (verion.InheritsFrom != null)
+                _versions.Add(version.ID, version);
+                if (version.InheritsFrom != null)
                 {
-                    inheritVersions.Add(verion);
+                    inheritVersions.Add(version);
                 }
             }
 
@@ -96,7 +96,7 @@ namespace GBCLV3.Services.Launch
 
         public bool Any() => _versions.Any();
 
-        public bool Has(string id) => id != null ? _versions.ContainsKey(id) : false;
+        public bool Has(string id) => id != null && _versions.ContainsKey(id);
 
         public IEnumerable<Version> GetAll() => _versions.Values;
 
@@ -240,7 +240,7 @@ namespace GBCLV3.Services.Launch
                 DownloadedBytes = 0,
             };
 
-            return new List<DownloadItem>(1) { item };
+            return new DownloadItem[] { item };
         }
 
         #endregion

@@ -1,10 +1,7 @@
 ﻿using GBCLV3.Models;
-using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services;
-using GBCLV3.Services.Auxiliary;
 using Stylet;
 using StyletIoC;
-using System;
 using System.Windows.Media.Imaging;
 
 namespace GBCLV3.ViewModels

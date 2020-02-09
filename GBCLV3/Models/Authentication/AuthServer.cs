@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace GBCLV3.Models.Authentication
+﻿namespace GBCLV3.Models.Authentication
 {
     class AuthServerInfo
     {

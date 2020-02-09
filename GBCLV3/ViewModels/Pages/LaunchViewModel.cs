@@ -22,6 +22,7 @@ namespace GBCLV3.ViewModels.Pages
     {
         #region Private Fields
 
+        private const string XD = "_(:3」∠)_";
         private readonly StringBuilder _logger = new StringBuilder(4096);
 
         // IoC
@@ -101,6 +102,8 @@ namespace GBCLV3.ViewModels.Pages
 
         public async void Launch()
         {
+            CanLaunch = false;
+
             // Check JRE
             if (_config.JreDir == null)
             {
@@ -110,8 +113,6 @@ namespace GBCLV3.ViewModels.Pages
                 _statusVM.Status = LaunchStatus.Failed;
                 return;
             }
-
-            CanLaunch = false;
 
             _statusVM.GameOutputLog = null;
             this.ActivateItem(_statusVM);
@@ -148,7 +149,8 @@ namespace GBCLV3.ViewModels.Pages
             if (damagedLibs.Any())
             {
                 // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
-                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.ForgeMain))
+                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.ForgeMain
+                                                                                         ))
                 {
                     _windowManager.ShowMessageBox("${ForgeJarDamagedError}\n${PleaseReinstallForge}", null,
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -187,7 +189,7 @@ namespace GBCLV3.ViewModels.Pages
             var damagedAssets = await _assetService.CheckIntegrityAsync(launchVersion.AssetsInfo);
             if ((damagedAssets?.Any() ?? false) &&
                 _windowManager.ShowMessageBox("${AssetsDamagedError}\n${WhetherFixNow}", null,
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 var downloads = _assetService.GetDownloads(damagedAssets);
                 await StartDownloadAsync(DownloadType.Assets, downloads);
@@ -229,7 +231,7 @@ namespace GBCLV3.ViewModels.Pages
             _statusVM.Status = LaunchStatus.Running;
 
             _launchService.LogReceived -= UpdateLogDisplay;
-            _statusVM.GameOutputLog = "_(:3」∠)_";
+            _statusVM.GameOutputLog = XD;
         }
 
         #endregion

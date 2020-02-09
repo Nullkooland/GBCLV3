@@ -1,13 +1,10 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Models.Authentication;
+﻿using GBCLV3.Models.Authentication;
 using GBCLV3.Utils;
-using StyletIoC;
 using System;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Authentication

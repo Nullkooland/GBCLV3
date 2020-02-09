@@ -52,9 +52,12 @@ namespace GBCLV3.ViewModels.Tabs
             // OnVersionsLoaded
             _versionService.Loaded += hasAny =>
             {
+                string selectedVersion = _config.SelectedVersion;
                 Versions.Clear();
                 Versions.AddRange(_versionService.GetAll());
-                SelectedVersionID ??= Versions.FirstOrDefault()?.ID;
+                SelectedVersionID = _versionService.Has(selectedVersion)
+                    ? selectedVersion
+                    : Versions.FirstOrDefault()?.ID;
             };
 
             // OnVersionCreated
@@ -107,7 +110,7 @@ namespace GBCLV3.ViewModels.Tabs
         public async void Delete(string id)
         {
             if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + id + " ?", "${DeleteVersion}",
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 await _versionService.DeleteFromDiskAsync(id, true);
             }

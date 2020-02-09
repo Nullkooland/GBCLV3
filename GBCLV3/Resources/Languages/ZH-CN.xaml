@@ -29,8 +29,12 @@
     <s:String x:Key="PleaseInstallJre">请手动指定路径或者安装 Java 运行环境</s:String>
     <s:String x:Key="DonwloadJreInstaller">下载 JRE 安装包</s:String>
 
-    <!-- 添加账户 -->
+    <!-- 账户设置 -->
+    <s:String x:Key="AccountManagement">管理账户</s:String>
     <s:String x:Key="AddAccount">添加账户</s:String>
+    <s:String x:Key="EditAccount">编辑账户</s:String>
+    <s:String x:Key="DeleteAccount">删除账户</s:String>
+    <s:String x:Key="WhetherDeleteAccount">确定要删除该账户？</s:String>
     <s:String x:Key="AuthMode">验证模式</s:String>
     <s:String x:Key="Offline">离线模式</s:String>
     <s:String x:Key="Yggdrasil">正版登录</s:String>
@@ -40,10 +44,12 @@
     <s:String x:Key="Password">登录密码</s:String>
     <s:String x:Key="AuthServer">验证服务器</s:String>
 
-    <!-- 验证登录错误 -->
-    <s:String x:Key="AuthFailed">验证登录失败</s:String>
     <s:String x:Key="EmptyUsernameError">用户名不能为空！</s:String>
     <s:String x:Key="InvalidEmailError">无效的电子邮箱地址！</s:String>
+    <s:String x:Key="InvalidAuthServerError">无效的验证服务器，请检查地址或您的网络链接！</s:String>
+
+    <!-- 验证登录错误 -->
+    <s:String x:Key="AuthFailed">验证登录失败</s:String>
     <s:String x:Key="AuthTimeoutError">验证超时！</s:String>
     <s:String x:Key="NoInternetConnectionError">请检查你的网络连接！</s:String>
     <s:String x:Key="InvalidCredentialsError">验证信息错误，请检查邮箱或密码是否正确！</s:String>
@@ -92,9 +98,6 @@
     <s:String x:Key="CustomJvmArgsDescription">将会覆盖默认的 JVM 参数（如 GC 配置）</s:String>
     <s:String x:Key="ExtraMinecraftArgs">附加 Minecraft 参数</s:String>
 
-    <!-- 账户设置 -->
-    <s:String x:Key="AccountManagement">管理账户</s:String>
-
     <!-- 启动器设置 -->
     <s:String x:Key="Language">语言</s:String>
     
@@ -140,6 +143,7 @@
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
     <s:String x:Key="OpenJson">打开 Json 文件</s:String>
+    <s:String x:Key="DeleteVersion">删除版本</s:String>
     <s:String x:Key="WhetherDeleteVersion">确定要删除版本</s:String>
 
     <!-- 版本安装 -->
