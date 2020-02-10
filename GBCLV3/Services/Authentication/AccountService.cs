@@ -41,27 +41,30 @@ namespace GBCLV3.Services.Authentication
 
         #region Public Methods
 
-        public bool Load()
+        public async Task LoadSkinsAsync()
         {
-            foreach (var account in _accounts)
-            {
-                LoadSkinAsync(account).ConfigureAwait(false);
-            }
+            var task = _accounts.Select(async account => 
+                await LoadSkinAsync(account).ConfigureAwait(false));
 
-            return _accounts.Any();
+            await Task.WhenAll(task);
         }
 
+        public bool Any() => _accounts.Any();
+
         public IEnumerable<Account> GetAll() => _accounts;
+
+        public bool HasOfflineAccount(string username) =>
+            _accounts.Where(account => account.AuthMode == AuthMode.Offline)
+                .Any(account => account.Username == username);
+
+        public bool HasOnlineAccount(AuthMode authMode, string email) =>
+            _accounts.Where(account => account.AuthMode == authMode)
+                .Any(account => account.Email == email);
 
         public Account GetSelected() => _accounts.Find(account => account.IsSelected);
 
         public Account AddOfflineAccount(string username)
         {
-            bool isDuplicate = _accounts.Where(account => account.AuthMode == AuthMode.Offline)
-                                        .Any(account => account.Username == username);
-
-            if (isDuplicate) return null;
-
             var account = new Account
             {
                 AuthMode = AuthMode.Offline,
@@ -73,33 +76,29 @@ namespace GBCLV3.Services.Authentication
             return account;
         }
 
-        public async ValueTask<Account> AddOnlineAccount(string email,
-                                                         AuthResult authResult,
-                                                         AuthMode authMode,
-                                                         string authServer = null)
+        public async ValueTask<Account> AddOnlineAccountAsync(string email, AuthMode authMode, AuthResult authResult,
+            string authServer = null)
         {
-
-            bool isDuplicate = _accounts.Where(account => account.AuthMode == authMode)
-                                        .Any(account => account.Email == email);
-
-            if (isDuplicate) return null;
-
-            var account = new Account
-            {
-                AuthMode = authMode,
-                Email = email,
-                Username = authResult.Username,
-                ClientToken = authResult.ClientToken,
-                AccessToken = authResult.AccessToken,
-                UUID = authResult.UUID,
-                AuthServerBase = authMode == AuthMode.AuthLibInjector ? authServer : null,
-            };
-
-            await LoadSkinAsync(account);
+            var account = new Account();
+            await UpdateOnlineAccountAsync(account, authMode, email, authResult, authServer);
 
             _accounts.Add(account);
             Created?.Invoke(account);
             return account;
+        }
+
+        public async Task UpdateOnlineAccountAsync(Account account, AuthMode authMode, string email, AuthResult authResult,
+            string authServer = null)
+        {
+            account.AuthMode = authMode;
+            account.Email = email;
+            account.Username = authResult.SelectedProfile.Name;
+            account.UUID = authResult.SelectedProfile.Id;
+            account.ClientToken = authResult.ClientToken;
+            account.AccessToken = authResult.AccessToken;
+            account.AuthServerBase = authMode == AuthMode.AuthLibInjector ? authServer : null;
+
+            await LoadSkinAsync(account);
         }
 
         public void Delete(Account account)
@@ -115,8 +114,11 @@ namespace GBCLV3.Services.Authentication
         {
             if (account.AuthMode != AuthMode.Offline)
             {
-                account.SkinProfile ??= await _skinService.GetProfileAsync(account.UUID, account.ProfileServer);
-                account.Skin = await _skinService.GetSkinAsync(account.SkinProfile);
+                account.Skin = await _skinService.GetSkinAsync(account.Profile);
+                // Refresh latest profile and skin later
+                var latestProfile = await _skinService.GetProfileAsync(account.UUID, account.ProfileServer);
+                account.Profile = latestProfile ?? account.Profile;
+                account.Skin = await _skinService.GetSkinAsync(account.Profile);
             }
         }
 

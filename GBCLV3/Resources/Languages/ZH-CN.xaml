@@ -33,6 +33,7 @@
     <s:String x:Key="AccountManagement">管理账户</s:String>
     <s:String x:Key="AddAccount">添加账户</s:String>
     <s:String x:Key="EditAccount">编辑账户</s:String>
+    <s:String x:Key="ReAuth">重新认证</s:String>
     <s:String x:Key="DeleteAccount">删除账户</s:String>
     <s:String x:Key="WhetherDeleteAccount">确定要删除该账户？</s:String>
     <s:String x:Key="AuthMode">验证模式</s:String>
@@ -43,11 +44,14 @@
     <s:String x:Key="Email">邮箱地址</s:String>
     <s:String x:Key="Password">登录密码</s:String>
     <s:String x:Key="AuthServer">验证服务器</s:String>
+    <s:String x:Key="SelectProfile">选择角色</s:String>
 
+    <s:String x:Key="DuplicateAccount">该账户已存在！</s:String>
     <s:String x:Key="EmptyUsername">用户名不能为空！</s:String>
     <s:String x:Key="InvalidEmail">无效的电子邮箱地址！</s:String>
 
     <s:String x:Key="EnterAccountInformation">输入账户信息</s:String>
+    <s:String x:Key="NeedReAuth">当前令牌无效，请重新登录账户</s:String>
     <s:String x:Key="CheckingAuthServer">检查验证服务器</s:String>
     <s:String x:Key="CheckAuthServerFailed">验证服务器检查失败</s:String>
     <s:String x:Key="Authenticating">验证中</s:String>
@@ -60,7 +64,7 @@
     <s:String x:Key="InvalidCredentials">验证信息错误，请检查邮箱或密码是否正确！</s:String>
     <s:String x:Key="InvalidToken">无效登录令牌，请用电子邮箱和密码重新登录！</s:String>
     <s:String x:Key="InvalidAuthServer">无效的验证服务器，请检查地址或网络连接！</s:String>
-    <s:String x:Key="Unknown">未知错误！</s:String>
+    <s:String x:Key="Unknown">发生错误！</s:String>
     <s:String x:Key="ErrorMessage">错误信息：</s:String>
 
     <!-- 完整性检查 -->

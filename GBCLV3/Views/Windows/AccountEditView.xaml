@@ -66,7 +66,21 @@
                                     Visibility="{Binding IsLoading, Mode=OneWay,
                                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 
-                    <TextBlock Text="{Binding Status, Mode=OneWay}" />
+                    <TextBlock Text="{Binding Status, Mode=OneWay}" 
+                               Visibility="{Binding HasAuthError, Mode=OneWay,
+                                                     Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+
+                    <TextBlock Text="{Binding AuthErrorType, Mode=OneWay}" Margin="4,0"
+                               Foreground="DarkRed"
+                               Visibility="{Binding HasAuthError, Mode=OneWay,
+                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
+                                
+
+                    <TextBlock Text="{Binding AuthErrorMessage, Mode=OneWay}" Margin="4,0"
+                               TextTrimming="CharacterEllipsis" MaxWidth="528"
+                               Foreground="{DynamicResource {x:Static adonisUI:Brushes.DisabledForegroundBrush}}"
+                               Visibility="{Binding HasAuthError, Mode=OneWay,
+                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
                 </StackPanel>
             </GroupBox.Header>
 

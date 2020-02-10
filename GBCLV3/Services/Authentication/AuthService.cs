@@ -21,10 +21,11 @@ namespace GBCLV3.Services.Authentication
 
         private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com";
 
-        private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
+        private static readonly HttpClient _client = new HttpClient() {Timeout = TimeSpan.FromSeconds(15)};
 
         private static readonly JsonSerializerOptions _jsonOptions
-            = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
+            = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+
         #endregion
 
         #region Public Methods
@@ -35,19 +36,20 @@ namespace GBCLV3.Services.Authentication
             {
                 AuthMode.Offline => BuildOfflineResult(account.Username),
                 AuthMode.Yggdrasil => await RefreshAsync(account.ClientToken, account.AccessToken),
-                AuthMode.AuthLibInjector => await RefreshAsync(account.ClientToken, account.AccessToken, account.AuthServer),
+                AuthMode.AuthLibInjector => await RefreshAsync(account.ClientToken, account.AccessToken,
+                    account.AuthServer),
                 _ => null,
             };
 
             // Refresh local tokens
-            if (authResult.IsSuccessful)
-            {
-                account.Username = authResult.Username;
-                account.ClientToken = authResult.ClientToken;
-                account.AccessToken = authResult.AccessToken;
-                account.UUID = authResult.UUID;
-                UsernameChanged?.Invoke(authResult.Username);
-            }
+            // if (authResult.IsSuccessful)
+            // {
+            //     account.Username = authResult.Username;
+            //     account.ClientToken = authResult.ClientToken;
+            //     account.AccessToken = authResult.AccessToken;
+            //     account.UUID = authResult.UUID;
+            //     UsernameChanged?.Invoke(authResult.Username);
+            // }
 
             return authResult;
         }
@@ -66,12 +68,14 @@ namespace GBCLV3.Services.Authentication
             return await RequestAsync(requestJson, false, authServer ?? MOJANG_AUTH_SERVER);
         }
 
-        public async ValueTask<AuthResult> RefreshAsync(string clientToken, string accessToken, string authServer = null)
+        public async ValueTask<AuthResult> RefreshAsync(string clientToken, string accessToken,
+            string authServer = null, AuthUserProfile selectedProfile = null)
         {
             var request = new RefreshRequest
             {
                 ClientToken = clientToken,
                 AccessToken = accessToken,
+                SelectedProfile = selectedProfile,
             };
 
             var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
@@ -92,7 +96,7 @@ namespace GBCLV3.Services.Authentication
             }
         }
 
-        public async ValueTask<bool> IsAuthServerValid(string authServer)
+        public async ValueTask<bool> IsValidAuthServer(string authServer)
         {
             var info = await GetAuthServerInfo(authServer);
             return info?.Meta != null;
@@ -106,8 +110,9 @@ namespace GBCLV3.Services.Authentication
         {
             return new AuthResult
             {
-                Username = username,
-                UUID = CryptUtil.GetStringMD5(username),
+                SelectedProfile
+                    = new AuthUserProfile() {Name = username, Id = CryptUtil.GetStringMD5(username)},
+
                 ClientToken = CryptUtil.Guid,
                 AccessToken = CryptUtil.Guid,
                 UserType = "mojang",
@@ -121,25 +126,22 @@ namespace GBCLV3.Services.Authentication
 
             try
             {
-                var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
-                var uri = new Uri(authServer + (isRefresh ? "/refresh" : "/authenticate"));
-                var msg = await _client.PostAsync(uri, content);
-                string responseJson = await msg.Content.ReadAsStringAsync();
+                using var content = new StringContent(requestJson, Encoding.UTF8, "application/json");
+                using var msg = await _client.PostAsync(
+                    authServer + (isRefresh ? "/refresh" : "/authenticate"), content);
 
-                content.Dispose();
-                msg.Dispose();
+                string responseJson = await msg.Content.ReadAsStringAsync();
 
                 if (msg.IsSuccessStatusCode)
                 {
                     var response = JsonSerializer.Deserialize<AuthResponse>(responseJson, _jsonOptions);
 
                     result.IsSuccessful = true;
-                    result.Username = response.SelectedProfile.Name;
-                    result.UUID = response.SelectedProfile.Id;
+                    result.SelectedProfile = response.SelectedProfile;
                     result.AvailableProfiles = response.AvailableProfiles;
                     result.ClientToken = response.ClientToken;
                     result.AccessToken = response.AccessToken;
-                    result.UserType = response.SelectedProfile.Legacy ? "legacy" : "mojang";
+                    result.UserType = (response.SelectedProfile?.Legacy ?? false) ? "legacy" : "mojang";
                 }
                 else
                 {
@@ -147,34 +149,36 @@ namespace GBCLV3.Services.Authentication
                     if (error.ErrorMessage.ToLower().Contains("token"))
                     {
                         result.ErrorType = AuthErrorType.InvalidToken;
-                        result.ErrorMessage = "${InvalidToken}";
                     }
                     else if (error.ErrorMessage.ToLower().Contains("credentials"))
                     {
                         result.ErrorType = AuthErrorType.InvalidCredentials;
-                        result.ErrorMessage = "${InvalidCredentials}";
                     }
                     else
                     {
                         result.ErrorType = AuthErrorType.Unknown;
-                        result.ErrorMessage = "${Unknown}" + '\n' + "${ErrorMessage}" + error.ErrorMessage;
+                        result.ErrorMessage = error.ErrorMessage;
                     }
 
                     result.IsSuccessful = false;
                 }
-
             }
             catch (HttpRequestException ex)
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.NoInternetConnection;
-                result.ErrorMessage = ex.Message + '\n' + "${NoInternetConnection}";
+                result.ErrorMessage = ex.Message;
             }
             catch (OperationCanceledException)
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.AuthTimeout;
-                result.ErrorMessage = "${AuthTimeout}";
+            }
+            catch (Exception ex)
+            {
+                result.IsSuccessful = false;
+                result.ErrorType = AuthErrorType.Unknown;
+                result.ErrorMessage = ex.Message;
             }
 
             return result;

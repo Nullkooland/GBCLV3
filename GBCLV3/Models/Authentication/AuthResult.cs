@@ -25,9 +25,7 @@ namespace GBCLV3.Models.Authentication
 
     class AuthResult
     {
-        public string Username { get; set; }
-
-        public string UUID { get; set; }
+        public AuthUserProfile SelectedProfile { get; set; }
 
         public List<AuthUserProfile> AvailableProfiles { get; set; }
 

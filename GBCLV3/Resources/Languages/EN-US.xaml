@@ -34,6 +34,7 @@
     <s:String x:Key="AccountManagement">Account Management</s:String>
     <s:String x:Key="AddAccount">Add Account</s:String>
     <s:String x:Key="EditAccount">Edit Account</s:String>
+    <s:String x:Key="ReAuth">Re-authentication</s:String>
     <s:String x:Key="DeleteAccount">Delete Account</s:String>
     <s:String x:Key="WhetherDeleteAccount">Are you sure to delete this account?</s:String>
     <s:String x:Key="AuthMode">Authentication Mode</s:String>
@@ -44,11 +45,14 @@
     <s:String x:Key="Email">Email</s:String>
     <s:String x:Key="Password">Password</s:String>
     <s:String x:Key="AuthServer">Authentication Server</s:String>
+    <s:String x:Key="SelectProfile">Select Profile</s:String>
 
+    <s:String x:Key="DuplicateAccount">The account already exists!</s:String>
     <s:String x:Key="EmptyUsername">Username cannot be empty!</s:String>
     <s:String x:Key="InvalidEmail">Invalid email address!</s:String>
 
     <s:String x:Key="EnterAccountInformation">Enter account information</s:String>
+    <s:String x:Key="NeedReAuth">Current token is invalid, need re-authentication</s:String>
     <s:String x:Key="CheckingAuthServer">Checking authentication server</s:String>
     <s:String x:Key="CheckAuthServerFailed">Invalid authentication server, please check the url or your Internet connection!</s:String>
     <s:String x:Key="Authenticating">Authenticating</s:String>
@@ -61,7 +65,7 @@
     <s:String x:Key="InvalidCredentials">Invalid credentials! Please check your email or password!</s:String>
     <s:String x:Key="InvalidToken">Invalid token! Please re-login using email and password!</s:String>
     <s:String x:Key="InvalidAuthServer">Invalid authentication server, please check the url or your Internet connection!</s:String>
-    <s:String x:Key="Unknown">Unknown error!</s:String>
+    <s:String x:Key="Unknown">Error occurred!</s:String>
     <s:String x:Key="ErrorMessage">Error message:</s:String>
 
 
@@ -161,7 +165,7 @@
     <s:String x:Key="ReleaseTime">Release Date</s:String>
     <s:String x:Key="ReleaseOnly">Release Only</s:String>
     
-    <s:String x:Key="VersionListLoading">Loading version list</s:String>
+    <s:String x:Key="VersionListLoading">LoadSkinsAsyncing version list</s:String>
     <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
     <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
     <s:String x:Key="VersionFetchingJson">Fetching version json</s:String>
@@ -176,7 +180,7 @@
     <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
 
     <!-- Forge Install -->
-    <s:String x:Key="ForgeListLoading">Loading forge download list</s:String>
+    <s:String x:Key="ForgeListLoading">LoadSkinsAsyncing forge download list</s:String>
     <s:String x:Key="ForgeListLoadFailed">Failed to load forge download list</s:String>
     <s:String x:Key="NoAvailableForge">No available forge for this version!</s:String>
     <s:String x:Key="SelectForgeVersion">Please select a forge version to install</s:String>
@@ -190,7 +194,7 @@
     <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
 
     <!-- Fabric Install -->
-    <s:String x:Key="FabricListLoading">Loading Fabric download list</s:String>
+    <s:String x:Key="FabricListLoading">LoadSkinsAsyncing Fabric download list</s:String>
     <s:String x:Key="FabricListLoadFailed">Failed to load Fabric download list</s:String>
     <s:String x:Key="NoAvailableFabric">No available Fabric for this version!</s:String>
     <s:String x:Key="SelectFabricVersion">Please select a Fabric version to install</s:String>

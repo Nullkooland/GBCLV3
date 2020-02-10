@@ -64,10 +64,8 @@ namespace GBCLV3.Services.Installation
                                  {
                                      return num;
                                  }
-                                 else
-                                 {
-                                     return -1;
-                                 }
+
+                                 return -1;
                              })
                              .ToArray();
 

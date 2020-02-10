@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Text.Json.Serialization;
+using System.Windows.Media.Imaging;
+using GBCLV3.Models.Auxiliary;
 
 namespace GBCLV3.Models.Authentication
 {
@@ -53,6 +56,12 @@ namespace GBCLV3.Models.Authentication
         public string Name { get; set; }
 
         public bool Legacy { get; set; }
+
+        [JsonIgnore]
+        public string Base64Profile { get; set; }
+
+        [JsonIgnore]
+        public Skin Skin { get; set; }
     }
 
     class AuthAgent

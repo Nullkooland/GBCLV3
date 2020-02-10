@@ -15,6 +15,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -37,6 +38,7 @@ namespace GBCLV3.ViewModels.Pages
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadStatusViewModel _downloadStatusVM;
         private readonly ErrorReportViewModel _errorReportVM;
+        private readonly AccountEditViewModel _accountEditVM;
 
         private readonly IWindowManager _windowManager;
 
@@ -58,8 +60,8 @@ namespace GBCLV3.ViewModels.Pages
             LaunchService launchService,
 
             VersionsManagementViewModel versionsVM,
-            GreetingViewModel greetingVM,
             LaunchStatusViewModel statusVM,
+            AccountEditViewModel accountEditVM,
             DownloadStatusViewModel downloadVM,
             ErrorReportViewModel errorReportVM)
         {
@@ -74,6 +76,7 @@ namespace GBCLV3.ViewModels.Pages
             _launchService = launchService;
 
             _statusVM = statusVM;
+            _accountEditVM = accountEditVM;
             _downloadStatusVM = downloadVM;
             _errorReportVM = errorReportVM;
 
@@ -86,7 +89,6 @@ namespace GBCLV3.ViewModels.Pages
 
             ThemeService = themeService;
             VersionsVM = versionsVM;
-            GreetingVM = greetingVM;
         }
 
         #endregion
@@ -119,15 +121,30 @@ namespace GBCLV3.ViewModels.Pages
 
             _statusVM.Status = LaunchStatus.LoggingIn;
 
+            // No account found, the user must create one
             var account = _accountService.GetSelected();
+            if (account == null)
+            {
+                _accountEditVM.Setup(AccountEditType.AddAccount, account);
 
+                if (_windowManager.ShowDialog(_accountEditVM) != true)
+                {
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
+                }
+            }
+
+            // Previous login token is invalid, need re-authentication
             var authResult = await _authService.LoginAsync(account);
             if (!authResult.IsSuccessful)
             {
-                _statusVM.Status = LaunchStatus.Failed;
-                _windowManager.ShowMessageBox(authResult.ErrorMessage, "${AuthFailed}",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                _accountEditVM.Setup(AccountEditType.ReAuth, account);
+
+                if (_windowManager.ShowDialog(_accountEditVM) != true)
+                {
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
+                }
             }
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
@@ -204,9 +221,9 @@ namespace GBCLV3.ViewModels.Pages
                 IsDebugMode = _config.JavaDebugMode,
                 JvmArgs = _config.JvmArgs,
                 MaxMemory = _config.JavaMaxMem,
-                Username = authResult.Username,
-                UUID = authResult.UUID,
-                AccessToken = authResult.AccessToken,
+                Username = account.Username,
+                UUID = account.UUID,
+                AccessToken = account.AccessToken,
                 UserType = authResult.UserType,
                 VersionType = AssemblyUtil.Title,
                 WinWidth = _config.WindowWidth,
@@ -309,6 +326,12 @@ namespace GBCLV3.ViewModels.Pages
         protected override void OnViewLoaded()
         {
             if (_statusVM.Status == LaunchStatus.Failed) CanLaunch = true;
+        }
+
+        protected override async void OnInitialActivate()
+        {
+            await _accountService.LoadSkinsAsync();
+            GreetingVM = new GreetingViewModel(_accountService.GetSelected());
         }
 
         #endregion

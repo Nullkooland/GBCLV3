@@ -14,6 +14,9 @@ namespace GBCLV3.Models.Authentication
 
         [LocalizedDescription(nameof(EditAccount))]
         EditAccount,
+
+        [LocalizedDescription(nameof(ReAuth))]
+        ReAuth,
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
@@ -21,6 +24,9 @@ namespace GBCLV3.Models.Authentication
     {
         [LocalizedDescription(nameof(EnterAccountInformation))]
         EnterAccountInformation,
+
+        [LocalizedDescription(nameof(NeedReAuth))]
+        NeedReAuth,
 
         [LocalizedDescription(nameof(CheckingAuthServer))]
         CheckingAuthServer,

@@ -68,20 +68,20 @@
 
     <Image Grid.RowSpan="4" Grid.Column="0"
            Width="64" Height="64"
-           Source="{Binding SkinFace, Mode=OneWay}" RenderOptions.BitmapScalingMode="NearestNeighbor">
+           Source="{Binding CurrentAccount.Avatar, Mode=OneWay}" RenderOptions.BitmapScalingMode="NearestNeighbor">
         <Image.Effect>
-            <DropShadowEffect ShadowDepth="0" Opacity="0.5" BlurRadius="6"/>
+            <DropShadowEffect ShadowDepth="0" Opacity="0.75" BlurRadius="6"/>
         </Image.Effect>
     </Image>
 
     <TextBlock Grid.Row="1" Grid.Column="1" Margin="8,4"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                FontSize="18" Foreground="White"
-               Text="{Binding Username, Mode=OneWay}"/>
+               Text="{Binding CurrentAccount.Username, Mode=OneWay}"/>
 
     <TextBlock Grid.Row="2" Grid.Column="1" Margin="8,4"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                FontSize="12" 
                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-               Text="{Binding Email, Mode=OneWay}"/>
+               Text="{Binding CurrentAccount.Email, Mode=OneWay}"/>
 </Grid>

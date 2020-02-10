@@ -1,40 +1,29 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Services;
-using Stylet;
+﻿using Stylet;
 using StyletIoC;
-using System.Windows.Media.Imaging;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Services.Authentication;
 
 namespace GBCLV3.ViewModels
 {
     class GreetingViewModel : Screen
     {
-        #region Private Fields
-
-        private readonly Config _config;
-
-        #endregion
 
         #region Constructor
 
-        [Inject]
-        public GreetingViewModel(
-            ConfigService configService
-            )
+        public GreetingViewModel(Account currentAccount)
         {
-            _config = configService.Entries;
+            CurrentAccount = currentAccount;
+            IsReady = true;
         }
 
         #endregion
 
         #region Bindings
 
-        public bool IsReady { get; private set; }
+        public bool IsReady { get; set; }
 
-        public string Username { get; private set; }
+        public Account CurrentAccount { get; private set; }
 
-        public string Email { get; private set; }
-
-        public BitmapSource SkinFace { get; private set; }
 
         public void OnAnimationCompleted()
         {

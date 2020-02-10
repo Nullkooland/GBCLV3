@@ -68,6 +68,7 @@ namespace GBCLV3.ViewModels.Tabs
         {
             _accountEditVM.Setup(AccountEditType.EditAccount, account);
             _windowManager.ShowDialog(_accountEditVM);
+            Accounts.Refresh();
         }
 
         #endregion

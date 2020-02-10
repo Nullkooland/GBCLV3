@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
 using GBCLV3.Services.Authentication;
 using Stylet;
@@ -12,6 +13,7 @@ namespace GBCLV3.ViewModels.Windows
     {
         #region Private Fields
 
+        private readonly AccountService _accountService;
         private readonly AuthService _authService;
         private readonly LanguageService _languageService;
 
@@ -22,8 +24,12 @@ namespace GBCLV3.ViewModels.Windows
         #region Constructor
 
         [Inject]
-        public AccountEditViewModelValidator(AuthService authService, LanguageService languageService)
+        public AccountEditViewModelValidator(
+            AccountService accountService,
+            AuthService authService,
+            LanguageService languageService)
         {
+            _accountService = accountService;
             _authService = authService;
             _languageService = languageService;
         }
@@ -37,22 +43,47 @@ namespace GBCLV3.ViewModels.Windows
 
         public async Task<IEnumerable<string>> ValidatePropertyAsync(string propertyName)
         {
-            return propertyName switch
+            switch (propertyName)
             {
-                nameof(_subject.Username) => string.IsNullOrWhiteSpace(_subject.Username)
-                    ? new[] {_languageService.GetEntry("EmptyUsername")}
-                    : null,
+                case nameof(_subject.Username):
+                    if (string.IsNullOrWhiteSpace(_subject.Username))
+                    {
+                        return new[] {_languageService.GetEntry("EmptyUsername")};
+                    }
 
-                nameof(_subject.Email) => !IsEmailAddressValid(_subject.Email) ? 
-                    new[] {_languageService.GetEntry("InvalidEmail")} 
-                    : null,
+                    if (_subject.Type == AccountEditType.AddAccount &&
+                        _subject.AuthMode == AuthMode.Offline &&
+                        _accountService.HasOfflineAccount(_subject.Username))
+                    {
+                        return new[] {_languageService.GetEntry("DuplicateAccount")};
+                    }
 
-                nameof(_subject.AuthServerBase) => !await _authService.IsAuthServerValid(_subject.AuthServerBase)
-                    ? new[] {_languageService.GetEntry("InvalidAuthServer")}
-                    : null,
+                    return null;
 
-                _ => null
-            };
+                case nameof(_subject.Email):
+                    if (!IsValidEmailAddress(_subject.Email))
+                    {
+                        return new[] {_languageService.GetEntry("InvalidEmail")};
+                    }
+
+                    if (_subject.Type == AccountEditType.AddAccount &&
+                        _accountService.HasOnlineAccount(_subject.AuthMode, _subject.Email))
+                    {
+                        return new[] {_languageService.GetEntry("DuplicateAccount")};
+                    }
+
+                    return null;
+
+                case nameof(_subject.AuthServerBase):
+                    if (!await _authService.IsValidAuthServer(_subject.AuthServerBase))
+                    {
+                        return new[] {_languageService.GetEntry("InvalidAuthServer")};
+                    }
+
+                    return null;
+
+                default: return null;
+            }
         }
 
         public async Task<Dictionary<string, IEnumerable<string>>> ValidateAllPropertiesAsync()
@@ -60,7 +91,7 @@ namespace GBCLV3.ViewModels.Windows
             throw new System.NotImplementedException();
         }
 
-        public static bool IsEmailAddressValid(string emailAddress)
+        public static bool IsValidEmailAddress(string emailAddress)
         {
             var regex = new Regex("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$");
             return emailAddress != null && regex.IsMatch(emailAddress);

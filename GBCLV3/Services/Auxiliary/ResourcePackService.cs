@@ -154,7 +154,7 @@ namespace GBCLV3.Services.Auxiliary
             pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
             pack.IsExtracted = false;
 
-            // Load cover image (if exists)
+            // LoadSkinsAsync cover image (if exists)
             ZipArchiveEntry imgEntry;
             if ((imgEntry = archive.GetEntry("pack.png")) != null)
             {
@@ -182,7 +182,7 @@ namespace GBCLV3.Services.Auxiliary
             pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
             pack.IsExtracted = true;
 
-            // Load cover image (if exists)
+            // LoadSkinsAsync cover image (if exists)
             if (File.Exists(imgPath))
             {
                 using var fs = File.OpenRead(imgPath);

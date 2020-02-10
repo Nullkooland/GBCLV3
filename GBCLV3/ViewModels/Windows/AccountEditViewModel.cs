@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using GBCLV3.Models.Authentication;
@@ -17,6 +18,9 @@ namespace GBCLV3.ViewModels.Windows
         private readonly AccountService _accountService;
         private readonly AuthService _authService;
 
+        private readonly ProfileSelectViewModel _profileSelectVM;
+        private readonly IWindowManager _windowManager;
+
         private string _username;
         private string _email;
         private string _password;
@@ -31,12 +35,17 @@ namespace GBCLV3.ViewModels.Windows
             AccountService accountService,
             AuthService authService,
             ThemeService themeService,
+            ProfileSelectViewModel profileSelectVM,
+            IWindowManager windowManager,
             IModelValidator<AccountEditViewModel> validator) : base(validator)
         {
             AutoValidate = false;
 
             _accountService = accountService;
             _authService = authService;
+
+            _profileSelectVM = profileSelectVM;
+            _windowManager = windowManager;
             ThemeService = themeService;
         }
 
@@ -50,7 +59,11 @@ namespace GBCLV3.ViewModels.Windows
             Email = currentAccount?.Email;
             AuthServerBase = currentAccount?.AuthServerBase;
 
-            Status = AccountEditStatus.EnterAccountInformation;
+            Status = type == AccountEditType.ReAuth
+                ? AccountEditStatus.NeedReAuth
+                : AccountEditStatus.EnterAccountInformation;
+
+            HasAuthError = false;
         }
 
         #endregion
@@ -62,7 +75,7 @@ namespace GBCLV3.ViewModels.Windows
         public AccountEditStatus Status { get; private set; }
 
         public bool IsLoading =>
-            Status == AccountEditStatus.CheckingAuthServer || 
+            Status == AccountEditStatus.CheckingAuthServer ||
             Status == AccountEditStatus.Authenticating;
 
         public ThemeService ThemeService { get; }
@@ -75,7 +88,11 @@ namespace GBCLV3.ViewModels.Windows
 
         public bool IsExternalMode => AuthMode == AuthMode.AuthLibInjector;
 
-        public string ErrorMessage { get; private set; }
+        public bool HasAuthError { get; private set; }
+
+        public AuthErrorType AuthErrorType { get; private set; }
+
+        public string AuthErrorMessage { get; private set; }
 
         public string Username
         {
@@ -113,6 +130,11 @@ namespace GBCLV3.ViewModels.Windows
             }
         }
 
+        public string AuthServer => AuthServerBase != null ? $"{AuthServerBase}/authserver" : null;
+
+        public string ProfileServer =>
+            AuthServerBase != null ? $"{AuthServerBase}/sessionserver/session/minecraft/profile" : null;
+
         public bool CanConfirm { get; private set; }
 
         public async void Confirm()
@@ -121,10 +143,17 @@ namespace GBCLV3.ViewModels.Windows
 
             if (IsOfflineMode)
             {
-                _accountService.AddOfflineAccount(Username);
+                if (Type == AccountEditType.AddAccount)
+                {
+                    _accountService.AddOfflineAccount(Username);
+                }
+                else
+                {
+                    CurrentAccount.Username = _username;
+                }
+
                 this.RequestClose(true);
             }
-
 
             AuthResult authResult;
 
@@ -135,8 +164,9 @@ namespace GBCLV3.ViewModels.Windows
                 if (await ValidatePropertyAsync(nameof(AuthServerBase)))
                 {
                     Status = AccountEditStatus.Authenticating;
+                    HasAuthError = false;
                     authResult =
-                        await _authService.AuthenticateAsync(Email, _password, _authServerBase + "/authserver");
+                        await _authService.AuthenticateAsync(_email, _password, AuthServer);
                 }
                 else
                 {
@@ -148,27 +178,56 @@ namespace GBCLV3.ViewModels.Windows
             else
             {
                 Status = AccountEditStatus.Authenticating;
+                HasAuthError = false;
                 authResult = await _authService.AuthenticateAsync(Email, _password);
             }
 
             if (authResult.IsSuccessful)
             {
                 Status = AccountEditStatus.AuthSuccessful;
-                CurrentAccount = await _accountService.AddOnlineAccount(Email, authResult, AuthMode, _authServerBase);
+
+                if (authResult.SelectedProfile == null)
+                {
+                    var selectedProfile = authResult.AvailableProfiles.FirstOrDefault();
+
+                    _profileSelectVM.Setup(authResult.AvailableProfiles, ProfileServer);
+                    if (_windowManager.ShowDialog(_profileSelectVM) ?? false)
+                    {
+                        selectedProfile = _profileSelectVM.SelectedProfile;
+                    }
+
+                    authResult = await _authService.RefreshAsync(authResult.ClientToken, authResult.AccessToken,
+                        AuthServer, selectedProfile);
+                }
+
+                if (Type == AccountEditType.AddAccount)
+                {
+                    CurrentAccount =
+                        await _accountService.AddOnlineAccountAsync(_email, AuthMode, authResult, _authServerBase);
+                }
+                else
+                {
+                    await _accountService.UpdateOnlineAccountAsync(CurrentAccount, AuthMode, _email, authResult,
+                        _authServerBase);
+                    NotifyOfPropertyChange(nameof(CurrentAccount));
+                }
+
                 await Task.Delay(500);
-                RequestClose(true);
+                this.RequestClose(true);
             }
             else
             {
                 Status = AccountEditStatus.AuthFailed;
+
+                HasAuthError = true;
+                AuthErrorType = authResult.ErrorType;
+                AuthErrorMessage = authResult.ErrorMessage;
+
                 CanConfirm = true;
             }
         }
 
-        public void Cancel()
-        {
-            RequestClose(false);
-        }
+        public void Cancel() => RequestClose(false);
 
         #endregion
 
