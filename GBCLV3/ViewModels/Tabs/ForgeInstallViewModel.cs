@@ -36,7 +36,7 @@ namespace GBCLV3.ViewModels.Tabs
             VersionService versionService,
             LibraryService libraryService,
 
-            DownloadStatusViewModel downloadVM,
+            DownloadStatusViewModel downloadStatusVM,
             IWindowManager windowManager)
         {
             _forgeInstallService = forgeInstallService;
@@ -46,7 +46,7 @@ namespace GBCLV3.ViewModels.Tabs
             Forges = new BindableCollection<Forge>();
 
             _windowManager = windowManager;
-            _downloadStatusVM = downloadVM;
+            _downloadStatusVM = downloadStatusVM;
         }
 
         #endregion
