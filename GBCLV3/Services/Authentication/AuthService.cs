@@ -11,12 +11,6 @@ namespace GBCLV3.Services.Authentication
 {
     class AuthService
     {
-        #region Events
-
-        public event Action<string> UsernameChanged;
-
-        #endregion
-
         #region Private Fields
 
         private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com";
@@ -42,14 +36,13 @@ namespace GBCLV3.Services.Authentication
             };
 
             // Refresh local tokens
-            // if (authResult.IsSuccessful)
-            // {
-            //     account.Username = authResult.Username;
-            //     account.ClientToken = authResult.ClientToken;
-            //     account.AccessToken = authResult.AccessToken;
-            //     account.UUID = authResult.UUID;
-            //     UsernameChanged?.Invoke(authResult.Username);
-            // }
+            if (authResult.IsSuccessful)
+            {
+                account.Username = authResult.SelectedProfile.Name;
+                account.ClientToken = authResult.ClientToken;
+                account.AccessToken = authResult.AccessToken;
+                account.UUID = authResult.SelectedProfile.Id;
+            }
 
             return authResult;
         }

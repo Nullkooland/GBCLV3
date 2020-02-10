@@ -43,7 +43,7 @@ namespace GBCLV3.Services.Authentication
 
         public async Task LoadSkinsAsync()
         {
-            var task = _accounts.Select(async account => 
+            var task = _accounts.Select(async account =>
                 await LoadSkinAsync(account).ConfigureAwait(false));
 
             await Task.WhenAll(task);
@@ -87,7 +87,8 @@ namespace GBCLV3.Services.Authentication
             return account;
         }
 
-        public async Task UpdateOnlineAccountAsync(Account account, AuthMode authMode, string email, AuthResult authResult,
+        public async Task UpdateOnlineAccountAsync(Account account, AuthMode authMode, string email,
+            AuthResult authResult,
             string authServer = null)
         {
             account.AuthMode = authMode;
@@ -116,10 +117,15 @@ namespace GBCLV3.Services.Authentication
             {
                 account.Skin = await _skinService.GetSkinAsync(account.Profile);
                 // Refresh latest profile and skin later
-                var latestProfile = await _skinService.GetProfileAsync(account.UUID, account.ProfileServer);
-                account.Profile = latestProfile ?? account.Profile;
-                account.Skin = await _skinService.GetSkinAsync(account.Profile);
+                RefreshSkinAsync(account).ConfigureAwait(false);
             }
+        }
+
+        private async Task RefreshSkinAsync(Account account)
+        {
+            var latestProfile = await _skinService.GetProfileAsync(account.UUID, account.ProfileServer);
+            account.Profile = latestProfile ?? account.Profile;
+            account.Skin = await _skinService.GetSkinAsync(account.Profile);
         }
 
         #endregion

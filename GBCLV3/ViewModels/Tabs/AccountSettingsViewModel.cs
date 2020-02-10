@@ -15,7 +15,7 @@ namespace GBCLV3.ViewModels.Tabs
         // IoC
         private readonly AccountService _accountService;
         private readonly IWindowManager _windowManager;
-        private readonly AccountEditViewModel _accountEditVM;
+        private readonly AccountEditViewModel _accountEditEditVm;
 
         #endregion
 
@@ -25,10 +25,11 @@ namespace GBCLV3.ViewModels.Tabs
         public AccountSettingsViewModel(
             AccountService accountService, 
             IWindowManager windowManager,
-            AccountEditViewModel addAccountVM)
+            AccountEditViewModel accountEditVM)
         {
             _accountService = accountService;
             Accounts = new BindableCollection<Account>(_accountService.GetAll());
+            SelectedAccount = _accountService.GetSelected();
 
             _accountService.Created += account =>
             {
@@ -37,7 +38,7 @@ namespace GBCLV3.ViewModels.Tabs
             };
 
             _windowManager = windowManager;
-            _accountEditVM = addAccountVM;
+            _accountEditEditVm = accountEditVM;
         }
 
         #endregion
@@ -50,8 +51,8 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void AddNew()
         {
-            _accountEditVM.Setup(AccountEditType.AddAccount);
-            _windowManager.ShowDialog(_accountEditVM);
+            _accountEditEditVm.Setup(AccountEditType.AddAccount);
+            _windowManager.ShowDialog(_accountEditEditVm);
         }
         public void Delete(Account account)
         {
@@ -66,8 +67,8 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void Edit(Account account)
         {
-            _accountEditVM.Setup(AccountEditType.EditAccount, account);
-            _windowManager.ShowDialog(_accountEditVM);
+            _accountEditEditVm.Setup(AccountEditType.EditAccount, account);
+            _windowManager.ShowDialog(_accountEditEditVm);
             Accounts.Refresh();
         }
 

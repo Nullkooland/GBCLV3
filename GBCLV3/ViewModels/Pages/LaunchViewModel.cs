@@ -330,8 +330,11 @@ namespace GBCLV3.ViewModels.Pages
 
         protected override async void OnInitialActivate()
         {
-            await _accountService.LoadSkinsAsync();
-            GreetingVM = new GreetingViewModel(_accountService.GetSelected());
+            if (_accountService.Any())
+            {
+                await _accountService.LoadSkinsAsync();
+                GreetingVM = new GreetingViewModel(_accountService.GetSelected());
+            }
         }
 
         #endregion
