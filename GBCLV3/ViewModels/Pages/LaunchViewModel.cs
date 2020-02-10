@@ -107,7 +107,7 @@ namespace GBCLV3.ViewModels.Pages
             // Check JRE
             if (_config.JreDir == null)
             {
-                _windowManager.ShowMessageBox("${JreNotFoundError}\n${PleaseInstallJre}", null,
+                _windowManager.ShowMessageBox("${JreNotFound}\n${PleaseInstallJre}", "${IntegrityCheck}",
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
                 _statusVM.Status = LaunchStatus.Failed;
@@ -152,7 +152,7 @@ namespace GBCLV3.ViewModels.Pages
                 if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.ForgeMain
                                                                                          ))
                 {
-                    _windowManager.ShowMessageBox("${ForgeJarDamagedError}\n${PleaseReinstallForge}", null,
+                    _windowManager.ShowMessageBox("${MainJarDamaged}\n${PleaseReinstallForge}", "${IntegrityCheck}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     // Delete the damaged forge version (but retain the libraries)
                     // force user to reinstall it
@@ -188,7 +188,7 @@ namespace GBCLV3.ViewModels.Pages
             // Check assets and fix possible damage on user's discretion
             var damagedAssets = await _assetService.CheckIntegrityAsync(launchVersion.AssetsInfo);
             if ((damagedAssets?.Any() ?? false) &&
-                _windowManager.ShowMessageBox("${AssetsDamagedError}\n${WhetherFixNow}", null,
+                _windowManager.ShowMessageBox("${AssetsDamaged}\n${WhetherFixNow}", "${IntegrityCheck}",
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 var downloads = _assetService.GetDownloads(damagedAssets);

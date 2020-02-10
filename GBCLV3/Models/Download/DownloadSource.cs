@@ -6,11 +6,14 @@ namespace GBCLV3.Models.Download
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum DownloadSource
     {
-        [LocalizedDescription("Official")]
+        [LocalizedDescription(nameof(Official))]
         Official,
 
-        [LocalizedDescription("BMCLAPI")]
+        [LocalizedDescription(nameof(BMCLAPI))]
         BMCLAPI,
+
+        [LocalizedDescription(nameof(MCBBS))]
+        MCBBS,
     }
 
     public interface IDownloadUrlBase
@@ -24,6 +27,8 @@ namespace GBCLV3.Models.Download
         string Json { get; }
 
         string Asset { get; }
+
+        string ForgeList { get; }
 
         string Forge { get; }
 
@@ -45,6 +50,8 @@ namespace GBCLV3.Models.Download
         public string Json => "https://launchermeta.mojang.com/";
 
         public string Asset => "https://resources.download.minecraft.net/";
+
+        public string ForgeList => "https://bmclapi2.bangbang93.com/forge/minecraft/";
 
         public string Forge => "https://files.minecraftforge.net/maven/net/minecraftforge/forge/";
 
@@ -69,7 +76,34 @@ namespace GBCLV3.Models.Download
 
         public string Asset => "https://bmclapi2.bangbang93.com/assets/";
 
+        public string ForgeList => "https://bmclapi2.bangbang93.com/forge/minecraft/";
+
         public string Forge => "https://bmclapi2.bangbang93.com/maven/net/minecraftforge/forge/";
+
+        public string ForgeMaven => Maven;
+
+        public string Fabric => "http://bmclapi.bangbang93.com/fabric-meta/v2/versions/loader/";
+
+        public string FabricMaven => Maven;
+    }
+
+    class MCBBSUrlBase : IDownloadUrlBase
+    {
+        public string VersionList => "https://download.mcbbs.net/mc/game/version_manifest.json";
+
+        public string Version => "https://download.mcbbs.net/";
+
+        public string Library => "https://download.mcbbs.net/libraries/";
+
+        public string Json => "https://download.mcbbs.net/";
+
+        public string Maven => "https://download.mcbbs.net/maven/";
+
+        public string Asset => "https://download.mcbbs.net/assets/";
+
+        public string ForgeList => "https://download.mcbbs.net/forge/minecraft/";
+
+        public string Forge => "https://download.mcbbs.net/maven/net/minecraftforge/forge/";
 
         public string ForgeMaven => Maven;
 

@@ -44,6 +44,12 @@ namespace GBCLV3.ViewModels.Pages
         public string BMCLAPI => "BMCLAPI Download Mirror";
         public string BMCLAPIPage => "https://bmclapidoc.bangbang93.com";
 
+        public string MCBBS => "MCBBS Download Mirror";
+        public string MCBBSPage => "https://www.mcbbs.net";
+
+        public string Fabric => "Support Minecraft Fabric";
+        public string FabricPage => "https://fabricmc.net";
+
         public string Forge => "Support Minecraft Forge";
         public string ForgePage => "https://www.patreon.com/LexManos";
 

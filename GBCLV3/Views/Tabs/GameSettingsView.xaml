@@ -76,7 +76,7 @@
 
                 <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"
                          IsReadOnly="True"
-                         adonisExtensions:WatermarkExtension.Watermark="{DynamicResource JreNotFoundError}"
+                         adonisExtensions:WatermarkExtension.Watermark="{DynamicResource JreNotFound}"
                          Text="{Binding JreDir, Mode=TwoWay}"/>
 
                 <Button Grid.Row="0" Grid.Column="5" 
@@ -103,8 +103,8 @@
                 <Button Grid.Row="1" Grid.Column="4" 
                         Content="&#xE896;"
                         ToolTipService.Placement="Bottom"
-                        ToolTip="{DynamicResource DonwloadJreInstaller}"
-                        Click="{s:Action DonwloadJreInstaller}"
+                        ToolTip="{DynamicResource DownloadJreInstaller}"
+                        Click="{s:Action DownloadJreInstaller}"
                         Visibility="{Binding JreDir, Mode=OneWay,
                                      Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
 

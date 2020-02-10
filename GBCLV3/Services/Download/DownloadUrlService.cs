@@ -12,6 +12,7 @@ namespace GBCLV3.Services.Download
         {
             DownloadSource.Official => _officialUrlBase,
             DownloadSource.BMCLAPI => _bmclapiUrlBase,
+            DownloadSource.MCBBS => _mcbbsUrlBase,
             _ => _officialUrlBase,
         };
 
@@ -23,6 +24,7 @@ namespace GBCLV3.Services.Download
 
         private static readonly OfficialUrlBase _officialUrlBase = new OfficialUrlBase();
         private static readonly BMCLAPIUrlBase _bmclapiUrlBase = new BMCLAPIUrlBase();
+        private static readonly MCBBSUrlBase _mcbbsUrlBase = new MCBBSUrlBase();
 
         #endregion
 

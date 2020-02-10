@@ -26,9 +26,9 @@
     <s:String x:Key="UnexpectedExit">Unexpected Exit</s:String>
 
     <!-- JRE Not Found Error -->
-    <s:String x:Key="JreNotFoundError">JRE not found!</s:String>
+    <s:String x:Key="JreNotFound">JRE not found!</s:String>
     <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
-    <s:String x:Key="DonwloadJreInstaller">Donwload Jre installer</s:String>
+    <s:String x:Key="DownloadJreInstaller">Donwload Jre installer</s:String>
 
     <!-- Account Management -->
     <s:String x:Key="AccountManagement">Account Management</s:String>
@@ -45,26 +45,33 @@
     <s:String x:Key="Password">Password</s:String>
     <s:String x:Key="AuthServer">Authentication Server</s:String>
 
-    <s:String x:Key="EmptyUsernameError">Username cannot be empty!</s:String>
-    <s:String x:Key="InvalidEmailError">Invalid email address!</s:String>
-    <s:String x:Key="InvalidAuthServerError">Invalid authentication server, please check the url or your Internet connection!</s:String>
+    <s:String x:Key="EmptyUsername">Username cannot be empty!</s:String>
+    <s:String x:Key="InvalidEmail">Invalid email address!</s:String>
+
+    <s:String x:Key="EnterAccountInformation">Enter account information</s:String>
+    <s:String x:Key="CheckingAuthServer">Checking authentication server</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Invalid authentication server, please check the url or your Internet connection!</s:String>
+    <s:String x:Key="Authenticating">Authenticating</s:String>
+    <s:String x:Key="AuthSuccessful">Authentication successful</s:String>
 
     <!-- Authentication Errors -->
     <s:String x:Key="AuthFailed">Authentication Failed</s:String>
-    <s:String x:Key="AuthTimeoutError">Authentication timeout!</s:String>
-    <s:String x:Key="NoInternetConnectionError">Please check your Internet connection!</s:String>
-    <s:String x:Key="InvalidCredentialsError">Invalid credentials! Please check your email or password!</s:String>
-    <s:String x:Key="InvalidTokenError">Invalid token! Please re-login using email and password!</s:String>
-    <s:String x:Key="InlaidAuthServerError">Invalid authentication server, please check the url or your Internet connection!</s:String>
-    <s:String x:Key="UnkownError">Unknown error!</s:String>
+    <s:String x:Key="AuthTimeout">Authentication timeout!</s:String>
+    <s:String x:Key="NoInternetConnection">Please check your Internet connection!</s:String>
+    <s:String x:Key="InvalidCredentials">Invalid credentials! Please check your email or password!</s:String>
+    <s:String x:Key="InvalidToken">Invalid token! Please re-login using email and password!</s:String>
+    <s:String x:Key="InvalidAuthServer">Invalid authentication server, please check the url or your Internet connection!</s:String>
+    <s:String x:Key="Unknown">Unknown error!</s:String>
     <s:String x:Key="ErrorMessage">Error message:</s:String>
 
-    <!-- Dependencies Errors -->
-    <s:String x:Key="MainJarDamagedError">Main jar missing or damaged</s:String>
-    <s:String x:Key="ForgeJarDamagedError">Forge jar missing or damaged, and unable to be fixed</s:String>
+
+    <!-- Integrity Check -->
+    <s:String x:Key="IntegrityCheck">Integrity Check</s:String>
+    <s:String x:Key="MainJarDamaged">Main jar missing or damaged</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge jar missing or damaged, and unable to be fixed</s:String>
     <s:String x:Key="PleaseReinstallForge">Please reinstall forge</s:String>
-    <s:String x:Key="LibsDamagedError">Dependent libraries missing or damaged</s:String>
-    <s:String x:Key="AssetsDamagedError">Assets missing or damaged</s:String>
+    <s:String x:Key="LibsDamaged">Dependent libraries missing or damaged</s:String>
+    <s:String x:Key="AssetsDamaged">Assets missing or damaged</s:String>
     <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
 
     <!-- Settings -->
@@ -103,6 +110,7 @@
     <s:String x:Key="DownloadSource">Download Source</s:String>
     <s:String x:Key="Official">Offical</s:String>
     <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="MCBBS">MCBBS</s:String>
 
     <s:String x:Key="AfterLaunch">After Launch</s:String>
     <s:String x:Key="Exit">Exit program</s:String>

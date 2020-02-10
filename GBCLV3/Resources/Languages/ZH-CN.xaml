@@ -13,7 +13,7 @@
     <s:String x:Key="ReportUnexpectedExit">游戏异常退出</s:String>
     <s:String x:Key="ReportUnhandledException">程序遇到了无法处理的异常</s:String>
     <s:String x:Key="Alright">彳亍口巴</s:String>
-    <s:String x:Key="ReportOnGithub">去Github提出问题</s:String>
+    <s:String x:Key="ReportOnGithub">去 Github 提出问题</s:String>
     <s:String x:Key="CopyErrorMessage">复制错误信息</s:String>
 
     <!-- 启动过程 -->
@@ -24,10 +24,10 @@
     <s:String x:Key="Boohoo">哦豁！启动失败。。。</s:String>
     <s:String x:Key="HappyGame">游戏愉快！</s:String>
 
-    <!-- JRE 未找到错误 -->
-    <s:String x:Key="JreNotFoundError">未找到 Java 运行环境！</s:String>
+    <!-- JRE 未找到 -->
+    <s:String x:Key="JreNotFound">未找到 Java 运行环境！</s:String>
     <s:String x:Key="PleaseInstallJre">请手动指定路径或者安装 Java 运行环境</s:String>
-    <s:String x:Key="DonwloadJreInstaller">下载 JRE 安装包</s:String>
+    <s:String x:Key="DownloadJreInstaller">下载 JRE 安装包</s:String>
 
     <!-- 账户设置 -->
     <s:String x:Key="AccountManagement">管理账户</s:String>
@@ -44,26 +44,32 @@
     <s:String x:Key="Password">登录密码</s:String>
     <s:String x:Key="AuthServer">验证服务器</s:String>
 
-    <s:String x:Key="EmptyUsernameError">用户名不能为空！</s:String>
-    <s:String x:Key="InvalidEmailError">无效的电子邮箱地址！</s:String>
-    <s:String x:Key="InvalidAuthServerError">无效的验证服务器，请检查地址或您的网络链接！</s:String>
+    <s:String x:Key="EmptyUsername">用户名不能为空！</s:String>
+    <s:String x:Key="InvalidEmail">无效的电子邮箱地址！</s:String>
+
+    <s:String x:Key="EnterAccountInformation">输入账户信息</s:String>
+    <s:String x:Key="CheckingAuthServer">检查验证服务器</s:String>
+    <s:String x:Key="CheckAuthServerFailed">验证服务器检查失败</s:String>
+    <s:String x:Key="Authenticating">验证中</s:String>
+    <s:String x:Key="AuthSuccessful">验证成功</s:String>
 
     <!-- 验证登录错误 -->
-    <s:String x:Key="AuthFailed">验证登录失败</s:String>
-    <s:String x:Key="AuthTimeoutError">验证超时！</s:String>
-    <s:String x:Key="NoInternetConnectionError">请检查你的网络连接！</s:String>
-    <s:String x:Key="InvalidCredentialsError">验证信息错误，请检查邮箱或密码是否正确！</s:String>
-    <s:String x:Key="InvalidTokenError">无效登录令牌，请用电子邮箱和密码重新登录！</s:String>
-    <s:String x:Key="InlaidAuthServerError">无效的验证服务器，请检查 url 或网络连接！</s:String>
-    <s:String x:Key="UnkownError">未知错误！</s:String>
+    <s:String x:Key="AuthFailed">验证失败</s:String>
+    <s:String x:Key="AuthTimeout">验证超时！</s:String>
+    <s:String x:Key="NoInternetConnection">请检查你的网络连接！</s:String>
+    <s:String x:Key="InvalidCredentials">验证信息错误，请检查邮箱或密码是否正确！</s:String>
+    <s:String x:Key="InvalidToken">无效登录令牌，请用电子邮箱和密码重新登录！</s:String>
+    <s:String x:Key="InvalidAuthServer">无效的验证服务器，请检查地址或网络连接！</s:String>
+    <s:String x:Key="Unknown">未知错误！</s:String>
     <s:String x:Key="ErrorMessage">错误信息：</s:String>
 
-    <!-- 依赖错误 -->
-    <s:String x:Key="MainJarDamagedError">主jar文件缺失或损坏</s:String>
-    <s:String x:Key="ForgeJarDamagedError">Forge jar文件缺失或损坏，且无法自动修复</s:String>
+    <!-- 完整性检查 -->
+    <s:String x:Key="IntegrityCheck">游戏完整性检查</s:String>
+    <s:String x:Key="MainJarDamaged">主jar文件缺失或损坏</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge jar文件缺失或损坏，且无法自动修复</s:String>
     <s:String x:Key="PleaseReinstallForge">请重新安装Forge</s:String>
-    <s:String x:Key="LibsDamagedError">依赖库缺失或损坏</s:String>
-    <s:String x:Key="AssetsDamagedError">资源文件缺失或损坏</s:String>
+    <s:String x:Key="LibsDamaged">依赖库缺失或损坏</s:String>
+    <s:String x:Key="AssetsDamaged">资源文件缺失或损坏</s:String>
     <s:String x:Key="WhetherFixNow">是否现在补全？</s:String>
 
     <!-- 设置项 -->
@@ -103,7 +109,8 @@
     
     <s:String x:Key="DownloadSource">下载源</s:String>
     <s:String x:Key="Official">官方</s:String>
-    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI 镜像</s:String>
+    <s:String x:Key="MCBBS">MCBBS 镜像</s:String>
 
     <s:String x:Key="AfterLaunch">启动后</s:String>
     <s:String x:Key="Exit">退出程序</s:String>
@@ -113,7 +120,7 @@
 
     <s:String x:Key="UseBackgroundImage">使用背景图</s:String>
     <s:String x:Key="SelectImagePath">选择图片路径</s:String>
-    <s:String x:Key="SelectRandomImage">随机选取.\bg目录中的图片</s:String>
+    <s:String x:Key="SelectRandomImage">随机选取 .\bg 目录中的图片</s:String>
 
     <s:String x:Key="Font">字体</s:String>
     <s:String x:Key="FontWeight">字重</s:String>

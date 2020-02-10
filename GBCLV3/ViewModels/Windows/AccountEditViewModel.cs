@@ -34,14 +34,13 @@ namespace GBCLV3.ViewModels.Windows
             IModelValidator<AccountEditViewModel> validator) : base(validator)
         {
             AutoValidate = false;
-            CanConfirm = true;
 
             _accountService = accountService;
             _authService = authService;
             ThemeService = themeService;
         }
 
-        public void Setup(EditAccountType type, Account currentAccount = null)
+        public void Setup(AccountEditType type, Account currentAccount = null)
         {
             Type = type;
 
@@ -50,13 +49,21 @@ namespace GBCLV3.ViewModels.Windows
             Username = currentAccount?.Username;
             Email = currentAccount?.Email;
             AuthServerBase = currentAccount?.AuthServerBase;
+
+            Status = AccountEditStatus.EnterAccountInformation;
         }
 
         #endregion
 
         #region Bindings
 
-        public EditAccountType Type { get; private set; }
+        public AccountEditType Type { get; private set; }
+
+        public AccountEditStatus Status { get; private set; }
+
+        public bool IsLoading =>
+            Status == AccountEditStatus.CheckingAuthServer || 
+            Status == AccountEditStatus.Authenticating;
 
         public ThemeService ThemeService { get; }
 
@@ -68,13 +75,15 @@ namespace GBCLV3.ViewModels.Windows
 
         public bool IsExternalMode => AuthMode == AuthMode.AuthLibInjector;
 
+        public string ErrorMessage { get; private set; }
+
         public string Username
         {
             get => _username;
             set
             {
                 SetAndNotify(ref _username, value);
-                ValidateProperty();
+                CanConfirm = ValidateProperty();
             }
         }
 
@@ -84,14 +93,11 @@ namespace GBCLV3.ViewModels.Windows
             set
             {
                 SetAndNotify(ref _email, value);
-                ValidateProperty();
+                CanConfirm = ValidateProperty();
             }
         }
 
-        public void OnPasswordChanged(PasswordBox passwordBox, EventArgs _)
-        {
-            _password = passwordBox.Password;
-        }
+        public void OnPasswordChanged(PasswordBox passwordBox, EventArgs _) => _password = passwordBox.Password;
 
         public string AuthServerBase
         {
@@ -115,52 +121,48 @@ namespace GBCLV3.ViewModels.Windows
 
             if (IsOfflineMode)
             {
-                if (ValidateProperty(nameof(Username)))
-                {
-                    _accountService.AddOfflineAccount(Username);
-                    this.RequestClose(true);
-                }
-                else
-                {
-                    CanConfirm = true;
-                    return;
-                }
+                _accountService.AddOfflineAccount(Username);
+                this.RequestClose(true);
             }
 
-            if (!ValidateProperty(nameof(Email)))
-            {
-                CanConfirm = true;
-                return;
-            }
 
             AuthResult authResult;
 
             if (IsExternalMode)
             {
+                Status = AccountEditStatus.CheckingAuthServer;
+
                 if (await ValidatePropertyAsync(nameof(AuthServerBase)))
                 {
+                    Status = AccountEditStatus.Authenticating;
                     authResult =
                         await _authService.AuthenticateAsync(Email, _password, _authServerBase + "/authserver");
                 }
                 else
                 {
+                    Status = AccountEditStatus.CheckAuthServerFailed;
                     CanConfirm = true;
                     return;
                 }
             }
             else
             {
+                Status = AccountEditStatus.Authenticating;
                 authResult = await _authService.AuthenticateAsync(Email, _password);
             }
 
             if (authResult.IsSuccessful)
             {
+                Status = AccountEditStatus.AuthSuccessful;
                 CurrentAccount = await _accountService.AddOnlineAccount(Email, authResult, AuthMode, _authServerBase);
                 await Task.Delay(500);
                 RequestClose(true);
             }
-
-            CanConfirm = true;
+            else
+            {
+                Status = AccountEditStatus.AuthFailed;
+                CanConfirm = true;
+            }
         }
 
         public void Cancel()

@@ -40,15 +40,15 @@ namespace GBCLV3.ViewModels.Windows
             return propertyName switch
             {
                 nameof(_subject.Username) => string.IsNullOrWhiteSpace(_subject.Username)
-                    ? new[] {_languageService.GetEntry("EmptyUsernameError")}
+                    ? new[] {_languageService.GetEntry("EmptyUsername")}
                     : null,
 
                 nameof(_subject.Email) => !IsEmailAddressValid(_subject.Email) ? 
-                    new[] {_languageService.GetEntry("InvalidEmailError")} 
+                    new[] {_languageService.GetEntry("InvalidEmail")} 
                     : null,
 
                 nameof(_subject.AuthServerBase) => !await _authService.IsAuthServerValid(_subject.AuthServerBase)
-                    ? new[] {_languageService.GetEntry("InvalidAuthServerError")}
+                    ? new[] {_languageService.GetEntry("InvalidAuthServer")}
                     : null,
 
                 _ => null

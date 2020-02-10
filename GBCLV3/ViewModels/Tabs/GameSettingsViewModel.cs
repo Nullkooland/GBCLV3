@@ -159,7 +159,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
         }
 
-        public void DonwloadJreInstaller() => SystemUtil.OpenLink(JRE_DOWNLOAD_URL);
+        public void DownloadJreInstaller() => SystemUtil.OpenLink(JRE_DOWNLOAD_URL);
 
         public void SelectGameDir()
         {

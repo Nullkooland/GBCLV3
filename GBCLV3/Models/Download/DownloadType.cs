@@ -6,22 +6,22 @@ namespace GBCLV3.Models.Download
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum DownloadType
     {
-        [LocalizedDescription("MainJar")]
+        [LocalizedDescription(nameof(MainJar))]
         MainJar,
 
-        [LocalizedDescription("Libraries")]
+        [LocalizedDescription(nameof(Libraries))]
         Libraries,
 
-        [LocalizedDescription("Assets")]
+        [LocalizedDescription(nameof(Assets))]
         Assets,
 
-        [LocalizedDescription("InstallNewVersion")]
+        [LocalizedDescription(nameof(InstallNewVersion))]
         InstallNewVersion,
 
-        [LocalizedDescription("InstallForge")]
+        [LocalizedDescription(nameof(InstallForge))]
         InstallForge,
 
-        [LocalizedDescription("InstallFabric")]
+        [LocalizedDescription(nameof(InstallFabric))]
         InstallFabric,
     }
 }

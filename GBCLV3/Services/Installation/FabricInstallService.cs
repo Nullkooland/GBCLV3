@@ -64,7 +64,7 @@ namespace GBCLV3.Services.Installation
             }
             catch (OperationCanceledException)
             {
-                // Timeout
+                // AuthTimeout
                 Debug.WriteLine("[ERROR] Get fabric download list timeout");
                 return null;
             }

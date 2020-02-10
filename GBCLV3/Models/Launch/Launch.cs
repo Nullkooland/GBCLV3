@@ -30,13 +30,13 @@ namespace GBCLV3.Models.Launch
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum AfterLaunchBehavior
     {
-        [LocalizedDescription("Exit")]
+        [LocalizedDescription(nameof(Exit))]
         Exit,
 
-        [LocalizedDescription("Hide")]
+        [LocalizedDescription(nameof(Hide))]
         Hide,
 
-        [LocalizedDescription("KeepVisible")]
+        [LocalizedDescription(nameof(KeepVisible))]
         KeepVisible,
     }
 

@@ -50,11 +50,8 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void AddNew()
         {
-            _accountEditVM.Setup(EditAccountType.AddAccount);
-            if (_windowManager.ShowDialog(_accountEditVM) ?? false)
-            {
-                
-            }
+            _accountEditVM.Setup(AccountEditType.AddAccount);
+            _windowManager.ShowDialog(_accountEditVM);
         }
         public void Delete(Account account)
         {
@@ -69,7 +66,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void Edit(Account account)
         {
-            _accountEditVM.Setup(EditAccountType.EditAccount, account);
+            _accountEditVM.Setup(AccountEditType.EditAccount, account);
             _windowManager.ShowDialog(_accountEditVM);
         }
 

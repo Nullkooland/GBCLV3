@@ -3,138 +3,150 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
                 xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                mc:Ignorable="d" 
+                mc:Ignorable="d"
                 d:DesignHeight="450" d:DesignWidth="800"
                 Style="{StaticResource BlurInPageStyle}">
 
     <ContentControl.Resources>
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="32,0"/>
-            <Setter Property="Padding" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Margin" Value="8,0"/>
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
-            <Setter Property="FontSize" Value="12"/>
+                    Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
+            <Setter Property="FontSize" Value="12" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline"/>
+                        <TextBlock Text="{TemplateBinding Content}" TextDecorations="Underline" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Foreground"
-                            Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1HighlightBrush}}"/>
+                            Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1HighlightBrush}}" />
                 </Trigger>
                 <Trigger Property="IsPressed" Value="True">
-                    <Setter Property="Opacity" Value="0.75"/>
+                    <Setter Property="Opacity" Value="0.75" />
                 </Trigger>
             </Style.Triggers>
         </Style>
 
         <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="32,0"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="8,0"/>
+            <Setter Property="FontSize" Value="14" />
         </Style>
     </ContentControl.Resources>
 
     <Grid Background="{DynamicResource LightTranslucentBrush}">
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="2*"/>
+            <ColumnDefinition Width="3*" />
+            <ColumnDefinition Width="2*" />
         </Grid.ColumnDefinitions>
 
-        <Grid Grid.Column="0">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="16"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+        <ScrollViewer Grid.Column="0" Margin="32, 16"
+                      VerticalScrollBarVisibility="Hidden">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="16" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
 
-            <TextBlock Grid.Row="1" Margin="28,0"
-                       HorizontalAlignment="Left" VerticalAlignment="Center"
-                       FontSize="36" FontWeight="Bold"
-                       Text="GBCL"/>
+                <TextBlock Grid.Row="1"
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="36" FontWeight="Bold"
+                           Text="GBCL" />
 
-            <StackPanel Grid.Row="2" Margin="0,0,0,8"
-                        Orientation="Vertical">
-                
-                <TextBlock Text="{Binding VersionCode, Mode=OneTime}"/>
+                <StackPanel Grid.Row="2" Margin="0,0,0,8"
+                            Orientation="Vertical">
 
-                <TextBlock Text="{Binding Copyright, Mode=OneTime}"/>
+                    <TextBlock Text="{Binding VersionCode, Mode=OneTime}" />
 
-                <Button Content="{Binding GBCLV3Page, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
-            </StackPanel>
+                    <TextBlock Text="{Binding Copyright, Mode=OneTime}" />
 
-            <TextBlock Grid.Row="3"
-                       HorizontalAlignment="Left" VerticalAlignment="Center"
-                       FontSize="16" FontWeight="SemiBold"
-                       Text="{DynamicResource Dependencies}"/>
+                    <Button Content="{Binding GBCLV3Page, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                </StackPanel>
 
-            <StackPanel Grid.Row="4" Margin="0,0,0,8"
-                        Orientation="Vertical">
+                <TextBlock Grid.Row="3"
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontWeight="SemiBold"
+                           Text="{DynamicResource Dependencies}" />
 
-                <TextBlock Text="{Binding Stylet, Mode=OneTime}"/>
-                <Button Content="{Binding StyletPage, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                <StackPanel Grid.Row="4" Margin="0,0,0,8"
+                            Orientation="Vertical">
 
-                <TextBlock Text="{Binding FodyPropertyChanged, Mode=OneTime}"/>
-                <Button Content="{Binding FodyPropertyChangedPage, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                    <TextBlock Text="{Binding Stylet, Mode=OneTime}" />
+                    <Button Content="{Binding StyletPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
 
-                <TextBlock Text="{Binding AdonisUI, Mode=OneTime}"/>
-                <Button Content="{Binding AdonisUIPage, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                    <TextBlock Text="{Binding FodyPropertyChanged, Mode=OneTime}" />
+                    <Button Content="{Binding FodyPropertyChangedPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
 
-                <TextBlock Text="{Binding OokiiDialogs, Mode=OneTime}"/>
-                <Button Content="{Binding OokiiDialogsPage, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
-            </StackPanel>
+                    <TextBlock Text="{Binding AdonisUI, Mode=OneTime}" />
+                    <Button Content="{Binding AdonisUIPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
 
-            <TextBlock Grid.Row="5"
-                       HorizontalAlignment="Left" VerticalAlignment="Center"
-                       FontSize="16" FontWeight="SemiBold"
-                       Text="{DynamicResource ThanksTo}"/>
+                    <TextBlock Text="{Binding OokiiDialogs, Mode=OneTime}" />
+                    <Button Content="{Binding OokiiDialogsPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                </StackPanel>
 
-            <StackPanel Grid.Row="6" Margin="0,0,0,8"
-                        Orientation="Vertical">
+                <TextBlock Grid.Row="5"
+                           HorizontalAlignment="Left" VerticalAlignment="Center"
+                           FontSize="16" FontWeight="SemiBold"
+                           Text="{DynamicResource ThanksTo}" />
 
-                <TextBlock Text="{Binding BMCLAPI, Mode=OneTime}"/>
-                <Button Content="{Binding BMCLAPIPage, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
+                <StackPanel Grid.Row="6" Margin="0,0,0,8"
+                            Orientation="Vertical">
 
-                <TextBlock Text="{Binding Forge, Mode=OneTime}"/>
-                <Button Content="{Binding ForgePage, Mode=OneTime}"
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"/>
-            </StackPanel>
+                    <TextBlock Text="{Binding BMCLAPI, Mode=OneTime}" />
+                    <Button Content="{Binding BMCLAPIPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
 
+                    <TextBlock Text="{Binding MCBBS, Mode=OneTime}" />
+                    <Button Content="{Binding MCBBSPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
 
-        </Grid>
+                    <TextBlock Text="{Binding Fabric, Mode=OneTime}" />
+                    <Button Content="{Binding FabricPage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+
+                    <TextBlock Text="{Binding Forge, Mode=OneTime}" />
+                    <Button Content="{Binding ForgePage, Mode=OneTime}"
+                            Command="{s:Action OpenLink}"
+                            CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}" />
+                </StackPanel>
+
+            </Grid>
+        </ScrollViewer>
+
 
         <Path Grid.Column="1"
               HorizontalAlignment="Right" VerticalAlignment="Top"
               Stretch="UniformToFill" Margin="0,32,32,0"
               Data="{StaticResource DontYouEverStop}" Opacity="0.6"
               Fill="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
-              MouseDown="{s:Action DontStop}"/>
+              MouseDown="{s:Action DontStop}" />
     </Grid>
-
 
 </ContentControl>

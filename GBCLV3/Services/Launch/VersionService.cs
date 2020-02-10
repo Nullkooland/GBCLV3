@@ -197,7 +197,7 @@ namespace GBCLV3.Services.Launch
             }
             catch (OperationCanceledException)
             {
-                // Timeout
+                // AuthTimeout
                 Debug.WriteLine("[ERROR] Get version download list timeout");
                 return null;
             }
@@ -216,7 +216,7 @@ namespace GBCLV3.Services.Launch
             }
             catch (OperationCanceledException)
             {
-                // Timeout
+                // AuthTimeout
                 Debug.WriteLine("[ERROR] Get version download list timeout");
                 return null;
             }

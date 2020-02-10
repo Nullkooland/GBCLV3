@@ -7,25 +7,19 @@ namespace GBCLV3.Models.Authentication
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     enum AuthErrorType
     {
-        [LocalizedDescription("EmptyUsernameError")]
-        EmptyUsername,
+        [LocalizedDescription(nameof(AuthTimeout))]
+        AuthTimeout,
 
-        [LocalizedDescription("InvalidEmailError")]
-        InvalidEmail,
-
-        [LocalizedDescription("AuthTimeoutError")]
-        Timeout,
-
-        [LocalizedDescription("NoInternetConnectionError")]
+        [LocalizedDescription(nameof(NoInternetConnection))]
         NoInternetConnection,
 
-        [LocalizedDescription("InvalidCredentialsError")]
+        [LocalizedDescription(nameof(InvalidCredentials))]
         InvalidCredentials,
 
-        [LocalizedDescription("InvalidTokenError")]
+        [LocalizedDescription(nameof(InvalidToken))]
         InvalidToken,
 
-        [LocalizedDescription("UnknownError")]
+        [LocalizedDescription(nameof(Unknown))]
         Unknown,
     }
 

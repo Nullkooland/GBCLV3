@@ -22,8 +22,6 @@ namespace GBCLV3.Services.Installation
     {
         #region Private Fields
 
-        private const string FORGE_LIST_URL = "https://bmclapi2.bangbang93.com/forge/minecraft/";
-
         private readonly HttpClient _client;
 
         // IoC
@@ -45,7 +43,7 @@ namespace GBCLV3.Services.Installation
             _urlService = urlService;
             _versionService = versionService;
 
-            _client = new HttpClient() { Timeout = System.TimeSpan.FromSeconds(10) };
+            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
         }
 
         #endregion
@@ -56,7 +54,7 @@ namespace GBCLV3.Services.Installation
         {
             try
             {
-                string json = await _client.GetStringAsync(FORGE_LIST_URL + id);
+                string json = await _client.GetStringAsync(_urlService.Base.ForgeList + id);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
                 int[] nums = id.Split('.')
@@ -96,7 +94,7 @@ namespace GBCLV3.Services.Installation
             }
             catch (OperationCanceledException)
             {
-                // Timeout
+                // AuthTimeout
                 Debug.WriteLine("[ERROR] Get forge download list timeout");
                 return null;
             }

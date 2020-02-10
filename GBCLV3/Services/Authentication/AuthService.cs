@@ -104,16 +104,6 @@ namespace GBCLV3.Services.Authentication
 
         private static AuthResult BuildOfflineResult(string username)
         {
-            if (string.IsNullOrWhiteSpace(username))
-            {
-                return new AuthResult
-                {
-                    IsSuccessful = false,
-                    ErrorType = AuthErrorType.EmptyUsername,
-                    ErrorMessage = "${EmptyUsernameError}",
-                };
-            }
-
             return new AuthResult
             {
                 Username = username,
@@ -157,17 +147,17 @@ namespace GBCLV3.Services.Authentication
                     if (error.ErrorMessage.ToLower().Contains("token"))
                     {
                         result.ErrorType = AuthErrorType.InvalidToken;
-                        result.ErrorMessage = "${InvalidTokenError}";
+                        result.ErrorMessage = "${InvalidToken}";
                     }
                     else if (error.ErrorMessage.ToLower().Contains("credentials"))
                     {
                         result.ErrorType = AuthErrorType.InvalidCredentials;
-                        result.ErrorMessage = "${InvalidCredentialsError}";
+                        result.ErrorMessage = "${InvalidCredentials}";
                     }
                     else
                     {
                         result.ErrorType = AuthErrorType.Unknown;
-                        result.ErrorMessage = "${UnknownError}" + '\n' + "${ErrorMessage}" + error.ErrorMessage;
+                        result.ErrorMessage = "${Unknown}" + '\n' + "${ErrorMessage}" + error.ErrorMessage;
                     }
 
                     result.IsSuccessful = false;
@@ -178,13 +168,13 @@ namespace GBCLV3.Services.Authentication
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.NoInternetConnection;
-                result.ErrorMessage = ex.Message + '\n' + "${NoInternetConnectionError}";
+                result.ErrorMessage = ex.Message + '\n' + "${NoInternetConnection}";
             }
             catch (OperationCanceledException)
             {
                 result.IsSuccessful = false;
-                result.ErrorType = AuthErrorType.Timeout;
-                result.ErrorMessage = "${AuthTimeoutError}";
+                result.ErrorType = AuthErrorType.AuthTimeout;
+                result.ErrorMessage = "${AuthTimeout}";
             }
 
             return result;
