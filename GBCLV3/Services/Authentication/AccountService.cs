@@ -71,6 +71,8 @@ namespace GBCLV3.Services.Authentication
                 Username = username,
             };
 
+            if (!_accounts.Any()) account.IsSelected = true;
+
             _accounts.Add(account);
             Created?.Invoke(account);
             return account;
@@ -81,6 +83,8 @@ namespace GBCLV3.Services.Authentication
         {
             var account = new Account();
             await UpdateOnlineAccountAsync(account, authMode, email, authResult, authServer);
+
+            if (!_accounts.Any()) account.IsSelected = true;
 
             _accounts.Add(account);
             Created?.Invoke(account);
@@ -116,8 +120,15 @@ namespace GBCLV3.Services.Authentication
             if (account.AuthMode != AuthMode.Offline)
             {
                 account.Skin = await _skinService.GetSkinAsync(account.Profile);
-                // Refresh latest profile and skin later
-                RefreshSkinAsync(account).ConfigureAwait(false);
+
+                if (account.Profile != null)
+                {
+                    RefreshSkinAsync(account).ConfigureAwait(false);
+                }
+                else
+                {
+                    await RefreshSkinAsync(account);
+                }
             }
         }
 

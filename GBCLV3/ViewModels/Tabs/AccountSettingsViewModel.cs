@@ -31,11 +31,7 @@ namespace GBCLV3.ViewModels.Tabs
             Accounts = new BindableCollection<Account>(_accountService.GetAll());
             SelectedAccount = _accountService.GetSelected();
 
-            _accountService.Created += account =>
-            {
-                if (!Accounts.Any()) account.IsSelected = true;
-                Accounts.Add(account);
-            };
+            _accountService.Created += account => Accounts.Add(account);
 
             _windowManager = windowManager;
             _accountEditEditVm = accountEditVM;

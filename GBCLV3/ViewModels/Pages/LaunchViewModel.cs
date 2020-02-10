@@ -132,7 +132,10 @@ namespace GBCLV3.ViewModels.Pages
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
                 }
+
+                account = _accountService.GetSelected();
             }
+
 
             // Previous login token is invalid, need re-authentication
             var authResult = await _authService.LoginAsync(account);
