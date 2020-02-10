@@ -85,52 +85,52 @@ namespace GBCLV3.Services.Auxiliary
             if (!isEnabled) path = path[0..^9];
 
             var info = archive.GetEntry("mcmod.info");
-            if (info != null)
+            if (info == null)
             {
-                using var reader = new StreamReader(info.Open(), Encoding.UTF8);
-                JMod jmod = null;
-
-                try
-                {
-                    // This is utterly ugly...thanks to the capriciousness of modders
-                    jmod = JsonSerializer.Deserialize<JMod[]>(reader.ReadToEnd())[0];
-                }
-                catch (JsonException ex)
-                {
-                    Debug.WriteLine(ex.ToString());
-                }
-
-                if (jmod?.modList != null)
-                {
-                    // I don't understand what are these modders thinking...
-                    jmod = jmod.modList[0];
-                }
-
-                string[] authorList = jmod?.authorList ?? jmod?.authors;
-                string auhtors = authorList != null ? string.Join(", ", authorList) : null;
-
                 return new Mod
                 {
-                    Name = jmod?.name ?? Path.GetFileNameWithoutExtension(path),
+                    Name = Path.GetFileNameWithoutExtension(path),
                     FileName = Path.GetFileName(path),
-                    Description = jmod?.description.Split('.')[0], // Make it terse!
-                    Version = jmod?.version,
-                    GameVersion = jmod?.mcversion,
-                    Url = jmod?.url,
-                    Authors = auhtors,
                     Path = path,
                     IsEnabled = isEnabled,
                 };
             }
 
+            using var reader = new StreamReader(info.Open(), Encoding.UTF8);
+            JMod jmod = null;
+
+            try
+            {
+                // This is utterly ugly...thanks to the capriciousness of modders
+                jmod = JsonSerializer.Deserialize<JMod[]>(reader.ReadToEnd())[0];
+            }
+            catch (JsonException ex)
+            {
+                Debug.WriteLine(ex.ToString());
+            }
+
+            if (jmod?.modList != null)
+            {
+                // I don't understand what are these modders thinking...
+                jmod = jmod.modList[0];
+            }
+
+            string[] authorList = jmod?.authorList ?? jmod?.authors;
+            string auhtors = authorList != null ? string.Join(", ", authorList) : null;
+
             return new Mod
             {
-                Name = Path.GetFileNameWithoutExtension(path),
+                Name = jmod?.name ?? Path.GetFileNameWithoutExtension(path),
                 FileName = Path.GetFileName(path),
-                Description = "no comment",
+                Description = jmod?.description.Split('.')[0], // Make it terse!
+                Version = jmod?.version,
+                GameVersion = jmod?.mcversion,
+                Url = jmod?.url,
+                Authors = auhtors,
                 Path = path,
                 IsEnabled = isEnabled,
             };
+
         }
         #endregion
     }

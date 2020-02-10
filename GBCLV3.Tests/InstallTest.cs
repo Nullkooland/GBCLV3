@@ -33,7 +33,7 @@ namespace GBCLV3.Tests
 
             _versionService = new VersionService(gamePathService, urlServie);
             _forgeInstallService = new ForgeInstallService(gamePathService, urlServie, _versionService);
-            _fabricInstallService = new FabricInstallService(gamePathService, _versionService);
+            _fabricInstallService = new FabricInstallService(gamePathService, urlServie, _versionService);
         }
 
         [TestMethod]

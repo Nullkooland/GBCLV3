@@ -6,6 +6,9 @@
 
         public string FileName { get; set; }
 
+        public string DisplayName => !string.IsNullOrWhiteSpace(Description) ? 
+                                        $"{Description}\nby {Authors}" : null;
+
         public string Description { get; set; }
 
         public string Version { get; set; }

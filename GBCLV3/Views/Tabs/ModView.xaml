@@ -53,19 +53,21 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Grid>
+                        <Grid Background="Transparent"
+                              ToolTipService.Placement="Bottom"
+                              ToolTip="{Binding DisplayName, Mode=OneWay}">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="18"/>
                                 <RowDefinition Height="18"/>
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="36"/>
+                                <ColumnDefinition Width="48"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="24"/>
+                                <ColumnDefinition Width="32"/>
                             </Grid.ColumnDefinitions>
 
-                            <CheckBox Grid.RowSpan="2" Grid.Column="0"
+                            <CheckBox Grid.RowSpan="2" Grid.Column="0" Margin="14,0"
                                       HorizontalAlignment="Center" VerticalAlignment="Center"
                                       IsChecked="{Binding IsEnabled, Mode=TwoWay}"
                                       Command="{s:Action ChangeExtension}" CommandParameter="{Binding}"/>
@@ -74,7 +76,7 @@
                                        Grid.Row="0" Grid.Column="1"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"
                                        FontSize="14"
-                                       Text="{Binding Name}"/>
+                                       Text="{Binding Name, Mode=OneWay}"/>
 
                             <TextBlock x:Name="FileNameBox"
                                        Grid.Row="1" Grid.Column="1"
@@ -83,12 +85,12 @@
                                        Foreground="{DynamicResource
                                                    {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
                                        TextTrimming="CharacterEllipsis"
-                                       Text="{Binding FileName}"/>
+                                       Text="{Binding FileName, Mode=OneWay}"/>
 
                             <Border Grid.RowSpan="2" Grid.Column="2"
                                     Width="24" Height="36"
                                     Cursor="Hand"
-                                    ToolTip="{Binding Url}"
+                                    ToolTip="{Binding Url, Mode=OneWay}"
                                     Visibility="{Binding Url, Mode=OneWay,
                                                  Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
                                 <Border.InputBindings>
