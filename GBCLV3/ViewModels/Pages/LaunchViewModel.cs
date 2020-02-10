@@ -1,40 +1,46 @@
-﻿using System.Collections.Generic;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services;
+using GBCLV3.Services.Authentication;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
+using GBCLV3.Utils;
+using GBCLV3.ViewModels.Tabs;
+using GBCLV3.ViewModels.Windows;
+using Stylet;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using GBCLV3.Models;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Services;
-using GBCLV3.Services.Launcher;
-using GBCLV3.Utils;
-using GBCLV3.ViewModels.Windows;
-using Stylet;
-using Version = GBCLV3.Models.Launcher.Version;
+using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.ViewModels.Pages
 {
     class LaunchViewModel : Conductor<IScreen>.Collection.OneActive
     {
-        #region Private Members
+        #region Private Fields
 
-        private readonly StringBuilder _logger;
+        private const string XD = "_(:3」∠)_";
+        private readonly StringBuilder _logger = new StringBuilder(4096);
 
         // IoC
         private readonly Config _config;
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
+        private readonly AccountService _accountService;
+        private readonly AuthService _authService;
         private readonly LaunchService _launchService;
-        private readonly SkinService _skinService;
 
         private readonly LaunchStatusViewModel _statusVM;
-        private readonly DownloadViewModel _downloadVM;
+        private readonly DownloadStatusViewModel _downloadStatusVM;
         private readonly ErrorReportViewModel _errorReportVM;
+        private readonly AccountEditViewModel _accountEditVM;
 
         private readonly IWindowManager _windowManager;
-        private readonly IEventAggregator _eventAggregator;
 
         #endregion
 
@@ -49,155 +55,100 @@ namespace GBCLV3.ViewModels.Pages
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
+            AccountService accountService,
+            AuthService authService,
             LaunchService launchService,
-            SkinService skinService,
 
-            GreetingViewModel greetingVM,
+            VersionsManagementViewModel versionsVM,
             LaunchStatusViewModel statusVM,
-            DownloadViewModel downloadVM,
+            AccountEditViewModel accountEditVM,
+            DownloadStatusViewModel downloadVM,
             ErrorReportViewModel errorReportVM)
         {
             _windowManager = windowManager;
-            _eventAggregator = eventAggregator;
-
             _config = configService.Entries;
 
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
+            _authService = authService;
+            _accountService = accountService;
             _launchService = launchService;
-            _skinService = skinService;
+
+            _statusVM = statusVM;
+            _accountEditVM = accountEditVM;
+            _downloadStatusVM = downloadVM;
+            _errorReportVM = errorReportVM;
 
             _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
             _launchService.Exited += OnGameExited;
 
-            Versions = new BindableCollection<Version>();
-
-            // OnVersionLoaded
-            _versionService.Loaded += hasAny =>
-            {
-                Versions.Clear();
-                Versions.AddRange(_versionService.GetAvailable());
-
-                if (hasAny)
-                {
-                    if (!_versionService.Has(SelectedVersionID))
-                    {
-                        SelectedVersionID = Versions.FirstOrDefault().ID;
-                    }
-
-                    CanLaunch = true;
-                }
-                else
-                {
-                    CanLaunch = false;
-                }
-            };
-
-            // OnVersionCreated
-            _versionService.Created += version =>
-            {
-                Versions.Insert(0, version);
-                SelectedVersionID = version.ID;
-                CanLaunch = true;
-            };
-
-            // OnVersionDeleted
-            _versionService.Deleted += version =>
-            {
-                Versions.Remove(version);
-
-                if (SelectedVersionID == null)
-                {
-                    SelectedVersionID = Versions.FirstOrDefault()?.ID;
-                }
-
-                if (!Versions.Any()) CanLaunch = false;
-            };
-
-            _logger = new StringBuilder(4096);
-
-            _statusVM = statusVM;
-            _downloadVM = downloadVM;
-            _errorReportVM = errorReportVM;
+            _versionService.Loaded += hasAny => CanLaunch = hasAny;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
 
             ThemeService = themeService;
-            GreetingVM = greetingVM;
+            VersionsVM = versionsVM;
         }
 
         #endregion
 
         #region Bindings
+        public VersionsManagementViewModel VersionsVM { get; set; }
 
         public GreetingViewModel GreetingVM { get; private set; }
 
         public ThemeService ThemeService { get; private set; }
 
-        public BindableCollection<Version> Versions { get; private set; }
-
-        public string SelectedVersionID
-        {
-            get => _config.SelectedVersion;
-            set => _config.SelectedVersion = value;
-        }
-
         public bool CanLaunch { get; private set; }
 
         public async void Launch()
         {
+            CanLaunch = false;
+
             // Check JRE
             if (_config.JreDir == null)
             {
-                _windowManager.ShowMessageBox("${JreNotFoundError}\n${PleaseInstallJre}", null,
+                _windowManager.ShowMessageBox("${JreNotFound}\n${PleaseInstallJre}", "${IntegrityCheck}",
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
                 _statusVM.Status = LaunchStatus.Failed;
                 return;
             }
-
-            CanLaunch = false;
 
             _statusVM.GameOutputLog = null;
             this.ActivateItem(_statusVM);
 
             _statusVM.Status = LaunchStatus.LoggingIn;
 
-            var authResult =
-                _config.OfflineMode ? AuthService.GetOfflineProfile(_config.Username) :
-                _config.UseToken ? await AuthService.RefreshAsync(_config.ClientToken, _config.AccessToken) :
-                                   await AuthService.LoginAsync(_config.Email, _config.Password);
-
-            if (authResult.IsSuccessful)
+            // No account found, the user must create one
+            var account = _accountService.GetSelected();
+            if (account == null)
             {
-                _config.UseToken = true;
-                _config.ClientToken = authResult.ClientToken;
-                _config.AccessToken = authResult.AccessToken;
+                _accountEditVM.Setup(AccountEditType.AddAccount, account);
 
-                _config.Username = authResult.Username;
-                _config.UUID = authResult.UUID;
-                _eventAggregator.Publish(new UsernameChangedEvent());
-            }
-            else
-            {
-                _statusVM.Status = LaunchStatus.Failed;
-
-                if (authResult.ErrorType == AuthErrorType.InvalidToken)
+                if (_windowManager.ShowDialog(_accountEditVM) != true)
                 {
-                    // Clear the invalid token, using email and password for authentication next time
-                    _config.AccessToken = null;
-                    _config.UseToken = false;
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
                 }
+            }
 
-                _windowManager.ShowMessageBox(authResult.ErrorMessage, "${AuthFailed}",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+            // Previous login token is invalid, need re-authentication
+            var authResult = await _authService.LoginAsync(account);
+            if (!authResult.IsSuccessful)
+            {
+                _accountEditVM.Setup(AccountEditType.ReAuth, account);
 
-                return;
+                if (_windowManager.ShowDialog(_accountEditVM) != true)
+                {
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
+                }
             }
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
-            var launchVersion = _versionService.GetByID(SelectedVersionID);
+            var launchVersion = _versionService.GetByID(_config.SelectedVersion);
 
             // Check main jar and fix possible damage
             if (!_versionService.CheckIntegrity(launchVersion))
@@ -215,9 +166,10 @@ namespace GBCLV3.ViewModels.Pages
             if (damagedLibs.Any())
             {
                 // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
-                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.Forge))
+                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.ForgeMain
+                                                                                         ))
                 {
-                    _windowManager.ShowMessageBox("${ForgeJarDamagedError}\n${PleaseReinstallForge}", null,
+                    _windowManager.ShowMessageBox("${MainJarDamaged}\n${PleaseReinstallForge}", "${IntegrityCheck}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     // Delete the damaged forge version (but retain the libraries)
                     // force user to reinstall it
@@ -253,8 +205,8 @@ namespace GBCLV3.ViewModels.Pages
             // Check assets and fix possible damage on user's discretion
             var damagedAssets = await _assetService.CheckIntegrityAsync(launchVersion.AssetsInfo);
             if ((damagedAssets?.Any() ?? false) &&
-                _windowManager.ShowMessageBox("${AssetsDamagedError}\n${WhetherFixNow}", null,
-                MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                _windowManager.ShowMessageBox("${AssetsDamaged}\n${WhetherFixNow}", "${IntegrityCheck}",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 var downloads = _assetService.GetDownloads(damagedAssets);
                 await StartDownloadAsync(DownloadType.Assets, downloads);
@@ -269,9 +221,9 @@ namespace GBCLV3.ViewModels.Pages
                 IsDebugMode = _config.JavaDebugMode,
                 JvmArgs = _config.JvmArgs,
                 MaxMemory = _config.JavaMaxMem,
-                Username = _config.Username,
-                UUID = authResult.UUID,
-                AccessToken = authResult.AccessToken,
+                Username = account.Username,
+                UUID = account.UUID,
+                AccessToken = account.AccessToken,
                 UserType = authResult.UserType,
                 VersionType = AssemblyUtil.Title,
                 WinWidth = _config.WindowWidth,
@@ -296,20 +248,20 @@ namespace GBCLV3.ViewModels.Pages
             _statusVM.Status = LaunchStatus.Running;
 
             _launchService.LogReceived -= UpdateLogDisplay;
-            _statusVM.GameOutputLog = "_(:3」∠)_";
+            _statusVM.GameOutputLog = XD;
         }
 
         #endregion
 
         #region Private Methods
 
-        private async Task<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
+        private async ValueTask<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
             _statusVM.Status = LaunchStatus.Downloading;
 
             using var downloadService = new DownloadService(items);
-            _downloadVM.Setup(type, downloadService);
-            this.ActivateItem(_downloadVM);
+            _downloadStatusVM.Setup(type, downloadService);
+            this.ActivateItem(_downloadStatusVM);
 
             bool isSuccessful = await downloadService.StartAsync();
 
@@ -374,6 +326,15 @@ namespace GBCLV3.ViewModels.Pages
         protected override void OnViewLoaded()
         {
             if (_statusVM.Status == LaunchStatus.Failed) CanLaunch = true;
+        }
+
+        protected override async void OnInitialActivate()
+        {
+            if (_accountService.Any())
+            {
+                await _accountService.LoadSkinsAsync();
+                GreetingVM = new GreetingViewModel(_accountService.GetSelected());
+            }
         }
 
         #endregion

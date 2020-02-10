@@ -6,6 +6,8 @@ namespace GBCLV3.Utils
 {
     static class CryptUtil
     {
+        public static string Guid => System.Guid.NewGuid().ToString("N");
+
         public static string GetStringMD5(string str)
         {
             using var md5Provider = new MD5CryptoServiceProvider();

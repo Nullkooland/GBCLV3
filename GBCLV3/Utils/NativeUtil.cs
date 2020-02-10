@@ -56,7 +56,7 @@ namespace GBCLV3.Utils
             return (uint)(status.AvailablePhysicalMemory / (1024 * 1024));
         }
 
-        public static uint GetRecommendedMemory() => 
+        public static uint GetRecommendedMemory() =>
             (uint)Math.Pow(2.0, Math.Floor(Math.Log(GetAvailablePhysicalMemory(), 2.0)));
 
         #endregion

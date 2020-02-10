@@ -1,4 +1,5 @@
-﻿using Stylet;
+﻿using GBCLV3.ViewModels.Tabs;
+using Stylet;
 using StyletIoC;
 
 namespace GBCLV3.ViewModels

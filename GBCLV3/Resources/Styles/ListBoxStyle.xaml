@@ -6,7 +6,7 @@
     <!-- This is just a workaround for a bug currently found in the adonisUI toolkit -->
     <!-- Will be removed when adonisUI's author fixes the bug -->
     <Style x:Key="ListBoxItemWithoutRippleStyle" TargetType="ListBoxItem">
-        <Setter Property="Padding" Value="8, 4"/>
+        <Setter Property="Padding" Value="0, 4"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="VerticalContentAlignment" Value="Stretch"/>
         <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>

@@ -1,4 +1,8 @@
-﻿using System;
+﻿using GBCLV3.Models;
+using GBCLV3.Utils;
+using Stylet;
+using StyletIoC;
+using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -6,10 +10,6 @@ using System.Windows;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using GBCLV3.Models;
-using GBCLV3.Utils;
-using Stylet;
-using StyletIoC;
 
 namespace GBCLV3.Services
 {
@@ -35,7 +35,7 @@ namespace GBCLV3.Services
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private const string ICONS_SOURCE = "/GBCL;component/Resources/Styles/Icons.xaml";
         private const string DEFAULT_BACKGROUND_IMAGE = "pack://application:,,,/Resources/Images/default_background.png";

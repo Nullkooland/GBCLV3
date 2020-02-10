@@ -1,10 +1,13 @@
-﻿using System;
+﻿using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Utils;
+using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Text.Json;
-using GBCLV3.Models;
-using GBCLV3.Models.Launcher;
-using GBCLV3.Utils;
 
 namespace GBCLV3.Services
 {
@@ -16,7 +19,7 @@ namespace GBCLV3.Services
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private const string CONFIG_FILENAME = "GBCL.json";
 
@@ -36,8 +39,6 @@ namespace GBCLV3.Services
                 // Default configurations
                 Entries = new Config
                 {
-                    Username = "Steve",
-                    OfflineMode = true,
                     JavaMaxMem = NativeUtil.GetRecommendedMemory(),
                     WindowWidth = 854,
                     WindowHeight = 480,
@@ -45,6 +46,8 @@ namespace GBCLV3.Services
                     DownloadSource = DownloadSource.Official,
                 };
             }
+
+            Entries.Accounts ??= new List<Account>(4);
 
             if (string.IsNullOrWhiteSpace(Entries.GameDir))
             {
@@ -70,7 +73,8 @@ namespace GBCLV3.Services
 
         public void Save()
         {
-            string json = JsonSerializer.Serialize(Entries, new JsonSerializerOptions { WriteIndented = true });
+            string json = JsonSerializer.Serialize(Entries, 
+                new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
             File.WriteAllText(CONFIG_FILENAME, json, Encoding.UTF8);
         }
 

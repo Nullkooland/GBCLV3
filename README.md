@@ -11,7 +11,7 @@
       <img src="https://img.shields.io/badge/platform-win--64-lightgrey.svg" alt="Platform">
     </a>
         <a>
-      <img src="https://img.shields.io/badge/.NET%20Core-%3E%3D3.0-blueviolet.svg" alt=".NET Version">
+      <img src="https://img.shields.io/badge/.NET%20Core-%3E%3D3.1-blueviolet.svg" alt=".NET Version">
     </a>
     <a href="https://github.com/Goose-Bomb/GBCLV3/archive/master.zip">
       <img src="https://img.shields.io/github/languages/code-size/Goose-Bomb/GBCLV3.svg" alt="Code Size" />
@@ -28,6 +28,10 @@
 
 [简体中文](./README-CN.md)
 
+## System Requirement
+* Windows 10 x64 Only
+* [.NET Core 3.1 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet-core/3.1) is required!
+
 ## Highlights
 
 * MVVM Framework 🧶
@@ -41,13 +45,16 @@
   - [x] Version segregation
   - [x] 1.13+ Support
   - [x] Forge version
+  - [x] Fabric version
 
 - [x] Authentication
+  - [x] Account Manegement
   - [x] Email and Password Login
   - [x] Token Refresh
+  - [ ] External authentication ([authlib-injector](https://github.com/yushijinhun/authlib-injector))
 
 - [x] Download and Installation
-  - [x] Parallel download
+  - [x] Parallel http download
   - [x] Retry incomplete downloads
   - [x] Fix damaged dependencies (main jar, libraries, assets)
   - [x] Install new version
@@ -77,10 +84,10 @@
 
 ## Screenshots
 
-<img src="./Screenshots/cover_0.png" width="720"/>
-<img src="./Screenshots/en_literally_code_behind.png" width="720"/>
-<img src="./Screenshots/en_game_settings.png" width="720"/>
-<img src="./Screenshots/en_launcher_settings.png" width="720"/>
-<img src="./Screenshots/en_versions_management.png" width="720"/>
-<img src="./Screenshots/en_mods_management.png" width="720"/>
-<img src="./Screenshots/en_resourcepacks_management.png" width="720"/>
+<img src="./Screenshots/main_en.png" width="720"/>
+<img src="./Screenshots/blur_behind_en.png" width="720"/>
+<img src="./Screenshots/versions_en.png" width="720"/>
+<img src="./Screenshots/accounts_en.png" width="720"/>
+<img src="./Screenshots/settings_en.png" width="720"/>
+<img src="./Screenshots/mods_en.png" width="720"/>
+<img src="./Screenshots/resourcepacks_en.png" width="720"/>

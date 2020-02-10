@@ -41,8 +41,8 @@
                   Height="32"
                   Background="{DynamicResource ControlTranslucentBrush}"
                   FontSize="16"
-                  ItemsSource="{Binding Versions, Mode=OneWay}" DisplayMemberPath="ID"
-                  SelectedValue="{Binding SelectedVersionID}" SelectedValuePath="ID"/>
+                  ItemsSource="{Binding VersionsVM.Versions, Mode=OneWay}" DisplayMemberPath="ID"
+                  SelectedValue="{Binding VersionsVM.SelectedVersionID}" SelectedValuePath="ID"/>
 
         <Button Grid.Column="2" Margin="0,8,8,8"
                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"

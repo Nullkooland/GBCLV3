@@ -1,5 +1,10 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
@@ -22,7 +27,7 @@ namespace GBCLV3.Tests
             _configService.Entries.SelectedVersion = ID;
 
             var gamePathService = new GamePathService(_configService);
-            var urlServie = new UrlService(_configService);
+            var urlServie = new DownloadUrlService(_configService);
 
             _versionService = new VersionService(gamePathService, urlServie);
             _libraryService = new LibraryService(gamePathService, urlServie);

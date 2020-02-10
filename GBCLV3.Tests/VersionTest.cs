@@ -1,5 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Linq;
+using GBCLV3.Models.Download;
+using GBCLV3.Services;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace GBCLV3.Tests
@@ -20,14 +24,14 @@ namespace GBCLV3.Tests
             _configService.Entries.GameDir = GAME_ROOT_DIR;
 
             var gamePathService = new GamePathService(_configService);
-            var urlServie = new UrlService(_configService);
+            var urlServie = new DownloadUrlService(_configService);
 
             _versionService = new VersionService(gamePathService, urlServie);
 
             _versionService.LoadAll();
             Assert.IsTrue(_versionService.Any(), "No available versions!");
 
-            foreach (var version in _versionService.GetAvailable())
+            foreach (var version in _versionService.GetAll())
             {
                 Debug.WriteLine(version.ID);
                 //Debug.WriteLine();
@@ -37,7 +41,7 @@ namespace GBCLV3.Tests
         [TestMethod]
         public void GetDownloadsTest()
         {
-            var downloads = _versionService.GetAvailable()
+            var downloads = _versionService.GetAll()
                                            .Select(version => _versionService.GetDownload(version))
                                            .Aggregate((prev, current) => prev.Concat(current));
 

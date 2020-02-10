@@ -6,24 +6,29 @@
         xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
         Width="640" Height="360"
         ResizeMode="NoResize"
-        UseLayoutRounding="True"
-        Topmost="True"
-        Background="#80333333"
         FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
         FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
         Style="{StaticResource UniversalWindowStyle}"
         Title="{DynamicResource UpdateAvailable}">
 
+    <Window.Resources>
+        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+            <Setter Property="Margin" Value="0,0,8,8" />
+            <Setter Property="Width" Value="96" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="36"/>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="36" />
         </Grid.RowDefinitions>
-        
+
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3*"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <GroupBox Grid.Row="0" Grid.ColumnSpan="3" Margin="8"
@@ -32,40 +37,38 @@
                 <TextBlock Margin="8,4"
                            Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"
                            FontSize="24"
-                           Text="{Binding Version, Mode=OneWay}"/>
-                
+                           Text="{Binding Version, Mode=OneWay}" />
+
                 <TextBlock Margin="8,4"
                            FontSize="16" FontWeight="Bold"
                            TextWrapping="Wrap"
-                           Text="{Binding ChangelogTitle, Mode=OneWay}"/>
+                           Text="{Binding ChangelogTitle, Mode=OneWay}" />
 
                 <TextBlock Margin="16,0"
                            FontSize="14"
                            TextWrapping="Wrap"
-                           Text="{Binding ChangelogDetails, Mode=OneWay}"/>
+                           Text="{Binding ChangelogDetails, Mode=OneWay}" />
             </StackPanel>
         </GroupBox>
 
-        <Button Grid.Row="1" Grid.Column="1" Margin="0,0,8,8"
-                FontSize="14"
+        <Button Grid.Row="1" Grid.Column="1"
                 Content="{DynamicResource UpdateNow}"
                 Click="{s:Action Update}"
                 Visibility="{Binding IsDownloading, Mode=OneWay,
-                                  Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+                                  Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
 
-        <Button Grid.Row="1" Grid.Column="2" Margin="0,0,8,8"
-                FontSize="14"
+        <Button Grid.Row="1" Grid.Column="2"
                 Content="{DynamicResource DeferUpdate}"
                 Click="{s:Action Defer}"
                 Visibility="{Binding IsDownloading, Mode=OneWay,
-                                  Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+                                  Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
 
         <ProgressBar Grid.Row="1" Grid.ColumnSpan="3" Margin="8,0,8,8"
                      FontSize="14"
                      adonisExtensions:ProgressBarExtension.Content="{Binding Percentage, Mode=OneWay}"
                      Value="{Binding DownloadProgress, Mode=OneWay}" Maximum="1.0"
                      Visibility="{Binding IsDownloading, Mode=OneWay,
-                                  Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
-        
+                                  Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
+
     </Grid>
 </Window>

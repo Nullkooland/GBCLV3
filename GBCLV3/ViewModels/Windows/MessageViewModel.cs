@@ -1,12 +1,12 @@
-﻿using System;
+﻿using GBCLV3.Services;
+using Stylet;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows;
-using GBCLV3.Services;
-using Stylet;
-using StyletIoC;
 
 namespace GBCLV3.Views.Windows
 {

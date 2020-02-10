@@ -5,9 +5,6 @@
         xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
         Width="640" SizeToContent="Height"
         ResizeMode="NoResize"
-        UseLayoutRounding="True"
-        Topmost="True"
-        Background="#80333333"
         FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
         FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
         Style="{StaticResource UniversalWindowStyle}"
@@ -24,7 +21,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="32"/>
+            <RowDefinition Height="36"/>
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Margin="8"

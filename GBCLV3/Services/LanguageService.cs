@@ -13,7 +13,7 @@ namespace GBCLV3.Services
 
         #endregion
 
-        #region Private Members
+        #region Private Fields
 
         private readonly Dictionary<string, string> _langSelections = new Dictionary<string, string>
         {

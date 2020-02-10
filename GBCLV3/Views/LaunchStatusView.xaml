@@ -69,14 +69,21 @@
                     Width="48" Height="32"
                     ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingBars}}"
                     Foreground="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
-                    Visibility="{Binding IsSucceeded, Mode=OneWay, 
-                                 Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+                    Visibility="{Binding IsInLaunchProcess, Mode=OneWay, 
+                                 Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
     <TextBlock Grid.Column="0"
                HorizontalAlignment="Center" VerticalAlignment="Center"
                FontFamily="Segoe MDL2 Assets" FontSize="28"
                Text="&#xE899;"
                Visibility="{Binding IsSucceeded, Mode=OneWay, 
+                            Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
+
+    <TextBlock Grid.Column="0"
+               HorizontalAlignment="Center" VerticalAlignment="Center"
+               FontFamily="Segoe MDL2 Assets" FontSize="28"
+               Text="&#xF5A8;"
+               Visibility="{Binding IsFailed, Mode=OneWay, 
                             Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
 
     <Line Grid.Column="0"

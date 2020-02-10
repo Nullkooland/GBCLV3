@@ -1,15 +1,16 @@
-﻿using System.Text;
-using System.Windows;
-using GBCLV3.Models;
+﻿using GBCLV3.Models.Download;
 using GBCLV3.Services;
+using GBCLV3.Services.Download;
 using Stylet;
 using StyletIoC;
+using System.Text;
+using System.Windows;
 
 namespace GBCLV3.ViewModels.Windows
 {
     class UpdateViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         private DownloadService _downloadService;
 
@@ -107,7 +108,7 @@ namespace GBCLV3.ViewModels.Windows
             Version = $"{info.Name} - {info.ReleaseTime.ToString("yyyy/MM/dd")}";
 
             // Download and display changelog
-            var changelog = await _updateService.GetChangelog(info);
+            var changelog = await _updateService.GetChangelogAsync(info);
             ChangelogTitle = changelog.Title;
 
             var builder = new StringBuilder(512);

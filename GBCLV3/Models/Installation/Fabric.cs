@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using GBCLV3.Models.JsonClasses;
+﻿using GBCLV3.Models.Launch;
+using System.Collections.Generic;
 
 namespace GBCLV3.Models.Installation
 {

@@ -1,4 +1,5 @@
 ﻿using GBCLV3.Models.Installation;
+using GBCLV3.ViewModels.Tabs;
 using Stylet;
 using StyletIoC;
 
@@ -6,7 +7,7 @@ namespace GBCLV3.ViewModels.Pages
 {
     class VersionsRootViewModel : Conductor<IScreen>.StackNavigation
     {
-        #region Private Members
+        #region Private Fields
 
         //IoC
         private readonly VersionsManagementViewModel _versionsManagementVM;

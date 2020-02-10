@@ -11,7 +11,7 @@
       <img src="https://img.shields.io/badge/platform-win--64-lightgrey.svg" alt="Platform">
     </a>
         <a>
-      <img src="https://img.shields.io/badge/.NET%20Core-%3E%3D3.0-blueviolet.svg" alt=".NET Version">
+      <img src="https://img.shields.io/badge/.NET%20Core-%3E%3D3.1-blueviolet.svg" alt=".NET Version">
     </a>
     <a href="https://github.com/Goose-Bomb/GBCLV3/archive/master.zip">
       <img src="https://img.shields.io/github/languages/code-size/Goose-Bomb/GBCLV3.svg" alt="Code Size" />
@@ -26,11 +26,15 @@
   <p align="center">鹅弹的Minecraft客户端启动器 V3</p>
 </p>
 
+## 系统要求
+* Windows 10 64 操作系统
+* 需要 [.NET Core 3.1 桌面运行时](https://dotnet.microsoft.com/download/dotnet-core/3.1)
+
 ## 亮点
 
 * MVVM框架 🧶
 * 简单易用 (但愿吧 🤣)
-* Win10风格 😎✨
+* Win10 风格 😎✨
 
 ## 功能
 
@@ -38,11 +42,14 @@
   - [x] 自动检测 JRE 路径
   - [x] 版本分离
   - [x] 1.13+ 支持
-  - [x] Forge版本
+  - [x] Forge 版本
+  - [x] Fabric 版本
 
 - [x] 验证登录
+  - [x] 账户管理
   - [x] 邮箱密码登录
   - [x] 令牌刷新
+  - [ ] 外置登录（基于 [authlib-injector](https://github.com/yushijinhun/authlib-injector)）
 
 - [x] 下载安装
   - [x] 并发下载
@@ -74,9 +81,10 @@
 - [x] 自动升级（基于Github）
 
 ## 运行截图
-<img src="./Screenshots/cover_0.png" width="720"/>
-<img src="./Screenshots/cn_literally_code_behind.png" width="720"/>
-<img src="./Screenshots/cn_game_settings.png" width="720"/>
-<img src="./Screenshots/cn_launcher_settings.png" width="720"/>
-<img src="./Screenshots/cn_versions_management.png" width="720"/>
-<img src="./Screenshots/cn_mods_management.png" width="720"/>
+<img src="./Screenshots/main_zh.png" width="720"/>
+<img src="./Screenshots/blur_behind_zh.png" width="720"/>
+<img src="./Screenshots/versions_zh.png" width="720"/>
+<img src="./Screenshots/accounts_zh.png" width="720"/>
+<img src="./Screenshots/settings_zh.png" width="720"/>
+<img src="./Screenshots/mods_zh.png" width="720"/>
+<img src="./Screenshots/resourcepacks_zh.png" width="720"/>

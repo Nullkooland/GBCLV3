@@ -1,16 +1,16 @@
-﻿using System.Media;
-using System.Windows;
-using GBCLV3.Models;
+﻿using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
+using System.Media;
+using System.Windows;
 
 namespace GBCLV3.ViewModels.Windows
 {
     class ErrorReportViewModel : Screen
     {
-        #region Private Members
+        #region Private Fields
 
         private const string ISSUES_URL = "https://github.com/Goose-Bomb/GBCLV3/issues";
         private string _errorMessage;

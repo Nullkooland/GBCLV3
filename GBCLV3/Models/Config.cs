@@ -1,10 +1,10 @@
-﻿using System.Text.Json.Serialization;
-using GBCLV3.Models.Launcher;
+﻿using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using System.Collections.Generic;
 
 namespace GBCLV3.Models
 {
-    class UsernameChangedEvent { }
-
     class Config
     {
         #region Game Configurations
@@ -14,23 +14,6 @@ namespace GBCLV3.Models
         public string SelectedVersion { get; set; }
 
         public bool SegregateVersions { get; set; }
-
-        public string Username { get; set; }
-
-        public bool OfflineMode { get; set; }
-
-        public string UUID { get; set; }
-
-        public string Email { get; set; }
-
-        [JsonIgnore]
-        public string Password { get; set; }
-
-        public bool UseToken { get; set; }
-
-        public string ClientToken { get; set; }
-
-        public string AccessToken { get; set; }
 
         public string JreDir { get; set; }
 
@@ -49,6 +32,11 @@ namespace GBCLV3.Models
         public string ServerAddress { get; set; }
 
         public string ExtraMinecraftArgs { get; set; }
+
+        #endregion
+
+        #region User Accounts
+        public List<Account> Accounts { get; set; }
 
         #endregion
 

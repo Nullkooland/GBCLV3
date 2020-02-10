@@ -1,23 +1,23 @@
-﻿using System;
+﻿using GBCLV3.Models.Installation;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using GBCLV3.Models.Installation;
-using GBCLV3.Models.JsonClasses;
-using GBCLV3.Services.Launcher;
-using StyletIoC;
-using Version = GBCLV3.Models.Launcher.Version;
+using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
     class FabricInstallService
     {
-        #region Private Members
+        #region Private Fields
 
-        private const string FABRIC_LIST_URL = "https://meta.fabricmc.net//v2/versions/loader/";
         private const string FABRIC_MAVEN_URL = "https://maven.fabricmc.net/";
 
         private readonly HttpClient _client;
@@ -26,6 +26,7 @@ namespace GBCLV3.Services.Installation
 
         // IoC
         private readonly GamePathService _gamePathService;
+        private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
 
         #endregion
@@ -35,9 +36,11 @@ namespace GBCLV3.Services.Installation
         [Inject]
         public FabricInstallService(
             GamePathService gamePathService,
+            DownloadUrlService downloadUrlService,
             VersionService versionService)
         {
             _gamePathService = gamePathService;
+            _urlService = downloadUrlService;
             _versionService = versionService;
 
             _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
@@ -47,11 +50,11 @@ namespace GBCLV3.Services.Installation
 
         #region Public Methods
 
-        public async Task<IEnumerable<Fabric>> GetDownloadListAsync(string id)
+        public async ValueTask<IEnumerable<Fabric>> GetDownloadListAsync(string id)
         {
             try
             {
-                string json = await _client.GetStringAsync(FABRIC_LIST_URL + id);
+                string json = await _client.GetStringAsync(_urlService.Base.Fabric + id);
                 return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
             }
             catch (HttpRequestException ex)
@@ -61,7 +64,7 @@ namespace GBCLV3.Services.Installation
             }
             catch (OperationCanceledException)
             {
-                // Timeout
+                // AuthTimeout
                 Debug.WriteLine("[ERROR] Get fabric download list timeout");
                 return null;
             }

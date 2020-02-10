@@ -1,14 +1,21 @@
-﻿using System.Diagnostics;
+﻿using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Download;
+using GBCLV3.Services;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Stylet;
 
 namespace GBCLV3.Tests
 {
     [TestClass]
     public class AssetTest
     {
-        private const string GAME_ROOT_DIR = "G:/Minecraft/1.12.2/.minecraft";
-        private const string ID = "1.6.4";
+        private const string GAME_ROOT_DIR = @"D:\Games\Minecraft\.minecraft";
+        private const string ID = "1.14.4";
 
         private readonly ConfigService _configService;
         private readonly VersionService _versionService;
@@ -22,7 +29,7 @@ namespace GBCLV3.Tests
             _configService.Entries.SelectedVersion = ID;
 
             var gamePathService = new GamePathService(_configService);
-            var urlServie = new UrlService(_configService);
+            var urlServie = new DownloadUrlService(_configService);
 
             _versionService = new VersionService(gamePathService, urlServie);
             _assetService = new AssetService(gamePathService, urlServie);

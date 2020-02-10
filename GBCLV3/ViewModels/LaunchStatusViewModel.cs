@@ -1,5 +1,4 @@
-﻿using System.Windows.Media.Imaging;
-using GBCLV3.Models.Launcher;
+﻿using GBCLV3.Models.Launch;
 using Stylet;
 
 namespace GBCLV3.ViewModels
@@ -15,6 +14,9 @@ namespace GBCLV3.ViewModels
 
         public bool IsSucceeded =>
             Status == LaunchStatus.Running;
+
+        public bool IsFailed =>
+            Status == LaunchStatus.Failed;
 
         public LaunchStatus Status { get; set; }
 

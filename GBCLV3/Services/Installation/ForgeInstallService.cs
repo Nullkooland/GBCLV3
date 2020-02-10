@@ -1,4 +1,9 @@
-﻿using System;
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Models.Installation;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
+using StyletIoC;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -9,26 +14,19 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
-using GBCLV3.Models;
-using GBCLV3.Models.Installation;
-using GBCLV3.Models.JsonClasses;
-using GBCLV3.Services.Launcher;
-using StyletIoC;
-using Version = GBCLV3.Models.Launcher.Version;
+using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
     class ForgeInstallService
     {
-        #region Private Members
-
-        private const string FORGE_LIST_URL = "https://bmclapi2.bangbang93.com/forge/minecraft/";
+        #region Private Fields
 
         private readonly HttpClient _client;
 
         // IoC
         private readonly GamePathService _gamePathService;
-        private readonly UrlService _urlService;
+        private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
 
         #endregion
@@ -38,25 +36,25 @@ namespace GBCLV3.Services.Installation
         [Inject]
         public ForgeInstallService(
             GamePathService gamePathService,
-            UrlService urlService,
+            DownloadUrlService urlService,
             VersionService versionService)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
             _versionService = versionService;
 
-            _client = new HttpClient() { Timeout = System.TimeSpan.FromSeconds(10) };
+            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
         }
 
         #endregion
 
         #region Public Methods
 
-        public async Task<IEnumerable<Forge>> GetDownloadListAsync(string id)
+        public async ValueTask<IEnumerable<Forge>> GetDownloadListAsync(string id)
         {
             try
             {
-                string json = await _client.GetStringAsync(FORGE_LIST_URL + id);
+                string json = await _client.GetStringAsync(_urlService.Base.ForgeList + id);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
                 int[] nums = id.Split('.')
@@ -66,10 +64,8 @@ namespace GBCLV3.Services.Installation
                                  {
                                      return num;
                                  }
-                                 else
-                                 {
-                                     return -1;
-                                 }
+
+                                 return -1;
                              })
                              .ToArray();
 
@@ -96,7 +92,7 @@ namespace GBCLV3.Services.Installation
             }
             catch (OperationCanceledException)
             {
-                // Timeout
+                // AuthTimeout
                 Debug.WriteLine("[ERROR] Get forge download list timeout");
                 return null;
             }
@@ -123,7 +119,7 @@ namespace GBCLV3.Services.Installation
             return new List<DownloadItem>(1) { item };
         }
 
-        public async Task<Version> ManualInstall(Forge forge)
+        public async ValueTask<Version> ManualInstallAsync(Forge forge)
         {
             string id = $"{forge.GameVersion}-forge-{forge.Version}";
             string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";

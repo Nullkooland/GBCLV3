@@ -1,0 +1,141 @@
+﻿using GBCLV3.Models.Download;
+using GBCLV3.Utils;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+
+namespace GBCLV3.Models.Launch
+{
+    [TypeConverter(typeof(EnumDescriptionTypeConverter))]
+    enum VersionType
+    {
+        [Description("Release")]
+        Release,
+
+        [Description("Snapshot")]
+        Snapshot,
+
+        [Description("Forge")]
+        Forge,
+
+        [Description("Forge")]
+        NewForge,
+
+        [Description("OptiFine")]
+        OptiFine,
+
+        [Description("Fabric")]
+        Fabric,
+    }
+
+    class Version
+    {
+        public string ID { get; set; }
+
+        public string JarID { get; set; }
+
+        public int Size { get; set; }
+
+        public string SHA1 { get; set; }
+
+        public string Url { get; set; }
+
+        public string InheritsFrom { get; set; }
+
+        public Dictionary<string, string> MinecarftArgsDict { get; set; }
+
+        public string MainClass { get; set; }
+
+        public VersionType Type { get; set; }
+
+        public List<Library> Libraries { get; set; }
+
+        public AssetsInfo AssetsInfo { get; set; }
+    }
+
+    class VersionDownload
+    {
+        public string ID { get; set; }
+
+        public string Url { get; set; }
+
+        public DateTime ReleaseTime { get; set; }
+
+        public VersionType Type { get; set; }
+    }
+
+    class LatestVersion
+    {
+        public string Release { get; set; }
+
+        public string Snapshot { get; set; }
+    }
+
+    #region Json Class
+
+    /// <summary>
+    /// Json instance of a Minecraft version from local json
+    /// </summary>
+    class JVersion
+    {
+        public JFile assetIndex { get; set; }
+
+        public string assets { get; set; }
+
+        public JMainJarDownload downloads { get; set; }
+
+        public string id { get; set; }
+
+        public List<JLibrary> libraries { get; set; }
+
+        public string mainClass { get; set; }
+
+        public JArguments arguments { get; set; }
+
+        public string minecraftArguments { get; set; }
+
+        public string type { get; set; }
+
+        public string inheritsFrom { get; set; }
+
+        public string jar { get; set; }
+    }
+
+    /// <summary>
+    /// Json instance of version downloads list
+    /// </summary>
+    class JVersionList
+    {
+        public JLatesetVersion latest { get; set; }
+
+        public List<JDownloadVersion> versions { get; set; }
+    }
+
+    /// <summary>
+    /// Json instance of the latest Minecraft version
+    /// </summary>
+    class JLatesetVersion
+    {
+        public string release { get; set; }
+
+        public string snapshot { get; set; }
+    }
+
+    /// <summary>
+    /// Json instance of a Minecraft version from download list
+    /// </summary>
+    class JDownloadVersion
+    {
+        public string id { get; set; }
+
+        public string type { get; set; }
+
+        public string url { get; set; }
+
+        public DateTime time { get; set; }
+
+        public DateTime releaseTime { get; set; }
+    }
+
+    #endregion
+}
