@@ -5,7 +5,7 @@
     <Style x:Key="BlurInPageStyle" TargetType="ContentControl">
         <Setter Property="Effect">
             <Setter.Value>
-                <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality"/>
+                <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality" />
             </Setter.Value>
         </Setter>
 
@@ -16,12 +16,12 @@
                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                          Duration="0:0:0.3"
                                          AccelerationRatio="0.3" DecelerationRatio="0.25"
-                                         From="0.0" To="1.0"/>
+                                         From="0.0" To="1.0" />
 
                         <DoubleAnimation Storyboard.TargetProperty="(Effect).(BlurEffect.Radius)"
                                          Duration="0:0:0.3"
                                          AccelerationRatio="0.1" DecelerationRatio="0.6"
-                                         From="16" To="0"/>
+                                         From="16" To="0" />
                     </Storyboard>
                 </BeginStoryboard>
             </EventTrigger>
@@ -30,7 +30,7 @@
 
     <Style x:Key="TabPageStyle" TargetType="ContentControl">
         <Style.Setters>
-            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="ContentControl">
@@ -38,7 +38,7 @@
                                       HorizontalScrollBarVisibility="Disabled"
                                       VerticalScrollBarVisibility="{TemplateBinding ScrollViewer.VerticalScrollBarVisibility}"
                                       Padding="0">
-                            <ContentPresenter/>
+                            <ContentPresenter />
                         </ScrollViewer>
 
                         <ControlTemplate.Triggers>
@@ -48,12 +48,12 @@
                                         <DoubleAnimation Storyboard.TargetProperty="Opacity"
                                                          Duration="0:0:0.3"
                                                          AccelerationRatio="0.4" DecelerationRatio="0.2"
-                                                         From="0.0" To="1.0"/>
+                                                         From="0.0" To="1.0" />
 
-                                        <ThicknessAnimation Storyboard.TargetProperty="Margin" 
+                                        <ThicknessAnimation Storyboard.TargetProperty="Margin"
                                                             Duration="0:0:0.2"
                                                             AccelerationRatio="0.1" DecelerationRatio="0.6"
-                                                            From="0,-20" To="0,0"/>
+                                                            From="0,-20" To="0,0" />
 
                                     </Storyboard>
                                 </BeginStoryboard>

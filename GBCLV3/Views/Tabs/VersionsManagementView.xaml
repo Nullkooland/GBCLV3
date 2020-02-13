@@ -2,60 +2,60 @@
                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                 xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
                 xmlns:utils="clr-namespace:GBCLV3.Utils"
                 xmlns:behaviors="clr-namespace:GBCLV3.Behaviors"
-                mc:Ignorable="d" 
+                mc:Ignorable="d"
                 d:DesignHeight="450" d:DesignWidth="800"
                 Style="{StaticResource BlurInPageStyle}">
 
     <ContentControl.Resources>
         <utils:BindingProxy x:Key="Proxy" Data="{Binding}" />
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="0,8,8,8"/>
-            <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,8,8,8" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
-        <DropShadowEffect x:Key="SelectedShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
+        <DropShadowEffect x:Key="SelectedShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75" />
     </ContentControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="48"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="48" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid Grid.Row="0"
               Background="{DynamicResource LightTranslucentBrush}">
 
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0" Margin="16,0,0,0"
                        VerticalAlignment="Center"
                        FontFamily="Segoe MDL2 Assets" FontSize="20"
-                       Text="&#xF158;"/>
+                       Text="&#xF158;" />
 
             <TextBlock Grid.Column="1" Margin="16,0"
                        HorizontalAlignment="Left" VerticalAlignment="Center"
                        FontSize="16"
-                       Text="{DynamicResource VersionsManagement}"/>
+                       Text="{DynamicResource VersionsManagement}" />
 
             <Button Grid.Column="2"
                     Content="{DynamicResource Reload}"
-                    Click="{s:Action Reload}"/>
+                    Click="{s:Action Reload}" />
 
             <Button Grid.Column="3"
                     Content="{DynamicResource InstallNew}"
-                    Click="{s:Action InstallNew}"/>
+                    Click="{s:Action InstallNew}" />
         </Grid>
 
         <ContentControl Grid.Row="1"
@@ -65,19 +65,19 @@
                 <GroupBox.Header>
                     <Grid>
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <TextBlock Grid.Column="0"
                                    VerticalAlignment="Center"
-                                   Text="{DynamicResource AvailableVersions}"/>
+                                   Text="{DynamicResource AvailableVersions}" />
 
                         <CheckBox Grid.Column="1" Margin="8,0"
                                   HorizontalAlignment="Right" VerticalAlignment="Top"
                                   FontSize="14"
                                   Content="{DynamicResource SegregateVersions}"
-                                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}"/>
+                                  IsChecked="{Binding IsSegregateVersions, Mode=TwoWay}" />
                     </Grid>
                 </GroupBox.Header>
 
@@ -87,11 +87,11 @@
                          BorderThickness="1">
 
                     <ListBox.Resources>
-                        <utils:VersionTypeIconConverter x:Key="TypeToIconConverter"/>
+                        <utils:VersionTypeIconConverter x:Key="TypeToIconConverter" />
                         <Style TargetType="Button" BasedOn="{StaticResource LinkButtonStyle}">
-                            <Setter Property="Width" Value="28"/>
-                            <Setter Property="Height" Value="24"/>
-                            <Setter Property="FontSize" Value="16"/>
+                            <Setter Property="Width" Value="28" />
+                            <Setter Property="Height" Value="24" />
+                            <Setter Property="FontSize" Value="16" />
                         </Style>
                     </ListBox.Resources>
 
@@ -99,29 +99,29 @@
                         <DataTemplate>
                             <Grid Background="Transparent">
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="24"/>
-                                    <RowDefinition Height="24"/>
+                                    <RowDefinition Height="24" />
+                                    <RowDefinition Height="24" />
                                 </Grid.RowDefinitions>
 
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="56"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="8"/>
+                                    <ColumnDefinition Width="56" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="8" />
                                 </Grid.ColumnDefinitions>
 
                                 <Image x:Name="TypeIcon"
                                        Grid.RowSpan="2" Grid.Column="0"
                                        Width="40" Height="40"
-                                       Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}"/>
+                                       Source="{Binding Type, Converter={StaticResource TypeToIconConverter}}" />
 
                                 <TextBlock x:Name="NameBox"
                                            Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4" Margin="8,0"
                                            HorizontalAlignment="Left" VerticalAlignment="Bottom"
                                            FontSize="14"
-                                           Text="{Binding ID}"/>
+                                           Text="{Binding ID}" />
 
                                 <TextBlock x:Name="TypeBox"
                                            Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Margin="8,0"
@@ -129,14 +129,14 @@
                                            FontSize="12"
                                            Foreground="{DynamicResource
                                                        {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
-                                           Text="{Binding Type}"/>
+                                           Text="{Binding Type}" />
 
                                 <Button x:Name="OpenDirButton"
                                         Grid.Row="1" Grid.Column="2"
                                         Content="&#xED25;"
                                         ToolTip="{DynamicResource OpenDir}"
                                         Command="{s:Action OpenDir}"
-                                        CommandParameter="{Binding ID}"/>
+                                        CommandParameter="{Binding ID}" />
 
                                 <Button x:Name="InstallAddonButton"
                                         Grid.Row="1" Grid.Column="3"
@@ -144,14 +144,15 @@
                                         ToolTip="{DynamicResource Install}"
                                         behaviors:ButtonLeftClickMenuBehavior.ShowMenuOnLeftClick="True">
                                     <Button.ContextMenu>
-                                        <ContextMenu s:View.ActionTarget="{Binding Data, Source={StaticResource Proxy}}">
+                                        <ContextMenu
+                                            s:View.ActionTarget="{Binding Data, Source={StaticResource Proxy}}">
                                             <MenuItem Header="{DynamicResource InstallForge}"
                                                       Command="{s:Action InstallForge}"
-                                                      CommandParameter="{Binding JarID}"/>
+                                                      CommandParameter="{Binding JarID}" />
 
                                             <MenuItem Header="{DynamicResource InstallFabric}"
                                                       Command="{s:Action InstallFabric}"
-                                                      CommandParameter="{Binding JarID}"/>
+                                                      CommandParameter="{Binding JarID}" />
                                         </ContextMenu>
                                     </Button.ContextMenu>
                                 </Button>
@@ -161,25 +162,25 @@
                                         Content="&#xE74D;"
                                         ToolTip="{DynamicResource Delete}"
                                         Command="{s:Action Delete}"
-                                        CommandParameter="{Binding ID}"/>
+                                        CommandParameter="{Binding ID}" />
 
                                 <Grid.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="{DynamicResource OpenDir}"
                                                   Command="{s:Action OpenDir}"
-                                                  CommandParameter="{Binding ID}"/>
+                                                  CommandParameter="{Binding ID}" />
 
                                         <MenuItem Header="{DynamicResource OpenJson}"
                                                   Command="{s:Action OpenJson}"
-                                                  CommandParameter="{Binding ID}"/>
+                                                  CommandParameter="{Binding ID}" />
 
                                         <MenuItem Header="{DynamicResource InstallForge}"
                                                   Command="{s:Action InstallForge}"
-                                                  CommandParameter="{Binding JarID}"/>
+                                                  CommandParameter="{Binding JarID}" />
 
                                         <MenuItem Header="{DynamicResource InstallFabric}"
                                                   Command="{s:Action InstallFabric}"
-                                                  CommandParameter="{Binding JarID}"/>
+                                                  CommandParameter="{Binding JarID}" />
 
                                         <!--<MenuItem Header="{DynamicResource InstallOptiFine}"
                                                       Command="{s:Action InstallOptiFine}"
@@ -187,35 +188,37 @@
 
                                         <MenuItem Header="{DynamicResource Delete}"
                                                   Command="{s:Action Delete}"
-                                                  CommandParameter="{Binding ID}"/>
+                                                  CommandParameter="{Binding ID}" />
                                     </ContextMenu>
                                 </Grid.ContextMenu>
                             </Grid>
-                            
+
                             <DataTemplate.Triggers>
-                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                       Path=IsSelected}" Value="True">
+                                <DataTrigger
+                                    Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                       Path=IsSelected}"
+                                    Value="True">
                                     <Setter TargetName="TypeIcon" Property="Effect"
-                                            Value="{StaticResource SelectedShadow}"/>
+                                            Value="{StaticResource SelectedShadow}" />
                                     <Setter TargetName="TypeBox" Property="Foreground"
-                                            Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                                            Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}" />
                                     <Setter TargetName="OpenDirButton" Property="Foreground"
                                             Value="{DynamicResource 
-                                                   {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}"/>
+                                                   {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}" />
                                     <Setter TargetName="InstallAddonButton" Property="Foreground"
                                             Value="{DynamicResource 
-                                                   {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}"/>
+                                                   {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}" />
                                     <Setter TargetName="DeleteButton" Property="Foreground"
                                             Value="{DynamicResource 
-                                                   {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}"/>
+                                                   {x:Static adonisUI:Brushes.AccentInteractionForegroundBrush}}" />
                                 </DataTrigger>
                             </DataTemplate.Triggers>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
 
                     <ListBox.InputBindings>
-                        <KeyBinding Key="F5" Command="{s:Action Reload}"/>
-                        <KeyBinding Key="Delete" Command="{s:Action Delete}"/>
+                        <KeyBinding Key="F5" Command="{s:Action Reload}" />
+                        <KeyBinding Key="Delete" Command="{s:Action Delete}" />
                     </ListBox.InputBindings>
                 </ListBox>
             </GroupBox>

@@ -12,16 +12,16 @@
 
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="8,0,0,8"/>
-            <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="8,0,0,8" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="36"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="36" />
         </Grid.RowDefinitions>
 
         <GroupBox Grid.Row="0" Margin="8"
@@ -36,24 +36,24 @@
                          BorderThickness="0"
                          SelectionBrush="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
                          FontFamily="Consolas"
-                         FontSize="{Binding MessageFontSize, Mode=OneWay}" 
+                         FontSize="{Binding MessageFontSize, Mode=OneWay}"
                          TextWrapping="WrapWithOverflow"
                          IsReadOnly="True" IsReadOnlyCaretVisible="True"
-                         Text="{Binding ErrorMessage, Mode=OneWay}"/>
+                         Text="{Binding ErrorMessage, Mode=OneWay}" />
             </ScrollViewer>
         </GroupBox>
-        
-        <StackPanel Grid.Row="1" 
+
+        <StackPanel Grid.Row="1"
                     Orientation="Horizontal" FlowDirection="RightToLeft">
 
             <Button Content="{DynamicResource Alright}"
-                    Click="{s:Action Close}"/>
+                    Click="{s:Action Close}" />
 
             <Button Content="{DynamicResource ReportOnGithub}"
-                    Click="{s:Action Report}"/>
+                    Click="{s:Action Report}" />
 
             <Button Content="{DynamicResource CopyErrorMessage}"
-                    Click="{s:Action CopyMessage}"/>
+                    Click="{s:Action CopyMessage}" />
 
         </StackPanel>
     </Grid>

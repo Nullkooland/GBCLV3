@@ -110,7 +110,7 @@
 
     <!-- 启动器设置 -->
     <s:String x:Key="Language">语言</s:String>
-    
+
     <s:String x:Key="DownloadSource">下载源</s:String>
     <s:String x:Key="Official">官方</s:String>
     <s:String x:Key="BMCLAPI">BMCLAPI 镜像</s:String>
@@ -149,7 +149,7 @@
     <s:String x:Key="DownloadCompletedCount">完成数</s:String>
     <s:String x:Key="DownloadFailedCount">失败数</s:String>
     <s:String x:Key="DownloadSpeed">速度</s:String>
-    
+
     <!-- 版本管理 -->
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
@@ -171,7 +171,7 @@
     <s:String x:Key="VersionListLoadFailed">版本列表获取失败</s:String>
     <s:String x:Key="VersionFetchingJson">正在获取版本json文件</s:String>
     <s:String x:Key="VersionDownloadingDependencies">正在下载依赖项</s:String>
-    
+
     <s:String x:Key="VersionInstallFailed">安装失败</s:String>
     <s:String x:Key="VersionAlreadyExists">已经有相同的本地版本存在！</s:String>
     <s:String x:Key="VersionJsonFetchFailed">json 文件获取失败！</s:String>

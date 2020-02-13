@@ -1,27 +1,29 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:GBCLV3.Resources.Styles"
                     xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
                     xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
                     xmlns:adonisControls="clr-namespace:AdonisUI.Controls;assembly=AdonisUI"
                     xmlns:adonisConverters="clr-namespace:AdonisUI.Converters;assembly=AdonisUI">
-    
+
     <Style x:Key="{x:Type CheckBox}" TargetType="CheckBox">
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}"/>
-        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static adonisUI:Dimensions.BorderThickness}}"/>
-        <Setter Property="adonisExtensions:RippleExtension.BackgroundBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1InteractionBrush}}"/>
-        <Setter Property="adonisExtensions:RippleExtension.BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1InteractionBorderBrush}}"/>
-        <Setter Property="adonisExtensions:RippleExtension.ForegroundBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1InteractionForegroundBrush}}"/>
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}" />
+        <Setter Property="BorderThickness" Value="{DynamicResource {x:Static adonisUI:Dimensions.BorderThickness}}" />
+        <Setter Property="adonisExtensions:RippleExtension.BackgroundBrush"
+                Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1InteractionBrush}}" />
+        <Setter Property="adonisExtensions:RippleExtension.BorderBrush"
+                Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1InteractionBorderBrush}}" />
+        <Setter Property="adonisExtensions:RippleExtension.ForegroundBrush"
+                Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1InteractionForegroundBrush}}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="CheckBox">
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <Border x:Name="BoxBorder" Height="20" Width="20"
@@ -32,19 +34,19 @@
 
                             <Grid>
                                 <adonisControls:RippleHost x:Name="RippleLayer"
-                                MouseEventSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=CheckBox}}"
-                                FadeInDuration="{TemplateBinding adonisExtensions:RippleExtension.FadeInDuration}"
-                                FadeOutDuration="{TemplateBinding adonisExtensions:RippleExtension.FadeOutDuration}"
-                                Background="{TemplateBinding adonisExtensions:RippleExtension.BackgroundBrush}"
-                                BorderBrush="{TemplateBinding adonisExtensions:RippleExtension.BorderBrush}"
-                                Foreground="{TemplateBinding adonisExtensions:RippleExtension.ForegroundBrush}"
-                                Padding="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
-                                Panel.ZIndex="2">
+                                                           MouseEventSource="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType=CheckBox}}"
+                                                           FadeInDuration="{TemplateBinding adonisExtensions:RippleExtension.FadeInDuration}"
+                                                           FadeOutDuration="{TemplateBinding adonisExtensions:RippleExtension.FadeOutDuration}"
+                                                           Background="{TemplateBinding adonisExtensions:RippleExtension.BackgroundBrush}"
+                                                           BorderBrush="{TemplateBinding adonisExtensions:RippleExtension.BorderBrush}"
+                                                           Foreground="{TemplateBinding adonisExtensions:RippleExtension.ForegroundBrush}"
+                                                           Padding="{TemplateBinding Padding}"
+                                                           HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                           VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                           Panel.ZIndex="2">
                                     <adonisControls:RippleHost.ContentTemplate>
                                         <ItemContainerTemplate>
-                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="18" Text="&#xE73E;"/>
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="18" Text="&#xE73E;" />
                                         </ItemContainerTemplate>
                                     </adonisControls:RippleHost.ContentTemplate>
                                 </adonisControls:RippleHost>
@@ -52,9 +54,9 @@
                                 <TextBlock x:Name="CheckMark"
                                            HorizontalAlignment="Center" VerticalAlignment="Center"
                                            Foreground="{TemplateBinding Foreground}"
-                                           FontFamily="Segoe MDL2 Assets" FontSize="18" 
+                                           FontFamily="Segoe MDL2 Assets" FontSize="18"
                                            Text="&#xE73E;"
-                                           Visibility="Hidden"/>
+                                           Visibility="Hidden" />
                             </Grid>
                         </Border>
 
@@ -62,18 +64,18 @@
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                    FontSize="{TemplateBinding FontSize}"
                                    Foreground="{TemplateBinding Foreground}"
-                                   Text="{TemplateBinding Content}"/>
+                                   Text="{TemplateBinding Content}" />
                     </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="CheckMark" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter Property="Background"
-                                    Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1IntenseHighlightBrush}}"/>
+                                    Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1IntenseHighlightBrush}}" />
                             <Setter Property="BorderBrush"
-                                    Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1IntenseHighlightBorderBrush}}"/>
+                                    Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1IntenseHighlightBorderBrush}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -8,7 +8,7 @@
       Visibility="Hidden">
 
     <Grid.Effect>
-        <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality"/>
+        <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality" />
     </Grid.Effect>
 
     <Grid.Style>
@@ -23,26 +23,26 @@
                                                  BeginTime="0:0:1.00"
                                                  Duration="0:0:0.30"
                                                  AccelerationRatio="0.1" DecelerationRatio="0.6"
-                                                 From="16" To="0"/>
+                                                 From="16" To="0" />
 
                                 <ObjectAnimationUsingKeyFrames BeginTime="0:0:1.00"
-                                                   Storyboard.TargetProperty="Visibility">
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.00" Value="{x:Static Visibility.Visible}"/>
-                                    <DiscreteObjectKeyFrame KeyTime="0:0:3.00" Value="{x:Static Visibility.Hidden}"/>
+                                                               Storyboard.TargetProperty="Visibility">
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:0.00" Value="{x:Static Visibility.Visible}" />
+                                    <DiscreteObjectKeyFrame KeyTime="0:0:3.00" Value="{x:Static Visibility.Hidden}" />
                                 </ObjectAnimationUsingKeyFrames>
 
                                 <DoubleAnimationUsingKeyFrames BeginTime="0:0:1.00"
-                                                   Storyboard.TargetProperty="Opacity">
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.00" Value="0.0"/>
-                                    <EasingDoubleKeyFrame  KeyTime="0:0:0.30" Value="1.0">
+                                                               Storyboard.TargetProperty="Opacity">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:0.00" Value="0.0" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:0.30" Value="1.0">
                                         <EasingDoubleKeyFrame.EasingFunction>
-                                            <CubicEase EasingMode="EaseIn"/>
+                                            <CubicEase EasingMode="EaseIn" />
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
-                                    <DiscreteDoubleKeyFrame KeyTime="0:0:2.60" Value="1.0"/>
-                                    <EasingDoubleKeyFrame  KeyTime="0:0:2.98" Value="0.0">
+                                    <DiscreteDoubleKeyFrame KeyTime="0:0:2.60" Value="1.0" />
+                                    <EasingDoubleKeyFrame KeyTime="0:0:2.98" Value="0.0">
                                         <EasingDoubleKeyFrame.EasingFunction>
-                                            <CubicEase EasingMode="EaseOut"/>
+                                            <CubicEase EasingMode="EaseOut" />
                                         </EasingDoubleKeyFrame.EasingFunction>
                                     </EasingDoubleKeyFrame>
                                 </DoubleAnimationUsingKeyFrames>
@@ -55,33 +55,33 @@
     </Grid.Style>
 
     <Grid.RowDefinitions>
-        <RowDefinition Height="*"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="Auto"/>
-        <RowDefinition Height="*"/>
+        <RowDefinition Height="*" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="*" />
     </Grid.RowDefinitions>
 
     <Grid.ColumnDefinitions>
-        <ColumnDefinition Width="80"/>
-        <ColumnDefinition Width="*"/>
+        <ColumnDefinition Width="80" />
+        <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
     <Image Grid.RowSpan="4" Grid.Column="0"
            Width="64" Height="64"
            Source="{Binding CurrentAccount.Avatar, Mode=OneWay}" RenderOptions.BitmapScalingMode="NearestNeighbor">
         <Image.Effect>
-            <DropShadowEffect ShadowDepth="0" Opacity="0.75" BlurRadius="6"/>
+            <DropShadowEffect ShadowDepth="0" Opacity="0.75" BlurRadius="6" />
         </Image.Effect>
     </Image>
 
     <TextBlock Grid.Row="1" Grid.Column="1" Margin="8,4"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                FontSize="18" Foreground="White"
-               Text="{Binding CurrentAccount.Username, Mode=OneWay}"/>
+               Text="{Binding CurrentAccount.Username, Mode=OneWay}" />
 
     <TextBlock Grid.Row="2" Grid.Column="1" Margin="8,4"
                HorizontalAlignment="Left" VerticalAlignment="Center"
-               FontSize="12" 
+               FontSize="12"
                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-               Text="{Binding CurrentAccount.Email, Mode=OneWay}"/>
+               Text="{Binding CurrentAccount.Email, Mode=OneWay}" />
 </Grid>

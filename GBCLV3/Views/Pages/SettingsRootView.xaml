@@ -6,15 +6,15 @@
 
     <TabControl>
         <TabItem Header="&#xE7FC;" Tag="{DynamicResource GameSettings}">
-            <ContentControl s:View.Model="{Binding GameSettingsVM}"/>
+            <ContentControl s:View.Model="{Binding GameSettingsVM}" />
         </TabItem>
 
         <TabItem Header="&#xE77B;" Tag="{DynamicResource AccountSettings}">
-            <ContentControl s:View.Model="{Binding AccountSettingsVM}"/>
+            <ContentControl s:View.Model="{Binding AccountSettingsVM}" />
         </TabItem>
 
         <TabItem Header="&#xE9E9;" Tag="{DynamicResource LauncherSettings}">
-            <ContentControl s:View.Model="{Binding LauncherSettingsVM}"/>
+            <ContentControl s:View.Model="{Binding LauncherSettingsVM}" />
         </TabItem>
     </TabControl>
 </ContentControl>

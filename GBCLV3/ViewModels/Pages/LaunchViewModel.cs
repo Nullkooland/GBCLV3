@@ -135,18 +135,19 @@ namespace GBCLV3.ViewModels.Pages
 
                 account = _accountService.GetSelected();
             }
-
-
-            // Previous login token is invalid, need re-authentication
-            var authResult = await _authService.LoginAsync(account);
-            if (!authResult.IsSuccessful)
+            else
             {
-                _accountEditVM.Setup(AccountEditType.ReAuth, account);
-
-                if (_windowManager.ShowDialog(_accountEditVM) != true)
+                // Previous login token is invalid, need re-authentication
+                var authResult = await _authService.LoginAsync(account);
+                if (!authResult.IsSuccessful)
                 {
-                    _statusVM.Status = LaunchStatus.Failed;
-                    return;
+                    _accountEditVM.Setup(AccountEditType.ReAuth, account);
+
+                    if (_windowManager.ShowDialog(_accountEditVM) != true)
+                    {
+                        _statusVM.Status = LaunchStatus.Failed;
+                        return;
+                    }
                 }
             }
 
@@ -227,7 +228,7 @@ namespace GBCLV3.ViewModels.Pages
                 Username = account.Username,
                 UUID = account.UUID,
                 AccessToken = account.AccessToken,
-                UserType = authResult.UserType,
+                UserType = "mojang",
                 VersionType = AssemblyUtil.Title,
                 WinWidth = _config.WindowWidth,
                 WinHeight = _config.WindowHeight,

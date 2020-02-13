@@ -3,18 +3,18 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
                 xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                mc:Ignorable="d" 
+                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                mc:Ignorable="d"
                 d:DesignHeight="450" d:DesignWidth="800"
                 Style="{StaticResource TabPageStyle}">
 
     <ContentControl.Resources>
-        <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75"/>
-        
+        <DropShadowEffect x:Key="AccentColorShadow" ShadowDepth="0" BlurRadius="5" Opacity="0.75" />
+
         <Style x:Key="MovePackButtonStyle" TargetType="Button">
             <Setter Property="Foreground"
-                    Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}"/>
+                    Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -23,42 +23,41 @@
                                    Foreground="{TemplateBinding Foreground}"
                                    Effect="{StaticResource AccentColorShadow}"
                                    FontFamily="Segoe MDL2 Assets" FontSize="{TemplateBinding FontSize}"
-                                   Text="{TemplateBinding Content}">
-                        </TextBlock>
+                                   Text="{TemplateBinding Content}" />
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Style.Triggers>
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Foreground"
-                            Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1IntenseHighlightBrush}}"/>
+                            Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1IntenseHighlightBrush}}" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="8,8,0,0"/>
-            <Setter Property="Padding" Value="16,0"/>
-            <Setter Property="Height" Value="28"/>
-            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="8,8,0,0" />
+            <Setter Property="Padding" Value="16,0" />
+            <Setter Property="Height" Value="28" />
+            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
     </ContentControl.Resources>
 
     <ContentControl.InputBindings>
-        <KeyBinding Key="F5" Command="{s:Action Reload}"/>
+        <KeyBinding Key="F5" Command="{s:Action Reload}" />
     </ContentControl.InputBindings>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="8"/>
-            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="8" />
+            <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Row="0" Grid.ColumnSpan="3"
@@ -66,13 +65,13 @@
                     FlowDirection="RightToLeft">
 
             <Button Content="{DynamicResource AddNew}"
-                    Click="{s:Action AddNew}"/>
+                    Click="{s:Action AddNew}" />
 
             <Button Content="{DynamicResource Reload}"
-                    Click="{s:Action Reload}"/>
+                    Click="{s:Action Reload}" />
 
             <Button Content="{DynamicResource OpenDir}"
-                    Click="{s:Action OpenDir}"/>
+                    Click="{s:Action OpenDir}" />
 
         </StackPanel>
 
@@ -86,7 +85,7 @@
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemWithoutRippleStyle}">
-                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Padding" Value="4" />
                     </Style>
                 </ListBox.ItemContainerStyle>
 
@@ -94,70 +93,74 @@
                     <DataTemplate>
                         <Grid Background="Transparent">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="16"/>
-                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="32" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <Image x:Name="PackImage"
                                    Grid.RowSpan="2" Grid.Column="0"
                                    Width="48" Height="48"
                                    Effect="{StaticResource AccentColorShadow}"
-                                   Source="{Binding Image}"/>
+                                   Source="{Binding Image}" />
 
-                            <Button x:Name="EnableButton" 
+                            <Button x:Name="EnableButton"
                                     Style="{StaticResource MovePackButtonStyle}"
                                     Grid.RowSpan="2" Grid.Column="0"
                                     FontSize="20"
                                     Content="&#xE970;"
                                     Visibility="Hidden"
-                                    Command="{s:Action Enable}" CommandParameter="{Binding}"/>
+                                    Command="{s:Action Enable}" CommandParameter="{Binding}" />
 
                             <TextBlock x:Name="NameBox" Margin="8,0"
                                        Grid.Row="0" Grid.Column="1"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"
                                        FontSize="14"
-                                       Text="{Binding Name}"/>
+                                       Text="{Binding Name}" />
 
-                            <TextBlock x:Name="DescriptionBox" 
+                            <TextBlock x:Name="DescriptionBox"
                                        Grid.Row="1" Grid.Column="1" Margin="8,0"
                                        HorizontalAlignment="Left" VerticalAlignment="Top"
                                        FontSize="12"
                                        Foreground="{DynamicResource
                                                    {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
                                        TextWrapping="WrapWithOverflow"
-                                       Text="{Binding Description}"/>
+                                       Text="{Binding Description}" />
 
                             <Grid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="{DynamicResource Delete}"
-                                              Command="{s:Action Delete}" CommandParameter="{Binding}"/>
+                                              Command="{s:Action Delete}" CommandParameter="{Binding}" />
                                     <MenuItem Header="{DynamicResource OpenPack}"
-                                              Command="{s:Action Open}" CommandParameter="{Binding Path}"/>
+                                              Command="{s:Action Open}" CommandParameter="{Binding Path}" />
                                 </ContextMenu>
                             </Grid.ContextMenu>
-                            
+
                             <Grid.InputBindings>
                                 <MouseBinding MouseAction="LeftDoubleClick"
-                                              Command="{s:Action Open}" CommandParameter="{Binding Path}"/>
+                                              Command="{s:Action Open}" CommandParameter="{Binding Path}" />
                             </Grid.InputBindings>
                         </Grid>
                         <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                   Path=IsSelected}" Value="True">
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                   Path=IsSelected}"
+                                Value="True">
                                 <Setter TargetName="DescriptionBox" Property="Foreground"
-                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                   Path=IsMouseOver}" Value="True">
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                   Path=IsMouseOver}"
+                                Value="True">
                                 <Setter TargetName="PackImage" Property="Opacity"
-                                        Value="0.5"/>
+                                        Value="0.5" />
                                 <Setter TargetName="EnableButton" Property="Visibility"
-                                        Value="Visible"/>
+                                        Value="Visible" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>
@@ -174,7 +177,7 @@
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemWithoutRippleStyle}">
-                        <Setter Property="Padding" Value="4"/>
+                        <Setter Property="Padding" Value="4" />
                     </Style>
                 </ListBox.ItemContainerStyle>
 
@@ -182,93 +185,97 @@
                     <DataTemplate>
                         <Grid Background="Transparent">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="16"/>
-                                <RowDefinition Height="32"/>
+                                <RowDefinition Height="16" />
+                                <RowDefinition Height="32" />
                             </Grid.RowDefinitions>
 
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="48"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="48" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
                             <Image x:Name="PackImage"
                                    Grid.RowSpan="2" Grid.Column="0"
                                    Width="48" Height="48"
                                    Effect="{StaticResource AccentColorShadow}"
-                                   Source="{Binding Image}"/>
+                                   Source="{Binding Image}" />
 
-                            <Button x:Name="DisableButton" 
+                            <Button x:Name="DisableButton"
                                     Style="{StaticResource MovePackButtonStyle}"
                                     Grid.RowSpan="2" Grid.Column="0"
                                     HorizontalAlignment="Left"
                                     FontSize="18"
                                     Content="&#xE96F;"
                                     Visibility="Hidden"
-                                    Command="{s:Action Disable}" CommandParameter="{Binding}"/>
+                                    Command="{s:Action Disable}" CommandParameter="{Binding}" />
 
-                            <Button x:Name="MoveUpButton" 
+                            <Button x:Name="MoveUpButton"
                                     Style="{StaticResource MovePackButtonStyle}"
                                     Grid.RowSpan="2" Grid.Column="0"
                                     VerticalAlignment="Top"
                                     FontSize="12"
                                     Content="&#xE96D;"
                                     Visibility="Hidden"
-                                    Command="{s:Action MoveUp}" CommandParameter="{Binding}"/>
+                                    Command="{s:Action MoveUp}" CommandParameter="{Binding}" />
 
-                            <Button x:Name="MoveDownButton" 
+                            <Button x:Name="MoveDownButton"
                                     Style="{StaticResource MovePackButtonStyle}"
                                     Grid.RowSpan="2" Grid.Column="0"
                                     VerticalAlignment="Bottom"
                                     FontSize="12"
                                     Content="&#xE96E;"
                                     Visibility="Hidden"
-                                    Command="{s:Action MoveDown}" CommandParameter="{Binding}"/>
+                                    Command="{s:Action MoveDown}" CommandParameter="{Binding}" />
 
                             <TextBlock x:Name="NameBox" Margin="8,0"
                                        Grid.Row="0" Grid.Column="1"
                                        HorizontalAlignment="Left" VerticalAlignment="Center"
                                        FontSize="14"
-                                       Text="{Binding Name}"/>
+                                       Text="{Binding Name}" />
 
-                            <TextBlock x:Name="DescriptionBox" 
+                            <TextBlock x:Name="DescriptionBox"
                                        Grid.Row="1" Grid.Column="1" Margin="8,0"
                                        HorizontalAlignment="Left" VerticalAlignment="Top"
                                        FontSize="12"
                                        Foreground="{DynamicResource
                                                    {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
                                        TextWrapping="WrapWithOverflow"
-                                       Text="{Binding Description}"/>
+                                       Text="{Binding Description}" />
 
                             <Grid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem Header="{DynamicResource Delete}"
-                                              Command="{s:Action Delete}" CommandParameter="{Binding}"/>
+                                              Command="{s:Action Delete}" CommandParameter="{Binding}" />
                                     <MenuItem Header="{DynamicResource OpenPack}"
-                                              Command="{s:Action Open}" CommandParameter="{Binding Path}"/>
+                                              Command="{s:Action Open}" CommandParameter="{Binding Path}" />
                                 </ContextMenu>
                             </Grid.ContextMenu>
 
                             <Grid.InputBindings>
                                 <MouseBinding MouseAction="LeftDoubleClick"
-                                              Command="{s:Action Open}" CommandParameter="{Binding Path}"/>
+                                              Command="{s:Action Open}" CommandParameter="{Binding Path}" />
                             </Grid.InputBindings>
                         </Grid>
                         <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                   Path=IsSelected}" Value="True">
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                   Path=IsSelected}"
+                                Value="True">
                                 <Setter TargetName="DescriptionBox" Property="Foreground"
-                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"/>
+                                        Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}" />
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                                   Path=IsMouseOver}" Value="True">
+                            <DataTrigger
+                                Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                                   Path=IsMouseOver}"
+                                Value="True">
                                 <Setter TargetName="PackImage" Property="Opacity"
-                                        Value="0.5"/>
+                                        Value="0.5" />
                                 <Setter TargetName="DisableButton" Property="Visibility"
-                                        Value="Visible"/>
+                                        Value="Visible" />
                                 <Setter TargetName="MoveUpButton" Property="Visibility"
-                                        Value="Visible"/>
+                                        Value="Visible" />
                                 <Setter TargetName="MoveDownButton" Property="Visibility"
-                                        Value="Visible"/>
+                                        Value="Visible" />
                             </DataTrigger>
                         </DataTemplate.Triggers>
                     </DataTemplate>

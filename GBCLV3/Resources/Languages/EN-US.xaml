@@ -164,13 +164,13 @@
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="ReleaseTime">Release Date</s:String>
     <s:String x:Key="ReleaseOnly">Release Only</s:String>
-    
+
     <s:String x:Key="VersionListLoading">LoadSkinsAsyncing version list</s:String>
     <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
     <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
     <s:String x:Key="VersionFetchingJson">Fetching version json</s:String>
     <s:String x:Key="VersionDownloadingDependencies">Downloading version dependencies</s:String>
-    
+
     <s:String x:Key="VersionInstallFailed">Install Failed</s:String>
     <s:String x:Key="VersionAlreadyExists">Identical local version already exists!</s:String>
     <s:String x:Key="VersionJsonFetchFailed">Fetch version json failed!</s:String>
@@ -214,7 +214,7 @@
     <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
     <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
     <s:String x:Key="OpenPack">Open</s:String>
-    
+
     <!-- About -->
     <s:String x:Key="Dependencies">Dependencies</s:String>
     <s:String x:Key="ThanksTo">Thanks to</s:String>
