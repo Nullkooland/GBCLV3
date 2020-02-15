@@ -6,8 +6,10 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Threading.Tasks.Dataflow;
 using System.Windows.Threading;
 
 namespace GBCLV3.Services.Download
@@ -47,7 +49,7 @@ namespace GBCLV3.Services.Download
 
         public DownloadService(IEnumerable<DownloadItem> downloadItems)
         {
-            _client = new HttpClient() { Timeout = TimeSpan.FromMinutes(3.0) };
+            _client = new HttpClient() {Timeout = TimeSpan.FromMinutes(1)};
             _client.DefaultRequestHeaders.Connection.Add("keep-alive");
 
             _cts = new CancellationTokenSource();
@@ -78,21 +80,34 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<bool> StartAsync()
         {
-            var options = new ParallelOptions { MaxDegreeOfParallelism = Environment.ProcessorCount };
+            var options = new ExecutionDataflowBlockOptions
+            {
+                MaxDegreeOfParallelism = 8,
+                CancellationToken = _cts.Token,
+            };
 
             for (;;)
             {
                 _timer.Start();
 
-                await Task.Factory.StartNew(() =>
+                try
                 {
-                    Parallel.ForEach(_downloadItems, options, (item, state) =>
+                    var downloader =
+                        new ActionBlock<DownloadItem>(async item => { await DownloadTask(item); }, options);
+
+                    foreach (var item in _downloadItems)
                     {
-                        DownloadTask(item);
-                        // 所以啊...止まるんじゃねぇぞ！
-                        if (_cts.IsCancellationRequested) state.Stop();
-                    });
-                }, TaskCreationOptions.LongRunning);
+                        downloader.Post(item);
+                    }
+
+                    downloader.Complete();
+                    await downloader.Completion;
+                }
+                catch (OperationCanceledException)
+                {
+                    // You are the one who canceled me :D
+                    Debug.WriteLine("Download canceled!");
+                }
 
                 _timer.Stop();
                 // Ensure the last progress report is fired
@@ -108,7 +123,7 @@ namespace GBCLV3.Services.Download
                 // Clean incomplete files
                 foreach (var item in _downloadItems)
                 {
-                    if (!item.IsCompleted && File.Exists(item.Path))
+                    if (!item.IsCompleted && item.DownloadedBytes == 0 && File.Exists(item.Path))
                     {
                         File.Delete(item.Path);
                     }
@@ -125,7 +140,6 @@ namespace GBCLV3.Services.Download
                 // Canceled
                 if (_cts.IsCancellationRequested)
                 {
-
                     Completed?.Invoke(DownloadResult.Canceled);
                     return false;
                 }
@@ -138,7 +152,6 @@ namespace GBCLV3.Services.Download
         public void Retry()
         {
             _downloadItems = _downloadItems.Where(item => !item.IsCompleted).ToList();
-            _downloadItems.ForEach(item => item.DownloadedBytes = 0);
             _failledCount = 0;
 
             _sync.Set();
@@ -165,7 +178,7 @@ namespace GBCLV3.Services.Download
 
         #region Private Methods
 
-        private void DownloadTask(DownloadItem item)
+        private async Task DownloadTask(DownloadItem item)
         {
             // Make sure directory exists
             if (Path.IsPathRooted(item.Path))
@@ -173,35 +186,55 @@ namespace GBCLV3.Services.Download
                 Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
             }
 
+
             try
             {
-                var response = _client.GetAsync(item.Url, HttpCompletionOption.ResponseHeadersRead, _cts.Token).Result;
+                var request = new HttpRequestMessage(HttpMethod.Get, item.Url);
+                bool isResume = item.IsPartialContentSupported && item.DownloadedBytes > 0;
+
+                if (isResume)
+                {
+                    request.Headers.Range = new RangeHeaderValue(item.DownloadedBytes + 1, null);
+                }
+
+                var response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead, _cts.Token);
 
                 if (response.StatusCode == HttpStatusCode.Found)
                 {
                     // Handle redirection
-                    var redirection = response.Headers.Location;
-                    response = _client.GetAsync(redirection, HttpCompletionOption.ResponseHeadersRead, _cts.Token).Result;
+                    request = new HttpRequestMessage(HttpMethod.Get, response.Headers.Location);
+
+                    if (isResume)
+                    {
+                        request.Headers.Range = new RangeHeaderValue(item.DownloadedBytes, null);
+                    }
+
+                    response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,
+                        _cts.Token);
                 }
 
                 if (item.Size == 0)
                 {
-                    item.Size = (int)(response.Content.Headers.ContentLength ?? 0);
+                    item.Size = (int) (response.Content.Headers.ContentLength ?? 0);
                     Interlocked.Add(ref _totalBytes, item.Size);
                 }
 
-                using var httpStream = response.Content.ReadAsStreamAsync().Result;
-                using var fileStream = File.OpenWrite(item.Path);
+                item.IsPartialContentSupported = response.Headers.AcceptRanges.Contains("bytes");
 
-                // Close the stream if download is canceled
-                _cts.Token.Register(() => httpStream.Close());
+                await using var httpStream = await response.Content.ReadAsStreamAsync();
+                await using var fileStream = File.OpenWrite(item.Path);
 
-                Span<byte> buffer = stackalloc byte[BUFFER_SIZE];
+                if (isResume)
+                {
+                    fileStream.Seek(item.DownloadedBytes, SeekOrigin.Begin);
+                }
+
+                var buffer = new byte[BUFFER_SIZE];
                 int bytesReceived;
 
-                while ((bytesReceived = httpStream.Read(buffer)) > 0)
+                while ((bytesReceived = await httpStream.ReadAsync(buffer, _cts.Token)) > 0)
                 {
-                    fileStream.Write(buffer.Slice(0, bytesReceived));
+                    await fileStream.WriteAsync(buffer, 0, bytesReceived, _cts.Token);
                     item.DownloadedBytes += bytesReceived;
                     Interlocked.Add(ref _downloadedBytes, bytesReceived);
                 }
@@ -210,17 +243,17 @@ namespace GBCLV3.Services.Download
                 item.IsCompleted = true;
                 Interlocked.Increment(ref _completedCount);
 
+                request.Dispose();
                 response.Dispose();
                 return;
             }
-            catch (OperationCanceledException ex)
+            catch (OperationCanceledException)
             {
-                // You are the one who anceled me :D
-                Debug.WriteLine(ex.ToString());
+                Debug.WriteLine("Item download timeout or canceled by user");
             }
-            catch (AggregateException ex) when (ex.InnerException is HttpRequestException)
+            catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.InnerException.ToString());
+                Debug.WriteLine(ex.ToString());
             }
             catch (Exception ex)
             {
@@ -231,7 +264,12 @@ namespace GBCLV3.Services.Download
             if (!_cts.IsCancellationRequested)
             {
                 Interlocked.Increment(ref _failledCount);
-                Interlocked.Add(ref _downloadedBytes, -item.DownloadedBytes);
+
+                if (!item.IsPartialContentSupported)
+                {
+                    item.DownloadedBytes = 0;
+                    Interlocked.Add(ref _downloadedBytes, -item.DownloadedBytes);
+                }
             }
         }
 

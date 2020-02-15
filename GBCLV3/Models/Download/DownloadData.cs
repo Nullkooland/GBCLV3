@@ -14,6 +14,8 @@ namespace GBCLV3.Models.Download
 
         public int DownloadedBytes { get; set; }
 
+        public bool IsPartialContentSupported { get; set; }
+
         public bool IsCompleted { get; set; }
     }
 
