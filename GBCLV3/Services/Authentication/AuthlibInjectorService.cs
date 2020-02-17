@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -9,11 +10,12 @@ using GBCLV3.Models.Download;
 using GBCLV3.Models.Installation;
 using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;
+using GBCLV3.Utils;
 using StyletIoC;
 
-namespace GBCLV3.Services.Installation
+namespace GBCLV3.Services.Authentication
 {
-    public class AuthlibInjectorInstallService
+    public class AuthlibInjectorService
     {
         #region Private Fields
 
@@ -28,7 +30,7 @@ namespace GBCLV3.Services.Installation
         #region Constructor
 
         [Inject]
-        public AuthlibInjectorInstallService(
+        public AuthlibInjectorService(
             GamePathService gamePathService,
             DownloadUrlService downloadUrlService)
         {
@@ -67,6 +69,12 @@ namespace GBCLV3.Services.Installation
             }
         }
 
+        public bool CheckIntegrity(string sha256)
+        {
+            string path = $"{_gamePathService.RootDir}/authlib-injector.jar";
+            return File.Exists(path) && CryptUtil.GetFileSHA256(path) == sha256;
+        }
+
         public int CheckLocalBuild()
         {
             string path = $"{_gamePathService.RootDir}/authlib-injector.jar";
@@ -95,14 +103,16 @@ namespace GBCLV3.Services.Installation
             return -1;
         }
 
-        public DownloadItem GetDownload(AuthlibInjector authlibInjector)
+        public IEnumerable<DownloadItem> GetDownload(AuthlibInjector authlibInjector)
         {
-            return new DownloadItem
+            var item=  new DownloadItem
             {
                 Path = $"{_gamePathService.RootDir}/authlib-injector.jar",
                 Url = authlibInjector.Url,
                 IsCompleted = false
             };
+
+            return new[] { item };
         }
 
         #endregion

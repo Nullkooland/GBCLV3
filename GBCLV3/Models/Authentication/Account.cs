@@ -25,12 +25,17 @@ namespace GBCLV3.Models.Authentication
 
         public string AuthServerBase { get; set; }
 
+        public string AuthlibInjectorSHA256 { get; set; } // Very ugly...
+
         [JsonIgnore] 
         public string AuthServer => AuthServerBase != null ? $"{AuthServerBase}/authserver" : null;
 
         [JsonIgnore]
         public string ProfileServer =>
             AuthServerBase != null ? $"{AuthServerBase}/sessionserver/session/minecraft/profile" : null;
+
+        [JsonIgnore] 
+        public string PrefetchedAuthServerInfo { get; set; }
 
 
         public string Profile { get; set; }

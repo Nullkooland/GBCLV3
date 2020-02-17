@@ -1,6 +1,7 @@
 ﻿using GBCLV3.Models.Authentication;
 using GBCLV3.Utils;
 using System;
+using System.Buffers.Text;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -38,10 +39,10 @@ namespace GBCLV3.Services.Authentication
             // Refresh local tokens
             if (authResult.IsSuccessful)
             {
-                account.Username = authResult.SelectedProfile.Name;
+                account.Username = authResult.SelectedProfile?.Name;
+                account.UUID = authResult.SelectedProfile?.Id;
                 account.ClientToken = authResult.ClientToken;
                 account.AccessToken = authResult.AccessToken;
-                account.UUID = authResult.SelectedProfile.Id;
             }
 
             return authResult;
@@ -73,6 +74,20 @@ namespace GBCLV3.Services.Authentication
 
             var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
             return RequestAsync(requestJson, true, authServer ?? MOJANG_AUTH_SERVER);
+        }
+
+        public async ValueTask<string> PrefetchAuthServerInfo(string authServer)
+        {
+            try
+            {
+                var responseJson = await _client.GetByteArrayAsync(authServer);
+                return Convert.ToBase64String(responseJson);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+                return null;
+            }
         }
 
         public async ValueTask<AuthServerInfo> GetAuthServerInfo(string authServer)

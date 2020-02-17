@@ -6,6 +6,9 @@ namespace GBCLV3.Models.Download
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
     public enum DownloadType
     {
+        [LocalizedDescription(nameof(AuthlibInjector))]
+        AuthlibInjector,
+
         [LocalizedDescription(nameof(MainJar))]
         MainJar,
 

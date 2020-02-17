@@ -131,6 +131,7 @@
     <!-- Download -->
 
     <!-- Download Types -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
     <s:String x:Key="MainJar">Main Jar</s:String>
     <s:String x:Key="Libraries">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>

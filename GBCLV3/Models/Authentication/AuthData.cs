@@ -24,9 +24,9 @@ namespace GBCLV3.Models.Authentication
 
         public string ClientToken { get; set; }
 
-        public AuthUserProfile SelectedProfile { get; set; }
-
         public bool RequestUser { get; set; }
+
+        public AuthUserProfile SelectedProfile { get; set; }
     }
 
     public class AuthResponse

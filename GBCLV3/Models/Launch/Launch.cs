@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json;
+using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.Models.Launch
 {
@@ -11,11 +12,11 @@ namespace GBCLV3.Models.Launch
     {
         Downloading,
 
-        [LocalizedDescription("ProcessingDependencies")]
-        ProcessingDependencies,
-
         [LocalizedDescription("LoggingIn")]
         LoggingIn,
+
+        [LocalizedDescription("ProcessingDependencies")]
+        ProcessingDependencies,
 
         [LocalizedDescription("StartingGameProcess")]
         StartingProcess,
@@ -48,13 +49,7 @@ namespace GBCLV3.Models.Launch
 
         public uint MaxMemory { get; set; }
 
-        public string Username { get; set; }
-
-        public string UUID { get; set; }
-
-        public string AccessToken { get; set; }
-
-        public string UserType { get; set; }
+        public Account Account { get; set; }
 
         public string VersionType { get; set; }
 

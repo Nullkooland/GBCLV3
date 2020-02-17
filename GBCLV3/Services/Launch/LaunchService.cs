@@ -6,6 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GBCLV3.Models.Authentication;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Launch
@@ -136,13 +137,24 @@ namespace GBCLV3.Services.Launch
             // Main Jar
             builder.Append($"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar\" ");
 
+            // Authlib-Injector
+            if (profile.Account.AuthMode == AuthMode.AuthLibInjector)
+            {
+                builder.Append(
+                    $"-javaagent:\"{_gamePathService.RootDir}/authlib-injector.jar\"={profile.Account.AuthServerBase} ");
+                builder.Append("-Dauthlibinjector.side=client ");
+                builder.Append("-Dauthlibinjector.yggdrasil.prefetched=");
+                builder.Append(profile.Account.PrefetchedAuthServerInfo);
+                builder.Append(' ');
+            }
+
             // Main Class
             builder.Append(version.MainClass).Append(' ');
 
             // Minecraft Arguments
             var argsDict = version.MinecarftArgsDict;
 
-            argsDict["--username"] = '\"' + profile.Username + '\"';
+            argsDict["--username"] = '\"' + profile.Account.Username + '\"';
             argsDict["--version"] = '\"' + version.ID + '\"';
             argsDict["--gameDir"] = '\"' + _gamePathService.WorkingDir + '\"';
 
@@ -156,10 +168,10 @@ namespace GBCLV3.Services.Launch
                 argsDict["--assetIndex"] = version.AssetsInfo.ID;
             }
 
-            if (argsDict.ContainsKey("--uuid")) argsDict["--uuid"] = profile.UUID;
-            if (argsDict.ContainsKey("--accessToken")) argsDict["--accessToken"] = profile.AccessToken;
-            if (argsDict.ContainsKey("--session")) argsDict["--session"] = profile.AccessToken;
-            if (argsDict.ContainsKey("--userType")) argsDict["--userType"] = profile.UserType;
+            if (argsDict.ContainsKey("--uuid")) argsDict["--uuid"] = profile.Account.UUID;
+            if (argsDict.ContainsKey("--accessToken")) argsDict["--accessToken"] = profile.Account.AccessToken;
+            if (argsDict.ContainsKey("--session")) argsDict["--session"] = profile.Account.AccessToken;
+            if (argsDict.ContainsKey("--userType")) argsDict["--userType"] = "mojang";
             if (argsDict.ContainsKey("--versionType")) argsDict["--versionType"] = profile.VersionType;
             if (argsDict.ContainsKey("--userProperties")) argsDict["--userProperties"] = "{}";
 

@@ -132,6 +132,7 @@
     <!-- 下载 -->
 
     <!-- 下载类型 -->
+    <s:String x:Key="AuthlibInjector">下载 authlib-injector</s:String>
     <s:String x:Key="MainJar">下载主 Jar</s:String>
     <s:String x:Key="Libraries">下载依赖库</s:String>
     <s:String x:Key="Assets">下载资源文件</s:String>

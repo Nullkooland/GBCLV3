@@ -16,6 +16,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models.Authentication;
+using GBCLV3.Services.Installation;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -33,12 +34,14 @@ namespace GBCLV3.ViewModels.Pages
         private readonly AssetService _assetService;
         private readonly AccountService _accountService;
         private readonly AuthService _authService;
+        private readonly AuthlibInjectorService _authlibInjectorService;
         private readonly LaunchService _launchService;
 
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadStatusViewModel _downloadStatusVM;
         private readonly ErrorReportViewModel _errorReportVM;
         private readonly AccountEditViewModel _accountEditVM;
+        private readonly ProfileSelectViewModel _profileSelectVM;
 
         private readonly IWindowManager _windowManager;
 
@@ -47,9 +50,6 @@ namespace GBCLV3.ViewModels.Pages
         #region Constructor
 
         public LaunchViewModel(
-            IWindowManager windowManager,
-            IEventAggregator eventAggregator,
-
             ConfigService configService,
             ThemeService themeService,
             VersionService versionService,
@@ -57,13 +57,15 @@ namespace GBCLV3.ViewModels.Pages
             AssetService assetService,
             AccountService accountService,
             AuthService authService,
+            AuthlibInjectorService authlibInjectorService,
             LaunchService launchService,
-
+            IWindowManager windowManager,
             VersionsManagementViewModel versionsVM,
             LaunchStatusViewModel statusVM,
             AccountEditViewModel accountEditVM,
             DownloadStatusViewModel downloadVM,
-            ErrorReportViewModel errorReportVM)
+            ErrorReportViewModel errorReportVM,
+            ProfileSelectViewModel profileSelectVM)
         {
             _windowManager = windowManager;
             _config = configService.Entries;
@@ -71,12 +73,14 @@ namespace GBCLV3.ViewModels.Pages
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
-            _authService = authService;
             _accountService = accountService;
+            _authService = authService;
+            _authlibInjectorService = authlibInjectorService;
             _launchService = launchService;
 
             _statusVM = statusVM;
             _accountEditVM = accountEditVM;
+            _profileSelectVM = profileSelectVM;
             _downloadStatusVM = downloadVM;
             _errorReportVM = errorReportVM;
 
@@ -94,6 +98,7 @@ namespace GBCLV3.ViewModels.Pages
         #endregion
 
         #region Bindings
+
         public VersionsManagementViewModel VersionsVM { get; set; }
 
         public GreetingViewModel GreetingVM { get; private set; }
@@ -149,6 +154,52 @@ namespace GBCLV3.ViewModels.Pages
                         return;
                     }
                 }
+                else if (authResult.SelectedProfile == null)
+                {
+                    var selectedProfile = authResult.AvailableProfiles.FirstOrDefault();
+
+                    _profileSelectVM.Setup(authResult.AvailableProfiles, account.ProfileServer);
+                    if (_windowManager.ShowDialog(_profileSelectVM) ?? false)
+                    {
+                        selectedProfile = _profileSelectVM.SelectedProfile;
+                    }
+
+                    account.Username = selectedProfile.Name;
+                    account.UUID = selectedProfile.Id;
+                }
+            }
+
+            // Check authlib-injector if selected account is using external authentication
+            if (account.AuthMode == AuthMode.AuthLibInjector)
+            {
+                if (!_authlibInjectorService.CheckIntegrity(account.AuthlibInjectorSHA256))
+                {
+                    // Authlib-Injector is missing or damaged
+                    var latest = await _authlibInjectorService.GetLatest();
+                    if (latest == null)
+                    {
+                        _statusVM.Status = LaunchStatus.Failed;
+                        return;
+                    }
+
+                    var download = _authlibInjectorService.GetDownload(latest);
+                    if (!await StartDownloadAsync(DownloadType.AuthlibInjector, download))
+                    {
+                        _statusVM.Status = LaunchStatus.Failed;
+                        return;
+                    }
+
+                    account.AuthlibInjectorSHA256 = latest.SHA256;
+                }
+
+                account.PrefetchedAuthServerInfo =
+                    await _authService.PrefetchAuthServerInfo(account.AuthServerBase);
+
+                if (account.PrefetchedAuthServerInfo == null)
+                {
+                    _statusVM.Status = LaunchStatus.Failed;
+                    return;
+                }
             }
 
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
@@ -170,8 +221,9 @@ namespace GBCLV3.ViewModels.Pages
             if (damagedLibs.Any())
             {
                 // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
-                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.ForgeMain
-                                                                                         ))
+                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(
+                        lib => lib.Type == LibraryType.ForgeMain
+                    ))
                 {
                     _windowManager.ShowMessageBox("${MainJarDamaged}\n${PleaseReinstallForge}", "${IntegrityCheck}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -202,6 +254,7 @@ namespace GBCLV3.ViewModels.Pages
                     // Successfully downloaded the missing index json, load assets
                     _assetService.LoadAllObjects(launchVersion.AssetsInfo);
                 }
+
                 // if index json download failed (what are the odds!), not gonna retry
                 // Prepare for enjoying a silent game XD
             }
@@ -228,10 +281,7 @@ namespace GBCLV3.ViewModels.Pages
                 IsDebugMode = _config.JavaDebugMode,
                 JvmArgs = _config.JvmArgs,
                 MaxMemory = _config.JavaMaxMem,
-                Username = account.Username,
-                UUID = account.UUID,
-                AccessToken = account.AccessToken,
-                UserType = "mojang",
+                Account = account,
                 VersionType = AssemblyUtil.Title,
                 WinWidth = _config.WindowWidth,
                 WinHeight = _config.WindowHeight,
