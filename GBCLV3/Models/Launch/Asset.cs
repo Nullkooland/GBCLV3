@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Models.Launch
 {
-    class AssetsInfo
+    public class AssetsInfo
     {
         public string ID { get; set; }
 
@@ -19,7 +19,7 @@ namespace GBCLV3.Models.Launch
         public Dictionary<string, AssetObject> Objects { get; set; }
     }
 
-    class AssetObject
+    public class AssetObject
     {
         public string Hash { get; set; }
 
@@ -28,7 +28,7 @@ namespace GBCLV3.Models.Launch
         public int Size { get; set; }
     }
 
-    class JAsset
+    public class JAsset
     {
         public Dictionary<string, AssetObject> objects { get; set; }
     }

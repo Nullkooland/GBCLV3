@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 
 namespace GBCLV3.Services.Auxiliary
 {
-    class ResourcePackService
+    public class ResourcePackService
     {
         #region Private Fields
 
@@ -78,14 +78,19 @@ namespace GBCLV3.Services.Auxiliary
         public bool WriteToOptions(IEnumerable<ResourcePack> enabledPacks)
         {
             string optionsPath = _gamePathService.WorkingDir + "/options.txt";
+            string options;
 
-            if (!File.Exists(optionsPath))
+            if (File.Exists(optionsPath))
             {
-                return false;
+                options = File.ReadAllText(optionsPath, Encoding.Default);
+            }
+            else
+            {
+                options = "resourcePacks:[]";
             }
 
             string enabledPackIDs = string.Join(",", enabledPacks.Reverse().Select(pack => $"\"{pack.Name}\""));
-            string options = File.ReadAllText(optionsPath, Encoding.Default);
+            
 
             if (options.Contains("resourcePacks:["))
             {
@@ -100,10 +105,10 @@ namespace GBCLV3.Services.Auxiliary
             return true;
         }
 
-        public async Task DeleteFromDiskAsync(ResourcePack pack)
+        public Task DeleteFromDiskAsync(ResourcePack pack)
         {
-            if (pack.IsExtracted) await SystemUtil.SendDirToRecycleBinAsync(pack.Path);
-            else await SystemUtil.SendFileToRecycleBinAsync(pack.Path);
+            return pack.IsExtracted ? 
+                SystemUtil.SendDirToRecycleBinAsync(pack.Path) : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
         public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths)

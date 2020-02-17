@@ -14,7 +14,7 @@ using System.Windows;
 
 namespace GBCLV3.Services.Download
 {
-    class UpdateService
+    public class UpdateService
     {
         #region Events
 

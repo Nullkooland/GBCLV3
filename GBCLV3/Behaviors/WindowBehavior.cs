@@ -5,7 +5,7 @@ using System.Windows.Interop;
 
 namespace GBCLV3.Behaviors
 {
-    static class WindowBehavior
+    public static class WindowBehavior
     {
         #region Attached Properties
 

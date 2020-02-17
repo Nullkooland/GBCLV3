@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GBCLV3.Models
 {
-    class Config
+    public class Config
     {
         #region Game Configurations
 

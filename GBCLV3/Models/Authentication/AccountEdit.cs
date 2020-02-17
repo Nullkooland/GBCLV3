@@ -7,7 +7,7 @@ using GBCLV3.Utils;
 namespace GBCLV3.Models.Authentication
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AccountEditType
+    public enum AccountEditType
     {
         [LocalizedDescription(nameof(AddAccount))]
         AddAccount,
@@ -20,7 +20,7 @@ namespace GBCLV3.Models.Authentication
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AccountEditStatus
+    public enum AccountEditStatus
     {
         [LocalizedDescription(nameof(EnterAccountInformation))]
         EnterAccountInformation,

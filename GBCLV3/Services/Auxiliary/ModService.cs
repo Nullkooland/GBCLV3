@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Auxiliary
 {
-    class ModService
+    public class ModService
     {
         #region Private Fields
 

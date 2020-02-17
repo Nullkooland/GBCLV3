@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum ErrorReportType
+    public enum ErrorReportType
     {
         [LocalizedDescription("ReportUnexpectedExit")]
         UnexpectedExit,

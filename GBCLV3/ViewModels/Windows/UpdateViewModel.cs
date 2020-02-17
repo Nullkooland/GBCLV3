@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    class UpdateViewModel : Screen
+    public class UpdateViewModel : Screen
     {
         #region Private Fields
 

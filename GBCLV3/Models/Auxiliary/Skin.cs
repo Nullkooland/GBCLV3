@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Models.Auxiliary
 {
-    class Skin
+    public class Skin
     {
         public bool IsSlim { get; set; }
 

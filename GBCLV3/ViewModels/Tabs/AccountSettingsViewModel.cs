@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class AccountSettingsViewModel : Screen
+    public class AccountSettingsViewModel : Screen
     {
         #region Private Fields
 

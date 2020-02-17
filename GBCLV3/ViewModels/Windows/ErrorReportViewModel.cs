@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    class ErrorReportViewModel : Screen
+    public class ErrorReportViewModel : Screen
     {
         #region Private Fields
 

@@ -5,7 +5,7 @@ using GBCLV3.Models.Auxiliary;
 
 namespace GBCLV3.Models.Authentication
 {
-    class AuthRequest
+    public class AuthRequest
     {
         public AuthAgent Agent => new AuthAgent { Name = "Minecraft", Version = 1 };
 
@@ -18,7 +18,7 @@ namespace GBCLV3.Models.Authentication
         public bool RequestUser { get; set; }
     }
 
-    class RefreshRequest
+    public class RefreshRequest
     {
         public string AccessToken { get; set; }
 
@@ -29,7 +29,7 @@ namespace GBCLV3.Models.Authentication
         public bool RequestUser { get; set; }
     }
 
-    class AuthResponse
+    public class AuthResponse
     {
         public string AccessToken { get; set; }
 
@@ -40,7 +40,7 @@ namespace GBCLV3.Models.Authentication
         public AuthUserProfile SelectedProfile { get; set; }
     }
 
-    class AuthErrorResponse
+    public class AuthErrorResponse
     {
         public string Error { get; set; }
 
@@ -49,7 +49,7 @@ namespace GBCLV3.Models.Authentication
         public string Cause { get; set; }
     }
 
-    class AuthUserProfile
+    public class AuthUserProfile
     {
         public string Id { get; set; }
 
@@ -64,7 +64,7 @@ namespace GBCLV3.Models.Authentication
         public Skin Skin { get; set; }
     }
 
-    class AuthAgent
+    public class AuthAgent
     {
         public string Name { get; set; }
 

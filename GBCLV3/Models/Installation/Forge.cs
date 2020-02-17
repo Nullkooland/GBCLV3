@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Models.Installation
 {
-    class Forge
+    public class Forge
     {
         public string Version { get; set; }
 
@@ -21,7 +21,7 @@ namespace GBCLV3.Models.Installation
 
     #region Json Class
 
-    class JForgeFile
+    public class JForgeFile
     {
         public string category { get; set; }
 
@@ -30,7 +30,7 @@ namespace GBCLV3.Models.Installation
         public string hash { get; set; }
     }
 
-    class JForgeVersion
+    public class JForgeVersion
     {
         public int build { get; set; }
 

@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class SettingsRootViewModel : Screen
+    public class SettingsRootViewModel : Screen
     {
 
         #region Constructor

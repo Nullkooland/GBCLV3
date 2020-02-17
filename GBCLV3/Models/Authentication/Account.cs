@@ -7,12 +7,11 @@ using GBCLV3.Utils;
 
 namespace GBCLV3.Models.Authentication
 {
-    class Account
+    public class Account
     {
         public AuthMode AuthMode { get; set; }
 
-        [JsonIgnore]
-        public string DisplayName => AuthMode != AuthMode.Offline ? $"{Email} ({Username})" : Username;
+        [JsonIgnore] public string DisplayName => AuthMode != AuthMode.Offline ? $"{Email} ({Username})" : Username;
 
         public string Username { get; set; }
 
@@ -26,11 +25,13 @@ namespace GBCLV3.Models.Authentication
 
         public string AuthServerBase { get; set; }
 
-        [JsonIgnore] public string AuthServer => AuthServerBase != null ? $"{AuthServerBase}/authserver" : null;
+        [JsonIgnore] 
+        public string AuthServer => AuthServerBase != null ? $"{AuthServerBase}/authserver" : null;
 
         [JsonIgnore]
         public string ProfileServer =>
             AuthServerBase != null ? $"{AuthServerBase}/sessionserver/session/minecraft/profile" : null;
+
 
         public string Profile { get; set; }
 

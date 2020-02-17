@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models.Installation
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum VersionInstallStatus
+    public enum VersionInstallStatus
     {
         [LocalizedDescription("VersionListLoading")]
         ListLoading,
@@ -23,7 +23,7 @@ namespace GBCLV3.Models.Installation
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum ForgeInstallStatus
+    public enum ForgeInstallStatus
     {
         [LocalizedDescription("ForgeListLoading")]
         ListLoading,
@@ -42,7 +42,7 @@ namespace GBCLV3.Models.Installation
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum FabricInstallStatus
+    public enum FabricInstallStatus
     {
         [LocalizedDescription("FabricListLoading")]
         ListLoading,

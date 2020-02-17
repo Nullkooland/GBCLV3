@@ -4,7 +4,7 @@ using System.Windows.Media;
 
 namespace GBCLV3.Utils
 {
-    static class NativeUtil
+    internal static class NativeUtil
     {
         #region Public Methods
 

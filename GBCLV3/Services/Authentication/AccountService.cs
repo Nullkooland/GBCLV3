@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Authentication
 {
-    class AccountService
+    public class AccountService
     {
         #region Events
 

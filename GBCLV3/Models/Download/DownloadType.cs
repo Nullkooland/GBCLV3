@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models.Download
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum DownloadType
+    public enum DownloadType
     {
         [LocalizedDescription(nameof(MainJar))]
         MainJar,

@@ -18,7 +18,7 @@ using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
-    class ForgeInstallService
+    public class ForgeInstallService
     {
         #region Private Fields
 

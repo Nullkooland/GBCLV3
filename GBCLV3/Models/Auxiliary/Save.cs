@@ -1,6 +1,6 @@
 ﻿namespace GBCLV3.Models.Auxiliary
 {
-    class Save
+    public class Save
     {
     }
 }

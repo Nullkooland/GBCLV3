@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GBCLV3.Utils
 {
-    static class CryptUtil
+    public static class CryptUtil
     {
         public static string Guid => System.Guid.NewGuid().ToString("N");
 
@@ -24,10 +24,25 @@ namespace GBCLV3.Utils
         public static string GetFileSHA1(string path)
         {
             using var sha1Provider = new SHA1CryptoServiceProvider();
-            byte[] sha1Bytes = sha1Provider.ComputeHash(File.OpenRead(path));
+            using var fileStream = File.OpenRead(path);
+            byte[] sha1Bytes = sha1Provider.ComputeHash(fileStream);
             var sb = new StringBuilder(40);
 
             foreach (byte b in sha1Bytes)
+            {
+                sb.Append(b.ToString("x2"));
+            }
+            return sb.ToString();
+        }
+
+        public static string GetFileSHA256(string path)
+        {
+            using var sha256Provider = new SHA256CryptoServiceProvider();
+            using var fileStream = File.OpenRead(path);
+            byte[] sha256Bytes = sha256Provider.ComputeHash(fileStream);
+            var sb = new StringBuilder(64);
+
+            foreach (byte b in sha256Bytes)
             {
                 sb.Append(b.ToString("x2"));
             }

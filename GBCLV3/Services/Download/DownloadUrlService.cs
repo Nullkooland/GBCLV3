@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.Services.Download
 {
-    class DownloadUrlService
+    public class DownloadUrlService
     {
         #region Properties
 

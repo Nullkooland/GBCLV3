@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace GBCLV3.Services.Download
 {
-    class DownloadService : IDisposable
+    public class DownloadService : IDisposable
     {
         #region Events
 

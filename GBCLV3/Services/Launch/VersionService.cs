@@ -16,7 +16,7 @@ using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Launch
 {
-    internal class VersionService
+    public class VersionService
     {
         #region Constructor
 

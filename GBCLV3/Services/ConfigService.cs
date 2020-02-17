@@ -11,7 +11,7 @@ using System.Text.Json;
 
 namespace GBCLV3.Services
 {
-    class ConfigService
+    public class ConfigService
     {
         #region Properties
 

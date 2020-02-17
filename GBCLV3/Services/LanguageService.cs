@@ -5,7 +5,7 @@ using System.Windows;
 
 namespace GBCLV3.Services
 {
-    class LanguageService
+    public class LanguageService
     {
         #region Properties
 

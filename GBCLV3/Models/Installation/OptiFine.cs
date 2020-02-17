@@ -1,6 +1,6 @@
 ﻿namespace GBCLV3.Models.Installation
 {
-    class OptiFine
+    public class OptiFine
     {
     }
 }

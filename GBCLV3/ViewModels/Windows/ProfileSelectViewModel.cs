@@ -11,7 +11,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    class ProfileSelectViewModel : Screen
+    public class ProfileSelectViewModel : Screen
     {
         #region Private Fields
 

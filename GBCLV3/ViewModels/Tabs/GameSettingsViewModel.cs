@@ -8,7 +8,7 @@ using System.IO;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class GameSettingsViewModel : Screen
+    public class GameSettingsViewModel : Screen
     {
         #region Private Fields
 

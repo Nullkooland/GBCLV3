@@ -7,7 +7,7 @@ namespace GBCLV3.Models.Launch
 {
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum LaunchStatus
+    public enum LaunchStatus
     {
         Downloading,
 
@@ -28,7 +28,7 @@ namespace GBCLV3.Models.Launch
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AfterLaunchBehavior
+    public enum AfterLaunchBehavior
     {
         [LocalizedDescription(nameof(Exit))]
         Exit,
@@ -40,7 +40,7 @@ namespace GBCLV3.Models.Launch
         KeepVisible,
     }
 
-    class LaunchProfile
+    public class LaunchProfile
     {
         public bool IsDebugMode { get; set; }
 
@@ -71,7 +71,7 @@ namespace GBCLV3.Models.Launch
 
     #region Json Class
 
-    class JArguments
+    public class JArguments
     {
         // Heinous heterogeneous json
         public List<JsonElement> game { get; set; }

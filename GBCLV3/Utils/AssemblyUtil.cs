@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace GBCLV3.Utils
 {
-    static class AssemblyUtil
+    internal static class AssemblyUtil
     {
         private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 

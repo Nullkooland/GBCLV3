@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class ResourcePackViewModel : Screen
+    public class ResourcePackViewModel : Screen
     {
         #region Private Fields
 

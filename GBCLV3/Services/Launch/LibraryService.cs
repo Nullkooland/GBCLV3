@@ -9,7 +9,7 @@ using System.Linq;
 
 namespace GBCLV3.Services.Launch
 {
-    class LibraryService
+    public class LibraryService
     {
         #region Private Fields
 

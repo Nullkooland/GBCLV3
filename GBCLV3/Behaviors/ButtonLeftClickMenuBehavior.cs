@@ -4,7 +4,7 @@ using System.Windows.Data;
 
 namespace GBCLV3.Behaviors
 {
-    static class ButtonLeftClickMenuBehavior
+    public static class ButtonLeftClickMenuBehavior
     {
         #region Attached Properties
 

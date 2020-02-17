@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class FabricInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
+    public class FabricInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Fields
 

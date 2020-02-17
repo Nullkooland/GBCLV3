@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Authentication
 {
-    class AuthService
+    public class AuthService
     {
         #region Private Fields
 

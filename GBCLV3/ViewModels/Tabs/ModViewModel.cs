@@ -14,7 +14,7 @@ using System.Windows.Controls;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class ModViewModel : Screen
+    public class ModViewModel : Screen
     {
         #region Private Fields
 

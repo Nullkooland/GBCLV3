@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace GBCLV3.Services.Auxiliary
 {
-    class SkinService
+    public class SkinService
     {
         #region Private Fields
 

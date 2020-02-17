@@ -3,7 +3,7 @@ using Stylet;
 
 namespace GBCLV3.ViewModels
 {
-    class LaunchStatusViewModel : Screen
+    public class LaunchStatusViewModel : Screen
     {
         #region Bindings
 

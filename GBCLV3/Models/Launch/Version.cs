@@ -7,7 +7,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models.Launch
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum VersionType
+    public enum VersionType
     {
         [Description("Release")]
         Release,
@@ -28,7 +28,7 @@ namespace GBCLV3.Models.Launch
         Fabric,
     }
 
-    class Version
+    public class Version
     {
         public string ID { get; set; }
 
@@ -53,7 +53,7 @@ namespace GBCLV3.Models.Launch
         public AssetsInfo AssetsInfo { get; set; }
     }
 
-    class VersionDownload
+    public class VersionDownload
     {
         public string ID { get; set; }
 
@@ -64,7 +64,7 @@ namespace GBCLV3.Models.Launch
         public VersionType Type { get; set; }
     }
 
-    class LatestVersion
+    public class LatestVersion
     {
         public string Release { get; set; }
 
@@ -76,7 +76,7 @@ namespace GBCLV3.Models.Launch
     /// <summary>
     /// Json instance of a Minecraft version from local json
     /// </summary>
-    class JVersion
+    public class JVersion
     {
         public JFile assetIndex { get; set; }
 
@@ -104,7 +104,7 @@ namespace GBCLV3.Models.Launch
     /// <summary>
     /// Json instance of version downloads list
     /// </summary>
-    class JVersionList
+    public class JVersionList
     {
         public JLatesetVersion latest { get; set; }
 
@@ -114,7 +114,7 @@ namespace GBCLV3.Models.Launch
     /// <summary>
     /// Json instance of the latest Minecraft version
     /// </summary>
-    class JLatesetVersion
+    public class JLatesetVersion
     {
         public string release { get; set; }
 
@@ -124,7 +124,7 @@ namespace GBCLV3.Models.Launch
     /// <summary>
     /// Json instance of a Minecraft version from download list
     /// </summary>
-    class JDownloadVersion
+    public class JDownloadVersion
     {
         public string id { get; set; }
 

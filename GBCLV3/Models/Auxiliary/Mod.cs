@@ -1,6 +1,6 @@
 ﻿namespace GBCLV3.Models.Auxiliary
 {
-    class Mod
+    public class Mod
     {
         public string Name { get; set; }
 
@@ -26,7 +26,7 @@
 
     #region Json Class
 
-    class JMod
+    public class JMod
     {
         public JMod[] modList { get; set; }
 

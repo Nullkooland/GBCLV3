@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 
 namespace GBCLV3.Services
 {
-    class ThemeService : PropertyChangedBase
+    public class ThemeService : PropertyChangedBase
     {
         #region Binding Properties
 

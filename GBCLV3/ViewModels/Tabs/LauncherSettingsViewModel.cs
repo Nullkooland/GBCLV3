@@ -9,7 +9,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class LauncherSettingsViewModel : Screen
+    public class LauncherSettingsViewModel : Screen
     {
         #region Private Fields
 

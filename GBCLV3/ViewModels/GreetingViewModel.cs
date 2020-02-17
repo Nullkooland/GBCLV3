@@ -5,7 +5,7 @@ using GBCLV3.Services.Authentication;
 
 namespace GBCLV3.ViewModels
 {
-    class GreetingViewModel : Screen
+    public class GreetingViewModel : Screen
     {
 
         #region Constructor

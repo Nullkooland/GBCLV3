@@ -1,13 +1,13 @@
 ﻿namespace GBCLV3.Models.Download
 {
-    enum DownloadResult
+    public enum DownloadResult
     {
         Incomplete,
         Succeeded,
         Canceled,
     }
 
-    class DownloadProgress
+    public class DownloadProgress
     {
         public int TotalCount { get; set; }
 

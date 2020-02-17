@@ -15,7 +15,7 @@ using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
-    class FabricInstallService
+    public class FabricInstallService
     {
         #region Private Fields
 
@@ -44,7 +44,7 @@ namespace GBCLV3.Services.Installation
             _urlService = downloadUrlService;
             _versionService = versionService;
 
-            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
+            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
         }
 
         #endregion

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Launch
 {
-    class AssetService
+    public class AssetService
     {
         #region Private Fields
 

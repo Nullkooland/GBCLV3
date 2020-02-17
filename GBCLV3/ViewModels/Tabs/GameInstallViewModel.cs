@@ -17,7 +17,7 @@ using System.Windows.Data;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class GameInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
+    public class GameInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Fields
 

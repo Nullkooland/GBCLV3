@@ -19,7 +19,7 @@ using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class LaunchViewModel : Conductor<IScreen>.Collection.OneActive
+    public class LaunchViewModel : Conductor<IScreen>.Collection.OneActive
     {
         #region Private Fields
 

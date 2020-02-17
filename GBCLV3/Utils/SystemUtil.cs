@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Utils
 {
-    static class SystemUtil
+    public static class SystemUtil
     {
         public static ReadOnlySpan<byte> ReadUtf8File(string path)
         {
