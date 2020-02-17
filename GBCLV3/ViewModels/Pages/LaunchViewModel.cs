@@ -217,7 +217,10 @@ namespace GBCLV3.ViewModels.Pages
             }
 
             // For legacy versions (1.7.2 or earlier), copy hashed asset objects to virtual files
-            await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
+            if (launchVersion.AssetsInfo.IsLegacy)
+            {
+                await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
+            }
 
             // All good to go, now build launch profile
             var profile = new LaunchProfile

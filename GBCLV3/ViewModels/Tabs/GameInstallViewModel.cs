@@ -9,6 +9,7 @@ using Stylet;
 using StyletIoC;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -26,6 +27,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         //IoC
         private readonly Config _config;
+        private readonly GamePathService _gamePathService;
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
@@ -41,6 +43,7 @@ namespace GBCLV3.ViewModels.Tabs
         [Inject]
         public GameInstallViewModel(
             ConfigService configService,
+            GamePathService gamePathService,
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
@@ -49,6 +52,7 @@ namespace GBCLV3.ViewModels.Tabs
             IWindowManager windowManager)
         {
             _config = configService.Entries;
+            _gamePathService = gamePathService;
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
@@ -110,7 +114,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
 
             Status = VersionInstallStatus.FetchingJson;
-            string json = await _versionService.GetJsonAsync(download);
+            var json = await _versionService.GetJsonAsync(download);
 
             if (json == null)
             {
@@ -121,7 +125,12 @@ namespace GBCLV3.ViewModels.Tabs
                 return;
             }
 
-            var version = _versionService.AddNew(json);
+            string jsonPath = $"{_gamePathService.VersionsDir}/{download.ID}/{download.ID}.json";
+
+            Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
+            File.WriteAllBytes(jsonPath, json);
+
+            var version = _versionService.AddNew(jsonPath);
 
             // Download essential dependencies
             Status = VersionInstallStatus.DownloadingDependencies;

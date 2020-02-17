@@ -1,5 +1,6 @@
 ﻿using GBCLV3.Models.Download;
 using System;
+using System.Buffers;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -26,10 +27,13 @@ namespace GBCLV3.Services.Download
 
         #region Private Fields
 
+        // private const int MAX_DEGREE_OF_PARALLELISM = 16;
         private const int BUFFER_SIZE = 4096; // byte
         private const double INFO_UPDATE_INTERVAL = 1.0; // second
 
         private readonly HttpClient _client;
+        private readonly ArrayPool<byte> _bufferPool;
+        private readonly ExecutionDataflowBlockOptions _parallelOptions;
         private readonly DispatcherTimer _timer;
         private readonly CancellationTokenSource _cts;
         private readonly AutoResetEvent _sync;
@@ -49,13 +53,21 @@ namespace GBCLV3.Services.Download
 
         public DownloadService(IEnumerable<DownloadItem> downloadItems)
         {
-            _client = new HttpClient() {Timeout = TimeSpan.FromMinutes(1)};
+            _client = new HttpClient();
             _client.DefaultRequestHeaders.Connection.Add("keep-alive");
+
+            _bufferPool = ArrayPool<byte>.Create(BUFFER_SIZE, Environment.ProcessorCount);
 
             _cts = new CancellationTokenSource();
             _sync = new AutoResetEvent(true);
 
-            _timer = new DispatcherTimer()
+            _parallelOptions = new ExecutionDataflowBlockOptions
+            {
+                MaxDegreeOfParallelism = Environment.ProcessorCount,
+                CancellationToken = _cts.Token,
+            };
+
+            _timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(INFO_UPDATE_INTERVAL)
             };
@@ -80,20 +92,14 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<bool> StartAsync()
         {
-            var options = new ExecutionDataflowBlockOptions
-            {
-                MaxDegreeOfParallelism = 8,
-                CancellationToken = _cts.Token,
-            };
-
             for (;;)
             {
                 _timer.Start();
 
                 try
                 {
-                    var downloader =
-                        new ActionBlock<DownloadItem>(async item => { await DownloadTask(item); }, options);
+                    var downloader = new ActionBlock<DownloadItem>(async item =>
+                        await DownloadTask(item), _parallelOptions);
 
                     foreach (var item in _downloadItems)
                     {
@@ -186,6 +192,7 @@ namespace GBCLV3.Services.Download
                 Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
             }
 
+            var buffer = _bufferPool.Rent(BUFFER_SIZE);
 
             try
             {
@@ -206,7 +213,7 @@ namespace GBCLV3.Services.Download
 
                     if (isResume)
                     {
-                        request.Headers.Range = new RangeHeaderValue(item.DownloadedBytes, null);
+                        request.Headers.Range = new RangeHeaderValue(item.DownloadedBytes + 1, null);
                     }
 
                     response = await _client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead,
@@ -229,12 +236,10 @@ namespace GBCLV3.Services.Download
                     fileStream.Seek(item.DownloadedBytes, SeekOrigin.Begin);
                 }
 
-                var buffer = new byte[BUFFER_SIZE];
                 int bytesReceived;
-
                 while ((bytesReceived = await httpStream.ReadAsync(buffer, _cts.Token)) > 0)
                 {
-                    await fileStream.WriteAsync(buffer, 0, bytesReceived, _cts.Token);
+                    fileStream.Write(buffer, 0, bytesReceived);
                     item.DownloadedBytes += bytesReceived;
                     Interlocked.Add(ref _downloadedBytes, bytesReceived);
                 }
@@ -258,6 +263,10 @@ namespace GBCLV3.Services.Download
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.ToString());
+            }
+            finally
+            {
+                _bufferPool.Return(buffer);
             }
 
             // If is not caused by cancellation, mark as failure

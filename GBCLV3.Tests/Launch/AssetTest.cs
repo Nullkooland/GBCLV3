@@ -6,52 +6,64 @@ using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GBCLV3.Tests
+namespace GBCLV3.Tests.Launch
 {
     [TestClass]
-    public class VersionTest
+    public class AssetTest
     {
-        private const string GAME_ROOT_DIR = "G:/Minecraft/1.12.2/.minecraft";
-        private const string ID = "1.12.2";
+        private const string GAME_ROOT_DIR = @"D:\Games\Minecraft\.minecraft";
+        private const string ID = "1.14.4";
 
         private readonly ConfigService _configService;
         private readonly VersionService _versionService;
+        private readonly AssetService _assetService;
 
-        public VersionTest()
+        public AssetTest()
         {
             _configService = new ConfigService();
             _configService.Load();
             _configService.Entries.GameDir = GAME_ROOT_DIR;
+            _configService.Entries.SelectedVersion = ID;
 
             var gamePathService = new GamePathService(_configService);
             var urlServie = new DownloadUrlService(_configService);
 
             _versionService = new VersionService(gamePathService, urlServie);
+            _assetService = new AssetService(gamePathService, urlServie);
 
             _versionService.LoadAll();
             Assert.IsTrue(_versionService.Any(), "No available versions!");
+        }
 
-            foreach (var version in _versionService.GetAll())
+        [TestMethod]
+        public void AssetsTest()
+        {
+            var version = _versionService.GetByID(ID);
+            _assetService.LoadAllObjects(version.AssetsInfo);
+
+            Debug.WriteLine(version.AssetsInfo.Objects.Count);
+
+            var damagedAssets = _assetService.CheckIntegrityAsync(version.AssetsInfo).Result;
+            foreach (var asset in damagedAssets)
             {
-                Debug.WriteLine(version.ID);
-                //Debug.WriteLine();
+                Debug.WriteLine(asset.Path);
             }
         }
 
         [TestMethod]
-        public void GetDownloadsTest()
+        public void GetDownloadInfoTest()
         {
-            var downloads = _versionService.GetAll()
-                                           .Select(version => _versionService.GetDownload(version))
-                                           .Aggregate((prev, current) => prev.Concat(current));
+            var version = _versionService.GetByID(ID);
+            _assetService.LoadAllObjects(version.AssetsInfo);
 
+            var downloads = _assetService.GetDownloads(version.AssetsInfo.Objects.Values);
             int totalBytes = downloads.Sum(obj => obj.Size);
 
-            Debug.WriteLine($"Type: {DownloadType.MainJar}");
+            Debug.WriteLine($"Type: {DownloadType.Assets}");
             Debug.WriteLine($"downloads Count: {downloads.Count()}");
             Debug.WriteLine($"downloads TotalBytes: {totalBytes}");
 
-            Debug.WriteLine("[Main Jar Downloads]");
+            Debug.WriteLine("[Asset Downloads]");
             foreach (var item in downloads)
             {
                 Debug.WriteLine("---------------------------------------------------------------");

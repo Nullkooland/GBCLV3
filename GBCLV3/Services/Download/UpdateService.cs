@@ -58,7 +58,7 @@ namespace GBCLV3.Services.Download
             {
                 CheckStatusChanged?.Invoke(CheckUpdateStatus.Checking);
 
-                string json = await _client.GetStringAsync(CHECK_UPDATE_URL);
+                var json = await _client.GetByteArrayAsync(CHECK_UPDATE_URL);
                 var info = JsonSerializer.Deserialize<UpdateInfo>(json);
 
                 if (HasNewVersion(info.Version))
@@ -85,7 +85,7 @@ namespace GBCLV3.Services.Download
 
             try
             {
-                string json = await _client.GetStringAsync(changelogAsset.Url);
+                var json = await _client.GetByteArrayAsync(changelogAsset.Url);
                 var dictByLang = JsonSerializer.Deserialize<Dictionary<string, UpdateChangelog>>(json);
 
                 return dictByLang[_config.Language];

@@ -10,6 +10,19 @@ namespace GBCLV3.Utils
 {
     static class SystemUtil
     {
+        public static ReadOnlySpan<byte> ReadUtf8File(string path)
+        {
+            ReadOnlySpan<byte> data = File.ReadAllBytes(path);
+
+            // Read past the UTF-8 BOM bytes if a BOM exists.
+            if (data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF)
+            {
+                return data[3..];
+            }
+
+            return data;
+        }
+
         public static string GetJavaDir()
         {
             try
@@ -37,27 +50,27 @@ namespace GBCLV3.Utils
             });
         }
 
-        public static async Task SendDirToRecycleBinAsync(string path)
+        public static Task SendDirToRecycleBinAsync(string path)
         {
             if (!Directory.Exists(path))
             {
-                return;
+                return null;
             }
 
-            await Task.Run(() =>
+            return Task.Run(() =>
             {
                 FileSystem.DeleteDirectory(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             });
         }
 
-        public static async Task SendFileToRecycleBinAsync(string path)
+        public static Task SendFileToRecycleBinAsync(string path)
         {
             if (!File.Exists(path))
             {
-                return;
+                return null;
             }
-            
-            await Task.Run(() =>
+
+            return Task.Run(() =>
             {
                 FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             });

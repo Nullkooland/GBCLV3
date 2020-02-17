@@ -31,7 +31,7 @@ namespace GBCLV3.Services
         {
             try
             {
-                string json = File.ReadAllText(CONFIG_FILENAME, Encoding.UTF8);
+                var json = SystemUtil.ReadUtf8File(CONFIG_FILENAME);
                 Entries = JsonSerializer.Deserialize<Config>(json);
             }
             catch
@@ -73,9 +73,9 @@ namespace GBCLV3.Services
 
         public void Save()
         {
-            string json = JsonSerializer.Serialize(Entries, 
+            var json = JsonSerializer.SerializeToUtf8Bytes(Entries, 
                 new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
-            File.WriteAllText(CONFIG_FILENAME, json, Encoding.UTF8);
+            File.WriteAllBytes(CONFIG_FILENAME, json);
         }
 
         #endregion

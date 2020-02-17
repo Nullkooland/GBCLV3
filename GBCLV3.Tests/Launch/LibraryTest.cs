@@ -7,7 +7,7 @@ using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GBCLV3.Tests
+namespace GBCLV3.Tests.Launch
 {
     [TestClass]
     public class LibraryTest

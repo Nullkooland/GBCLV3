@@ -6,7 +6,7 @@ using GBCLV3.Services.Installation;
 using GBCLV3.Services.Launch;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace GBCLV3.Tests
+namespace GBCLV3.Tests.Installation
 {
     [TestClass]
     public class InstallTest
