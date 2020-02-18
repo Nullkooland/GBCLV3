@@ -61,7 +61,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public bool CanInstall => Status == FabricInstallStatus.ListLoaded;
 
-        public BindableCollection<Fabric> Fabrics { get; private set; }
+        public BindableCollection<Fabric> Fabrics { get; }
 
         public async void InstallSelected(Fabric fabric)
         {

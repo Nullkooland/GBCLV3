@@ -1,4 +1,5 @@
-﻿using GBCLV3.Models;
+﻿using System;
+using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services;
@@ -22,6 +23,14 @@ namespace GBCLV3.ViewModels.Pages
 {
     public class LaunchViewModel : Conductor<IScreen>.Collection.OneActive
     {
+        #region Events
+
+        public event Action LaunchProcessStarted;
+
+        public event Action LaunchProcessEnded;
+
+        #endregion
+
         #region Private Fields
 
         private const string XD = "_(:3」∠)_";
@@ -59,7 +68,9 @@ namespace GBCLV3.ViewModels.Pages
             AuthService authService,
             AuthlibInjectorService authlibInjectorService,
             LaunchService launchService,
+
             IWindowManager windowManager,
+            GreetingViewModel greetingVM,
             VersionsManagementViewModel versionsVM,
             LaunchStatusViewModel statusVM,
             AccountEditViewModel accountEditVM,
@@ -87,11 +98,13 @@ namespace GBCLV3.ViewModels.Pages
             _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
             _launchService.Exited += OnGameExited;
 
-            _versionService.Loaded += hasAny => CanLaunch = hasAny;
+            _versionService.Loaded += hasAny => HasVersion = hasAny;
+            _versionService.Created += _ => HasVersion = true;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
 
             ThemeService = themeService;
+            GreetingVM = greetingVM;
             VersionsVM = versionsVM;
         }
 
@@ -99,17 +112,23 @@ namespace GBCLV3.ViewModels.Pages
 
         #region Bindings
 
-        public VersionsManagementViewModel VersionsVM { get; set; }
+        public VersionsManagementViewModel VersionsVM { get; }
 
-        public GreetingViewModel GreetingVM { get; private set; }
+        public GreetingViewModel GreetingVM { get; }
 
-        public ThemeService ThemeService { get; private set; }
+        public ThemeService ThemeService { get; }
 
-        public bool CanLaunch { get; private set; }
+        public bool IsLaunching { get; private set; }
+
+        public bool HasVersion { get; private set; }
+
+        public bool CanLaunch => HasVersion && !IsLaunching;
 
         public async void Launch()
         {
-            CanLaunch = false;
+            IsLaunching = true;
+            GreetingVM.IsShown = false;
+            LaunchProcessStarted?.Invoke();
 
             // Check JRE
             if (_config.JreDir == null)
@@ -130,7 +149,7 @@ namespace GBCLV3.ViewModels.Pages
             var account = _accountService.GetSelected();
             if (account == null)
             {
-                _accountEditVM.Setup(AccountEditType.AddAccount, account);
+                _accountEditVM.Setup(AccountEditType.AddAccount);
 
                 if (_windowManager.ShowDialog(_accountEditVM) != true)
                 {
@@ -332,7 +351,9 @@ namespace GBCLV3.ViewModels.Pages
         {
             if (_statusVM.Status == LaunchStatus.Failed)
             {
-                CanLaunch = true;
+                IsLaunching = false;
+                GreetingVM.IsShown = true;
+                LaunchProcessEnded?.Invoke();
                 return;
             }
 
@@ -352,10 +373,13 @@ namespace GBCLV3.ViewModels.Pages
 
         private void OnGameExited(int exitCode)
         {
-            CanLaunch = true;
+            IsLaunching = false;
+            LaunchProcessEnded?.Invoke();
 
             Execute.OnUIThread(() =>
             {
+                GreetingVM.IsShown = true;
+
                 if (_config.AfterLaunch != AfterLaunchBehavior.Exit && exitCode != 0 && _logger.Length > 0)
                 {
                     _errorReportVM.ErrorMessage = $"Exit Code: {exitCode}\n" + _logger.ToString();
@@ -376,22 +400,11 @@ namespace GBCLV3.ViewModels.Pages
             });
         }
 
-        #endregion
-
-        #region Override Methods
-
-        protected override void OnViewLoaded()
-        {
-            if (_statusVM.Status == LaunchStatus.Failed) CanLaunch = true;
-        }
-
         protected override async void OnInitialActivate()
         {
-            if (_accountService.Any())
-            {
-                await _accountService.LoadSkinsAsync();
-                GreetingVM = new GreetingViewModel(_accountService.GetSelected());
-            }
+            await _accountService.LoadSkinsAsync();
+            GreetingVM.NotifyAccountChanged();
+            GreetingVM.IsShown = true;
         }
 
         #endregion

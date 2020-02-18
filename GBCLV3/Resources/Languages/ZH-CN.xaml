@@ -239,6 +239,7 @@
     <s:String x:Key="UpdateSuccessful">升级成功</s:String>
 
     <!-- 公共 -->
+    <s:String x:Key="Hello">你好</s:String>
     <s:String x:Key="AddNew">添加</s:String>
     <s:String x:Key="InstallNew">安装新版本</s:String>
     <s:String x:Key="Reload">重新加载</s:String>

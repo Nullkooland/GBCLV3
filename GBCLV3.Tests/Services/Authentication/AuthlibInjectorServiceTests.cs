@@ -55,7 +55,7 @@ namespace GBCLV3.Tests.Services.Authentication
         public void CheckLocalBuildTest()
         {
             var authlibInjectorInstallService = _ioc.Get<AuthlibInjectorService>();
-            int build = authlibInjectorInstallService.CheckLocalBuild();
+            int build = authlibInjectorInstallService.GetLocalBuild();
             Assert.IsTrue(build > 0);
             Debug.WriteLine($"Authlib-Injector Build Number: {build}");
         }

@@ -47,7 +47,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         #region Bindings
 
-        public BindableCollection<Mod> Mods { get; private set; }
+        public BindableCollection<Mod> Mods { get; }
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 

@@ -41,12 +41,12 @@ namespace GBCLV3.Services.Authentication
 
         #region Public Methods
 
-        public async Task LoadSkinsAsync()
+        public Task LoadSkinsAsync()
         {
-            var task = _accounts.Select(async account =>
+            var tasks = _accounts.Select(async account =>
                 await LoadSkinAsync(account).ConfigureAwait(false));
 
-            await Task.WhenAll(task);
+            return Task.WhenAll(tasks);
         }
 
         public bool Any() => _accounts.Any();

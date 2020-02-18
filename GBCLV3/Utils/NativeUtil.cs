@@ -6,7 +6,7 @@ namespace GBCLV3.Utils
 {
     internal static class NativeUtil
     {
-        #region Public Methods
+        #region Window Blur
 
         public static void EnableBlur(IntPtr hwnd)
         {
@@ -16,8 +16,8 @@ namespace GBCLV3.Utils
             accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
 
             //accent.AccentFlags = 0x20 | 0x40 | 0x80 | 0x100;
-            //accent.GradientColor = 0x99FFFFFF;
-            accent.GradientColor = 0x00FFFFFF;
+            accent.GradientColor = 0x99FFFFFF;
+            // accent.GradientColor = 0x00FFFFFF;
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
@@ -34,34 +34,6 @@ namespace GBCLV3.Utils
             Marshal.FreeHGlobal(accentPtr);
         }
 
-        public static Color GetSystemColorByName(string colorName)
-        {
-            uint colorSetEx = GetImmersiveColorFromColorSetEx(
-                GetImmersiveUserColorSetPreference(false, false),
-                GetImmersiveColorTypeFromName(Marshal.StringToHGlobalUni(colorName)),
-                false, 0);
-
-            return Color.FromArgb(
-                (byte)((0xFF000000 & colorSetEx) >> 24),
-                (byte)(0x000000FF & colorSetEx),
-                (byte)((0x0000FF00 & colorSetEx) >> 8),
-                (byte)((0x00FF0000 & colorSetEx) >> 16)
-            );
-        }
-
-        public static uint GetAvailablePhysicalMemory()
-        {
-            var status = new MemoryStatusEx { Length = (uint)Marshal.SizeOf(typeof(MemoryStatusEx)) };
-            GlobalMemoryStatusEx(ref status);
-            return (uint)(status.AvailablePhysicalMemory / (1024 * 1024));
-        }
-
-        public static uint GetRecommendedMemory() =>
-            (uint)Math.Pow(2.0, Math.Floor(Math.Log(GetAvailablePhysicalMemory(), 2.0)));
-
-        #endregion
-
-        #region Window Blur
 
         private enum AccentState
         {
@@ -78,7 +50,7 @@ namespace GBCLV3.Utils
         {
             public AccentState AccentState;
             public int AccentFlags;
-            public int GradientColor;
+            public uint GradientColor;
             public int AnimationId;
         }
 
@@ -102,6 +74,21 @@ namespace GBCLV3.Utils
 
         #region System Accent Color
 
+        public static Color GetSystemColorByName(string colorName)
+        {
+            uint colorSetEx = GetImmersiveColorFromColorSetEx(
+                GetImmersiveUserColorSetPreference(false, false),
+                GetImmersiveColorTypeFromName(Marshal.StringToHGlobalUni(colorName)),
+                false, 0);
+
+            return Color.FromArgb(
+                (byte)((0xFF000000 & colorSetEx) >> 24),
+                (byte)(0x000000FF & colorSetEx),
+                (byte)((0x0000FF00 & colorSetEx) >> 8),
+                (byte)((0x00FF0000 & colorSetEx) >> 16)
+            );
+        }
+
         [DllImport("uxtheme.dll", EntryPoint = "#95")]
         private static extern uint GetImmersiveColorFromColorSetEx(uint dwImmersiveColorSet, uint dwImmersiveColorType, bool bIgnoreHighContrast, uint dwHighContrastCacheMode);
 
@@ -114,6 +101,16 @@ namespace GBCLV3.Utils
         #endregion
 
         #region Memory Info
+
+        public static uint GetAvailablePhysicalMemory()
+        {
+            var status = new MemoryStatusEx { Length = (uint)Marshal.SizeOf(typeof(MemoryStatusEx)) };
+            GlobalMemoryStatusEx(ref status);
+            return (uint)(status.AvailablePhysicalMemory / (1024 * 1024));
+        }
+
+        public static uint GetRecommendedMemory() =>
+            (uint)Math.Pow(2.0, Math.Floor(Math.Log(GetAvailablePhysicalMemory(), 2.0)));
 
         [StructLayout(LayoutKind.Sequential)]
         private struct MemoryStatusEx

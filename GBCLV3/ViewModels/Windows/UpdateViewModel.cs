@@ -66,7 +66,7 @@ namespace GBCLV3.ViewModels.Windows
 
         #region Bindings
 
-        public ThemeService ThemeService { get; private set; }
+        public ThemeService ThemeService { get; }
 
         public string Version { get; private set; }
 

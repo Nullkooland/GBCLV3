@@ -61,7 +61,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public bool CanInstall => Status == ForgeInstallStatus.ListLoaded;
 
-        public BindableCollection<Forge> Forges { get; private set; }
+        public BindableCollection<Forge> Forges { get; }
 
         public async void InstallSelected(Forge forge)
         {

@@ -46,20 +46,28 @@
                                 <ColumnDefinition Width="Auto" />
                             </Grid.ColumnDefinitions>
 
+                            <Rectangle x:Name="Base"
+                                       Grid.ColumnSpan="2"
+                                       Fill="{DynamicResource ControlTranslucentBrush}" Opacity="0"
+                                       adonisExtensions:CursorSpotlightExtension.MouseEventSource="{Binding RelativeSource={RelativeSource Self}}" />
+
                             <TextBlock Grid.Column="0" Margin="16,0,0,0"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       IsHitTestVisible="False"
                                        Foreground="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
                                        FontFamily="Segoe MDL2 Assets" FontSize="20"
                                        Text="{TemplateBinding Header}" />
 
                             <TextBlock Grid.Column="1" Margin="16,0"
                                        HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       IsHitTestVisible="False"
                                        Foreground="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
                                        FontSize="16"
                                        Text="{TemplateBinding Tag}" />
 
                             <Rectangle x:Name="SlectionIdentifier" Grid.ColumnSpan="2"
                                        Height="2"
+                                       IsHitTestVisible="False"
                                        HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                                        Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentInteractionBrush}}"
                                        Visibility="Hidden" />
@@ -68,8 +76,7 @@
 
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding ElementName=Border, Path=IsMouseOver}" Value="True">
-                            <Setter TargetName="Border" Property="Background"
-                                    Value="{DynamicResource ControlTranslucentBrush}" />
+                            <Setter TargetName="Base" Property="Opacity" Value="1" />
                         </DataTrigger>
                         <Trigger Property="IsSelected" Value="True">
                             <Setter TargetName="SlectionIdentifier" Property="Visibility" Value="Visible" />

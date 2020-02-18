@@ -129,7 +129,6 @@
                          Visibility="{Binding IsOfflineMode, Mode=OneWay,
                                         Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
 
-
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource DescriptionBoxStyle}"
                            Text="{DynamicResource Password}"
@@ -166,7 +165,7 @@
 
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               MaxWidth="140" MaxHeight="36"
+                               MaxWidth="140" MaxHeight="40"
                                FontSize="14" FontWeight="Bold"
                                TextWrapping="Wrap"
                                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"

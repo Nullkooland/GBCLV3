@@ -40,6 +40,7 @@
 
         <ListBox ItemsSource="{Binding Accounts, Mode=OneWay}"
                  SelectedItem="{Binding SelectedAccount, Mode=TwoWay}"
+                 SelectionChanged="{s:Action OnSelectedAccountChanged}"
                  BorderThickness="1">
 
             <ListBox.Resources>

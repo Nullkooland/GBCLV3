@@ -75,7 +75,7 @@ namespace GBCLV3.Services.Authentication
             return File.Exists(path) && CryptUtil.GetFileSHA256(path) == sha256;
         }
 
-        public int CheckLocalBuild()
+        public int GetLocalBuild()
         {
             string path = $"{_gamePathService.RootDir}/authlib-injector.jar";
             try

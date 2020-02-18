@@ -2,32 +2,44 @@
 using StyletIoC;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services.Authentication;
+using GBCLV3.ViewModels.Tabs;
 
 namespace GBCLV3.ViewModels
 {
     public class GreetingViewModel : Screen
     {
+        #region Private Fields
+
+        private readonly AccountService _accountService;
+
+        #endregion
 
         #region Constructor
 
-        public GreetingViewModel(Account currentAccount)
+        [Inject]
+        public GreetingViewModel(AccountService accountService)
         {
-            CurrentAccount = currentAccount;
-            IsReady = true;
+            _accountService = accountService;
         }
 
         #endregion
 
         #region Bindings
 
-        public bool IsReady { get; set; }
+        public bool IsShown { get; set; }
 
-        public Account CurrentAccount { get; private set; }
+        public Account SelectedAccount { get; private set; }
 
+        public bool IsOfflineMode => SelectedAccount.AuthMode == AuthMode.Offline;
 
-        public void OnAnimationCompleted()
+        #endregion
+
+        #region Public Method
+
+        public void NotifyAccountChanged()
         {
-            if (this.IsActive) this.RequestClose();
+            SelectedAccount = _accountService.GetSelected();
+            NotifyOfPropertyChange(nameof(SelectedAccount));
         }
 
         #endregion

@@ -239,6 +239,7 @@
 
     <!-- Common -->
     <s:String x:Key="AddNew">Add New</s:String>
+    <s:String x:Key="Hello">Hello</s:String>
     <s:String x:Key="InstallNew">Install New</s:String>
     <s:String x:Key="Reload">Reload</s:String>
     <s:String x:Key="OpenDir">Open Directory</s:String>

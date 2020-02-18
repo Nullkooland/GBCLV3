@@ -159,7 +159,7 @@ namespace GBCLV3.Views.Windows
         /// <summary>
         /// Set font style
         /// </summary>
-        public ThemeService ThemeService { get; private set; }
+        public ThemeService ThemeService { get; }
 
         /// <summary>
         /// Gets or sets the list of buttons which are shown in the View.
