@@ -100,7 +100,7 @@
                           ToolTipService.Placement="Bottom"
                           ToolTip="{DynamicResource DebugModeDescription}" />
 
-                <Button Grid.Row="1" Grid.Column="4"
+                <Button Grid.Row="1" Grid.Column="5"
                         Content="&#xE896;"
                         ToolTipService.Placement="Bottom"
                         ToolTip="{DynamicResource DownloadJreInstaller}"
