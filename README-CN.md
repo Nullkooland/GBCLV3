@@ -83,6 +83,7 @@
 ## 运行截图
 <img src="./Screenshots/main_zh.png" width="720"/>
 <img src="./Screenshots/blur_behind_zh.png" width="720"/>
+<img src="./Screenshots/literally_code_behind_zh.png" width="720"/>
 <img src="./Screenshots/versions_zh.png" width="720"/>
 <img src="./Screenshots/accounts_zh.png" width="720"/>
 <img src="./Screenshots/settings_zh.png" width="720"/>

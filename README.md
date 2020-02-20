@@ -86,6 +86,7 @@
 
 <img src="./Screenshots/main_en.png" width="720"/>
 <img src="./Screenshots/blur_behind_en.png" width="720"/>
+<img src="./Screenshots/literally_code_behind_en.png" width="720"/>
 <img src="./Screenshots/versions_en.png" width="720"/>
 <img src="./Screenshots/accounts_en.png" width="720"/>
 <img src="./Screenshots/settings_en.png" width="720"/>

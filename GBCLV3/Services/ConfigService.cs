@@ -67,6 +67,11 @@ namespace GBCLV3.Services
                 Entries.JavaMaxMem = 2048;
             }
 
+            if (Entries.Build < 104)
+            {
+                Entries.Language = null; // Migrate lower version language settings
+            }
+
             Entries.Build = AssemblyUtil.Build;
         }
 

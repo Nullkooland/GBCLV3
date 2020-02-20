@@ -51,6 +51,8 @@ namespace GBCLV3.Services
             _currentLangDict =
                 Application.LoadComponent(new Uri($"/Resources/Languages/{_config.Language}.xaml", UriKind.Relative)) as
                     ResourceDictionary;
+
+            Application.Current.Resources.MergedDictionaries.Add(_currentLangDict);
         }
 
         #endregion
