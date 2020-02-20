@@ -80,7 +80,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             var version = _fabricInstallService.Install(fabric);
 
-            var missingLibs = _libraryService.CheckIntegrity(version.Libraries);
+            var missingLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
             var downloads = _libraryService.GetDownloads(missingLibs);
 
             if (!await StartDownloadAsync(DownloadType.InstallFabric, downloads))

@@ -136,7 +136,7 @@ namespace GBCLV3.ViewModels.Tabs
             Status = VersionInstallStatus.DownloadingDependencies;
             var downloads = _versionService.GetDownload(version);
 
-            var missingLibs = _libraryService.CheckIntegrity(version.Libraries);
+            var missingLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
             downloads = downloads.Concat(_libraryService.GetDownloads(missingLibs));
 
             // Download assets index json

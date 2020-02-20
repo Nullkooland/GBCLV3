@@ -113,7 +113,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             Status = ForgeInstallStatus.DownloadingLibraries;
 
-            var missingLibs = _libraryService.CheckIntegrity(version.Libraries);
+            var missingLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
             var downloads = _libraryService.GetDownloads(missingLibs);
 
             if (!await StartDownloadAsync(DownloadType.Libraries, downloads))

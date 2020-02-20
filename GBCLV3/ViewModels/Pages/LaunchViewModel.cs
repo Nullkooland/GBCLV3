@@ -236,7 +236,7 @@ namespace GBCLV3.ViewModels.Pages
             }
 
             // Check dependent libraries and fix possible damage
-            var damagedLibs = _libraryService.CheckIntegrity(launchVersion.Libraries);
+            var damagedLibs = await _libraryService.CheckIntegrityAsync(launchVersion.Libraries);
             if (damagedLibs.Any())
             {
                 // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
