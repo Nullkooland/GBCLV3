@@ -236,11 +236,8 @@ namespace GBCLV3.Services.Download
                     fileStream.Seek(item.DownloadedBytes, SeekOrigin.Begin);
                 }
 
-                using var timeout = new CancellationTokenSource(TimeSpan.FromSeconds(10));
-                using var readCts = CancellationTokenSource.CreateLinkedTokenSource(_cts.Token, timeout.Token);
-
                 int bytesReceived;
-                while ((bytesReceived = await httpStream.ReadAsync(buffer, readCts.Token)) > 0)
+                while ((bytesReceived = await httpStream.ReadAsync(buffer, _cts.Token)) > 0)
                 {
                     fileStream.Write(buffer, 0, bytesReceived);
                     item.DownloadedBytes += bytesReceived;

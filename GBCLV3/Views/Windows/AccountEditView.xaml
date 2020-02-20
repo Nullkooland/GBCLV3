@@ -121,6 +121,7 @@
 
                 <TextBox Grid.Row="1" Grid.Column="1"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         InputMethod.IsInputMethodEnabled="True"
                          Visibility="{Binding IsOfflineMode, Mode=OneWay,
                                         Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 

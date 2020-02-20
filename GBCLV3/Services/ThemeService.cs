@@ -57,7 +57,14 @@ namespace GBCLV3.Services
             _config = configService.Entries;
             if (string.IsNullOrEmpty(_config.FontFamily))
             {
-                _config.FontFamily = "Microsoft YaHei UI";
+                if (_config.Language.StartsWith("zh"))
+                {
+                    _config.FontFamily = "Microsoft YaHei UI";
+                }
+                else
+                {
+                    _config.FontFamily = "Segoe UI";
+                }
             }
         }
 

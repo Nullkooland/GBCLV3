@@ -1,4 +1,5 @@
-﻿using GBCLV3.Models;
+﻿using System.Linq;
+using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services;
@@ -32,7 +33,6 @@ namespace GBCLV3.ViewModels.Tabs
             LanguageService languageService,
             UpdateService updateService,
             ThemeService themeService,
-
             UpdateViewModel updateVM,
             IWindowManager windowManager)
         {
@@ -45,17 +45,17 @@ namespace GBCLV3.ViewModels.Tabs
 
             _updateVM = updateVM;
             _windowManager = windowManager;
+
+            Languages = _languageService.GetAvailableLanguages()
+                .Select(pair => new LabelledValue<string>(pair.Value, pair.Key))
+                .ToArray();
         }
 
         #endregion
 
         #region Bindings
 
-        public LabelledValue<string>[] Languages { get; } =
-        {
-            new LabelledValue<string>("简体中文", "zh-cn"),
-            new LabelledValue<string>("English", "en-us"),
-        };
+        public LabelledValue<string>[] Languages { get; }
 
         public string SelectedLanguage
         {

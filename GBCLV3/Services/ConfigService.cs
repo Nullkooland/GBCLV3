@@ -5,7 +5,10 @@ using GBCLV3.Models.Launch;
 using GBCLV3.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
@@ -64,11 +67,7 @@ namespace GBCLV3.Services
                 Entries.JavaMaxMem = 2048;
             }
 
-            Entries.Language = Entries.Language?.ToLower();
-            if (string.IsNullOrWhiteSpace(Entries.Language))
-            {
-                Entries.Language = "zh-cn";
-            }
+            Entries.Build = AssemblyUtil.Build;
         }
 
         public void Save()

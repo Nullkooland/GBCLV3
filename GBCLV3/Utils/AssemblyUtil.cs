@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace GBCLV3.Utils
@@ -14,6 +15,8 @@ namespace GBCLV3.Utils
         public static string Version =>
             (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyFileVersionAttribute), false)
             as AssemblyFileVersionAttribute).Version;
+
+        public static int Build => int.Parse(Version.Split('.').Last());
 
         public static string Copyright =>
             (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyCopyrightAttribute), false)
