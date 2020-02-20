@@ -10,7 +10,7 @@ using System.Windows;
 
 namespace GBCLV3.Views.Windows
 {
-    class MessageViewModel : Screen, IMessageBoxViewModel
+    public class MessageViewModel : Screen, IMessageBoxViewModel
     {
         /// <summary>
         /// Gets or sets the mapping of button to text to display on that button. You can modify this to localize your application.
@@ -159,7 +159,7 @@ namespace GBCLV3.Views.Windows
         /// <summary>
         /// Set font style
         /// </summary>
-        public ThemeService ThemeService { get; private set; }
+        public ThemeService ThemeService { get; }
 
         /// <summary>
         /// Gets or sets the list of buttons which are shown in the View.

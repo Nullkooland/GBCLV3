@@ -1,4 +1,5 @@
-﻿using GBCLV3.Models;
+﻿using System;
+using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services;
@@ -16,11 +17,20 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models.Authentication;
+using GBCLV3.Services.Installation;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class LaunchViewModel : Conductor<IScreen>.Collection.OneActive
+    public class LaunchViewModel : Conductor<IScreen>.Collection.OneActive
     {
+        #region Events
+
+        public event Action LaunchProcessStarted;
+
+        public event Action LaunchProcessEnded;
+
+        #endregion
+
         #region Private Fields
 
         private const string XD = "_(:3」∠)_";
@@ -33,12 +43,14 @@ namespace GBCLV3.ViewModels.Pages
         private readonly AssetService _assetService;
         private readonly AccountService _accountService;
         private readonly AuthService _authService;
+        private readonly AuthlibInjectorService _authlibInjectorService;
         private readonly LaunchService _launchService;
 
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadStatusViewModel _downloadStatusVM;
         private readonly ErrorReportViewModel _errorReportVM;
         private readonly AccountEditViewModel _accountEditVM;
+        private readonly ProfileSelectViewModel _profileSelectVM;
 
         private readonly IWindowManager _windowManager;
 
@@ -47,9 +59,6 @@ namespace GBCLV3.ViewModels.Pages
         #region Constructor
 
         public LaunchViewModel(
-            IWindowManager windowManager,
-            IEventAggregator eventAggregator,
-
             ConfigService configService,
             ThemeService themeService,
             VersionService versionService,
@@ -57,13 +66,17 @@ namespace GBCLV3.ViewModels.Pages
             AssetService assetService,
             AccountService accountService,
             AuthService authService,
+            AuthlibInjectorService authlibInjectorService,
             LaunchService launchService,
 
+            IWindowManager windowManager,
+            GreetingViewModel greetingVM,
             VersionsManagementViewModel versionsVM,
             LaunchStatusViewModel statusVM,
             AccountEditViewModel accountEditVM,
             DownloadStatusViewModel downloadVM,
-            ErrorReportViewModel errorReportVM)
+            ErrorReportViewModel errorReportVM,
+            ProfileSelectViewModel profileSelectVM)
         {
             _windowManager = windowManager;
             _config = configService.Entries;
@@ -71,40 +84,51 @@ namespace GBCLV3.ViewModels.Pages
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
-            _authService = authService;
             _accountService = accountService;
+            _authService = authService;
+            _authlibInjectorService = authlibInjectorService;
             _launchService = launchService;
 
             _statusVM = statusVM;
             _accountEditVM = accountEditVM;
+            _profileSelectVM = profileSelectVM;
             _downloadStatusVM = downloadVM;
             _errorReportVM = errorReportVM;
 
             _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
             _launchService.Exited += OnGameExited;
 
-            _versionService.Loaded += hasAny => CanLaunch = hasAny;
+            _versionService.Loaded += hasAny => HasVersion = hasAny;
+            _versionService.Created += _ => HasVersion = true;
 
             _statusVM.Closed += (sender, e) => OnLaunchCompleted();
 
             ThemeService = themeService;
+            GreetingVM = greetingVM;
             VersionsVM = versionsVM;
         }
 
         #endregion
 
         #region Bindings
-        public VersionsManagementViewModel VersionsVM { get; set; }
 
-        public GreetingViewModel GreetingVM { get; private set; }
+        public VersionsManagementViewModel VersionsVM { get; }
 
-        public ThemeService ThemeService { get; private set; }
+        public GreetingViewModel GreetingVM { get; }
 
-        public bool CanLaunch { get; private set; }
+        public ThemeService ThemeService { get; }
+
+        public bool IsLaunching { get; private set; }
+
+        public bool HasVersion { get; private set; }
+
+        public bool CanLaunch => HasVersion && !IsLaunching;
 
         public async void Launch()
         {
-            CanLaunch = false;
+            IsLaunching = true;
+            GreetingVM.IsShown = false;
+            LaunchProcessStarted?.Invoke();
 
             // Check JRE
             if (_config.JreDir == null)
@@ -125,22 +149,72 @@ namespace GBCLV3.ViewModels.Pages
             var account = _accountService.GetSelected();
             if (account == null)
             {
-                _accountEditVM.Setup(AccountEditType.AddAccount, account);
+                _accountEditVM.Setup(AccountEditType.AddAccount);
 
                 if (_windowManager.ShowDialog(_accountEditVM) != true)
                 {
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
                 }
+
+                account = _accountService.GetSelected();
+            }
+            else
+            {
+                // Previous login token is invalid, need re-authentication
+                var authResult = await _authService.LoginAsync(account);
+                if (!authResult.IsSuccessful)
+                {
+                    _accountEditVM.Setup(AccountEditType.ReAuth, account);
+
+                    if (_windowManager.ShowDialog(_accountEditVM) != true)
+                    {
+                        _statusVM.Status = LaunchStatus.Failed;
+                        return;
+                    }
+                }
+                else if (authResult.SelectedProfile == null)
+                {
+                    var selectedProfile = authResult.AvailableProfiles.FirstOrDefault();
+
+                    _profileSelectVM.Setup(authResult.AvailableProfiles, account.ProfileServer);
+                    if (_windowManager.ShowDialog(_profileSelectVM) ?? false)
+                    {
+                        selectedProfile = _profileSelectVM.SelectedProfile;
+                    }
+
+                    account.Username = selectedProfile.Name;
+                    account.UUID = selectedProfile.Id;
+                }
             }
 
-            // Previous login token is invalid, need re-authentication
-            var authResult = await _authService.LoginAsync(account);
-            if (!authResult.IsSuccessful)
+            // Check authlib-injector if selected account is using external authentication
+            if (account.AuthMode == AuthMode.AuthLibInjector)
             {
-                _accountEditVM.Setup(AccountEditType.ReAuth, account);
+                if (!_authlibInjectorService.CheckIntegrity(account.AuthlibInjectorSHA256))
+                {
+                    // Authlib-Injector is missing or damaged
+                    var latest = await _authlibInjectorService.GetLatest();
+                    if (latest == null)
+                    {
+                        _statusVM.Status = LaunchStatus.Failed;
+                        return;
+                    }
 
-                if (_windowManager.ShowDialog(_accountEditVM) != true)
+                    var download = _authlibInjectorService.GetDownload(latest);
+                    if (!await StartDownloadAsync(DownloadType.AuthlibInjector, download))
+                    {
+                        _statusVM.Status = LaunchStatus.Failed;
+                        return;
+                    }
+
+                    account.AuthlibInjectorSHA256 = latest.SHA256;
+                }
+
+                account.PrefetchedAuthServerInfo =
+                    await _authService.PrefetchAuthServerInfo(account.AuthServerBase);
+
+                if (account.PrefetchedAuthServerInfo == null)
                 {
                     _statusVM.Status = LaunchStatus.Failed;
                     return;
@@ -162,12 +236,13 @@ namespace GBCLV3.ViewModels.Pages
             }
 
             // Check dependent libraries and fix possible damage
-            var damagedLibs = _libraryService.CheckIntegrity(launchVersion.Libraries);
+            var damagedLibs = await _libraryService.CheckIntegrityAsync(launchVersion.Libraries);
             if (damagedLibs.Any())
             {
                 // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
-                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(lib => lib.Type == LibraryType.ForgeMain
-                                                                                         ))
+                if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(
+                        lib => lib.Type == LibraryType.ForgeMain
+                    ))
                 {
                     _windowManager.ShowMessageBox("${MainJarDamaged}\n${PleaseReinstallForge}", "${IntegrityCheck}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -198,6 +273,7 @@ namespace GBCLV3.ViewModels.Pages
                     // Successfully downloaded the missing index json, load assets
                     _assetService.LoadAllObjects(launchVersion.AssetsInfo);
                 }
+
                 // if index json download failed (what are the odds!), not gonna retry
                 // Prepare for enjoying a silent game XD
             }
@@ -213,7 +289,10 @@ namespace GBCLV3.ViewModels.Pages
             }
 
             // For legacy versions (1.7.2 or earlier), copy hashed asset objects to virtual files
-            await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
+            if (launchVersion.AssetsInfo.IsLegacy)
+            {
+                await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
+            }
 
             // All good to go, now build launch profile
             var profile = new LaunchProfile
@@ -221,10 +300,7 @@ namespace GBCLV3.ViewModels.Pages
                 IsDebugMode = _config.JavaDebugMode,
                 JvmArgs = _config.JvmArgs,
                 MaxMemory = _config.JavaMaxMem,
-                Username = account.Username,
-                UUID = account.UUID,
-                AccessToken = account.AccessToken,
-                UserType = authResult.UserType,
+                Account = account,
                 VersionType = AssemblyUtil.Title,
                 WinWidth = _config.WindowWidth,
                 WinHeight = _config.WindowHeight,
@@ -275,7 +351,9 @@ namespace GBCLV3.ViewModels.Pages
         {
             if (_statusVM.Status == LaunchStatus.Failed)
             {
-                CanLaunch = true;
+                IsLaunching = false;
+                GreetingVM.IsShown = true;
+                LaunchProcessEnded?.Invoke();
                 return;
             }
 
@@ -295,10 +373,13 @@ namespace GBCLV3.ViewModels.Pages
 
         private void OnGameExited(int exitCode)
         {
-            CanLaunch = true;
+            IsLaunching = false;
+            LaunchProcessEnded?.Invoke();
 
             Execute.OnUIThread(() =>
             {
+                GreetingVM.IsShown = true;
+
                 if (_config.AfterLaunch != AfterLaunchBehavior.Exit && exitCode != 0 && _logger.Length > 0)
                 {
                     _errorReportVM.ErrorMessage = $"Exit Code: {exitCode}\n" + _logger.ToString();
@@ -319,22 +400,11 @@ namespace GBCLV3.ViewModels.Pages
             });
         }
 
-        #endregion
-
-        #region Override Methods
-
-        protected override void OnViewLoaded()
-        {
-            if (_statusVM.Status == LaunchStatus.Failed) CanLaunch = true;
-        }
-
         protected override async void OnInitialActivate()
         {
-            if (_accountService.Any())
-            {
-                await _accountService.LoadSkinsAsync();
-                GreetingVM = new GreetingViewModel(_accountService.GetSelected());
-            }
+            await _accountService.LoadSkinsAsync();
+            GreetingVM.NotifyAccountChanged();
+            GreetingVM.IsShown = true;
         }
 
         #endregion

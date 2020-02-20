@@ -131,6 +131,7 @@
     <!-- Download -->
 
     <!-- Download Types -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
     <s:String x:Key="MainJar">Main Jar</s:String>
     <s:String x:Key="Libraries">Libraries</s:String>
     <s:String x:Key="Assets">Assets</s:String>
@@ -164,13 +165,13 @@
     <s:String x:Key="Type">Type</s:String>
     <s:String x:Key="ReleaseTime">Release Date</s:String>
     <s:String x:Key="ReleaseOnly">Release Only</s:String>
-    
-    <s:String x:Key="VersionListLoading">LoadSkinsAsyncing version list</s:String>
+
+    <s:String x:Key="VersionListLoading">ChangeSing version list</s:String>
     <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
     <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
     <s:String x:Key="VersionFetchingJson">Fetching version json</s:String>
     <s:String x:Key="VersionDownloadingDependencies">Downloading version dependencies</s:String>
-    
+
     <s:String x:Key="VersionInstallFailed">Install Failed</s:String>
     <s:String x:Key="VersionAlreadyExists">Identical local version already exists!</s:String>
     <s:String x:Key="VersionJsonFetchFailed">Fetch version json failed!</s:String>
@@ -180,7 +181,7 @@
     <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
 
     <!-- Forge Install -->
-    <s:String x:Key="ForgeListLoading">LoadSkinsAsyncing forge download list</s:String>
+    <s:String x:Key="ForgeListLoading">Changeing forge download list</s:String>
     <s:String x:Key="ForgeListLoadFailed">Failed to load forge download list</s:String>
     <s:String x:Key="NoAvailableForge">No available forge for this version!</s:String>
     <s:String x:Key="SelectForgeVersion">Please select a forge version to install</s:String>
@@ -194,7 +195,7 @@
     <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
 
     <!-- Fabric Install -->
-    <s:String x:Key="FabricListLoading">LoadSkinsAsyncing Fabric download list</s:String>
+    <s:String x:Key="FabricListLoading">Changeing Fabric download list</s:String>
     <s:String x:Key="FabricListLoadFailed">Failed to load Fabric download list</s:String>
     <s:String x:Key="NoAvailableFabric">No available Fabric for this version!</s:String>
     <s:String x:Key="SelectFabricVersion">Please select a Fabric version to install</s:String>
@@ -214,7 +215,7 @@
     <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
     <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
     <s:String x:Key="OpenPack">Open</s:String>
-    
+
     <!-- About -->
     <s:String x:Key="Dependencies">Dependencies</s:String>
     <s:String x:Key="ThanksTo">Thanks to</s:String>
@@ -238,6 +239,7 @@
 
     <!-- Common -->
     <s:String x:Key="AddNew">Add New</s:String>
+    <s:String x:Key="Hello">Hello</s:String>
     <s:String x:Key="InstallNew">Install New</s:String>
     <s:String x:Key="Reload">Reload</s:String>
     <s:String x:Key="OpenDir">Open Directory</s:String>
@@ -257,6 +259,7 @@
     <s:String x:Key="Skins">Skins</s:String>
     <s:String x:Key="About">About</s:String>
     <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
+    <s:String x:Key="Auto">Auto</s:String>
 
     <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
     <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>

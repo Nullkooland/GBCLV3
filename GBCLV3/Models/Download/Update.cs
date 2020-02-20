@@ -7,7 +7,7 @@ using System.Text.Json.Serialization;
 namespace GBCLV3.Models.Download
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum CheckUpdateStatus
+    public enum CheckUpdateStatus
     {
         Unknown,
 
@@ -27,7 +27,7 @@ namespace GBCLV3.Models.Download
     // Github Release API
     // See https://developer.github.com/v3/repos/releases/
 
-    class UpdateAsset
+    public class UpdateAsset
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -39,7 +39,7 @@ namespace GBCLV3.Models.Download
         public int Size { get; set; }
     }
 
-    class UpdateInfo
+    public class UpdateInfo
     {
         [JsonPropertyName("name")]
         public string Name { get; set; }
@@ -60,7 +60,7 @@ namespace GBCLV3.Models.Download
         public List<UpdateAsset> Assets { get; set; }
     }
 
-    class UpdateChangelog
+    public class UpdateChangelog
     {
         [JsonPropertyName("title")]
         public string Title { get; set; }

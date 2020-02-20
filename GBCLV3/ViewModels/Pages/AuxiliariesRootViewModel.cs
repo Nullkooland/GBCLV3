@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels
 {
-    class AuxiliariesRootViewModel : Screen
+    public class AuxiliariesRootViewModel : Screen
     {
         #region Constructor
 

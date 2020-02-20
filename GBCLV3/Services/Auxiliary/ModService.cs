@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Auxiliary
 {
-    class ModService
+    public class ModService
     {
         #region Private Fields
 
@@ -96,13 +96,16 @@ namespace GBCLV3.Services.Auxiliary
                 };
             }
 
-            using var reader = new StreamReader(info.Open(), Encoding.UTF8);
+            using var infoStream = info.Open();
+            using var memoryStream = new MemoryStream();
+            infoStream.CopyTo(memoryStream);
+
             JMod jmod = null;
 
             try
             {
                 // This is utterly ugly...thanks to the capriciousness of modders
-                jmod = JsonSerializer.Deserialize<JMod[]>(reader.ReadToEnd())[0];
+                jmod = JsonSerializer.Deserialize<JMod[]>(memoryStream.ToArray())[0];
             }
             catch (JsonException ex)
             {

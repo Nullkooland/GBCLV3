@@ -5,9 +5,11 @@ using System.Linq;
 
 namespace GBCLV3.Utils
 {
-    class EnumDescriptionTypeConverter : EnumConverter
+    public class EnumDescriptionTypeConverter : EnumConverter
     {
-        public EnumDescriptionTypeConverter(Type type) : base(type) { }
+        public EnumDescriptionTypeConverter(Type type) : base(type)
+        {
+        }
 
         public override object ConvertTo(
             ITypeDescriptorContext context,

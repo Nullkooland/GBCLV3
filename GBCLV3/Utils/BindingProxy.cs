@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Utils
 {
-    public class BindingProxy : Freezable
+    internal class BindingProxy : Freezable
     {
         #region Overrides of Freezable
 

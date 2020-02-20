@@ -3,7 +3,7 @@ using StyletIoC;
 
 namespace GBCLV3.Models.Auxiliary
 {
-    class SaveService
+    public class SaveService
     {
         #region Private Fields
 

@@ -2,7 +2,7 @@
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class SkinViewModel : Screen
+    public class SkinViewModel : Screen
     {
     }
 }

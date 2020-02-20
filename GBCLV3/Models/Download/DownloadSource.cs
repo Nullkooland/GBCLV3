@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models.Download
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum DownloadSource
+    public enum DownloadSource
     {
         [LocalizedDescription(nameof(Official))]
         Official,
@@ -37,9 +37,11 @@ namespace GBCLV3.Models.Download
         string Fabric { get; }
 
         string FabricMaven { get; }
+
+        string AuthlibInjector { get; }
     }
 
-    class OfficialUrlBase : IDownloadUrlBase
+    public class OfficialUrlBase : IDownloadUrlBase
     {
         public string VersionList => "https://launchermeta.mojang.com/mc/game/version_manifest.json";
 
@@ -60,9 +62,11 @@ namespace GBCLV3.Models.Download
         public string Fabric => "https://meta.fabricmc.net/v2/versions/loader/";
 
         public string FabricMaven => "https://maven.fabricmc.net/";
+
+        public string AuthlibInjector => "https://authlib-injector.yushi.moe/artifact/latest.json";
     }
 
-    class BMCLAPIUrlBase : IDownloadUrlBase
+    public class BMCLAPIUrlBase : IDownloadUrlBase
     {
         public string VersionList => "https://bmclapi2.bangbang93.com/mc/game/version_manifest.json";
 
@@ -85,9 +89,11 @@ namespace GBCLV3.Models.Download
         public string Fabric => "http://bmclapi.bangbang93.com/fabric-meta/v2/versions/loader/";
 
         public string FabricMaven => Maven;
+
+        public string AuthlibInjector => "https://bmclapi2.bangbang93.com/mirrors/authlib-injector/artifact/latest.json";
     }
 
-    class MCBBSUrlBase : IDownloadUrlBase
+    public class MCBBSUrlBase : IDownloadUrlBase
     {
         public string VersionList => "https://download.mcbbs.net/mc/game/version_manifest.json";
 
@@ -110,6 +116,8 @@ namespace GBCLV3.Models.Download
         public string Fabric => "http://bmclapi.bangbang93.com/fabric-meta/v2/versions/loader/";
 
         public string FabricMaven => Maven;
+
+        public string AuthlibInjector => "https://download.mcbbs.net/mirrors/authlib-injector/artifact/latest.json";
     }
 
 }

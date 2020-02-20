@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Launch
 {
-    class LibraryService
+    public class LibraryService
     {
         #region Private Fields
 
@@ -48,13 +49,15 @@ namespace GBCLV3.Services.Launch
             }
         }
 
-        public Library[] CheckIntegrity(IEnumerable<Library> libraries)
+        public Task<Library[]> CheckIntegrityAsync(IEnumerable<Library> libraries)
         {
-            return libraries.Where(lib =>
+            var query = libraries.Where(lib =>
             {
                 string path = $"{_gamePathService.LibrariesDir}/{lib.Path}";
                 return !File.Exists(path) || lib.SHA1 != null && lib.SHA1 != Utils.CryptUtil.GetFileSHA1(path);
-            }).ToArray();
+            });
+
+            return Task.FromResult(query.ToArray());
         }
 
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)

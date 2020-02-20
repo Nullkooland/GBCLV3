@@ -3,7 +3,7 @@ using StyletIoC;
 
 namespace GBCLV3.Services.Launch
 {
-    class GamePathService
+    public class GamePathService
     {
         #region Properties
 

@@ -1,6 +1,6 @@
 ﻿namespace GBCLV3.Models.Installation
 {
-    enum InstallType
+    public enum InstallType
     {
         Version,
         Forge,

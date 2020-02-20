@@ -10,7 +10,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    internal class AccountEditViewModel : Screen
+    public class AccountEditViewModel : Screen
     {
         #region Private Fields
 

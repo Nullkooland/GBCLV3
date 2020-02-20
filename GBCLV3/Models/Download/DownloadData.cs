@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Models.Download
 {
-    class DownloadItem
+    public class DownloadItem
     {
         public string Name { get; set; }
 
@@ -14,26 +14,28 @@ namespace GBCLV3.Models.Download
 
         public int DownloadedBytes { get; set; }
 
+        public bool IsPartialContentSupported { get; set; }
+
         public bool IsCompleted { get; set; }
     }
 
     #region Json Class
 
-    class JMainJarDownload
+    public class JMainJarDownload
     {
         public JFile client { get; set; }
 
         public JFile server { get; set; }
     }
 
-    internal class JLibraryDownload
+    public class JLibraryDownload
     {
         public JFile artifact { get; set; }
 
         public Dictionary<string, JFile> classifiers { get; set; }
     }
 
-    class JFile
+    public class JFile
     {
         public string id { get; set; }
 

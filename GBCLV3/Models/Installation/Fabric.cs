@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GBCLV3.Models.Installation
 {
-    class FabricLoader
+    public class FabricLoader
     {
         public string Separator { get; set; }
 
@@ -16,7 +16,7 @@ namespace GBCLV3.Models.Installation
         public bool Stable { get; set; }
     }
 
-    class FabricIntermediary
+    public class FabricIntermediary
     {
         public string Maven { get; set; }
 
@@ -25,7 +25,7 @@ namespace GBCLV3.Models.Installation
         public bool Stable { get; set; }
     }
 
-    class FabricLibraries
+    public class FabricLibraries
     {
         public List<JLibrary> Common { get; set; }
 
@@ -34,14 +34,14 @@ namespace GBCLV3.Models.Installation
         public List<JLibrary> Server { get; set; }
     }
 
-    class FabricMeta
+    public class FabricMeta
     {
         public int Version { get; set; }
 
         public FabricLibraries Libraries { get; set; }
     }
 
-    class Fabric
+    public class Fabric
     {
         public FabricLoader Loader { get; set; }
 

@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class ForgeInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
+    public class ForgeInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Fields
 
@@ -61,7 +61,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public bool CanInstall => Status == ForgeInstallStatus.ListLoaded;
 
-        public BindableCollection<Forge> Forges { get; private set; }
+        public BindableCollection<Forge> Forges { get; }
 
         public async void InstallSelected(Forge forge)
         {
@@ -113,7 +113,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             Status = ForgeInstallStatus.DownloadingLibraries;
 
-            var missingLibs = _libraryService.CheckIntegrity(version.Libraries);
+            var missingLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
             var downloads = _libraryService.GetDownloads(missingLibs);
 
             if (!await StartDownloadAsync(DownloadType.Libraries, downloads))

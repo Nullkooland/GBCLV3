@@ -6,11 +6,11 @@
 
     <Grid>
         <Rectangle Opacity="0.25"
-                   Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
+                   Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
 
         <Border Background="{DynamicResource DarkTranslucentBrush}">
             <ContentControl HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
-                            s:View.Model="{Binding ActiveItem, Mode=OneWay}"/>
+                            s:View.Model="{Binding ActiveItem, Mode=OneWay}" />
         </Border>
 
     </Grid>

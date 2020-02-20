@@ -1,6 +1,6 @@
 ﻿namespace GBCLV3.Models.Authentication
 {
-    class AuthServerInfo
+    public class AuthServerInfo
     {
         public AuthServerMeta Meta { get; set; }
 
@@ -9,7 +9,7 @@
         //public string SignaturePublickey { get; set; }
     }
 
-    class AuthServerMeta
+    public class AuthServerMeta
     {
         public string ImplementationName { get; set; }
 
@@ -20,7 +20,7 @@
         public AuthServerLinks Links { get; set; }
     }
 
-    class AuthServerLinks
+    public class AuthServerLinks
     {
         public string Homepage { get; set; }
 

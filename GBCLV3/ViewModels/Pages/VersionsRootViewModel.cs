@@ -5,7 +5,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class VersionsRootViewModel : Conductor<IScreen>.StackNavigation
+    public class VersionsRootViewModel : Conductor<IScreen>.StackNavigation
     {
         #region Private Fields
 

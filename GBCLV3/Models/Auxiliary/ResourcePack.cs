@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Models.Auxiliary
 {
-    class ResourcePack
+    public class ResourcePack
     {
         public string Name => System.IO.Path.GetFileName(Path);
 
@@ -21,12 +21,12 @@ namespace GBCLV3.Models.Auxiliary
 
     #region Json Class
 
-    class JResourcePack
+    public class JResourcePack
     {
         public JResourcePackInfo pack { get; set; }
     }
 
-    class JResourcePackInfo
+    public class JResourcePackInfo
     {
         public int pack_format { get; set; }
 

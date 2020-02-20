@@ -4,7 +4,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models.Authentication
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AuthMode
+    public enum AuthMode
     {
         [LocalizedDescription(nameof(Offline))]
         Offline,

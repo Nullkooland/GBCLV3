@@ -1,72 +1,80 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
+using GBCLV3.Models;
+using StyletIoC;
 
 namespace GBCLV3.Services
 {
-    class LanguageService
+    public class LanguageService
     {
-        #region Properties
-
-        public IEnumerable<string> Keys => _langSelections.Keys;
-
-        #endregion
-
         #region Private Fields
 
-        private readonly Dictionary<string, string> _langSelections = new Dictionary<string, string>
-        {
-            { "zh-cn", "/GBCL;component/Resources/Languages/zh-cn.xaml" },
-            //{ "zh-tw", "/GBCL;component/Resources/Languages/zh-tw.xaml" },
-            { "en-us", "/GBCL;component/Resources/Languages/en-us.xaml" },
-        };
+        private readonly Config _config;
 
-        private string _currentTag;
-        private ResourceDictionary _currentDict;
+        private readonly Dictionary<string, string> _availableLanguages;
+        private ResourceDictionary _currentLangDict;
 
         #endregion
 
         #region Constructor
 
-        public LanguageService()
+        [Inject]
+        public LanguageService(ConfigService configService)
         {
-            _currentTag = "zh-cn"; // Default language: zh-cn
+            _config = configService.Entries;
+
+            var langsResourceDict =
+                Application.LoadComponent(new Uri("/Resources/Languages/AvailableLanguages.xaml", UriKind.Relative)) as
+                    ResourceDictionary;
+
+            _availableLanguages = langsResourceDict.Keys.Cast<string>()
+                .OrderBy(key => key)
+                .ToDictionary(
+                    key => key,
+                    key => langsResourceDict[key] as string
+                );
+
+            if (string.IsNullOrEmpty(_config.Language))
+            {
+                _config.Language = CultureInfo.CurrentCulture.Name;
+            }
+
+            if (!_availableLanguages.ContainsKey(_config.Language))
+            {
+                _config.Language = _availableLanguages.First().Key;
+            }
+
+            _currentLangDict =
+                Application.LoadComponent(new Uri($"/Resources/Languages/{_config.Language}.xaml", UriKind.Relative)) as
+                    ResourceDictionary;
         }
 
         #endregion
 
         #region Public Methods
 
-        public void Change(string langName)
+        public void Change(string langTag)
         {
-            if (_currentDict == null)
-            {
-                foreach (var dict in Application.Current.Resources.MergedDictionaries)
-                {
-                    if (dict.Source?.ToString() == _langSelections[langName])
-                    {
-                        _currentDict = dict;
-                        break;
-                    }
-                }
-            }
+            var replaceLangDict =
+                Application.LoadComponent(new Uri($"/Resources/Languages/{langTag}.xaml", UriKind.Relative)) as
+                    ResourceDictionary;
 
-            if (langName == _currentTag || !_langSelections.ContainsKey(langName))
-            {
-                return;
-            }
+            Application.Current.Resources.MergedDictionaries.Remove(_currentLangDict);
+            Application.Current.Resources.MergedDictionaries.Add(replaceLangDict);
 
-            Application.Current.Resources.MergedDictionaries.Remove(_currentDict);
-
-            _currentTag = langName;
-            _currentDict = Application.LoadComponent(new Uri(_langSelections[langName], UriKind.Relative)) as ResourceDictionary;
-            Application.Current.Resources.MergedDictionaries.Add(_currentDict);
+            _config.Language = langTag;
+            _currentLangDict = replaceLangDict;
         }
+
+        public Dictionary<string, string> GetAvailableLanguages() => _availableLanguages;
 
         public string GetEntry(string key)
         {
-            return !string.IsNullOrEmpty(key) ? _currentDict[key] as string : null;
+            return !string.IsNullOrEmpty(key) ? _currentLangDict[key] as string : null;
         }
 
         public string ReplaceKeyToEntry(string src)
@@ -74,7 +82,7 @@ namespace GBCLV3.Services
             return Regex.Replace(src ?? string.Empty, "\\${.*?}", match =>
             {
                 string key = match.Value[2..^1];
-                return this.GetEntry(key);
+                return GetEntry(key);
             });
         }
 

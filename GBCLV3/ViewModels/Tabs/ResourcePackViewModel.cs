@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class ResourcePackViewModel : Screen
+    public class ResourcePackViewModel : Screen
     {
         #region Private Fields
 
@@ -40,9 +40,9 @@ namespace GBCLV3.ViewModels.Tabs
 
         #region Bindings
 
-        public BindableCollection<ResourcePack> EnabledPacks { get; private set; }
+        public BindableCollection<ResourcePack> EnabledPacks { get; }
 
-        public BindableCollection<ResourcePack> DisabledPacks { get; private set; }
+        public BindableCollection<ResourcePack> DisabledPacks { get; }
 
         public void OpenDir() => SystemUtil.OpenLink(_gamePathService.ResourcePacksDir);
 

@@ -2,20 +2,21 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json;
+using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.Models.Launch
 {
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum LaunchStatus
+    public enum LaunchStatus
     {
         Downloading,
 
-        [LocalizedDescription("ProcessingDependencies")]
-        ProcessingDependencies,
-
         [LocalizedDescription("LoggingIn")]
         LoggingIn,
+
+        [LocalizedDescription("ProcessingDependencies")]
+        ProcessingDependencies,
 
         [LocalizedDescription("StartingGameProcess")]
         StartingProcess,
@@ -28,7 +29,7 @@ namespace GBCLV3.Models.Launch
     }
 
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AfterLaunchBehavior
+    public enum AfterLaunchBehavior
     {
         [LocalizedDescription(nameof(Exit))]
         Exit,
@@ -40,7 +41,7 @@ namespace GBCLV3.Models.Launch
         KeepVisible,
     }
 
-    class LaunchProfile
+    public class LaunchProfile
     {
         public bool IsDebugMode { get; set; }
 
@@ -48,13 +49,7 @@ namespace GBCLV3.Models.Launch
 
         public uint MaxMemory { get; set; }
 
-        public string Username { get; set; }
-
-        public string UUID { get; set; }
-
-        public string AccessToken { get; set; }
-
-        public string UserType { get; set; }
+        public Account Account { get; set; }
 
         public string VersionType { get; set; }
 
@@ -71,7 +66,7 @@ namespace GBCLV3.Models.Launch
 
     #region Json Class
 
-    class JArguments
+    public class JArguments
     {
         // Heinous heterogeneous json
         public List<JsonElement> game { get; set; }

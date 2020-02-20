@@ -6,7 +6,7 @@ using System.Windows.Data;
 namespace GBCLV3.Utils
 {
     [ValueConversion(typeof(VersionType), typeof(string))]
-    class VersionTypeIconConverter : IValueConverter
+    internal class VersionTypeIconConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

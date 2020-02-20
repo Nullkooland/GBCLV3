@@ -5,21 +5,21 @@
                     xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI">
 
     <Style x:Key="{x:Type GroupBox}" TargetType="GroupBox">
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"/>
-        <Setter Property="Background" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}" />
         <Setter Property="adonisExtensions:GroupBoxExtension.HeaderBackground"
-                Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}"/>
-        <Setter Property="Padding" Value="8,0,0,0"/>
-        <Setter Property="BorderThickness" Value="0"/>
+                Value="{DynamicResource {x:Static adonisUI:Brushes.Layer1BorderBrush}}" />
+        <Setter Property="Padding" Value="8,0,0,0" />
+        <Setter Property="BorderThickness" Value="0" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="GroupBox">
 
                     <Grid>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="32"/>
-                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="32" />
+                            <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
 
                         <Border x:Name="RootBorder" Grid.RowSpan="2"
@@ -28,29 +28,30 @@
                                 BorderThickness="{TemplateBinding BorderThickness}">
                             <Border.Effect>
                                 <DropShadowEffect po:Freeze="True"
-                                                  ShadowDepth="0" BlurRadius="6" Opacity="0.5"/>
+                                                  ShadowDepth="0" BlurRadius="6" Opacity="0.5" />
                             </Border.Effect>
                         </Border>
 
                         <Border x:Name="HeaderBorder" Grid.Row="0"
                                 Background="{TemplateBinding adonisExtensions:GroupBoxExtension.HeaderBackground}">
                             <ContentPresenter Margin="{TemplateBinding Padding}" VerticalAlignment="Center"
-                                              ContentSource="Header" 
-                                              RecognizesAccessKey="True"/>
+                                              ContentSource="Header"
+                                              RecognizesAccessKey="True" />
                         </Border>
 
-                        <ContentPresenter Grid.Row="1"/>
+                        <ContentPresenter Grid.Row="1" />
                     </Grid>
 
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.DisabledForegroundBrush}}"/>
+                            <Setter Property="Foreground"
+                                    Value="{DynamicResource {x:Static adonisUI:Brushes.DisabledForegroundBrush}}" />
                         </Trigger>
 
                         <DataTrigger Binding="{Binding Header, RelativeSource={RelativeSource Self}}" Value="{x:Null}">
-                            <Setter Property="Visibility" TargetName="HeaderBorder" Value="Collapsed"/>
+                            <Setter Property="Visibility" TargetName="HeaderBorder" Value="Collapsed" />
                         </DataTrigger>
 
                     </ControlTemplate.Triggers>

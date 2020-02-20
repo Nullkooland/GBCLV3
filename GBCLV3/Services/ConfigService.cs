@@ -5,13 +5,16 @@ using GBCLV3.Models.Launch;
 using GBCLV3.Utils;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.Json;
 
 namespace GBCLV3.Services
 {
-    class ConfigService
+    public class ConfigService
     {
         #region Properties
 
@@ -31,7 +34,7 @@ namespace GBCLV3.Services
         {
             try
             {
-                string json = File.ReadAllText(CONFIG_FILENAME, Encoding.UTF8);
+                var json = SystemUtil.ReadUtf8File(CONFIG_FILENAME);
                 Entries = JsonSerializer.Deserialize<Config>(json);
             }
             catch
@@ -64,18 +67,14 @@ namespace GBCLV3.Services
                 Entries.JavaMaxMem = 2048;
             }
 
-            Entries.Language = Entries.Language?.ToLower();
-            if (string.IsNullOrWhiteSpace(Entries.Language))
-            {
-                Entries.Language = "zh-cn";
-            }
+            Entries.Build = AssemblyUtil.Build;
         }
 
         public void Save()
         {
-            string json = JsonSerializer.Serialize(Entries, 
+            var json = JsonSerializer.SerializeToUtf8Bytes(Entries, 
                 new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
-            File.WriteAllText(CONFIG_FILENAME, json, Encoding.UTF8);
+            File.WriteAllBytes(CONFIG_FILENAME, json);
         }
 
         #endregion

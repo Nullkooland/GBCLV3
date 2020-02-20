@@ -6,6 +6,7 @@ using StyletIoC;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
@@ -14,7 +15,7 @@ using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
-    class FabricInstallService
+    public class FabricInstallService
     {
         #region Private Fields
 
@@ -43,7 +44,7 @@ namespace GBCLV3.Services.Installation
             _urlService = downloadUrlService;
             _versionService = versionService;
 
-            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
+            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
         }
 
         #endregion
@@ -54,7 +55,7 @@ namespace GBCLV3.Services.Installation
         {
             try
             {
-                string json = await _client.GetStringAsync(_urlService.Base.Fabric + id);
+                var json = await _client.GetByteArrayAsync(_urlService.Base.Fabric + id);
                 return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
             }
             catch (HttpRequestException ex)
@@ -89,8 +90,12 @@ namespace GBCLV3.Services.Installation
             };
             jver.arguments.game = new List<JsonElement>(0);
 
-            string json = JsonSerializer.Serialize(jver, _jsonOptions);
-            return _versionService.AddNew(json);
+            string jsonPath = $"{_gamePathService.VersionsDir}/{jver.id}/{jver.id}.json";
+            var json = JsonSerializer.SerializeToUtf8Bytes(jver, _jsonOptions);
+
+            Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
+            File.WriteAllBytes(jsonPath, json);
+            return _versionService.AddNew(jsonPath);
         }
 
         #endregion

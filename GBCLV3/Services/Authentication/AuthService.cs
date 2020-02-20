@@ -1,6 +1,7 @@
 ﻿using GBCLV3.Models.Authentication;
 using GBCLV3.Utils;
 using System;
+using System.Buffers.Text;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Authentication
 {
-    class AuthService
+    public class AuthService
     {
         #region Private Fields
 
@@ -38,16 +39,16 @@ namespace GBCLV3.Services.Authentication
             // Refresh local tokens
             if (authResult.IsSuccessful)
             {
-                account.Username = authResult.SelectedProfile.Name;
+                account.Username = authResult.SelectedProfile?.Name;
+                account.UUID = authResult.SelectedProfile?.Id;
                 account.ClientToken = authResult.ClientToken;
                 account.AccessToken = authResult.AccessToken;
-                account.UUID = authResult.SelectedProfile.Id;
             }
 
             return authResult;
         }
 
-        public async ValueTask<AuthResult> AuthenticateAsync(string email, string password, string authServer = null)
+        public ValueTask<AuthResult> AuthenticateAsync(string email, string password, string authServer = null)
         {
             var request = new AuthRequest
             {
@@ -58,10 +59,10 @@ namespace GBCLV3.Services.Authentication
             };
 
             string requestJson = JsonSerializer.Serialize(request, _jsonOptions);
-            return await RequestAsync(requestJson, false, authServer ?? MOJANG_AUTH_SERVER);
+            return RequestAsync(requestJson, false, authServer ?? MOJANG_AUTH_SERVER);
         }
 
-        public async ValueTask<AuthResult> RefreshAsync(string clientToken, string accessToken,
+        public ValueTask<AuthResult> RefreshAsync(string clientToken, string accessToken,
             string authServer = null, AuthUserProfile selectedProfile = null)
         {
             var request = new RefreshRequest
@@ -72,14 +73,28 @@ namespace GBCLV3.Services.Authentication
             };
 
             var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
-            return await RequestAsync(requestJson, true, authServer ?? MOJANG_AUTH_SERVER);
+            return RequestAsync(requestJson, true, authServer ?? MOJANG_AUTH_SERVER);
+        }
+
+        public async ValueTask<string> PrefetchAuthServerInfo(string authServer)
+        {
+            try
+            {
+                var responseJson = await _client.GetByteArrayAsync(authServer);
+                return Convert.ToBase64String(responseJson);
+            }
+            catch (Exception ex)
+            {
+                Debug.Write(ex.ToString());
+                return null;
+            }
         }
 
         public async ValueTask<AuthServerInfo> GetAuthServerInfo(string authServer)
         {
             try
             {
-                var responseJson = await _client.GetStringAsync(authServer);
+                var responseJson = await _client.GetByteArrayAsync(authServer);
                 return JsonSerializer.Deserialize<AuthServerInfo>(responseJson, _jsonOptions);
             }
             catch (Exception ex)
@@ -104,7 +119,7 @@ namespace GBCLV3.Services.Authentication
             return new AuthResult
             {
                 SelectedProfile
-                    = new AuthUserProfile() {Name = username, Id = CryptUtil.GetStringMD5(username)},
+                    = new AuthUserProfile {Name = username, Id = CryptUtil.GetStringMD5(username)},
 
                 ClientToken = CryptUtil.Guid,
                 AccessToken = CryptUtil.Guid,
@@ -123,7 +138,7 @@ namespace GBCLV3.Services.Authentication
                 using var msg = await _client.PostAsync(
                     authServer + (isRefresh ? "/refresh" : "/authenticate"), content);
 
-                string responseJson = await msg.Content.ReadAsStringAsync();
+                var responseJson = await msg.Content.ReadAsByteArrayAsync();
 
                 if (msg.IsSuccessStatusCode)
                 {

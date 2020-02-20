@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace GBCLV3.Utils
 {
-    class LocalizedDescriptionAttribute : DescriptionAttribute
+    public class LocalizedDescriptionAttribute : DescriptionAttribute
     {
         public static LanguageService LanguageService { get; set; }
 

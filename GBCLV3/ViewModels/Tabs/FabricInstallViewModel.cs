@@ -13,7 +13,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
-    class FabricInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
+    public class FabricInstallViewModel : Conductor<DownloadStatusViewModel>.Collection.OneActive
     {
         #region Private Fields
 
@@ -61,7 +61,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public bool CanInstall => Status == FabricInstallStatus.ListLoaded;
 
-        public BindableCollection<Fabric> Fabrics { get; private set; }
+        public BindableCollection<Fabric> Fabrics { get; }
 
         public async void InstallSelected(Fabric fabric)
         {
@@ -80,7 +80,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             var version = _fabricInstallService.Install(fabric);
 
-            var missingLibs = _libraryService.CheckIntegrity(version.Libraries);
+            var missingLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
             var downloads = _libraryService.GetDownloads(missingLibs);
 
             if (!await StartDownloadAsync(DownloadType.InstallFabric, downloads))

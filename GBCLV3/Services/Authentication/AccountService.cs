@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Authentication
 {
-    class AccountService
+    public class AccountService
     {
         #region Events
 
@@ -41,12 +41,12 @@ namespace GBCLV3.Services.Authentication
 
         #region Public Methods
 
-        public async Task LoadSkinsAsync()
+        public Task LoadSkinsAsync()
         {
-            var task = _accounts.Select(async account =>
+            var tasks = _accounts.Select(async account =>
                 await LoadSkinAsync(account).ConfigureAwait(false));
 
-            await Task.WhenAll(task);
+            return Task.WhenAll(tasks);
         }
 
         public bool Any() => _accounts.Any();
@@ -71,6 +71,8 @@ namespace GBCLV3.Services.Authentication
                 Username = username,
             };
 
+            if (!_accounts.Any()) account.IsSelected = true;
+
             _accounts.Add(account);
             Created?.Invoke(account);
             return account;
@@ -81,6 +83,8 @@ namespace GBCLV3.Services.Authentication
         {
             var account = new Account();
             await UpdateOnlineAccountAsync(account, authMode, email, authResult, authServer);
+
+            if (!_accounts.Any()) account.IsSelected = true;
 
             _accounts.Add(account);
             Created?.Invoke(account);
@@ -116,8 +120,15 @@ namespace GBCLV3.Services.Authentication
             if (account.AuthMode != AuthMode.Offline)
             {
                 account.Skin = await _skinService.GetSkinAsync(account.Profile);
-                // Refresh latest profile and skin later
-                RefreshSkinAsync(account).ConfigureAwait(false);
+
+                if (account.Profile != null)
+                {
+                    RefreshSkinAsync(account).ConfigureAwait(false);
+                }
+                else
+                {
+                    await RefreshSkinAsync(account);
+                }
             }
         }
 

@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services.Launch
 {
-    class AssetService
+    public class AssetService
     {
         #region Private Fields
 
@@ -56,7 +56,7 @@ namespace GBCLV3.Services.Launch
             return true;
         }
 
-        public async ValueTask<AssetObject[]> CheckIntegrityAsync(AssetsInfo info)
+        public Task<AssetObject[]> CheckIntegrityAsync(AssetsInfo info)
         {
             var query =
                 info.Objects?
@@ -68,29 +68,26 @@ namespace GBCLV3.Services.Launch
                         return !File.Exists(path) || obj.Hash != Utils.CryptUtil.GetFileSHA1(path);
                     });
 
-            return await Task.FromResult(query?.ToArray());
+            return Task.FromResult(query?.ToArray());
         }
 
-        public async Task CopyToVirtualAsync(AssetsInfo info)
+        public Task CopyToVirtualAsync(AssetsInfo info)
         {
-            // For legacy versions (1.7.2 or earlier) only!
-            if (!info.IsLegacy) return;
+            return Task.Run(() =>
+                info.Objects?
+                    .AsParallel()
+                    .ForAll(pair =>
+                    {
+                        string objectPath = $"{_gamePathService.AssetsDir}/objects/{pair.Value.Path}";
+                        string virtualPath = $"{_gamePathService.AssetsDir}/virtual/legacy/{pair.Key}";
+                        string virtualDir = Path.GetDirectoryName(virtualPath);
 
-            await Task.Run(() =>
-            info.Objects?
-                .AsParallel()
-                .ForAll(pair =>
-                {
-                    string objectPath = $"{_gamePathService.AssetsDir}/objects/{pair.Value.Path}";
-                    string virtualPath = $"{_gamePathService.AssetsDir}/virtual/legacy/{pair.Key}";
-                    string virtualDir = Path.GetDirectoryName(virtualPath);
+                        if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
 
-                    if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
-
-                    // Make sure directory exists
-                    Directory.CreateDirectory(virtualDir);
-                    File.Copy(objectPath, virtualPath);
-                })
+                        // Make sure directory exists
+                        Directory.CreateDirectory(virtualDir);
+                        File.Copy(objectPath, virtualPath);
+                    })
             );
         }
 
@@ -98,12 +95,12 @@ namespace GBCLV3.Services.Launch
         {
             try
             {
-                string json = await _client.GetStringAsync(info.IndexUrl);
+                var json = await _client.GetByteArrayAsync(info.IndexUrl);
                 string indexDir = $"{_gamePathService.AssetsDir}/indexes";
 
                 //Make sure directory exists
                 Directory.CreateDirectory(indexDir);
-                File.WriteAllText($"{indexDir}/{info.ID}.json", json, Encoding.UTF8);
+                File.WriteAllBytes($"{indexDir}/{info.ID}.json", json);
                 return true;
             }
             catch (HttpRequestException ex)

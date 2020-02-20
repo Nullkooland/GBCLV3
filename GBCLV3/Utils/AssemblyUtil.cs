@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace GBCLV3.Utils
 {
-    static class AssemblyUtil
+    internal static class AssemblyUtil
     {
         private static readonly Assembly _assembly = Assembly.GetExecutingAssembly();
 
@@ -14,6 +15,8 @@ namespace GBCLV3.Utils
         public static string Version =>
             (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyFileVersionAttribute), false)
             as AssemblyFileVersionAttribute).Version;
+
+        public static int Build => int.Parse(Version.Split('.').Last());
 
         public static string Copyright =>
             (Attribute.GetCustomAttribute(_assembly, typeof(AssemblyCopyrightAttribute), false)

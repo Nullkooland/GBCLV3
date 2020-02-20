@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace GBCLV3.Models.Launch
 {
-    enum LibraryType
+    public enum LibraryType
     {
         Minecraft,
         Native,
@@ -12,7 +12,7 @@ namespace GBCLV3.Models.Launch
         Fabric,
     }
 
-    class Library
+    public class Library
     {
         public string Name { get; set; }
 
@@ -42,7 +42,7 @@ namespace GBCLV3.Models.Launch
 
     #region Json Class
 
-    internal class JLibrary
+    public class JLibrary
     {
         public JExtract extract { get; set; }
 
@@ -57,19 +57,19 @@ namespace GBCLV3.Models.Launch
         public JLibraryDownload downloads { get; set; }
     }
 
-    internal class JExtract
+    public class JExtract
     {
         public string[] exclude { get; set; }
     }
 
-    internal class JRule
+    public class JRule
     {
         public string action { get; set; }
 
         public JOperatingSystem os { get; set; }
     }
 
-    internal class JOperatingSystem
+    public class JOperatingSystem
     {
         public string name { get; set; }
     }

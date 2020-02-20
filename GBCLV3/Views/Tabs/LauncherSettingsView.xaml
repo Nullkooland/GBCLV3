@@ -9,48 +9,48 @@
                 xmlns:launch="clr-namespace:GBCLV3.Models.Launch"
                 xmlns:util="clr-namespace:GBCLV3.Utils"
                 Style="{StaticResource TabPageStyle}">
-    
+
     <ContentControl.Resources>
         <Style x:Key="DescriptionText" TargetType="TextBlock"
                BasedOn="{StaticResource {x:Type TextBlock}}">
-            <Setter Property="Margin" Value="16,8,16,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="16,8,16,0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
 
         <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-            <Setter Property="Margin" Value="8,8,0,0"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
-            <Setter Property="InputMethod.IsInputMethodEnabled" Value="False"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="8,8,0,0" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="SelectionBrush" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
+            <Setter Property="InputMethod.IsInputMethodEnabled" Value="False" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
 
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="0,8,0,0"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,8,0,0" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
 
         <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-            <Setter Property="Margin" Value="8,8,8,0"/>
-            <Setter Property="HorizontalAlignment" Value="Left"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="8,8,8,0" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
 
         <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-            <Setter Property="Margin" Value="0,8,8,0"/>
-            <Setter Property="Height" Value="32"/>
-            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="Margin" Value="0,8,8,0" />
+            <Setter Property="Height" Value="32" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
 
         <CollectionViewSource x:Key="SystemFonts" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}">
             <CollectionViewSource.SortDescriptions>
-                <cm:SortDescription PropertyName="Source"/>
+                <cm:SortDescription PropertyName="Source" />
             </CollectionViewSource.SortDescriptions>
         </CollectionViewSource>
     </ContentControl.Resources>
@@ -61,65 +61,65 @@
                   Header="{DynamicResource FunctionSettings}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="172"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="172" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0"
                            Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource Language}"/>
+                           Text="{DynamicResource Language}" />
 
                 <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{Binding Languages, Mode=OneTime}"
                           DisplayMemberPath="Label"
                           SelectedValuePath="Value"
-                          SelectedValue="{Binding SelectedLanguage, Mode=TwoWay}"/>
+                          SelectedValue="{Binding SelectedLanguage, Mode=TwoWay}" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0"
                            Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource DownloadSource}"/>
+                           Text="{DynamicResource DownloadSource}" />
 
                 <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{util:EnumBindingSource {x:Type download:DownloadSource}}"
-                          SelectedItem="{Binding SelectedDownloadSource, Mode=TwoWay}"/>
+                          SelectedItem="{Binding SelectedDownloadSource, Mode=TwoWay}" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource AfterLaunch}"/>
+                           Text="{DynamicResource AfterLaunch}" />
 
                 <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
                           ItemsSource="{util:EnumBindingSource {x:Type launch:AfterLaunchBehavior}}"
-                          SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}"/>
+                          SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}" />
 
                 <TextBlock Grid.Row="3" Grid.Column="0"
                            Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource Update}"/>
+                           Text="{DynamicResource Update}" />
 
                 <Button Grid.Row="3" Grid.Column="1"
                         Padding="24,0"
                         Content="{DynamicResource CheckUpdate}"
                         Click="{s:Action CheckUpdate}"
-                        IsEnabled="{Binding IsFreeToCheckUpdate, Mode=OneWay}"/>
+                        IsEnabled="{Binding IsFreeToCheckUpdate, Mode=OneWay}" />
 
                 <TextBlock Grid.Row="3" Grid.Column="2" Margin="16,8,8,0"
                            Style="{StaticResource DescriptionText}"
                            Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
-                           Text="{Binding CheckStatus, Mode=OneWay}"/>
+                           Text="{Binding CheckStatus, Mode=OneWay}" />
 
                 <CheckBox Grid.Row="3" Grid.Column="3"
                           HorizontalAlignment="Right"
                           Content="{DynamicResource AutoCheckUpdate}"
-                          IsChecked="{Binding IsAutoCheckUpdate}"/>
+                          IsChecked="{Binding IsAutoCheckUpdate}" />
             </Grid>
         </GroupBox>
 
@@ -127,31 +127,31 @@
                   Header="{DynamicResource ThemeSettings}">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="8"/>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="8" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="48"/>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="48" />
                 </Grid.ColumnDefinitions>
 
                 <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
                           Content="{DynamicResource UseBackgroundImage}"
-                          IsChecked="{Binding IsUseBackgroundImage, Mode=TwoWay}"/>
+                          IsChecked="{Binding IsUseBackgroundImage, Mode=TwoWay}" />
 
                 <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
                          adonisExtensions:WatermarkExtension.IsWatermarkVisible="{Binding IsSelectRandomImage, Mode=OneWay}"
                          adonisExtensions:WatermarkExtension.Watermark="{DynamicResource SelectRandomImage}"
                          IsEnabled="{Binding IsUseBackgroundImage, Mode=OneWay}"
-                         Text="{Binding BackgroundImagePath, Mode=TwoWay}"/>
+                         Text="{Binding BackgroundImagePath, Mode=TwoWay}" />
 
-                <Button Grid.Row="1" Grid.Column="4" 
+                <Button Grid.Row="1" Grid.Column="4"
                         Width="32" Height="32"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="16"
@@ -159,11 +159,11 @@
                         ToolTipService.Placement="Bottom"
                         ToolTip="{DynamicResource SelectImagePath}"
                         IsEnabled="{Binding IsUseBackgroundImage, Mode=OneWay}"
-                        Click="{s:Action SelectBackgoundImagePath}"/>
+                        Click="{s:Action SelectBackgoundImagePath}" />
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource Font}"/>
+                           Text="{DynamicResource Font}" />
 
                 <!-- Font Select Box -->
                 <ComboBox Grid.Row="2" Grid.Column="1"
@@ -175,7 +175,7 @@
 
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" FontFamily="{Binding}"/>
+                            <TextBlock Text="{Binding}" FontFamily="{Binding}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
 
@@ -183,7 +183,7 @@
 
                 <TextBlock Grid.Row="2" Grid.Column="2" Margin="8,8,16,0"
                            Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource FontWeight}"/>
+                           Text="{DynamicResource FontWeight}" />
 
                 <ComboBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
                           IsSynchronizedWithCurrentItem="True"
@@ -192,14 +192,14 @@
 
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Text="{Binding}" FontWeight="{Binding}"/>
+                            <TextBlock Text="{Binding}" FontWeight="{Binding}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
 
                 </ComboBox>
             </Grid>
         </GroupBox>
-        
+
     </StackPanel>
-    
+
 </ContentControl>

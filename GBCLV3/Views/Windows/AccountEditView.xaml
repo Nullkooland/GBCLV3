@@ -66,21 +66,21 @@
                                     Visibility="{Binding IsLoading, Mode=OneWay,
                                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 
-                    <TextBlock Text="{Binding Status, Mode=OneWay}" 
+                    <TextBlock Text="{Binding Status, Mode=OneWay}"
                                Visibility="{Binding HasAuthError, Mode=OneWay,
-                                                     Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}"/>
+                                                     Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
 
                     <TextBlock Text="{Binding AuthErrorType, Mode=OneWay}" Margin="4,0"
                                Foreground="DarkRed"
                                Visibility="{Binding HasAuthError, Mode=OneWay,
-                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
-                                
+                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
+
 
                     <TextBlock Text="{Binding AuthErrorMessage, Mode=OneWay}" Margin="4,0"
                                TextTrimming="CharacterEllipsis" MaxWidth="528"
                                Foreground="{DynamicResource {x:Static adonisUI:Brushes.DisabledForegroundBrush}}"
                                Visibility="{Binding HasAuthError, Mode=OneWay,
-                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}"/>
+                                                     Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
                 </StackPanel>
             </GroupBox.Header>
 
@@ -121,6 +121,7 @@
 
                 <TextBox Grid.Row="1" Grid.Column="1"
                          Text="{Binding Username, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         InputMethod.IsInputMethodEnabled="True"
                          Visibility="{Binding IsOfflineMode, Mode=OneWay,
                                         Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 
@@ -128,7 +129,6 @@
                          Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                          Visibility="{Binding IsOfflineMode, Mode=OneWay,
                                         Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
-
 
                 <TextBlock Grid.Row="2" Grid.Column="0"
                            Style="{StaticResource DescriptionBoxStyle}"
@@ -166,7 +166,7 @@
 
                     <TextBlock HorizontalAlignment="Center"
                                VerticalAlignment="Center"
-                               MaxWidth="140" MaxHeight="36"
+                               MaxWidth="140" MaxHeight="40"
                                FontSize="14" FontWeight="Bold"
                                TextWrapping="Wrap"
                                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"

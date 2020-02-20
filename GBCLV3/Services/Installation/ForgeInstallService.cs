@@ -18,7 +18,7 @@ using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
-    class ForgeInstallService
+    public class ForgeInstallService
     {
         #region Private Fields
 
@@ -54,20 +54,20 @@ namespace GBCLV3.Services.Installation
         {
             try
             {
-                string json = await _client.GetStringAsync(_urlService.Base.ForgeList + id);
+                var json = await _client.GetByteArrayAsync(_urlService.Base.ForgeList + id);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
                 int[] nums = id.Split('.')
-                             .Select(numStr =>
-                             {
-                                 if (int.TryParse(numStr, out int num))
-                                 {
-                                     return num;
-                                 }
+                    .Select(numStr =>
+                    {
+                        if (int.TryParse(numStr, out int num))
+                        {
+                            return num;
+                        }
 
-                                 return -1;
-                             })
-                             .ToArray();
+                        return -1;
+                    })
+                    .ToArray();
 
                 bool hasSuffix = ((nums[1] == 7 || nums[1] == 8) && nums[2] != 2);
                 bool isAutoInstall = (nums[1] < 13);
@@ -100,23 +100,26 @@ namespace GBCLV3.Services.Installation
 
         public IEnumerable<DownloadItem> GetDownload(Forge forge)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}" + (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
+            string fullName = $"{forge.GameVersion}-{forge.Version}" +
+                              (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
 
             var item = new DownloadItem
             {
                 Name = $"Forge-{fullName}",
 
-                Path = forge.IsAutoInstall ? $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar"
-                                           : $"{_gamePathService.RootDir}/{fullName}-installer.jar",
+                Path = forge.IsAutoInstall
+                    ? $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar"
+                    : $"{_gamePathService.RootDir}/{fullName}-installer.jar",
 
-                Url = forge.IsAutoInstall ? $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-universal.jar"
-                                          : $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-installer.jar",
+                Url = forge.IsAutoInstall
+                    ? $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-universal.jar"
+                    : $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-installer.jar",
 
                 IsCompleted = false,
                 DownloadedBytes = 0,
             };
 
-            return new List<DownloadItem>(1) { item };
+            return new[] { item };
         }
 
         public async ValueTask<Version> ManualInstallAsync(Forge forge)
@@ -141,10 +144,7 @@ namespace GBCLV3.Services.Installation
                 File.Delete(installerPath);
                 File.Delete($"{forge.GameVersion}-{forge.Version}-installer.jar.log");
 
-                if (!File.Exists(jsonPath)) return null;
-
-                string json = File.ReadAllText(jsonPath, Encoding.UTF8);
-                return _versionService.AddNew(json);
+                return _versionService.AddNew(jsonPath);
             }
             catch (Exception ex)
             {
@@ -155,7 +155,10 @@ namespace GBCLV3.Services.Installation
 
         public Version AutoInstall(Forge forge)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}" + (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
+            string id = $"{forge.GameVersion}-forge-{forge.Version}";
+            string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";
+            string fullName = $"{forge.GameVersion}-{forge.Version}" +
+                              (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
             string jarPath = $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar";
 
             if (!File.Exists(jarPath))
@@ -168,10 +171,13 @@ namespace GBCLV3.Services.Installation
 
             using var reader = new StreamReader(entry.Open(), Encoding.UTF8);
             string json = reader.ReadToEnd();
-            string versionID = $"{forge.GameVersion}-forge-{forge.Version}";
 
-            json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{versionID}\"");
-            return _versionService.AddNew(json);
+            json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{id}\"");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
+            File.WriteAllText(jsonPath, json);
+
+            return _versionService.AddNew(jsonPath);
         }
 
         #endregion

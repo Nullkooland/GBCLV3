@@ -3,14 +3,14 @@
                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                 xmlns:s="https://github.com/canton7/Stylet"
                 Style="{StaticResource BlurInPageStyle}">
-    
+
     <TabControl>
         <TabItem Header="&#xEA86;" Tag="{DynamicResource Mods}">
-            <ContentControl s:View.Model="{Binding ModVM}"/>
+            <ContentControl s:View.Model="{Binding ModVM}" />
         </TabItem>
 
         <TabItem Header="&#xE7B8;" Tag="{DynamicResource Resourcepacks}">
-            <ContentControl s:View.Model="{Binding ResourcePackVM}"/>
+            <ContentControl s:View.Model="{Binding ResourcePackVM}" />
         </TabItem>
 
         <!--<TabItem Header="&#xEA35;" Tag="{DynamicResource Saves}">
@@ -21,5 +21,5 @@
             <ContentControl s:View.Model="{Binding SkinVM}"/>
         </TabItem-->
     </TabControl>
-    
+
 </ContentControl>

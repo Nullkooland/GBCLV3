@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class SettingsRootViewModel : Screen
+    public class SettingsRootViewModel : Screen
     {
 
         #region Constructor
@@ -24,11 +24,11 @@ namespace GBCLV3.ViewModels.Pages
 
         #region Bindings
 
-        public Screen GameSettingsVM { get; private set; }
+        public Screen GameSettingsVM { get; }
 
-        public Screen AccountSettingsVM { get; private set; }
+        public Screen AccountSettingsVM { get; }
 
-        public Screen LauncherSettingsVM { get; private set; }
+        public Screen LauncherSettingsVM { get; }
 
 
         #endregion

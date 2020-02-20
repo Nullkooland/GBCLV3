@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels
 {
-    class DownloadStatusViewModel : Screen
+    public class DownloadStatusViewModel : Screen
     {
         #region Private Fields
 

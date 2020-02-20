@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace GBCLV3.Models
 {
-    class Config
+    public class Config
     {
         #region Game Configurations
 
@@ -60,9 +60,11 @@ namespace GBCLV3.Models
 
         public string BackgroundImagePath { get; set; }
 
-        public bool UseSystemColor { get; set; }
+        // public bool UseSystemColor { get; set; }
+        //
+        // public string AccentColor { get; set; }
 
-        public string AccentColor { get; set; }
+        public int Build { get; set; }
 
         #endregion
     }

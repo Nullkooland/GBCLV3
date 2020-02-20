@@ -23,7 +23,7 @@
 
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
-                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal"/>
+                <VirtualizingStackPanel IsItemsHost="True" Orientation="Horizontal" />
             </ItemsPanelTemplate>
         </ListBox.ItemsPanel>
 
@@ -32,8 +32,8 @@
                 <Grid Width="160">
 
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="140"/>
-                         <RowDefinition Height="*"/>
+                        <RowDefinition Height="140" />
+                        <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
                     <ContentControl Name="LoadingIcon" Grid.Row="0"
@@ -60,7 +60,7 @@
                     <TextBlock Name="NameBox" Grid.Row="1"
                                HorizontalAlignment="Center"
                                VerticalAlignment="Top"
-                               FontSize="16" 
+                               FontSize="16"
                                MaxHeight="48"
                                TextWrapping="Wrap"
                                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
@@ -69,14 +69,16 @@
                 </Grid>
 
                 <DataTemplate.Triggers>
-                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                               Path=IsMouseOver}" Value="True">
+                    <DataTrigger
+                        Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
+                                               Path=IsMouseOver}"
+                        Value="True">
                         <!-- <Setter TargetName="Avatar" Property="Effect" -->
                         <!--         Value="{StaticResource SelectedShadow}"/> -->
                         <Setter TargetName="NameBox" Property="Foreground"
-                                Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
+                                Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
                         <Setter TargetName="LoadingIcon" Property="Foreground"
-                                Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"/>
+                                Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>

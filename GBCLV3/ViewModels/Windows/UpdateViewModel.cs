@@ -8,7 +8,7 @@ using System.Windows;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    class UpdateViewModel : Screen
+    public class UpdateViewModel : Screen
     {
         #region Private Fields
 
@@ -66,7 +66,7 @@ namespace GBCLV3.ViewModels.Windows
 
         #region Bindings
 
-        public ThemeService ThemeService { get; private set; }
+        public ThemeService ThemeService { get; }
 
         public string Version { get; private set; }
 

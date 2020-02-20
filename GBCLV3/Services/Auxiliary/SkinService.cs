@@ -14,7 +14,7 @@ using System.Windows.Media.Imaging;
 
 namespace GBCLV3.Services.Auxiliary
 {
-    class SkinService
+    public class SkinService
     {
         #region Private Fields
 
@@ -43,13 +43,13 @@ namespace GBCLV3.Services.Auxiliary
         {
             try
             {
-                string profileJson = await _client.GetStringAsync($"{profileServer ?? MOJANG_PROFILE_SERVER}/{uuid}");
+                var profileJson = await _client.GetByteArrayAsync($"{profileServer ?? MOJANG_PROFILE_SERVER}/{uuid}");
                 using var profile = JsonDocument.Parse(profileJson);
 
                 return profile.RootElement
-                              .GetProperty("properties")[0]
-                              .GetProperty("value")
-                              .GetString();
+                    .GetProperty("properties")[0]
+                    .GetProperty("value")
+                    .GetString();
             }
             catch (HttpRequestException ex)
             {
@@ -71,7 +71,7 @@ namespace GBCLV3.Services.Auxiliary
         {
             try
             {
-                string skinJson = Encoding.UTF8.GetString(Convert.FromBase64String(profile));
+                var skinJson = Convert.FromBase64String(profile);
                 using var skinDoc = JsonDocument.Parse(skinJson);
                 var textures = skinDoc.RootElement.GetProperty("textures");
 
@@ -171,9 +171,9 @@ namespace GBCLV3.Services.Auxiliary
                 }
             }
 
-            var faceCombined = BitmapSource.Create(size, size, 96, 96, 
-                                                   PixelFormats.Bgra32, null, 
-                                                   bufferMain, size * bytesPerPixel);
+            var faceCombined = BitmapSource.Create(size, size, 96, 96,
+                PixelFormats.Bgra32, null,
+                bufferMain, size * bytesPerPixel);
             faceCombined.Freeze();
             return faceCombined;
         }

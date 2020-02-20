@@ -3,7 +3,7 @@ using System.Windows.Markup;
 
 namespace GBCLV3.Utils
 {
-    class EnumBindingSourceExtension : MarkupExtension
+    public class EnumBindingSourceExtension : MarkupExtension
     {
         private readonly Type _enumType;
 

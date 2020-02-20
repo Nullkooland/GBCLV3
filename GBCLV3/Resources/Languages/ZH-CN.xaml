@@ -110,7 +110,7 @@
 
     <!-- 启动器设置 -->
     <s:String x:Key="Language">语言</s:String>
-    
+
     <s:String x:Key="DownloadSource">下载源</s:String>
     <s:String x:Key="Official">官方</s:String>
     <s:String x:Key="BMCLAPI">BMCLAPI 镜像</s:String>
@@ -132,6 +132,7 @@
     <!-- 下载 -->
 
     <!-- 下载类型 -->
+    <s:String x:Key="AuthlibInjector">下载 authlib-injector</s:String>
     <s:String x:Key="MainJar">下载主 Jar</s:String>
     <s:String x:Key="Libraries">下载依赖库</s:String>
     <s:String x:Key="Assets">下载资源文件</s:String>
@@ -149,7 +150,7 @@
     <s:String x:Key="DownloadCompletedCount">完成数</s:String>
     <s:String x:Key="DownloadFailedCount">失败数</s:String>
     <s:String x:Key="DownloadSpeed">速度</s:String>
-    
+
     <!-- 版本管理 -->
     <s:String x:Key="AvailableVersions">可用版本</s:String>
     <s:String x:Key="SegregateVersions">版本隔离</s:String>
@@ -171,7 +172,7 @@
     <s:String x:Key="VersionListLoadFailed">版本列表获取失败</s:String>
     <s:String x:Key="VersionFetchingJson">正在获取版本json文件</s:String>
     <s:String x:Key="VersionDownloadingDependencies">正在下载依赖项</s:String>
-    
+
     <s:String x:Key="VersionInstallFailed">安装失败</s:String>
     <s:String x:Key="VersionAlreadyExists">已经有相同的本地版本存在！</s:String>
     <s:String x:Key="VersionJsonFetchFailed">json 文件获取失败！</s:String>
@@ -238,6 +239,7 @@
     <s:String x:Key="UpdateSuccessful">升级成功</s:String>
 
     <!-- 公共 -->
+    <s:String x:Key="Hello">你好</s:String>
     <s:String x:Key="AddNew">添加</s:String>
     <s:String x:Key="InstallNew">安装新版本</s:String>
     <s:String x:Key="Reload">重新加载</s:String>
@@ -258,6 +260,7 @@
     <s:String x:Key="Skins">皮肤管理</s:String>
     <s:String x:Key="About">关于</s:String>
     <s:String x:Key="Auxiliaries">辅助功能</s:String>
+    <s:String x:Key="Auto">自动</s:String>
 
     <!-- 鹅弹你在干什么啊！鹅弹！ -->
     <s:String x:Key="FlowerOfHope">希望之花🎵</s:String>

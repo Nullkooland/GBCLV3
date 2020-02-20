@@ -9,7 +9,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Windows
 {
-    class AccountEditViewModelValidator : IModelValidator<AccountEditViewModel>
+    public class AccountEditViewModelValidator : IModelValidator<AccountEditViewModel>
     {
         #region Private Fields
 

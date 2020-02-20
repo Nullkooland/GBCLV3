@@ -5,7 +5,7 @@ using System.ComponentModel;
 namespace GBCLV3.Models.Authentication
 {
     [TypeConverter(typeof(EnumDescriptionTypeConverter))]
-    enum AuthErrorType
+    public enum AuthErrorType
     {
         [LocalizedDescription(nameof(AuthTimeout))]
         AuthTimeout,
@@ -23,7 +23,7 @@ namespace GBCLV3.Models.Authentication
         Unknown,
     }
 
-    class AuthResult
+    public class AuthResult
     {
         public AuthUserProfile SelectedProfile { get; set; }
 

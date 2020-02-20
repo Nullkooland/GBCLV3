@@ -4,7 +4,7 @@ using StyletIoC;
 
 namespace GBCLV3.ViewModels.Pages
 {
-    class AboutViewModel : Screen
+    public class AboutViewModel : Screen
     {
         #region Private Fields
 

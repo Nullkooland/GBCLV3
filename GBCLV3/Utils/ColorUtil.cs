@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace GBCLV3.Utils
 {
-    static class ColorUtil
+    public static class ColorUtil
     {
         public static Color LuminanceGamma(Color color, double gamma)
         {
