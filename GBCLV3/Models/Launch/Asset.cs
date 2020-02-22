@@ -14,7 +14,7 @@ namespace GBCLV3.Models.Launch
 
         public int TotalSize { get; set; }
 
-        public bool IsLegacy => ID == "legacy";
+        public bool IsLegacy { get; set; }
 
         public Dictionary<string, AssetObject> Objects { get; set; }
     }

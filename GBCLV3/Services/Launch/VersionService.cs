@@ -365,14 +365,17 @@ namespace GBCLV3.Services.Launch
             }
 
             if (version.InheritsFrom == null)
+            {
                 version.AssetsInfo = new AssetsInfo
                 {
                     ID = jver.assetIndex.id,
                     IndexSize = jver.assetIndex.size,
                     IndexUrl = jver.assetIndex.url,
                     IndexSHA1 = jver.assetIndex.sha1,
-                    TotalSize = jver.assetIndex.totalSize
+                    TotalSize = jver.assetIndex.totalSize,
+                    IsLegacy = jver.assetIndex.id == "legacy",
                 };
+            }
 
             return version;
         }
