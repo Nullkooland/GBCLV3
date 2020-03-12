@@ -240,7 +240,7 @@
     <!-- Общие -->
     <s:String x:Key="AddNew">Добавить новый</s:String>
     <s:String x:Key="Hello">Привет</s:String>
-    <s:String x:Key="InstallNew">Установка нового</s:String>
+    <s:String x:Key="InstallNew">Установить новый</s:String>
     <s:String x:Key="Reload">Перезагрузить</s:String>
     <s:String x:Key="OpenDir">Открыть каталог</s:String>
     <s:String x:Key="OpenLink">Открыть ссылку</s:String>
@@ -258,7 +258,7 @@
     <s:String x:Key="Saves">Сохранения</s:String>
     <s:String x:Key="Skins">Скины</s:String>
     <s:String x:Key="About">О программе</s:String>
-    <s:String x:Key="Auxiliaries">Доп. средства</s:String>
+    <s:String x:Key="Auxiliaries">Доп. функции</s:String>
     <s:String x:Key="Auto">Авто</s:String>
 
     <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
