@@ -4,6 +4,7 @@ using GBCLV3.Utils;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -90,7 +91,7 @@ namespace GBCLV3.Services.Auxiliary
             }
 
             string enabledPackIDs = string.Join(",", enabledPacks.Reverse().Select(pack => $"\"{pack.Name}\""));
-            
+
 
             if (options.Contains("resourcePacks:["))
             {
@@ -107,21 +108,38 @@ namespace GBCLV3.Services.Auxiliary
 
         public Task DeleteFromDiskAsync(ResourcePack pack)
         {
-            return pack.IsExtracted ? 
+            return pack.IsExtracted ?
                 SystemUtil.SendDirToRecycleBinAsync(pack.Path) : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
-        public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths)
+        public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled)
         {
+            Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
+
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                 if (File.Exists(dstPath)) return null;
 
-                var pack = LoadZip(dstPath, null);
+                var pack = LoadZip(path, null);
                 if (pack == null) return null;
 
-                File.Move(path, dstPath);
+                try
+                {
+                    // It is a valid resourcepack and has been successfully loaded, move it into target dir
+                    File.Move(path, dstPath);
+                }
+                catch (IOException ex)
+                {
+                    // Maybe the file is being accessed by another process
+                    Debug.WriteLine(ex);
+                    return null;
+                }
+                
+                // Modify properties
+                pack.Path = dstPath;
+                pack.IsEnabled = isEnabled;
+
                 return pack;
             }).Where(pack => pack != null);
 

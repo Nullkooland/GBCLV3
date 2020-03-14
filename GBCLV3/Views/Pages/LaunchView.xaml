@@ -42,7 +42,7 @@
                   Background="{DynamicResource ControlTranslucentBrush}"
                   FontSize="16"
                   ItemsSource="{Binding VersionsVM.Versions, Mode=OneWay}" DisplayMemberPath="ID"
-                  SelectedValue="{Binding VersionsVM.SelectedVersionID}" SelectedValuePath="ID" />
+                  SelectedValue="{Binding VersionsVM.SelectedVersionID, Mode=TwoWay}" SelectedValuePath="ID" />
 
         <Button Grid.Column="2" Margin="0,8,8,8"
                 HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
@@ -51,6 +51,6 @@
                 FontSize="16"
                 Content="{DynamicResource Launch}"
                 Click="{s:Action Launch}"
-                IsEnabled="{Binding CanLaunch}" />
+                IsEnabled="{Binding CanLaunch, Mode=OneWay}" />
     </Grid>
 </ContentControl>

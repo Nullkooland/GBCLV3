@@ -81,7 +81,9 @@
             <ListBox ItemsSource="{Binding DisabledPacks, Mode=OneWay}"
                      BorderThickness="1"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     AllowDrop="True"
+                     Drop="{s:Action OnDropDisabledPacks}">
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemWithoutRippleStyle}">
@@ -173,7 +175,9 @@
             <ListBox ItemsSource="{Binding EnabledPacks, Mode=OneWay}"
                      BorderThickness="1"
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
-                     ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                     ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                     AllowDrop="True"
+                     Drop="{s:Action OnDropEnabledPacks}">
 
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="ListBoxItem" BasedOn="{StaticResource ListBoxItemWithoutRippleStyle}">

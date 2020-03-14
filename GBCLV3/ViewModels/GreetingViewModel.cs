@@ -30,7 +30,7 @@ namespace GBCLV3.ViewModels
 
         public Account SelectedAccount { get; private set; }
 
-        public bool IsOfflineMode => SelectedAccount.AuthMode == AuthMode.Offline;
+        public bool IsOfflineMode => SelectedAccount?.AuthMode == AuthMode.Offline;
 
         #endregion
 
