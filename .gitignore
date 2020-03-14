@@ -10,6 +10,7 @@
 *.userosscache
 *.sln.docstates
 changelog.json
+FodyWeavers.*
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
