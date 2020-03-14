@@ -228,7 +228,7 @@ namespace GBCLV3.Services.Download
                 await using var httpStream = await response.Content.ReadAsStreamAsync();
                 await using var fileStream = File.OpenWrite(item.Path);
 
-                var timeout = TimeSpan.FromSeconds(Math.Max(item.Size / 32768.0, 30.0));
+                var timeout = TimeSpan.FromSeconds(Math.Max(item.Size / 16384.0, 30.0));
                 using var timeoutCts = new CancellationTokenSource(timeout);
                 using var readCts = CancellationTokenSource.CreateLinkedTokenSource(_userCts.Token, timeoutCts.Token);
 

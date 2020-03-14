@@ -187,7 +187,7 @@
     <s:String x:Key="NoAvailableForge">該版本沒有可用的 Forge！</s:String>
     <s:String x:Key="SelectForgeVersion">請選擇要安裝的 Forge 版本</s:String>
     <s:String x:Key="ForgeDownloadingInstaller">正在下載 Forge 安裝檔</s:String>
-    <s:String x:Key="ForgeManualInstalling">正在手動安裝 Forge</s:String>
+    <s:String x:Key="ForgeInstalling">正在安裝 Forge</s:String>
     <s:String x:Key="ForgeDownloadingLibraries">正在下載 Forge 依賴庫</s:String>
 
     <s:String x:Key="ForgeInstallFailed">Forge 安裝失敗</s:String>
@@ -197,7 +197,7 @@
 
     <!-- Fabric 安裝 -->
     <s:String x:Key="FabricListLoading">正在獲取 Fabric 安裝列表</s:String>
-    <s:String x:Key="FabricListLoadFailed">獲取 Fabric 安裝列表</s:String>
+    <s:String x:Key="FabricListLoadFailed">獲取 Fabric 安裝列表失敗</s:String>
     <s:String x:Key="NoAvailableFabric">該版本沒有可用的 Fabric！</s:String>
     <s:String x:Key="SelectFabricVersion">請選擇要安裝的 Fabric 版本</s:String>
     <s:String x:Key="FabricDownloadingLibraries">正在下載 Fabric 依賴庫</s:String>

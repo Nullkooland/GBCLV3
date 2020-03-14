@@ -35,7 +35,6 @@ namespace GBCLV3.ViewModels.Tabs
             ForgeInstallService forgeInstallService,
             VersionService versionService,
             LibraryService libraryService,
-
             DownloadStatusViewModel downloadStatusVM,
             IWindowManager windowManager)
         {
@@ -47,17 +46,23 @@ namespace GBCLV3.ViewModels.Tabs
 
             _windowManager = windowManager;
             _downloadStatusVM = downloadStatusVM;
+
+            _forgeInstallService.InstallProgressChanged += progress => InstallProgress = progress;
         }
 
         #endregion
 
         #region Bindings
 
-        public string GameVersion { get; set; }
+        public Version GameVersion { get; set; }
+
+        public string InstallProgress { get; private set; }
 
         public ForgeInstallStatus Status { get; private set; }
 
         public bool IsLoading => Status != ForgeInstallStatus.ListLoaded;
+
+        public bool IsInstalling => Status == ForgeInstallStatus.Installing;
 
         public bool CanInstall => Status == ForgeInstallStatus.ListLoaded;
 
@@ -66,20 +71,21 @@ namespace GBCLV3.ViewModels.Tabs
         public async void InstallSelected(Forge forge)
         {
             bool hasLocal = _versionService.GetAll()
-                                           .Where(v => v.Type == VersionType.Forge || v.Type == VersionType.NewForge)
-                                           .Any(v => v.ID.EndsWith(forge.Version));
+                .Where(v => v.Type == VersionType.Forge || v.Type == VersionType.NewForge)
+                .Any(v => v.ID == forge.ID);
 
             if (hasLocal)
             {
                 _windowManager.ShowMessageBox("${VersionAlreadyExists}", "${ForgeInstallFailed}",
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
-                Status = ForgeInstallStatus.ListLoaded;
                 return;
             }
 
+            bool isInstallerNeeded = GameVersion.CompatibilityVersion >= 21;
+
             Status = ForgeInstallStatus.DownloadingInstaller;
-            var download = _forgeInstallService.GetDownload(forge);
+            var download = _forgeInstallService.GetDownload(forge, isInstallerNeeded);
 
             if (!await StartDownloadAsync(DownloadType.InstallForge, download))
             {
@@ -90,39 +96,74 @@ namespace GBCLV3.ViewModels.Tabs
                 return;
             }
 
-            Version version = null;
+            Version version;
 
-            if (forge.IsAutoInstall)
+            // Use installer
+            if (isInstallerNeeded)
             {
-                version = _forgeInstallService.AutoInstall(forge);
+                Status = ForgeInstallStatus.DownloadingLibraries;
+
+                var jlibs = _forgeInstallService.GetJLibraries(forge);
+                var libs = _libraryService.Process(jlibs).Where(lib => lib.Type != LibraryType.ForgeMain);
+
+                var missingLibs = await _libraryService.CheckIntegrityAsync(libs);
+                if (missingLibs.Any())
+                {
+                    Status = ForgeInstallStatus.DownloadingLibraries;
+
+                    var downloads = _libraryService.GetDownloads(missingLibs);
+                    if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
+                    {
+                        _windowManager.ShowMessageBox("${TryCompleteDependenciesOnLaunch}",
+                            "${VersionDependenciesIncomplete}",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
+
+                Status = ForgeInstallStatus.Installing;
+
+                version = await _forgeInstallService.InstallAsync(forge);
+
+                if (version == null)
+                {
+                    _windowManager.ShowMessageBox("${ForgeExtractFailed}", "${ForgeInstallFailed}",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
+
+                    Status = ForgeInstallStatus.ListLoaded;
+                    return;
+                }
             }
-            else
+            else // The old way (in fact has better experience)
             {
-                Status = ForgeInstallStatus.ManualInstalling;
-                version = await _forgeInstallService.ManualInstallAsync(forge);
-            }
+                version = _forgeInstallService.InstallOld(forge);
 
-            if (version == null)
-            {
-                _windowManager.ShowMessageBox("${ForgeExtractFailed}", "${ForgeInstallFailed}",
-                    MessageBoxButton.OK, MessageBoxImage.Error);
+                if (version == null)
+                {
+                    _windowManager.ShowMessageBox("${ForgeExtractFailed}", "${ForgeInstallFailed}",
+                        MessageBoxButton.OK, MessageBoxImage.Error);
 
-                Status = ForgeInstallStatus.ListLoaded;
-                return;
-            }
+                    Status = ForgeInstallStatus.ListLoaded;
+                    return;
+                }
 
-            Status = ForgeInstallStatus.DownloadingLibraries;
+                var damagedLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
+                if (damagedLibs.Any())
+                {
+                    Status = ForgeInstallStatus.DownloadingLibraries;
 
-            var missingLibs = await _libraryService.CheckIntegrityAsync(version.Libraries);
-            var downloads = _libraryService.GetDownloads(missingLibs);
-
-            if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
-            {
-                _windowManager.ShowMessageBox("${TryCompleteDependenciesOnLaunch}", "${VersionDependenciesIncomplete}",
-                    MessageBoxButton.OK, MessageBoxImage.Information);
+                    var downloads = _libraryService.GetDownloads(damagedLibs);
+                    if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
+                    {
+                        _windowManager.ShowMessageBox("${TryCompleteDependenciesOnLaunch}",
+                            "${VersionDependenciesIncomplete}",
+                            MessageBoxButton.OK, MessageBoxImage.Information);
+                    }
+                }
             }
 
             _windowManager.ShowMessageBox("${ForgeInstallSuccessful} " + version.ID, "${InstallSuccessful}");
+
+            Status = ForgeInstallStatus.ListLoaded;
             this.RequestClose();
         }
 
@@ -144,13 +185,13 @@ namespace GBCLV3.ViewModels.Tabs
         protected override async void OnActivate()
         {
             if (Status != ForgeInstallStatus.DownloadingInstaller &&
-                Status != ForgeInstallStatus.ManualInstalling &&
+                Status != ForgeInstallStatus.Installing &&
                 Status != ForgeInstallStatus.DownloadingLibraries)
             {
                 Status = ForgeInstallStatus.ListLoading;
                 Forges.Clear();
 
-                var forges = await _forgeInstallService.GetDownloadListAsync(GameVersion);
+                var forges = await _forgeInstallService.GetDownloadListAsync(GameVersion.JarID);
 
                 // Since the user has clicked the return button
                 // Nobody cares about the fetching result!
@@ -166,7 +207,9 @@ namespace GBCLV3.ViewModels.Tabs
                     return;
                 }
 
-                if (!forges.Any())
+                Forges.AddRange(forges);
+
+                if (!Forges.Any())
                 {
                     _windowManager.ShowMessageBox("${NoAvailableForge}", "${ForgeInstallFailed}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -175,7 +218,6 @@ namespace GBCLV3.ViewModels.Tabs
                     return;
                 }
 
-                Forges.AddRange(forges);
                 Status = ForgeInstallStatus.ListLoaded;
             }
         }

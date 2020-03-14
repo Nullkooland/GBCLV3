@@ -55,6 +55,17 @@ namespace GBCLV3.Models.Launch
         public List<JRule> rules { get; set; }
 
         public JLibraryDownload downloads { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            var other = obj as JLibrary;
+            return other?.name == this.name;
+        }
+
+        public override int GetHashCode()
+        {
+            return name.GetHashCode();
+        }
     }
 
     public class JExtract

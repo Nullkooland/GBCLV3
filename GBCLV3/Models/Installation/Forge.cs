@@ -1,25 +1,28 @@
 ﻿using System;
+using System.Collections.Generic;
+using GBCLV3.Models.Launch;
 
 namespace GBCLV3.Models.Installation
 {
     public class Forge
     {
-        public string Version { get; set; }
-
         public int Build { get; set; }
 
+        public string Version { get; set; }
+
+        public string ID { get; set; }
+
+        public string FullName { get; set; }
+
         public DateTime ReleaseTime { get; set; }
-
-        public string Branch { get; set; }
-
-        public string GameVersion { get; set; }
-
-        public bool IsAutoInstall { get; set; }
-
-        public bool HasSuffix { get; set; }
     }
 
     #region Json Class
+
+    public class JForgeInstallProfile
+    {
+        public List<JLibrary> libraries { get; set; }
+    }
 
     public class JForgeFile
     {

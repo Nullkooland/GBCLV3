@@ -157,6 +157,9 @@ namespace GBCLV3.ViewModels.Tabs
 
             _windowManager.ShowMessageBox("${VersionInstallSuccessful} " + download.ID, "${InstallSuccessful}");
             Status = VersionInstallStatus.ListLoaded;
+
+            // Normally the user won't install multiple game versions at once...
+            this.RequestClose();
         }
 
         public void GoBack() => this.RequestClose();

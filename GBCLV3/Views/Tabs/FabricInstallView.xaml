@@ -35,7 +35,7 @@
                        VerticalAlignment="Center"
                        Foreground="{DynamicResource {x:Static adonisUI:Brushes.DisabledAccentForegroundBrush}}"
                        FontSize="16"
-                       Text="{Binding GameVersion, Mode=OneWay}" />
+                       Text="{Binding GameVersion.JarID, Mode=OneWay}" />
 
             <TextBlock Grid.Column="2"
                        VerticalAlignment="Center"

@@ -42,7 +42,7 @@ namespace GBCLV3.Models.Launch
 
         public string InheritsFrom { get; set; }
 
-        public Dictionary<string, string> MinecarftArgsDict { get; set; }
+        public Dictionary<string, string> MinecraftArgsDict { get; set; }
 
         public string MainClass { get; set; }
 
@@ -51,6 +51,8 @@ namespace GBCLV3.Models.Launch
         public List<Library> Libraries { get; set; }
 
         public AssetsInfo AssetsInfo { get; set; }
+
+        public int CompatibilityVersion { get; set; }
     }
 
     public class VersionDownload
@@ -99,6 +101,9 @@ namespace GBCLV3.Models.Launch
         public string inheritsFrom { get; set; }
 
         public string jar { get; set; }
+
+        // forge json 里面的 minimumLauncherVersion 字段你格老子用浮点数？？？ 这些瓜批脑壳是不是有包？？？
+        public double minimumLauncherVersion { get; set; }
     }
 
     /// <summary>

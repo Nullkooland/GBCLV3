@@ -106,7 +106,7 @@ namespace GBCLV3.Services.Auxiliary
             return true;
         }
 
-        public Task DeleteFromDiskAsync(ResourcePack pack)
+        public ValueTask DeleteFromDiskAsync(ResourcePack pack)
         {
             return pack.IsExtracted ?
                 SystemUtil.SendDirToRecycleBinAsync(pack.Path) : SystemUtil.SendFileToRecycleBinAsync(pack.Path);

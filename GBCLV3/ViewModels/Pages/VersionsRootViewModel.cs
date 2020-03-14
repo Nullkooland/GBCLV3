@@ -1,4 +1,5 @@
 ﻿using GBCLV3.Models.Installation;
+using GBCLV3.Models.Launch;
 using GBCLV3.ViewModels.Tabs;
 using Stylet;
 using StyletIoC;
@@ -39,7 +40,7 @@ namespace GBCLV3.ViewModels.Pages
 
         #region Public Methods
 
-        public void OnNavigateInstallView(string versionID, InstallType type)
+        public void OnNavigateInstallView(Version version, InstallType type)
         {
             switch (type)
             {
@@ -48,12 +49,12 @@ namespace GBCLV3.ViewModels.Pages
                     return;
 
                 case InstallType.Forge:
-                    _forgeInstallVM.GameVersion = versionID;
+                    _forgeInstallVM.GameVersion = version;
                     this.ActivateItem(_forgeInstallVM);
                     return;
 
                 case InstallType.Fabric:
-                    _fabricInstallVM.GameVersion = versionID;
+                    _fabricInstallVM.GameVersion = version;
                     this.ActivateItem(_fabricInstallVM);
                     return;
 

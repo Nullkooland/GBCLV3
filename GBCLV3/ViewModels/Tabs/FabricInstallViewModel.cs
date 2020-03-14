@@ -53,7 +53,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         #region Bindings
 
-        public string GameVersion { get; set; }
+        public Version GameVersion { get; set; }
 
         public FabricInstallStatus Status { get; private set; }
 
@@ -66,7 +66,7 @@ namespace GBCLV3.ViewModels.Tabs
         public async void InstallSelected(Fabric fabric)
         {
             bool hasLocal = _versionService.GetAll()
-                                           .Where(v => v.Type == VersionType.Fabric && v.JarID == GameVersion)
+                                           .Where(v => v.Type == VersionType.Fabric && v.JarID == GameVersion.JarID)
                                            .Any(v => v.ID.EndsWith(fabric.Loader.Version));
 
             if (hasLocal)
@@ -115,7 +115,7 @@ namespace GBCLV3.ViewModels.Tabs
                 Status = FabricInstallStatus.ListLoading;
                 Fabrics.Clear();
 
-                var fabrics = await _fabricInstallService.GetDownloadListAsync(GameVersion);
+                var fabrics = await _fabricInstallService.GetDownloadListAsync(GameVersion.JarID);
 
                 // まっそんなのもう関係ないですけどね！
                 if (!this.IsActive) return;
@@ -129,7 +129,9 @@ namespace GBCLV3.ViewModels.Tabs
                     return;
                 }
 
-                if (!fabrics.Any())
+                Fabrics.AddRange(fabrics);
+
+                if (!Fabrics.Any())
                 {
                     _windowManager.ShowMessageBox("${NoAvailableFabric}", "${FabricInstallFailed}",
                         MessageBoxButton.OK, MessageBoxImage.Error);
@@ -138,7 +140,6 @@ namespace GBCLV3.ViewModels.Tabs
                     return;
                 }
 
-                Fabrics.AddRange(fabrics);
                 Status = FabricInstallStatus.ListLoaded;
             }
         }
