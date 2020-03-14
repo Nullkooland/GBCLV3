@@ -155,7 +155,7 @@
     <s:String x:Key="SegregateVersions">Отдельные версии</s:String>
     <s:String x:Key="OpenJson">Открыть Json</s:String>
     <s:String x:Key="DeleteVersion">Удалить версию</s:String>
-    <s:String x:Key="WhetherDeleteVersion">Удалить эту версию?/s:String>
+    <s:String x:Key="WhetherDeleteVersion">Удалить эту версию?</s:String>
 
     <!-- Установка версии -->
     <s:String x:Key="DownloadAndInstall">Скачать и установить</s:String>
