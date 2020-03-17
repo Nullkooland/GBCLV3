@@ -4,59 +4,59 @@
 
     <!-- MessageBox Button Labels -->
     <s:String x:Key="OK">OK</s:String>
-    <s:String x:Key="Cancel">Cancel</s:String>
-    <s:String x:Key="Yes">Yes</s:String>
-    <s:String x:Key="No">No</s:String>
+    <s:String x:Key="Cancel">Abbrechen</s:String>
+    <s:String x:Key="Yes">Ja</s:String>
+    <s:String x:Key="No">Nein</s:String>
 
     <!-- ErrorReport -->
-    <s:String x:Key="ErrorReport">Error Report</s:String>
-    <s:String x:Key="ReportUnexpectedExit">Game exited unexpectedly</s:String>
-    <s:String x:Key="ReportUnhandledException">Program has encountered unhandled exception</s:String>
-    <s:String x:Key="Alright">Alright</s:String>
-    <s:String x:Key="ReportOnGithub">Report on Github</s:String>
-    <s:String x:Key="CopyErrorMessage">Copy Error Message</s:String>
+    <s:String x:Key="ErrorReport">Fehlerbericht</s:String>
+    <s:String x:Key="ReportUnexpectedExit">Spiel wurde unerwarted geschlossen</s:String>
+    <s:String x:Key="ReportUnhandledException">Das Programm hat eine unbehandelte Ausnahme geworfen</s:String>
+    <s:String x:Key="Alright">In Ordnung</s:String>
+    <s:String x:Key="ReportOnGithub">Auf GitHub melden</s:String>
+    <s:String x:Key="CopyErrorMessage">Fehlermeldung in Zwischenablage kopieren</s:String>
 
     <!-- Launch Procedure -->
-    <s:String x:Key="Launch">Launch</s:String>
-    <s:String x:Key="ProcessingDependencies">Processing game dependencies</s:String>
-    <s:String x:Key="LoggingIn">Authenticating and logging in</s:String>
-    <s:String x:Key="StartingGameProcess">Starting game process</s:String>
-    <s:String x:Key="Boohoo">Boohoo! Launch failed...</s:String>
-    <s:String x:Key="HappyGame">Happy gaming!</s:String>
-    <s:String x:Key="UnexpectedExit">Unexpected Exit</s:String>
+    <s:String x:Key="Launch">Starten</s:String>
+    <s:String x:Key="ProcessingDependencies">Spielabhängigkeiten verarbeiten</s:String>
+    <s:String x:Key="LoggingIn">Authentifiziere und logge ein</s:String>
+    <s:String x:Key="StartingGameProcess">Starte den Spiel-Prozess</s:String>
+    <s:String x:Key="Boohoo">Huh-huh! Start fehlgeschlagen...</s:String>
+    <s:String x:Key="HappyGame">Fröhliches spielen!</s:String>
+    <s:String x:Key="UnexpectedExit">Unerwartetes Verlassen</s:String>
 
     <!-- JRE Not Found Error -->
-    <s:String x:Key="JreNotFound">JRE not found!</s:String>
-    <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
-    <s:String x:Key="DownloadJreInstaller">Donwload Jre installer</s:String>
+    <s:String x:Key="JreNotFound">JRE konnte nicht gefunden werden!</s:String>
+    <s:String x:Key="PleaseInstallJre">Bitte suchen Sie die JRE manuell oder installieren Sie sie</s:String>
+    <s:String x:Key="DownloadJreInstaller">JRE Installer herunterladen</s:String>
 
     <!-- Account Management -->
-    <s:String x:Key="AccountManagement">Account Management</s:String>
-    <s:String x:Key="AddAccount">Add Account</s:String>
-    <s:String x:Key="EditAccount">Edit Account</s:String>
-    <s:String x:Key="ReAuth">Re-authentication</s:String>
-    <s:String x:Key="DeleteAccount">Delete Account</s:String>
-    <s:String x:Key="WhetherDeleteAccount">Are you sure to delete this account?</s:String>
-    <s:String x:Key="AuthMode">Authentication Mode</s:String>
+    <s:String x:Key="AccountManagement">Kontoverwaltung</s:String>
+    <s:String x:Key="AddAccount">Konto hinzufügen</s:String>
+    <s:String x:Key="EditAccount">Konto bearbeiten</s:String>
+    <s:String x:Key="ReAuth">Erneut authentifizieren</s:String>
+    <s:String x:Key="DeleteAccount">Konto löschen</s:String>
+    <s:String x:Key="WhetherDeleteAccount">Sind Sie sicher, dass Sie das Konto löschen wollen?</s:String>
+    <s:String x:Key="AuthMode">Authentifizierungsmodus</s:String>
     <s:String x:Key="Offline">Offline</s:String>
     <s:String x:Key="Yggdrasil">Mojang</s:String>
-    <s:String x:Key="AuthLibInjector">External (authlib-injector)</s:String>
-    <s:String x:Key="Username">Username</s:String>
-    <s:String x:Key="Email">Email</s:String>
-    <s:String x:Key="Password">Password</s:String>
-    <s:String x:Key="AuthServer">Authentication Server</s:String>
-    <s:String x:Key="SelectProfile">Select Profile</s:String>
+    <s:String x:Key="AuthLibInjector">Externer (authlib-injector)</s:String>
+    <s:String x:Key="Username">Benutzername</s:String>
+    <s:String x:Key="Email">E-Mail</s:String>
+    <s:String x:Key="Password">Passwort</s:String>
+    <s:String x:Key="AuthServer">Authentifizierungsserver</s:String>
+    <s:String x:Key="SelectProfile">Profil auswählen</s:String>
 
-    <s:String x:Key="DuplicateAccount">The account already exists!</s:String>
-    <s:String x:Key="EmptyUsername">Username cannot be empty!</s:String>
-    <s:String x:Key="InvalidEmail">Invalid email address!</s:String>
+    <s:String x:Key="DuplicateAccount">Das Konto existiert bereits!</s:String>
+    <s:String x:Key="EmptyUsername">Benutzername kann nicht leer sein!</s:String>
+    <s:String x:Key="InvalidEmail">Ungültige E-Mail Adresse!</s:String>
 
-    <s:String x:Key="EnterAccountInformation">Enter account information</s:String>
-    <s:String x:Key="NeedReAuth">Current token is invalid, need re-authentication</s:String>
-    <s:String x:Key="CheckingAuthServer">Checking authentication server</s:String>
-    <s:String x:Key="CheckAuthServerFailed">Invalid authentication server, please check the url or your Internet connection!</s:String>
-    <s:String x:Key="Authenticating">Authenticating</s:String>
-    <s:String x:Key="AuthSuccessful">Authentication successful</s:String>
+    <s:String x:Key="EnterAccountInformation">Account Informationen eingeben</s:String>
+    <s:String x:Key="NeedReAuth">Aktueller Token ist ungültig, erneute Authentifizierung ist nötig</s:String>
+    <s:String x:Key="CheckingAuthServer">Überprüfe Authentifizierungsserver</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Ungültiger Authentifizierungsserver, bitte überprüfen Sie die URL oder ihre Internetverbindung!</s:String>
+    <s:String x:Key="Authenticating">Authentifiziere</s:String>
+    <s:String x:Key="AuthSuccessful">Authentifizierung erfolgreich</s:String>
 
     <!-- Authentication Errors -->
     <s:String x:Key="AuthFailed">Authentication Failed</s:String>
