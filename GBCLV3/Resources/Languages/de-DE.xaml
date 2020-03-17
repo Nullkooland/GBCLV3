@@ -111,74 +111,74 @@
     <!-- Launcher Settings -->
     <s:String x:Key="Language">Sprache</s:String>
 
-    <s:String x:Key="DownloadSource">Download Source</s:String>
-    <s:String x:Key="Official">Offical</s:String>
+    <s:String x:Key="DownloadSource">Download-Quelle</s:String>
+    <s:String x:Key="Official">Offiziell</s:String>
     <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
     <s:String x:Key="MCBBS">MCBBS</s:String>
 
-    <s:String x:Key="AfterLaunch">After Launch</s:String>
-    <s:String x:Key="Exit">Exit program</s:String>
-    <s:String x:Key="Hide">Hide window</s:String>
-    <s:String x:Key="KeepVisible">Keep visible</s:String>
+    <s:String x:Key="AfterLaunch">Nach dem Start</s:String>
+    <s:String x:Key="Exit">Programm beenden</s:String>
+    <s:String x:Key="Hide">Fenster verstecken</s:String>
+    <s:String x:Key="KeepVisible">Sichtbar halten</s:String>
 
-    <s:String x:Key="UseBackgroundImage">Use Background Image</s:String>
-    <s:String x:Key="SelectImagePath">Select image path</s:String>
-    <s:String x:Key="SelectRandomImage">Randomly select a image from .\bg directory</s:String>
+    <s:String x:Key="UseBackgroundImage">Hintergrundbild benutzen</s:String>
+    <s:String x:Key="SelectImagePath">Bildpfad auswählen</s:String>
+    <s:String x:Key="SelectRandomImage">Zufälliges Bild aus dem .\bg Ordner auswählen</s:String>
 
-    <s:String x:Key="Font">Font Family</s:String>
-    <s:String x:Key="FontWeight">Font Weight</s:String>
+    <s:String x:Key="Font">Schriftart</s:String>
+    <s:String x:Key="FontWeight">Schriftgewicht</s:String>
 
     <!-- Download -->
 
     <!-- Download Types -->
     <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
-    <s:String x:Key="MainJar">Main Jar</s:String>
-    <s:String x:Key="Libraries">Libraries</s:String>
+    <s:String x:Key="MainJar">Haupt-JAR</s:String>
+    <s:String x:Key="Libraries">Bibliotheken</s:String>
     <s:String x:Key="Assets">Assets</s:String>
-    <s:String x:Key="InstallNewVersion">Install New</s:String>
-    <s:String x:Key="InstallForge">Install Forge</s:String>
-    <s:String x:Key="InstallFabric">Install Fabric</s:String>
+    <s:String x:Key="InstallNewVersion">Neue Version installieren</s:String>
+    <s:String x:Key="InstallForge">Forge installieren</s:String>
+    <s:String x:Key="InstallFabric">Fabric installieren</s:String>
 
     <!-- Download Progress -->
-    <s:String x:Key="DownloadProgress">Progress</s:String>
-    <s:String x:Key="CancelDownload">Cancel Download</s:String>
-    <s:String x:Key="WhetherCancelDownload">Are you sure to cancel download?</s:String>
-    <s:String x:Key="IncompleteDownload">Incomplete Download</s:String>
-    <s:String x:Key="DownloadFailures">files failed to download</s:String>
-    <s:String x:Key="WhetherRetryDownload">Retry incomplete download?</s:String>
-    <s:String x:Key="DownloadCompletedCount">Completed</s:String>
-    <s:String x:Key="DownloadFailedCount">Failed</s:String>
-    <s:String x:Key="DownloadSpeed">Speed</s:String>
+    <s:String x:Key="DownloadProgress">Fortschritt</s:String>
+    <s:String x:Key="CancelDownload">Download abbrechen</s:String>
+    <s:String x:Key="WhetherCancelDownload">Sind Sie sich sicher, dass Sie den Download abbrechen wollen?</s:String>
+    <s:String x:Key="IncompleteDownload">Unvollständiger Download</s:String>
+    <s:String x:Key="DownloadFailures">Dateien konnten nicht heruntergeladen werden</s:String>
+    <s:String x:Key="WhetherRetryDownload">Unvollständigen Download neustarten?</s:String>
+    <s:String x:Key="DownloadCompletedCount">Abgeschlossen</s:String>
+    <s:String x:Key="DownloadFailedCount">Fehlgeschlagen</s:String>
+    <s:String x:Key="DownloadSpeed">Geschwindigkeit</s:String>
 
     <!-- Versions Management -->
-    <s:String x:Key="AvailableVersions">Available Versions</s:String>
-    <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
-    <s:String x:Key="OpenJson">Open Json</s:String>
-    <s:String x:Key="DeleteVersion">Delete Version</s:String>
-    <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
+    <s:String x:Key="AvailableVersions">Verfügbare Versionen</s:String>
+    <s:String x:Key="SegregateVersions">Versionen trennen</s:String>
+    <s:String x:Key="OpenJson">JSON öffnen</s:String>
+    <s:String x:Key="DeleteVersion">Version löschen</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Möchten Sie die Version wirklich löschen?</s:String>
 
     <!-- Version Install -->
-    <s:String x:Key="DownloadAndInstall">Download and install</s:String>
-    <s:String x:Key="NoVersionFound">No version found</s:String>
-    <s:String x:Key="WhetherInstallNewVersion">Whether install new game version?</s:String>
+    <s:String x:Key="DownloadAndInstall">Herunterladen und installieren</s:String>
+    <s:String x:Key="NoVersionFound">Keine Version gefunden</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">Soll eine neue Spielversion installiert werden?</s:String>
     <s:String x:Key="Version">Version</s:String>
-    <s:String x:Key="Type">Type</s:String>
-    <s:String x:Key="ReleaseTime">Release Date</s:String>
-    <s:String x:Key="ReleaseOnly">Release Only</s:String>
+    <s:String x:Key="Type">Typ</s:String>
+    <s:String x:Key="ReleaseTime">Erscheinungsdatum</s:String>
+    <s:String x:Key="ReleaseOnly">Nur stabile Versionen</s:String>
 
-    <s:String x:Key="VersionListLoading">ChangeSing version list</s:String>
-    <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
-    <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
-    <s:String x:Key="VersionFetchingJson">Fetching version json</s:String>
-    <s:String x:Key="VersionDownloadingDependencies">Downloading version dependencies</s:String>
+    <s:String x:Key="VersionListLoading">Versionsliste lädt</s:String>
+    <s:String x:Key="VersionListLoaded">Versionsliste geladen</s:String>
+    <s:String x:Key="VersionListLoadFailed">Versionsliste laden fehlgeschlagen</s:String>
+    <s:String x:Key="VersionFetchingJson">Version-JSON abrufen</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">Versionsabhängigkeiten werden heruntergeladen</s:String>
 
-    <s:String x:Key="VersionInstallFailed">Install Failed</s:String>
-    <s:String x:Key="VersionAlreadyExists">Identical local version already exists!</s:String>
-    <s:String x:Key="VersionJsonFetchFailed">Fetch version json failed!</s:String>
-    <s:String x:Key="VersionDependenciesIncomplete">Incomplete Dependencies</s:String>
-    <s:String x:Key="TryCompleteDependenciesOnLaunch">Launcher will complete all dependencies for the version when launching</s:String>
-    <s:String x:Key="DownloadAssetsOnInstall">Download assets upon install</s:String>
-    <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
+    <s:String x:Key="VersionInstallFailed">Installation is fehlgeschlagen</s:String>
+    <s:String x:Key="VersionAlreadyExists">Eine identische lokale Version existiert bereits!</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">Version-JSON konnte nicht abgerufen werden!</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">Unvollständige Abhängigkeiten</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">Launcher wird alle Abhängigkeiten beim Start vervollständigen</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Assets beim Start herunterladen</s:String>
+    <s:String x:Key="VersionInstallSuccessful">Installation erfolgreich</s:String>
 
     <!-- Forge Install -->
     <s:String x:Key="ForgeListLoading">Changeing forge download list</s:String>
