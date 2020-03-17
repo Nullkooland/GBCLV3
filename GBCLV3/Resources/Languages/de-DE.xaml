@@ -8,7 +8,7 @@
     <s:String x:Key="Yes">Ja</s:String>
     <s:String x:Key="No">Nein</s:String>
 
-    <!-- ErrorReport -->
+    <!-- Fehlermeldungen -->
     <s:String x:Key="ErrorReport">Fehlerbericht</s:String>
     <s:String x:Key="ReportUnexpectedExit">Spiel wurde unerwarted geschlossen</s:String>
     <s:String x:Key="ReportUnhandledException">Das Programm hat eine unbehandelte Ausnahme geworfen</s:String>
@@ -16,7 +16,7 @@
     <s:String x:Key="ReportOnGithub">Auf GitHub melden</s:String>
     <s:String x:Key="CopyErrorMessage">Fehlermeldung in Zwischenablage kopieren</s:String>
 
-    <!-- Launch Procedure -->
+    <!-- Startvorgang -->
     <s:String x:Key="Launch">Starten</s:String>
     <s:String x:Key="ProcessingDependencies">Spielabhängigkeiten verarbeiten</s:String>
     <s:String x:Key="LoggingIn">Authentifiziere und logge ein</s:String>
@@ -25,12 +25,12 @@
     <s:String x:Key="HappyGame">Fröhliches spielen!</s:String>
     <s:String x:Key="UnexpectedExit">Unerwartetes Verlassen</s:String>
 
-    <!-- JRE Not Found Error -->
+    <!-- JRE nicht gefunden Fehler -->
     <s:String x:Key="JreNotFound">JRE konnte nicht gefunden werden!</s:String>
     <s:String x:Key="PleaseInstallJre">Bitte suchen Sie die JRE manuell oder installieren Sie sie</s:String>
     <s:String x:Key="DownloadJreInstaller">JRE Installer herunterladen</s:String>
 
-    <!-- Account Management -->
+    <!-- Kontoverwaltung -->
     <s:String x:Key="AccountManagement">Kontoverwaltung</s:String>
     <s:String x:Key="AddAccount">Konto hinzufügen</s:String>
     <s:String x:Key="EditAccount">Konto bearbeiten</s:String>
@@ -58,7 +58,7 @@
     <s:String x:Key="Authenticating">Authentifiziere</s:String>
     <s:String x:Key="AuthSuccessful">Authentifizierung erfolgreich</s:String>
 
-    <!-- Authentication Errors -->
+    <!-- Authentifizierungsfehler -->
     <s:String x:Key="AuthFailed">Authentifizierung fehlgeschlagen</s:String>
     <s:String x:Key="AuthTimeout">Zeitlimit für die Authentifizierung überschritten!</s:String>
     <s:String x:Key="NoInternetConnection">Bitte überprüfen Sie ihre Internetverbindung!</s:String>
@@ -69,7 +69,7 @@
     <s:String x:Key="ErrorMessage">Fehlermeldung:</s:String>
 
 
-    <!-- Integrity Check -->
+    <!-- Integritätsprüfung -->
     <s:String x:Key="IntegrityCheck">Integritätscheck</s:String>
     <s:String x:Key="MainJarDamaged">Haupt-JAR fehlt oder ist beschädigt</s:String>
     <s:String x:Key="ForgeJarDamaged">Forge-JAR fehlt oder ist beschädigt, und Fehler kann nicht gelöst werden</s:String>
@@ -78,7 +78,7 @@
     <s:String x:Key="AssetsDamaged">Assets fehlen oder sind beschädigt</s:String>
     <s:String x:Key="WhetherFixNow">Wollen Sie das Problem jetzt lösen?</s:String>
 
-    <!-- Settings -->
+    <!-- Einstellungen -->
     <s:String x:Key="Settings">Einstellungen</s:String>
     <s:String x:Key="GameSettings">Spieleinstellungen</s:String>
     <s:String x:Key="AccountSettings">Kontoeinstellungen</s:String>
@@ -87,7 +87,7 @@
     <s:String x:Key="FunctionSettings">Funktionseinstellungen</s:String>
     <s:String x:Key="ThemeSettings">Themen Einstellungen</s:String>
 
-    <!-- Game Settings -->
+    <!-- Spieleinstellungen -->
     <s:String x:Key="JreDir">JRE Ordner</s:String>
     <s:String x:Key="SelectJrePath">JRE Pfad auswählen</s:String>
     <s:String x:Key="JavaMaxMem">Java Max Arbeitsspeicher (MB)</s:String>
@@ -108,7 +108,7 @@
     <s:String x:Key="CustomJvmArgsDescription">Dies wird die JVM-Standardargumente überschreiben (z.B. GC Einstellungen)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Zusätzliche Minecraft Argumente</s:String>
 
-    <!-- Launcher Settings -->
+    <!-- Launchereinstellungen -->
     <s:String x:Key="Language">Sprache</s:String>
 
     <s:String x:Key="DownloadSource">Download-Quelle</s:String>
@@ -128,9 +128,9 @@
     <s:String x:Key="Font">Schriftart</s:String>
     <s:String x:Key="FontWeight">Schriftgewicht</s:String>
 
-    <!-- Download -->
+    <!-- Herunterladen -->
 
-    <!-- Download Types -->
+    <!-- Arten des Herunterladens -->
     <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
     <s:String x:Key="MainJar">Haupt-JAR</s:String>
     <s:String x:Key="Libraries">Bibliotheken</s:String>
@@ -139,7 +139,7 @@
     <s:String x:Key="InstallForge">Forge installieren</s:String>
     <s:String x:Key="InstallFabric">Fabric installieren</s:String>
 
-    <!-- Download Progress -->
+    <!-- Fortschritt des Herunterladens -->
     <s:String x:Key="DownloadProgress">Fortschritt</s:String>
     <s:String x:Key="CancelDownload">Download abbrechen</s:String>
     <s:String x:Key="WhetherCancelDownload">Sind Sie sich sicher, dass Sie den Download abbrechen wollen?</s:String>
@@ -150,14 +150,14 @@
     <s:String x:Key="DownloadFailedCount">Fehlgeschlagen</s:String>
     <s:String x:Key="DownloadSpeed">Geschwindigkeit</s:String>
 
-    <!-- Versions Management -->
+    <!-- Versionsverwaltung -->
     <s:String x:Key="AvailableVersions">Verfügbare Versionen</s:String>
     <s:String x:Key="SegregateVersions">Versionen trennen</s:String>
     <s:String x:Key="OpenJson">JSON öffnen</s:String>
     <s:String x:Key="DeleteVersion">Version löschen</s:String>
     <s:String x:Key="WhetherDeleteVersion">Möchten Sie die Version wirklich löschen?</s:String>
 
-    <!-- Version Install -->
+    <!-- Versionsinstallation -->
     <s:String x:Key="DownloadAndInstall">Herunterladen und installieren</s:String>
     <s:String x:Key="NoVersionFound">Keine Version gefunden</s:String>
     <s:String x:Key="WhetherInstallNewVersion">Soll eine neue Spielversion installiert werden?</s:String>
@@ -180,7 +180,7 @@
     <s:String x:Key="DownloadAssetsOnInstall">Assets beim Start herunterladen</s:String>
     <s:String x:Key="VersionInstallSuccessful">Installation erfolgreich</s:String>
 
-    <!-- Forge Install -->
+    <!-- Forge-Installation -->
     <s:String x:Key="ForgeListLoading">Forge-Liste läd</s:String>
     <s:String x:Key="ForgeListLoadFailed">Forge-List konnte nicht heruntergeladen werden</s:String>
     <s:String x:Key="NoAvailableForge">Kein Forge ist für die aktuelle Version verfügbar!</s:String>
@@ -194,7 +194,7 @@
     <s:String x:Key="ForgeExtractFailed">Forge konnte nicht extrahiert werden!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">Forge-Installation erfolgreiche</s:String>
 
-    <!-- Fabric Install -->
+    <!-- Fabric-Installation -->
     <s:String x:Key="FabricListLoading">Lade Fabric-Downloadliste</s:String>
     <s:String x:Key="FabricListLoadFailed">Fabric-Downloadliste konnte nicht geladen werden</s:String>
     <s:String x:Key="NoAvailableFabric">Kein Fabric für die aktuelle Version verfügbar!</s:String>
@@ -204,19 +204,19 @@
     <s:String x:Key="FabricInstallFailed">Fabric-Installation fehlgeschlagen</s:String>
     <s:String x:Key="FabricInstallSuccessful">Fabric-Installation erfolgreich</s:String>
 
-    <!-- Mods Management -->
+    <!-- Mods-Verwaltung -->
     <s:String x:Key="AvailableMods">Verfügbare Mods</s:String>
     <s:String x:Key="SelectMods">Mods auswählen</s:String>
     <s:String x:Key="EnableSelected">Aktivieren</s:String>
     <s:String x:Key="DisableSelected">Deaktivieren</s:String>
 
-    <!-- Resourcepacks Management -->
+    <!-- Resourcepacks-Verwaltung -->
     <s:String x:Key="EnabledPacks">Aktivierte Packs</s:String>
     <s:String x:Key="SelectResourcepacks">Resourcepacks auswählen</s:String>
     <s:String x:Key="DisabledPacks">Deaktivierte Packs</s:String>
     <s:String x:Key="OpenPack">Öffnen</s:String>
 
-    <!-- About -->
+    <!-- Über -->
     <s:String x:Key="Dependencies">Abhängigkeiten</s:String>
     <s:String x:Key="ThanksTo">Danke an</s:String>
 
@@ -237,7 +237,7 @@
     <s:String x:Key="SuccessfullyUpdatedTo">Erfolgreich aktualisiert auf</s:String>
     <s:String x:Key="UpdateSuccessful">Update erfolgreich</s:String>
 
-    <!-- Common -->
+    <!-- Gemeinsame -->
     <s:String x:Key="AddNew">Neues hinzufügen</s:String>
     <s:String x:Key="Hello">Hallo</s:String>
     <s:String x:Key="InstallNew">Neues installieren</s:String>
@@ -261,7 +261,7 @@
     <s:String x:Key="Auxiliaries">Hilfsmittel</s:String>
     <s:String x:Key="Auto">Automatisch</s:String>
 
-    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <!-- Goose Bomb was machst du da! Goose Bomb!!! -->
     <s:String x:Key="FlowerOfHope">Blume der Hoffnung 🎵</s:String>
     <s:String x:Key="DontStop">HÖR NIEMALS AUF!</s:String>
 
