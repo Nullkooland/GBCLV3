@@ -1,0 +1,268 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- MessageBox Button Labels -->
+    <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Cancel">Cancel</s:String>
+    <s:String x:Key="Yes">Yes</s:String>
+    <s:String x:Key="No">No</s:String>
+
+    <!-- ErrorReport -->
+    <s:String x:Key="ErrorReport">Error Report</s:String>
+    <s:String x:Key="ReportUnexpectedExit">Game exited unexpectedly</s:String>
+    <s:String x:Key="ReportUnhandledException">Program has encountered unhandled exception</s:String>
+    <s:String x:Key="Alright">Alright</s:String>
+    <s:String x:Key="ReportOnGithub">Report on Github</s:String>
+    <s:String x:Key="CopyErrorMessage">Copy Error Message</s:String>
+
+    <!-- Launch Procedure -->
+    <s:String x:Key="Launch">Launch</s:String>
+    <s:String x:Key="ProcessingDependencies">Processing game dependencies</s:String>
+    <s:String x:Key="LoggingIn">Authenticating and logging in</s:String>
+    <s:String x:Key="StartingGameProcess">Starting game process</s:String>
+    <s:String x:Key="Boohoo">Boohoo! Launch failed...</s:String>
+    <s:String x:Key="HappyGame">Happy gaming!</s:String>
+    <s:String x:Key="UnexpectedExit">Unexpected Exit</s:String>
+
+    <!-- JRE Not Found Error -->
+    <s:String x:Key="JreNotFound">JRE not found!</s:String>
+    <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
+    <s:String x:Key="DownloadJreInstaller">Donwload Jre installer</s:String>
+
+    <!-- Account Management -->
+    <s:String x:Key="AccountManagement">Account Management</s:String>
+    <s:String x:Key="AddAccount">Add Account</s:String>
+    <s:String x:Key="EditAccount">Edit Account</s:String>
+    <s:String x:Key="ReAuth">Re-authentication</s:String>
+    <s:String x:Key="DeleteAccount">Delete Account</s:String>
+    <s:String x:Key="WhetherDeleteAccount">Are you sure to delete this account?</s:String>
+    <s:String x:Key="AuthMode">Authentication Mode</s:String>
+    <s:String x:Key="Offline">Offline</s:String>
+    <s:String x:Key="Yggdrasil">Mojang</s:String>
+    <s:String x:Key="AuthLibInjector">External (authlib-injector)</s:String>
+    <s:String x:Key="Username">Username</s:String>
+    <s:String x:Key="Email">Email</s:String>
+    <s:String x:Key="Password">Password</s:String>
+    <s:String x:Key="AuthServer">Authentication Server</s:String>
+    <s:String x:Key="SelectProfile">Select Profile</s:String>
+
+    <s:String x:Key="DuplicateAccount">The account already exists!</s:String>
+    <s:String x:Key="EmptyUsername">Username cannot be empty!</s:String>
+    <s:String x:Key="InvalidEmail">Invalid email address!</s:String>
+
+    <s:String x:Key="EnterAccountInformation">Enter account information</s:String>
+    <s:String x:Key="NeedReAuth">Current token is invalid, need re-authentication</s:String>
+    <s:String x:Key="CheckingAuthServer">Checking authentication server</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Invalid authentication server, please check the url or your Internet connection!</s:String>
+    <s:String x:Key="Authenticating">Authenticating</s:String>
+    <s:String x:Key="AuthSuccessful">Authentication successful</s:String>
+
+    <!-- Authentication Errors -->
+    <s:String x:Key="AuthFailed">Authentication Failed</s:String>
+    <s:String x:Key="AuthTimeout">Authentication timeout!</s:String>
+    <s:String x:Key="NoInternetConnection">Please check your Internet connection!</s:String>
+    <s:String x:Key="InvalidCredentials">Invalid credentials! Please check your email or password!</s:String>
+    <s:String x:Key="InvalidToken">Invalid token! Please re-login using email and password!</s:String>
+    <s:String x:Key="InvalidAuthServer">Invalid authentication server, please check the url or your Internet connection!</s:String>
+    <s:String x:Key="Unknown">Error occurred!</s:String>
+    <s:String x:Key="ErrorMessage">Error message:</s:String>
+
+
+    <!-- Integrity Check -->
+    <s:String x:Key="IntegrityCheck">Integrity Check</s:String>
+    <s:String x:Key="MainJarDamaged">Main jar missing or damaged</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge jar missing or damaged, and unable to be fixed</s:String>
+    <s:String x:Key="PleaseReinstallForge">Please reinstall forge</s:String>
+    <s:String x:Key="LibsDamaged">Dependent libraries missing or damaged</s:String>
+    <s:String x:Key="AssetsDamaged">Assets missing or damaged</s:String>
+    <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
+
+    <!-- Settings -->
+    <s:String x:Key="Settings">Settings</s:String>
+    <s:String x:Key="GameSettings">Game Settings</s:String>
+    <s:String x:Key="AccountSettings">Account Settings</s:String>
+    <s:String x:Key="LauncherSettings">Launcher Settings</s:String>
+    <s:String x:Key="AdvancedSettings">Advanced Settings</s:String>
+    <s:String x:Key="FunctionSettings">Function Settings</s:String>
+    <s:String x:Key="ThemeSettings">Theme Settings</s:String>
+
+    <!-- Game Settings -->
+    <s:String x:Key="JreDir">JRE Directory</s:String>
+    <s:String x:Key="SelectJrePath">Select JRE path</s:String>
+    <s:String x:Key="JavaMaxMem">Java Max Memory (MB)</s:String>
+    <s:String x:Key="AvailableMem">Available physical memory</s:String>
+
+    <s:String x:Key="GameDir">Game Directory</s:String>
+    <s:String x:Key="SelectGameDir">Select game directory</s:String>
+    <s:String x:Key="WindowResolution">Window Resolution</s:String>
+    <s:String x:Key="FullScreen">Full Screen</s:String>
+
+    <s:String x:Key="ServerAddress">Server Address</s:String>
+    <s:String x:Key="JoinServerOnLaunch">When filled this with server address, minecraft will join the server directly after launching.</s:String>
+
+    <s:String x:Key="DebugMode">Debug Mode</s:String>
+    <s:String x:Key="DebugModeDescription">Use java.exe to run</s:String>
+
+    <s:String x:Key="CustomJvmArgs">Custom JVM Args</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g GC configurations)</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
+
+    <!-- Launcher Settings -->
+    <s:String x:Key="Language">Language</s:String>
+
+    <s:String x:Key="DownloadSource">Download Source</s:String>
+    <s:String x:Key="Official">Offical</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="MCBBS">MCBBS</s:String>
+
+    <s:String x:Key="AfterLaunch">After Launch</s:String>
+    <s:String x:Key="Exit">Exit program</s:String>
+    <s:String x:Key="Hide">Hide window</s:String>
+    <s:String x:Key="KeepVisible">Keep visible</s:String>
+
+    <s:String x:Key="UseBackgroundImage">Use Background Image</s:String>
+    <s:String x:Key="SelectImagePath">Select image path</s:String>
+    <s:String x:Key="SelectRandomImage">Randomly select a image from .\bg directory</s:String>
+
+    <s:String x:Key="Font">Font Family</s:String>
+    <s:String x:Key="FontWeight">Font Weight</s:String>
+
+    <!-- Download -->
+
+    <!-- Download Types -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
+    <s:String x:Key="MainJar">Main Jar</s:String>
+    <s:String x:Key="Libraries">Libraries</s:String>
+    <s:String x:Key="Assets">Assets</s:String>
+    <s:String x:Key="InstallNewVersion">Install New</s:String>
+    <s:String x:Key="InstallForge">Install Forge</s:String>
+    <s:String x:Key="InstallFabric">Install Fabric</s:String>
+
+    <!-- Download Progress -->
+    <s:String x:Key="DownloadProgress">Progress</s:String>
+    <s:String x:Key="CancelDownload">Cancel Download</s:String>
+    <s:String x:Key="WhetherCancelDownload">Are you sure to cancel download?</s:String>
+    <s:String x:Key="IncompleteDownload">Incomplete Download</s:String>
+    <s:String x:Key="DownloadFailures">files failed to download</s:String>
+    <s:String x:Key="WhetherRetryDownload">Retry incomplete download?</s:String>
+    <s:String x:Key="DownloadCompletedCount">Completed</s:String>
+    <s:String x:Key="DownloadFailedCount">Failed</s:String>
+    <s:String x:Key="DownloadSpeed">Speed</s:String>
+
+    <!-- Versions Management -->
+    <s:String x:Key="AvailableVersions">Available Versions</s:String>
+    <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
+    <s:String x:Key="OpenJson">Open Json</s:String>
+    <s:String x:Key="DeleteVersion">Delete Version</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
+
+    <!-- Version Install -->
+    <s:String x:Key="DownloadAndInstall">Download and install</s:String>
+    <s:String x:Key="NoVersionFound">No version found</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">Whether install new game version?</s:String>
+    <s:String x:Key="Version">Version</s:String>
+    <s:String x:Key="Type">Type</s:String>
+    <s:String x:Key="ReleaseTime">Release Date</s:String>
+    <s:String x:Key="ReleaseOnly">Release Only</s:String>
+
+    <s:String x:Key="VersionListLoading">ChangeSing version list</s:String>
+    <s:String x:Key="VersionListLoaded">Version list loaded</s:String>
+    <s:String x:Key="VersionListLoadFailed">Failed to load version list</s:String>
+    <s:String x:Key="VersionFetchingJson">Fetching version json</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">Downloading version dependencies</s:String>
+
+    <s:String x:Key="VersionInstallFailed">Install Failed</s:String>
+    <s:String x:Key="VersionAlreadyExists">Identical local version already exists!</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">Fetch version json failed!</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">Incomplete Dependencies</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">Launcher will complete all dependencies for the version when launching</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Download assets upon install</s:String>
+    <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
+
+    <!-- Forge Install -->
+    <s:String x:Key="ForgeListLoading">Changeing forge download list</s:String>
+    <s:String x:Key="ForgeListLoadFailed">Failed to load forge download list</s:String>
+    <s:String x:Key="NoAvailableForge">No available forge for this version!</s:String>
+    <s:String x:Key="SelectForgeVersion">Please select a forge version to install</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Downloading forge installer</s:String>
+    <s:String x:Key="ForgeManualInstalling">Manually installing forge</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Downloading forge libraries</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">Forge Install Failed</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge jar download failed!</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge extract failed!</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
+
+    <!-- Fabric Install -->
+    <s:String x:Key="FabricListLoading">Changeing Fabric download list</s:String>
+    <s:String x:Key="FabricListLoadFailed">Failed to load Fabric download list</s:String>
+    <s:String x:Key="NoAvailableFabric">No available Fabric for this version!</s:String>
+    <s:String x:Key="SelectFabricVersion">Please select a Fabric version to install</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Downloading Fabric libraries</s:String>
+
+    <s:String x:Key="FabricInstallFailed">Fabric Install Failed</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Successfully install Fabric</s:String>
+
+    <!-- Mods Management -->
+    <s:String x:Key="AvailableMods">Available Mods</s:String>
+    <s:String x:Key="SelectMods">Select Mods</s:String>
+    <s:String x:Key="EnableSelected">Enable</s:String>
+    <s:String x:Key="DisableSelected">Disable</s:String>
+
+    <!-- Resourcepacks Management -->
+    <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
+    <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
+    <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
+    <s:String x:Key="OpenPack">Open</s:String>
+
+    <!-- About -->
+    <s:String x:Key="Dependencies">Dependencies</s:String>
+    <s:String x:Key="ThanksTo">Thanks to</s:String>
+
+    <!-- Update -->
+    <s:String x:Key="Update">Update</s:String>
+    <s:String x:Key="CheckUpdate">Check Update</s:String>
+    <s:String x:Key="CheckingUpdate">Checking update</s:String>
+    <s:String x:Key="AlreadyUpToDate">Already up to date</s:String>
+    <s:String x:Key="UpdateAvailable">Update available</s:String>
+    <s:String x:Key="UpdateCheckFailed">Update check failed</s:String>
+    <s:String x:Key="AutoCheckUpdate">Check on start</s:String>
+    <s:String x:Key="UpdateChangelog">Changelog</s:String>
+    <s:String x:Key="UpdateNow">Update Now</s:String>
+    <s:String x:Key="DeferUpdate">Defer Update</s:String>
+    <s:String x:Key="CancelUpdate">Cancel Update</s:String>
+    <s:String x:Key="WhetherCancelUpdate">Are you sure to cancel update?</s:String>
+    <s:String x:Key="UpdateFailed">Update failed</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">Successfully updated to</s:String>
+    <s:String x:Key="UpdateSuccessful">Update Successful</s:String>
+
+    <!-- Common -->
+    <s:String x:Key="AddNew">Add New</s:String>
+    <s:String x:Key="Hello">Hello</s:String>
+    <s:String x:Key="InstallNew">Install New</s:String>
+    <s:String x:Key="Reload">Reload</s:String>
+    <s:String x:Key="OpenDir">Open Directory</s:String>
+    <s:String x:Key="OpenLink">Open Link</s:String>
+    <s:String x:Key="Delete">Delete</s:String>
+    <s:String x:Key="Edit">Edit</s:String>
+    <s:String x:Key="Install">Install</s:String>
+    <s:String x:Key="InstallSuccessful">Install Successful</s:String>
+    <s:String x:Key="Versions">Versions</s:String>
+    <s:String x:Key="VersionsManagement">Versions Management</s:String>
+    <s:String x:Key="GameInstall">Game Install</s:String>
+    <s:String x:Key="ForgeInstall">Forge Install</s:String>
+    <s:String x:Key="FabricInstall">Fabric Install</s:String>
+    <s:String x:Key="Mods">Mods</s:String>
+    <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
+    <s:String x:Key="Saves">Saves</s:String>
+    <s:String x:Key="Skins">Skins</s:String>
+    <s:String x:Key="About">About</s:String>
+    <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
+    <s:String x:Key="Auto">Auto</s:String>
+
+    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
+    <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
+
+</ResourceDictionary>
