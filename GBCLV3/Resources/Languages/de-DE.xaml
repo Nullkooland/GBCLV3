@@ -238,31 +238,31 @@
     <s:String x:Key="UpdateSuccessful">Update erfolgreich</s:String>
 
     <!-- Common -->
-    <s:String x:Key="AddNew">Add New</s:String>
-    <s:String x:Key="Hello">Hello</s:String>
-    <s:String x:Key="InstallNew">Install New</s:String>
-    <s:String x:Key="Reload">Reload</s:String>
-    <s:String x:Key="OpenDir">Open Directory</s:String>
-    <s:String x:Key="OpenLink">Open Link</s:String>
-    <s:String x:Key="Delete">Delete</s:String>
-    <s:String x:Key="Edit">Edit</s:String>
-    <s:String x:Key="Install">Install</s:String>
-    <s:String x:Key="InstallSuccessful">Install Successful</s:String>
-    <s:String x:Key="Versions">Versions</s:String>
-    <s:String x:Key="VersionsManagement">Versions Management</s:String>
-    <s:String x:Key="GameInstall">Game Install</s:String>
-    <s:String x:Key="ForgeInstall">Forge Install</s:String>
-    <s:String x:Key="FabricInstall">Fabric Install</s:String>
+    <s:String x:Key="AddNew">Neues hinzufügen</s:String>
+    <s:String x:Key="Hello">Hallo</s:String>
+    <s:String x:Key="InstallNew">Neues installieren</s:String>
+    <s:String x:Key="Reload">Neuladen</s:String>
+    <s:String x:Key="OpenDir">Ordner öffnen</s:String>
+    <s:String x:Key="OpenLink">Link öffnen</s:String>
+    <s:String x:Key="Delete">Löschen</s:String>
+    <s:String x:Key="Edit">Bearbeiten</s:String>
+    <s:String x:Key="Install">Installieren</s:String>
+    <s:String x:Key="InstallSuccessful">Installation erfolgreich</s:String>
+    <s:String x:Key="Versions">Versionen</s:String>
+    <s:String x:Key="VersionsManagement">Versionsverwaltung</s:String>
+    <s:String x:Key="GameInstall">Spiel-Installation</s:String>
+    <s:String x:Key="ForgeInstall">Forge-Installation</s:String>
+    <s:String x:Key="FabricInstall">Fabric-Installation</s:String>
     <s:String x:Key="Mods">Mods</s:String>
     <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
-    <s:String x:Key="Saves">Saves</s:String>
+    <s:String x:Key="Saves">Speicherstände</s:String>
     <s:String x:Key="Skins">Skins</s:String>
-    <s:String x:Key="About">About</s:String>
-    <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
-    <s:String x:Key="Auto">Auto</s:String>
+    <s:String x:Key="About">Über</s:String>
+    <s:String x:Key="Auxiliaries">Hilfsmittel</s:String>
+    <s:String x:Key="Auto">Automatisch</s:String>
 
     <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
-    <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
-    <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
+    <s:String x:Key="FlowerOfHope">Blume der Hoffnung 🎵</s:String>
+    <s:String x:Key="DontStop">HÖR NIEMALS AUF!</s:String>
 
 </ResourceDictionary>
