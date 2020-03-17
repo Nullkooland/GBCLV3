@@ -181,61 +181,61 @@
     <s:String x:Key="VersionInstallSuccessful">Installation erfolgreich</s:String>
 
     <!-- Forge Install -->
-    <s:String x:Key="ForgeListLoading">Changeing forge download list</s:String>
-    <s:String x:Key="ForgeListLoadFailed">Failed to load forge download list</s:String>
-    <s:String x:Key="NoAvailableForge">No available forge for this version!</s:String>
-    <s:String x:Key="SelectForgeVersion">Please select a forge version to install</s:String>
-    <s:String x:Key="ForgeDownloadingInstaller">Downloading forge installer</s:String>
-    <s:String x:Key="ForgeManualInstalling">Manually installing forge</s:String>
-    <s:String x:Key="ForgeDownloadingLibraries">Downloading forge libraries</s:String>
+    <s:String x:Key="ForgeListLoading">Forge-Liste läd</s:String>
+    <s:String x:Key="ForgeListLoadFailed">Forge-List konnte nicht heruntergeladen werden</s:String>
+    <s:String x:Key="NoAvailableForge">Kein Forge ist für die aktuelle Version verfügbar!</s:String>
+    <s:String x:Key="SelectForgeVersion">Bitte wählen Sie eine Version von Forge zum installieren aus</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Forge-Installer wird heruntergeladen</s:String>
+    <s:String x:Key="ForgeManualInstalling">Forge wird manuell installiert</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Forge-Bibliotheken werden heruntergeladen</s:String>
 
-    <s:String x:Key="ForgeInstallFailed">Forge Install Failed</s:String>
-    <s:String x:Key="ForgeJarDownloadFailed">Forge jar download failed!</s:String>
-    <s:String x:Key="ForgeExtractFailed">Forge extract failed!</s:String>
-    <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
+    <s:String x:Key="ForgeInstallFailed">Forge-Installation fehlgeschlagen</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge-JAR-Download fehlgeschlagen!</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge konnte nicht extrahiert werden!</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">Forge-Installation erfolgreiche</s:String>
 
     <!-- Fabric Install -->
-    <s:String x:Key="FabricListLoading">Changeing Fabric download list</s:String>
-    <s:String x:Key="FabricListLoadFailed">Failed to load Fabric download list</s:String>
-    <s:String x:Key="NoAvailableFabric">No available Fabric for this version!</s:String>
-    <s:String x:Key="SelectFabricVersion">Please select a Fabric version to install</s:String>
-    <s:String x:Key="FabricDownloadingLibraries">Downloading Fabric libraries</s:String>
+    <s:String x:Key="FabricListLoading">Lade Fabric-Downloadliste</s:String>
+    <s:String x:Key="FabricListLoadFailed">Fabric-Downloadliste konnte nicht geladen werden</s:String>
+    <s:String x:Key="NoAvailableFabric">Kein Fabric für die aktuelle Version verfügbar!</s:String>
+    <s:String x:Key="SelectFabricVersion">Bitte wählen Sie eine Version von Fabric zum installieren aus</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Fabric-Bibliotheken werden heruntergeladen</s:String>
 
-    <s:String x:Key="FabricInstallFailed">Fabric Install Failed</s:String>
-    <s:String x:Key="FabricInstallSuccessful">Successfully install Fabric</s:String>
+    <s:String x:Key="FabricInstallFailed">Fabric-Installation fehlgeschlagen</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Fabric-Installation erfolgreich</s:String>
 
     <!-- Mods Management -->
-    <s:String x:Key="AvailableMods">Available Mods</s:String>
-    <s:String x:Key="SelectMods">Select Mods</s:String>
-    <s:String x:Key="EnableSelected">Enable</s:String>
-    <s:String x:Key="DisableSelected">Disable</s:String>
+    <s:String x:Key="AvailableMods">Verfügbare Mods</s:String>
+    <s:String x:Key="SelectMods">Mods auswählen</s:String>
+    <s:String x:Key="EnableSelected">Aktivieren</s:String>
+    <s:String x:Key="DisableSelected">Deaktivieren</s:String>
 
     <!-- Resourcepacks Management -->
-    <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
-    <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
-    <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
-    <s:String x:Key="OpenPack">Open</s:String>
+    <s:String x:Key="EnabledPacks">Aktivierte Packs</s:String>
+    <s:String x:Key="SelectResourcepacks">Resourcepacks auswählen</s:String>
+    <s:String x:Key="DisabledPacks">Deaktivierte Packs</s:String>
+    <s:String x:Key="OpenPack">Öffnen</s:String>
 
     <!-- About -->
-    <s:String x:Key="Dependencies">Dependencies</s:String>
-    <s:String x:Key="ThanksTo">Thanks to</s:String>
+    <s:String x:Key="Dependencies">Abhängigkeiten</s:String>
+    <s:String x:Key="ThanksTo">Danke an</s:String>
 
     <!-- Update -->
     <s:String x:Key="Update">Update</s:String>
-    <s:String x:Key="CheckUpdate">Check Update</s:String>
-    <s:String x:Key="CheckingUpdate">Checking update</s:String>
-    <s:String x:Key="AlreadyUpToDate">Already up to date</s:String>
-    <s:String x:Key="UpdateAvailable">Update available</s:String>
-    <s:String x:Key="UpdateCheckFailed">Update check failed</s:String>
-    <s:String x:Key="AutoCheckUpdate">Check on start</s:String>
-    <s:String x:Key="UpdateChangelog">Changelog</s:String>
-    <s:String x:Key="UpdateNow">Update Now</s:String>
-    <s:String x:Key="DeferUpdate">Defer Update</s:String>
-    <s:String x:Key="CancelUpdate">Cancel Update</s:String>
-    <s:String x:Key="WhetherCancelUpdate">Are you sure to cancel update?</s:String>
-    <s:String x:Key="UpdateFailed">Update failed</s:String>
-    <s:String x:Key="SuccessfullyUpdatedTo">Successfully updated to</s:String>
-    <s:String x:Key="UpdateSuccessful">Update Successful</s:String>
+    <s:String x:Key="CheckUpdate">Auf Updates überprüfen</s:String>
+    <s:String x:Key="CheckingUpdate">Updates werden gesucht</s:String>
+    <s:String x:Key="AlreadyUpToDate">Sie sind bereits auf der aktuellsten Version</s:String>
+    <s:String x:Key="UpdateAvailable">Update verfügbar</s:String>
+    <s:String x:Key="UpdateCheckFailed">Update-Suche fehlgeschlagen</s:String>
+    <s:String x:Key="AutoCheckUpdate">Beim Start überprüfen</s:String>
+    <s:String x:Key="UpdateChangelog">Änderungsprotokoll</s:String>
+    <s:String x:Key="UpdateNow">Jetzt aktualisieren</s:String>
+    <s:String x:Key="DeferUpdate">Update verzögern</s:String>
+    <s:String x:Key="CancelUpdate">Update abbrechen</s:String>
+    <s:String x:Key="WhetherCancelUpdate">Sind Sie sich sicher, dass Sie das Update abbrechen wollen?</s:String>
+    <s:String x:Key="UpdateFailed">Update fehlgeschlagen</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">Erfolgreich aktualisiert auf</s:String>
+    <s:String x:Key="UpdateSuccessful">Update erfolgreich</s:String>
 
     <!-- Common -->
     <s:String x:Key="AddNew">Add New</s:String>
