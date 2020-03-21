@@ -105,18 +105,19 @@ namespace GBCLV3.ViewModels.Windows
 
         private async void DisplayUpdateInfo(UpdateInfo info)
         {
-            Version = $"{info.Name} - {info.ReleaseTime.ToString("yyyy/MM/dd")}";
+            Version = $"{info.Name} - {info.ReleaseTime:yyyy/MM/dd}";
 
             // Download and display changelog
             var changelog = await _updateService.GetChangelogAsync(info);
-            ChangelogTitle = changelog.Title;
+            if (changelog == null) return;
 
-            var builder = new StringBuilder(512);
+            var builder = new StringBuilder(1024);
             foreach (string line in changelog.Details)
             {
                 builder.Append("> ").Append(line).AppendLine();
             }
 
+            ChangelogTitle = changelog.Title;
             ChangelogDetails = builder.ToString();
         }
 
