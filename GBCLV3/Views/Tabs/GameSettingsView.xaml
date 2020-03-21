@@ -13,7 +13,7 @@
 
     <ContentControl.Resources>
         <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
-            <Setter Property="Margin" Value="16,8,0,0" />
+            <Setter Property="Margin" Value="16,8,16,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="14" />
@@ -63,7 +63,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="172" />
+                    <ColumnDefinition Width="Auto" MinWidth="160"/>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="32" />
                     <ColumnDefinition Width="*" />
@@ -152,7 +152,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="172" />
+                    <ColumnDefinition Width="Auto" MinWidth="160"/>
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="8" />
                 </Grid.ColumnDefinitions>

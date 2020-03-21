@@ -14,12 +14,12 @@
         FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
         Style="{StaticResource UniversalWindowStyle}"
         Title="{Binding Type}"
-        Width="640" Height="288">
+        Width="660" Height="288">
 
     <Window.Resources>
         <Style x:Key="DescriptionBoxStyle" TargetType="TextBlock"
                BasedOn="{StaticResource {x:Type TextBlock}}">
-            <Setter Property="Margin" Value="16,8,0,0" />
+            <Setter Property="Margin" Value="16,8,16,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="14" />
@@ -94,7 +94,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="160" />
+                    <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="160" />
                 </Grid.ColumnDefinitions>
