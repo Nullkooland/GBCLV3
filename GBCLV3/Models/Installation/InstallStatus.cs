@@ -34,8 +34,8 @@ namespace GBCLV3.Models.Installation
         [LocalizedDescription("ForgeDownloadingInstaller")]
         DownloadingInstaller,
 
-        [LocalizedDescription("ForgeManualInstalling")]
-        ManualInstalling,
+        [LocalizedDescription("ForgeInstalling")]
+        Installing,
 
         [LocalizedDescription("ForgeDownloadingLibraries")]
         DownloadingLibraries,

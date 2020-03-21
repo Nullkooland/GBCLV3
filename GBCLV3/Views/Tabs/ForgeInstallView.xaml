@@ -35,7 +35,7 @@
                        VerticalAlignment="Center"
                        Foreground="{DynamicResource {x:Static adonisUI:Brushes.DisabledAccentForegroundBrush}}"
                        FontSize="16"
-                       Text="{Binding GameVersion, Mode=OneWay}" />
+                       Text="{Binding GameVersion.JarID, Mode=OneWay}" />
 
             <TextBlock Grid.Column="2"
                        VerticalAlignment="Center"
@@ -53,7 +53,7 @@
             <GroupBox Margin="8">
                 <GroupBox.Header>
                     <StackPanel Orientation="Horizontal">
-                        <ContentControl Margin="0,0,8,0"
+                        <ContentControl Margin="0,0,8,0" 
                                         VerticalContentAlignment="Center"
                                         Width="16" Height="16"
                                         SnapsToDevicePixels="False"
@@ -62,6 +62,12 @@
                                                      Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 
                         <TextBlock Text="{Binding Status, Mode=OneWay}" />
+
+                        <TextBlock Text="{Binding InstallProgress, Mode=OneWay}" Margin="4,0"
+                                   TextTrimming="CharacterEllipsis" MaxWidth="528"
+                                   Foreground="{DynamicResource {x:Static adonisUI:Brushes.DisabledForegroundBrush}}"
+                                   Visibility="{Binding IsInstalling, Mode=OneWay,
+                                                Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
                     </StackPanel>
                 </GroupBox.Header>
 

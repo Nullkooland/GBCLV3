@@ -186,7 +186,7 @@
     <s:String x:Key="NoAvailableForge">Нет доступного Forge для этой версии!</s:String>
     <s:String x:Key="SelectForgeVersion">Выберите версию Forge для установки</s:String>
     <s:String x:Key="ForgeDownloadingInstaller">Скачивание установщика Forge</s:String>
-    <s:String x:Key="ForgeManualInstalling">Ручная установка Forge</s:String>
+    <s:String x:Key="ForgeInstalling">Установка Forge</s:String>
     <s:String x:Key="ForgeDownloadingLibraries">Скачивание библиотек Forge</s:String>
 
     <s:String x:Key="ForgeInstallFailed">Не удалось установить Forge</s:String>

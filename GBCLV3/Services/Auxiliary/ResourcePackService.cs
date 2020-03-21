@@ -4,6 +4,7 @@ using GBCLV3.Utils;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -36,7 +37,7 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) GetAll()
+        public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) LoadAll()
         {
             string optionsFile = _gamePathService.WorkingDir + "/options.txt";
             string[] enabledPackIDs = null;
@@ -69,10 +70,10 @@ namespace GBCLV3.Services.Auxiliary
                                  .Where(pack => pack != null)
                                  .ToLookup(pack => pack.IsEnabled);
 
-            // Enabled resourcepacks (followed the order in options)
+                    // Enabled resourcepacks (followed the order in options)
             return (packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
                     // Disabled resourcepacks
-                    packs[false]);
+                    packs[false].OrderBy(pack => pack.Name));
         }
 
         public bool WriteToOptions(IEnumerable<ResourcePack> enabledPacks)
@@ -90,7 +91,7 @@ namespace GBCLV3.Services.Auxiliary
             }
 
             string enabledPackIDs = string.Join(",", enabledPacks.Reverse().Select(pack => $"\"{pack.Name}\""));
-            
+
 
             if (options.Contains("resourcePacks:["))
             {
@@ -105,23 +106,40 @@ namespace GBCLV3.Services.Auxiliary
             return true;
         }
 
-        public Task DeleteFromDiskAsync(ResourcePack pack)
+        public ValueTask DeleteFromDiskAsync(ResourcePack pack)
         {
-            return pack.IsExtracted ? 
+            return pack.IsExtracted ?
                 SystemUtil.SendDirToRecycleBinAsync(pack.Path) : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
-        public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths)
+        public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled)
         {
+            Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
+
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                 if (File.Exists(dstPath)) return null;
 
-                var pack = LoadZip(dstPath, null);
+                var pack = LoadZip(path, null);
                 if (pack == null) return null;
 
-                File.Move(path, dstPath);
+                try
+                {
+                    // It is a valid resourcepack and has been successfully loaded, move it into target dir
+                    File.Move(path, dstPath);
+                }
+                catch (IOException ex)
+                {
+                    // Maybe the file is being accessed by another process
+                    Debug.WriteLine(ex);
+                    return null;
+                }
+                
+                // Modify properties
+                pack.Path = dstPath;
+                pack.IsEnabled = isEnabled;
+
                 return pack;
             }).Where(pack => pack != null);
 

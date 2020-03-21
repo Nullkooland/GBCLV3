@@ -51,11 +51,11 @@ namespace GBCLV3.Services.Installation
 
         #region Public Methods
 
-        public async ValueTask<IEnumerable<Fabric>> GetDownloadListAsync(string id)
+        public async ValueTask<IEnumerable<Fabric>> GetDownloadListAsync(string jarID)
         {
             try
             {
-                var json = await _client.GetByteArrayAsync(_urlService.Base.Fabric + id);
+                var json = await _client.GetByteArrayAsync(_urlService.Base.Fabric + jarID);
                 return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
             }
             catch (HttpRequestException ex)

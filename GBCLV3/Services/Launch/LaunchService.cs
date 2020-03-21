@@ -48,7 +48,7 @@ namespace GBCLV3.Services.Launch
         {
             var startInfo = new ProcessStartInfo
             {
-                FileName = _gamePathService.JreExecutablePath,
+                FileName = profile.IsDebugMode ? _gamePathService.JavaPath : _gamePathService.JavawPath,
                 WorkingDirectory = _gamePathService.WorkingDir,
                 Arguments = BuildArguments(profile, version),
                 UseShellExecute = profile.IsDebugMode,
@@ -56,13 +56,9 @@ namespace GBCLV3.Services.Launch
                 RedirectStandardError = !profile.IsDebugMode,
             };
 
-            _gameProcess = new Process
-            {
-                StartInfo = startInfo,
-                EnableRaisingEvents = true,
-            };
+            _gameProcess = Process.Start(startInfo);
 
-            _gameProcess.Start();
+            _gameProcess.EnableRaisingEvents = true;
             _gameProcess.Exited += (s, e) => Exited?.Invoke(_gameProcess.ExitCode);
 
             if (!profile.IsDebugMode)
@@ -152,7 +148,7 @@ namespace GBCLV3.Services.Launch
             builder.Append(version.MainClass).Append(' ');
 
             // Minecraft Arguments
-            var argsDict = version.MinecarftArgsDict;
+            var argsDict = version.MinecraftArgsDict;
 
             argsDict["--username"] = '\"' + profile.Account.Username + '\"';
             argsDict["--version"] = '\"' + version.ID + '\"';

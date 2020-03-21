@@ -14,13 +14,24 @@ using System.Text;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
+using GBCLV3.Models.Launch;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
 {
     public class ForgeInstallService
     {
+        #region Events
+
+        public event Action<string> InstallProgressChanged;
+
+        #endregion
+
         #region Private Fields
+
+        private const string FORGE_INSTALL_BOOTSTRAPPER =
+            "pack://application:,,,/Resources/Tools/forge-install-bootstrapper.jar";
 
         private readonly HttpClient _client;
 
@@ -50,38 +61,22 @@ namespace GBCLV3.Services.Installation
 
         #region Public Methods
 
-        public async ValueTask<IEnumerable<Forge>> GetDownloadListAsync(string id)
+        public async ValueTask<IEnumerable<Forge>> GetDownloadListAsync(string jarID)
         {
             try
             {
-                var json = await _client.GetByteArrayAsync(_urlService.Base.ForgeList + id);
+                var json = await _client.GetByteArrayAsync(_urlService.Base.ForgeList + jarID);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
-
-                int[] nums = id.Split('.')
-                    .Select(numStr =>
-                    {
-                        if (int.TryParse(numStr, out int num))
-                        {
-                            return num;
-                        }
-
-                        return -1;
-                    })
-                    .ToArray();
-
-                bool hasSuffix = ((nums[1] == 7 || nums[1] == 8) && nums[2] != 2);
-                bool isAutoInstall = (nums[1] < 13);
 
                 return forgeList.Select(jforge =>
                     new Forge
                     {
-                        Version = jforge.version,
                         Build = jforge.build,
+                        Version = jforge.version,
+                        ID = $"{jforge.mcversion}-forge-{jforge.version}",
+                        FullName = $"{jforge.mcversion}-{jforge.version}" +
+                                   (jforge.branch != null ? $"-{jforge.branch}" : null),
                         ReleaseTime = jforge.modified,
-                        Branch = jforge.branch,
-                        GameVersion = jforge.mcversion,
-                        HasSuffix = hasSuffix,
-                        IsAutoInstall = isAutoInstall,
                     }
                 ).OrderByDescending(forge => forge.Build);
             }
@@ -98,22 +93,18 @@ namespace GBCLV3.Services.Installation
             }
         }
 
-        public IEnumerable<DownloadItem> GetDownload(Forge forge)
+        public IEnumerable<DownloadItem> GetDownload(Forge forge, bool isInstallerNeeded)
         {
-            string fullName = $"{forge.GameVersion}-{forge.Version}" +
-                              (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
-
             var item = new DownloadItem
             {
-                Name = $"Forge-{fullName}",
+                Name = $"Forge-{forge.FullName}",
 
-                Path = forge.IsAutoInstall
-                    ? $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar"
-                    : $"{_gamePathService.RootDir}/{fullName}-installer.jar",
+                Path = isInstallerNeeded
+                    ? $"{_gamePathService.RootDir}/{forge.FullName}-installer.jar"
+                    : $"{_gamePathService.ForgeLibDir}/{forge.FullName}/forge-{forge.FullName}.jar",
 
-                Url = forge.IsAutoInstall
-                    ? $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-universal.jar"
-                    : $"{_urlService.Base.Forge}{fullName}/forge-{fullName}-installer.jar",
+                Url = $"{_urlService.Base.Forge}{forge.FullName}/forge-{forge.FullName}" +
+                      $"-{(isInstallerNeeded ? "installer" : "universal")}.jar",
 
                 IsCompleted = false,
                 DownloadedBytes = 0,
@@ -122,44 +113,39 @@ namespace GBCLV3.Services.Installation
             return new[] { item };
         }
 
-        public async ValueTask<Version> ManualInstallAsync(Forge forge)
+        public IEnumerable<JLibrary> GetJLibraries(Forge forge)
         {
-            string id = $"{forge.GameVersion}-forge-{forge.Version}";
-            string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";
-            string installerPath = $"{_gamePathService.RootDir}/{forge.GameVersion}-{forge.Version}-installer.jar";
+            string installerPath = $"{_gamePathService.RootDir}/{forge.FullName}-installer.jar";
+            using var archive = ZipFile.OpenRead(installerPath);
 
-            try
+            IEnumerable<JLibrary> jlibs;
+
+            using (var memoryStream = new MemoryStream())
             {
-                string profilePath = $"{_gamePathService.RootDir}/launcher_profiles.json";
-                // Just a dummy json...but required by forge installer
-                if (!File.Exists(profilePath)) File.WriteAllText(profilePath, "{}");
-
-                var process = Process.Start(new ProcessStartInfo
-                {
-                    FileName = installerPath,
-                    UseShellExecute = true,
-                });
-
-                await Task.Run(() => process.WaitForExit());
-                File.Delete(installerPath);
-                File.Delete($"{forge.GameVersion}-{forge.Version}-installer.jar.log");
-
-                return _versionService.AddNew(jsonPath);
+                var versionEntry = archive.GetEntry("version.json");
+                using var versionStream = versionEntry.Open();
+                versionStream.CopyTo(memoryStream);
+                var jver = JsonSerializer.Deserialize<JVersion>(memoryStream.ToArray());
+                jlibs = jver.libraries;
             }
-            catch (Exception ex)
+
+            using (var memoryStream = new MemoryStream())
             {
-                Debug.WriteLine(ex.ToString());
-                return null;
+                var profileEntry = archive.GetEntry("install_profile.json");
+                using var profileStream = profileEntry.Open();
+                profileStream.CopyTo(memoryStream);
+                var installProfile = JsonSerializer.Deserialize<JForgeInstallProfile>(memoryStream.ToArray());
+
+                jlibs = jlibs.Union(installProfile.libraries);
             }
+
+            return jlibs;
         }
 
-        public Version AutoInstall(Forge forge)
+        public Version InstallOld(Forge forge)
         {
-            string id = $"{forge.GameVersion}-forge-{forge.Version}";
-            string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";
-            string fullName = $"{forge.GameVersion}-{forge.Version}" +
-                              (forge.HasSuffix ? $"-{forge.GameVersion}" : null);
-            string jarPath = $"{_gamePathService.ForgeLibDir}/{fullName}/forge-{fullName}.jar";
+            string jsonPath = $"{_gamePathService.VersionsDir}/{forge.ID}/{forge.ID}.json";
+            string jarPath = $"{_gamePathService.ForgeLibDir}/{forge.FullName}/forge-{forge.FullName}.jar";
 
             if (!File.Exists(jarPath))
             {
@@ -172,13 +158,91 @@ namespace GBCLV3.Services.Installation
             using var reader = new StreamReader(entry.Open(), Encoding.UTF8);
             string json = reader.ReadToEnd();
 
-            json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{id}\"");
+            // The early forge versions' naming conventions are just obnoxious
+            json = Regex.Replace(json, "\"id\":\\s\".*\"", $"\"id\": \"{forge.ID}\"");
 
             Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
             File.WriteAllText(jsonPath, json);
 
             return _versionService.AddNew(jsonPath);
         }
+
+        public async ValueTask<Version> InstallAsync(Forge forge)
+        {
+            // Just a dummy json...but required by forge installer
+            string profilePath = $"{_gamePathService.RootDir}/launcher_profiles.json";
+            if (!File.Exists(profilePath)) File.WriteAllText(profilePath, "{}");
+
+            // Extract forge-install-bootstrapper to disk
+            // See https://github.com/bangbang93/forge-install-bootstrapper
+            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar";
+            var embeddedStream = Application.GetResourceStream(new Uri(FORGE_INSTALL_BOOTSTRAPPER)).Stream;
+            var extractFileStream = File.OpenWrite(bootstrapperPath);
+
+            embeddedStream.CopyTo(extractFileStream);
+            embeddedStream.Close();
+            extractFileStream.Close();
+
+            // Prepare arguments for bootstrapper
+            string installerPath = $"{_gamePathService.RootDir}/{forge.ID}-installer.jar";
+
+            var startInfo = new ProcessStartInfo
+            {
+                FileName = _gamePathService.JavawPath,
+                WorkingDirectory = _gamePathService.RootDir,
+                Arguments = $"-cp \"{bootstrapperPath};{installerPath}\" " +
+                            "com.bangbang93.ForgeInstaller .",
+                UseShellExecute = false,
+                RedirectStandardOutput = true,
+            };
+
+            try
+            {
+                bool isSuccessful = false;
+
+                var process = Process.Start(startInfo);
+                process.EnableRaisingEvents = true;
+
+                process.OutputDataReceived += (_, e) =>
+                {
+                    string message = e.Data;
+                    InstallProgressChanged?.Invoke(message);
+                    if (message == "true")
+                    {
+                        isSuccessful = true;
+                    }
+                };
+
+                process.BeginOutputReadLine();
+                await Task.Run(() => process.WaitForExit());
+
+                string jsonPath = $"{_gamePathService.VersionsDir}/{forge.ID}/{forge.ID}.json";
+
+                if (!isSuccessful)
+                {
+                    // Cleanup remaining json
+                    Directory.Delete(jsonPath);
+                    return null;
+                }
+
+                // Now we're ready to load the installed forge version
+                return _versionService.AddNew(jsonPath);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return null;
+            }
+            finally
+            {
+                //File.Delete(bootstrapperPath);
+                //File.Delete(installerPath);
+            }
+        }
+
+        #endregion
+
+        #region Helpers
 
         #endregion
     }

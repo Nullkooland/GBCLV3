@@ -35,7 +35,7 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public IEnumerable<Mod> GetAll()
+        public IEnumerable<Mod> LoadAll()
         {
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.ModsDir);
@@ -48,12 +48,24 @@ namespace GBCLV3.Services.Auxiliary
 
         public async ValueTask<Mod[]> MoveLoadAllAsync(IEnumerable<string> paths)
         {
+            Directory.CreateDirectory(_gamePathService.ModsDir);
+
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
                 if (File.Exists(dstPath)) return null;
 
-                File.Move(path, dstPath);
+                try
+                {
+                    File.Move(path, dstPath);
+                }
+                catch (IOException ex)
+                {
+                    // Maybe the file is being accessed by another process
+                    Debug.WriteLine(ex);
+                    return null;
+                }
+
                 return Load(dstPath);
             }).Where(mod => mod != null);
 
@@ -82,7 +94,7 @@ namespace GBCLV3.Services.Auxiliary
         {
             using var archive = ZipFile.OpenRead(path);
             bool isEnabled = path.EndsWith(".jar");
-            if (!isEnabled) path = path[0..^9];
+            if (!isEnabled) path = path[..^9];
 
             var info = archive.GetEntry("mcmod.info");
             if (info == null)
@@ -119,7 +131,7 @@ namespace GBCLV3.Services.Auxiliary
             }
 
             string[] authorList = jmod?.authorList ?? jmod?.authors;
-            string auhtors = authorList != null ? string.Join(", ", authorList) : null;
+            string authors = authorList != null ? string.Join(", ", authorList) : null;
 
             return new Mod
             {
@@ -129,7 +141,7 @@ namespace GBCLV3.Services.Auxiliary
                 Version = jmod?.version,
                 GameVersion = jmod?.mcversion,
                 Url = jmod?.url,
-                Authors = auhtors,
+                Authors = authors,
                 Path = path,
                 IsEnabled = isEnabled,
             };

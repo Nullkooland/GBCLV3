@@ -1,4 +1,5 @@
-﻿using GBCLV3.Models.Auxiliary;
+﻿using System.Linq;
+using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services;
 using GBCLV3.Services.Auxiliary;
 using GBCLV3.Services.Launch;
@@ -6,6 +7,8 @@ using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -61,7 +64,7 @@ namespace GBCLV3.ViewModels.Tabs
                 EnabledPacks.Clear();
                 DisabledPacks.Clear();
 
-                var (enabledPacks, disabledPacks) = _resourcePackService.GetAll();
+                var (enabledPacks, disabledPacks) = _resourcePackService.LoadAll();
                 EnabledPacks.AddRange(enabledPacks);
                 DisabledPacks.AddRange(disabledPacks);
             });
@@ -101,6 +104,22 @@ namespace GBCLV3.ViewModels.Tabs
             }
         }
 
+        public async void OnDropDisabledPacks(ListBox _, DragEventArgs e)
+        {
+            var paths = (e.Data.GetData(DataFormats.FileDrop) as string[])
+                .Where(path => path.EndsWith(".zip"));
+
+            DisabledPacks.AddRange(await _resourcePackService.MoveLoadAllAsync(paths, false));
+        }
+
+        public async void OnDropEnabledPacks(ListBox _, DragEventArgs e)
+        {
+            var paths = (e.Data.GetData(DataFormats.FileDrop) as string[])
+                .Where(path => path.EndsWith(".zip"));
+
+            EnabledPacks.AddRange(await _resourcePackService.MoveLoadAllAsync(paths, true));
+        }
+
         public async void AddNew()
         {
             var dialog = new Microsoft.Win32.OpenFileDialog()
@@ -112,7 +131,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             if (dialog.ShowDialog() ?? false)
             {
-                DisabledPacks.AddRange(await _resourcePackService.MoveLoadAllAsync(dialog.FileNames));
+                DisabledPacks.AddRange(await _resourcePackService.MoveLoadAllAsync(dialog.FileNames, false));
             }
         }
 

@@ -18,20 +18,6 @@ namespace GBCLV3.Services.Launch
 {
     public class VersionService
     {
-        #region Constructor
-
-        [Inject]
-        public VersionService(GamePathService gamePathService, DownloadUrlService urlService)
-        {
-            _gamePathService = gamePathService;
-            _urlService = urlService;
-            _versions = new Dictionary<string, Version>(8);
-
-            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
-        }
-
-        #endregion
-
         #region Events
 
         public event Action<bool> Loaded;
@@ -51,6 +37,25 @@ namespace GBCLV3.Services.Launch
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
+        private readonly LibraryService _libraryService;
+
+        #endregion
+
+        #region Constructor
+
+        [Inject]
+        public VersionService(
+            GamePathService gamePathService,
+            DownloadUrlService urlService,
+            LibraryService libraryService)
+        {
+            _gamePathService = gamePathService;
+            _urlService = urlService;
+            _libraryService = libraryService;
+            _versions = new Dictionary<string, Version>(8);
+
+            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
+        }
 
         #endregion
 
@@ -145,8 +150,12 @@ namespace GBCLV3.Services.Launch
                     var libsToDelete = versionToDelete.Libraries as IEnumerable<Library>;
 
                     if (_versions.Any())
+                    {
                         foreach (var version in _versions.Values)
+                        {
                             libsToDelete = libsToDelete.Except(version.Libraries);
+                        }
+                    }
 
                     foreach (var lib in libsToDelete)
                     {
@@ -240,7 +249,7 @@ namespace GBCLV3.Services.Launch
 
         #region Private Methods
 
-        private static Version Load(string jsonPath)
+        private Version Load(string jsonPath)
         {
             JVersion jver;
             try
@@ -264,20 +273,20 @@ namespace GBCLV3.Services.Launch
                 Url = jver.downloads?.client.url[28..],
                 InheritsFrom = jver.inheritsFrom,
                 MainClass = jver.mainClass,
-                Libraries = new List<Library>(),
-                Type = jver.type == "release" ? VersionType.Release : VersionType.Snapshot
+                Type = jver.type == "release" ? VersionType.Release : VersionType.Snapshot,
+                CompatibilityVersion = (int)jver.minimumLauncherVersion, // Eww, fxxk you forge :(
             };
 
-            // For 1.13+ versions
-            var args = jver.arguments?.game
+            // Process launch arguments
+            var args = jver.arguments?.game // post-1.12.2 versions
                            .Where(element => element.ValueKind == JsonValueKind.String)
                            .Select(element => element.GetString())
-                           .ToArray() ?? jver.minecraftArguments.Split(' ');
+                           .ToArray() ?? jver.minecraftArguments.Split(' '); // pre-1.12.2 versions
 
-            version.MinecarftArgsDict = Enumerable.Range(0, args.Length / 2)
+            version.MinecraftArgsDict = Enumerable.Range(0, args.Length / 2)
                 .ToDictionary(i => args[i * 2], i => args[i * 2 + 1]);
 
-            if (version.MinecarftArgsDict.TryGetValue("--tweakClass", out string tweakClass))
+            if (version.MinecraftArgsDict.TryGetValue("--tweakClass", out string tweakClass))
             {
                 if (tweakClass.EndsWith("FMLTweaker"))
                 {
@@ -294,78 +303,12 @@ namespace GBCLV3.Services.Launch
 
             if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient") version.Type = VersionType.Fabric;
 
-            foreach (var jlib in jver.libraries)
-            {
-                if (jlib.name.StartsWith("tv.twitch"))
-                    // Totally unnecessary libs, game can run without them
-                    // Ironically, these libs only appear in 1.7.10 - 1.8.9, not found in latter versions' json :D
-                    // Also can cause troubles latter (and I don't wanna deal with that particular scenario)
-                    // Might as well just ignore them! (Yes, I'm slacking off, LOL)
-                    continue;
-
-                var names = jlib.name.Split(':');
-                if (names.Length != 3 || !IsLibAllowed(jlib.rules)) continue;
-
-                if (jlib.natives == null)
-                {
-                    var libInfo = jlib.downloads?.artifact;
-                    var lib = new Library
-                    {
-                        Name = jlib.name,
-                        Path = libInfo?.path ??
-                               string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
-                        Size = libInfo?.size ?? 0,
-                        SHA1 = libInfo?.sha1
-                    };
-
-                    if (names[0] == "net.minecraftforge" && names[1] == "forge")
-                    {
-                        lib.Type = LibraryType.ForgeMain;
-                        lib.Url = $"{names[2]}/forge-{names[2]}-universal.jar";
-                    }
-                    else if (jlib.downloads?.artifact.url.StartsWith("https://files.minecraftforge.net/maven/") ??
-                             false ||
-                             jlib.url == "http://files.minecraftforge.net/maven/")
-                    {
-                        lib.Type = LibraryType.Forge;
-                        lib.Url = jlib.downloads?.artifact.url[39..];
-                    }
-                    else if (jlib.url == "https://maven.fabricmc.net/")
-                    {
-                        lib.Type = LibraryType.Fabric;
-                        lib.Url = jlib.url + lib.Path;
-                    }
-                    else
-                    {
-                        lib.Type = LibraryType.Minecraft;
-                        lib.Url = jlib.downloads?.artifact.url[32..];
-                    }
-
-                    version.Libraries.Add(lib);
-                }
-                else
-                {
-                    string suffix = jlib.natives["windows"];
-                    if (suffix.EndsWith("${arch}")) suffix = suffix.Replace("${arch}", "64");
-
-                    var nativeLibInfo = jlib.downloads?.classifiers[suffix];
-
-                    version.Libraries.Add(new Library
-                    {
-                        Name = $"{names[1]}-{names[2]}-{suffix}",
-                        Type = LibraryType.Native,
-                        Path = nativeLibInfo?.path ??
-                               string.Format("{0}/{1}/{2}/{1}-{2}-{3}.jar",
-                                   names[0].Replace('.', '/'), names[1], names[2], suffix),
-                        Size = nativeLibInfo?.size ?? 0,
-                        SHA1 = nativeLibInfo?.sha1,
-                        Exclude = jlib.extract?.exclude
-                    });
-                }
-            }
+            // Process libraries
+            version.Libraries = _libraryService.Process(jver.libraries).ToList();
 
             if (version.InheritsFrom == null)
             {
+                // Process assets
                 version.AssetsInfo = new AssetsInfo
                 {
                     ID = jver.assetIndex.id,
@@ -388,40 +331,26 @@ namespace GBCLV3.Services.Launch
                    && jver.libraries != null;
         }
 
-        private static bool IsLibAllowed(List<JRule> rules)
-        {
-            if (rules == null) return true;
-
-            var isAllowed = false;
-            foreach (var rule in rules)
-            {
-                if (rule.os == null)
-                {
-                    isAllowed = rule.action == "allow";
-                    continue;
-                }
-
-                if (rule.os.name == "windows") isAllowed = rule.action == "allow";
-            }
-
-            return isAllowed;
-        }
-
         private void InheritParentProperties(Version version)
         {
             if (_versions.TryGetValue(version.InheritsFrom, out var parent))
             {
                 version.JarID = parent.JarID;
 
-                foreach (var arg in parent.MinecarftArgsDict)
-                    if (!version.MinecarftArgsDict.ContainsKey(arg.Key))
-                        version.MinecarftArgsDict.Add(arg.Key, arg.Value);
+                foreach (var arg in parent.MinecraftArgsDict)
+                {
+                    if (!version.MinecraftArgsDict.ContainsKey(arg.Key))
+                    {
+                        version.MinecraftArgsDict.Add(arg.Key, arg.Value);
+                    }
+                }
 
                 version.Libraries = version.Libraries.Union(parent.Libraries).ToList();
                 version.AssetsInfo = parent.AssetsInfo;
                 version.Size = parent.Size;
                 version.SHA1 = parent.SHA1;
                 version.Url = parent.Url;
+                version.CompatibilityVersion = parent.CompatibilityVersion;
             }
             else
             {

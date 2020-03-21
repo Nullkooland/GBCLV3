@@ -52,6 +52,9 @@ namespace GBCLV3.ViewModels.Tabs
         {
             _accountEditEditVM.Setup(AccountEditType.AddAccount);
             _windowManager.ShowDialog(_accountEditEditVM);
+
+            _greetingVM.NotifyAccountChanged();
+            _greetingVM.IsShown = true;
         }
         public void Delete(Account account)
         {
@@ -61,6 +64,11 @@ namespace GBCLV3.ViewModels.Tabs
                 _accountService.Delete(account);
                 Accounts.Remove(account);
                 SelectedAccount ??= Accounts.FirstOrDefault();
+            }
+
+            if (!_accountService.Any())
+            {
+                _greetingVM.IsShown = false;
             }
         }
 

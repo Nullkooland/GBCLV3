@@ -68,7 +68,6 @@ namespace GBCLV3.ViewModels.Pages
             AuthService authService,
             AuthlibInjectorService authlibInjectorService,
             LaunchService launchService,
-
             IWindowManager windowManager,
             GreetingViewModel greetingVM,
             VersionsManagementViewModel versionsVM,
@@ -402,6 +401,11 @@ namespace GBCLV3.ViewModels.Pages
 
         protected override async void OnInitialActivate()
         {
+            if (!_accountService.Any())
+            {
+                return;
+            }
+
             await _accountService.LoadSkinsAsync();
             GreetingVM.NotifyAccountChanged();
             GreetingVM.IsShown = true;

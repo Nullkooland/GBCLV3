@@ -33,6 +33,77 @@ namespace GBCLV3.Services.Launch
 
         #region Public Methods
 
+        public IEnumerable<Library> Process(IEnumerable<JLibrary> jlibs)
+        {
+            foreach (var jlib in jlibs)
+            {
+                // Totally unnecessary libs, game can run without them
+                // Ironically, these libs only appear in 1.7.10 - 1.8.9, not found in latter versions' json :D
+                // Also can cause troubles latter (and I don't wanna deal with that particular scenario)
+                // Might as well just ignore them! (Yes, I'm slacking off, LOL)
+                if (jlib.name.StartsWith("tv.twitch")) continue;
+
+                var names = jlib.name.Split(':');
+                if (names.Length != 3 || !IsLibAllowed(jlib.rules)) continue;
+
+                if (jlib.natives == null)
+                {
+                    var libInfo = jlib.downloads?.artifact;
+                    var lib = new Library
+                    {
+                        Name = jlib.name,
+                        Path = libInfo?.path ??
+                               string.Format("{0}/{1}/{2}/{1}-{2}.jar", names[0].Replace('.', '/'), names[1], names[2]),
+                        Size = libInfo?.size ?? 0,
+                        SHA1 = libInfo?.sha1
+                    };
+
+                    if (names[0] == "net.minecraftforge" && names[1] == "forge")
+                    {
+                        lib.Type = LibraryType.ForgeMain;
+                        lib.Url = $"{names[2]}/forge-{names[2]}-universal.jar";
+                    }
+                    else if (jlib.downloads?.artifact.url.StartsWith("https://files.minecraftforge.net/maven/") ??
+                             jlib.url == "http://files.minecraftforge.net/maven/")
+                    {
+                        lib.Type = LibraryType.Forge;
+                        lib.Url = jlib.downloads?.artifact.url[39..];
+                    }
+                    else if (jlib.url == "https://maven.fabricmc.net/")
+                    {
+                        lib.Type = LibraryType.Fabric;
+                        lib.Url = jlib.url + lib.Path;
+                    }
+                    else
+                    {
+                        lib.Type = LibraryType.Minecraft;
+                        lib.Url = jlib.downloads?.artifact.url[32..];
+                    }
+
+                    yield return lib;
+                }
+                else
+                {
+                    string suffix = jlib.natives["windows"];
+                    if (suffix.EndsWith("${arch}")) suffix = suffix.Replace("${arch}", "64");
+
+                    var nativeLibInfo = jlib.downloads?.classifiers[suffix];
+
+                    yield return new Library
+                    {
+                        Name = $"{names[1]}-{names[2]}-{suffix}",
+                        Type = LibraryType.Native,
+                        Path = nativeLibInfo?.path ??
+                               string.Format("{0}/{1}/{2}/{1}-{2}-{3}.jar",
+                                   names[0].Replace('.', '/'), names[1], names[2], suffix),
+                        Size = nativeLibInfo?.size ?? 0,
+                        SHA1 = nativeLibInfo?.sha1,
+                        Exclude = jlib.extract?.exclude
+                    };
+                }
+            }
+        }
+
         public void ExtractNatives(IEnumerable<Library> nativeLibraries)
         {
             // Make sure directory exists
@@ -89,6 +160,29 @@ namespace GBCLV3.Services.Launch
                     IsCompleted = false,
                     DownloadedBytes = 0,
                 });
+        }
+
+        #endregion
+
+        #region Private Methods
+
+        private static bool IsLibAllowed(List<JRule> rules)
+        {
+            if (rules == null) return true;
+
+            var isAllowed = false;
+            foreach (var rule in rules)
+            {
+                if (rule.os == null)
+                {
+                    isAllowed = rule.action == "allow";
+                    continue;
+                }
+
+                if (rule.os.name == "windows") isAllowed = rule.action == "allow";
+            }
+
+            return isAllowed;
         }
 
         #endregion

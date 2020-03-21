@@ -24,6 +24,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Tools\forge-install-bootstrapper.jar" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resources\Tools\forge-install-bootstrapper.jar" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Fody" Version="6.1.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

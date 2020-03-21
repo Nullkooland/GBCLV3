@@ -148,11 +148,11 @@
                                             s:View.ActionTarget="{Binding Data, Source={StaticResource Proxy}}">
                                             <MenuItem Header="{DynamicResource InstallForge}"
                                                       Command="{s:Action InstallForge}"
-                                                      CommandParameter="{Binding JarID}" />
+                                                      CommandParameter="{Binding}" />
 
                                             <MenuItem Header="{DynamicResource InstallFabric}"
                                                       Command="{s:Action InstallFabric}"
-                                                      CommandParameter="{Binding JarID}" />
+                                                      CommandParameter="{Binding}" />
                                         </ContextMenu>
                                     </Button.ContextMenu>
                                 </Button>
@@ -176,11 +176,11 @@
 
                                         <MenuItem Header="{DynamicResource InstallForge}"
                                                   Command="{s:Action InstallForge}"
-                                                  CommandParameter="{Binding JarID}" />
+                                                  CommandParameter="{Binding}" />
 
                                         <MenuItem Header="{DynamicResource InstallFabric}"
                                                   Command="{s:Action InstallFabric}"
-                                                  CommandParameter="{Binding JarID}" />
+                                                  CommandParameter="{Binding}" />
 
                                         <!--<MenuItem Header="{DynamicResource InstallOptiFine}"
                                                       Command="{s:Action InstallOptiFine}"

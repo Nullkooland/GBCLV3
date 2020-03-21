@@ -50,27 +50,27 @@ namespace GBCLV3.Utils
             });
         }
 
-        public static Task SendDirToRecycleBinAsync(string path)
+        public static async ValueTask SendDirToRecycleBinAsync(string path)
         {
             if (!Directory.Exists(path))
             {
-                return null;
+                return;
             }
 
-            return Task.Run(() =>
+            await Task.Run(() =>
             {
                 FileSystem.DeleteDirectory(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             });
         }
 
-        public static Task SendFileToRecycleBinAsync(string path)
+        public static async ValueTask SendFileToRecycleBinAsync(string path)
         {
             if (!File.Exists(path))
             {
-                return null;
+                return;
             }
 
-            return Task.Run(() =>
+            await Task.Run(() =>
             {
                 FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
             });

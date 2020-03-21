@@ -51,7 +51,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public async void DropFiles(ListBox _, DragEventArgs e)
+        public async void OnDropMods(ListBox _, DragEventArgs e)
         {
             var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
                             .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
@@ -77,7 +77,7 @@ namespace GBCLV3.ViewModels.Tabs
         public async void Reload()
         {
             Mods.Clear();
-            var availableMods = await Task.Run(() => _modService.GetAll().ToList());
+            var availableMods = await Task.Run(() => _modService.LoadAll().ToList());
             Mods.AddRange(availableMods);
         }
 

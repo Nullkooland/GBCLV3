@@ -17,7 +17,7 @@ namespace GBCLV3.ViewModels.Tabs
     {
         #region Events
 
-        public event Action<string, InstallType> NavigateInstallView;
+        public event Action<Version, InstallType> NavigateInstallView;
 
         #endregion
 
@@ -118,9 +118,9 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void InstallNew() => NavigateInstallView?.Invoke(null, InstallType.Version);
 
-        public void InstallForge(string jarID) => NavigateInstallView?.Invoke(jarID, InstallType.Forge);
+        public void InstallForge(Version version) => NavigateInstallView?.Invoke(version, InstallType.Forge);
 
-        public void InstallFabric(string jarID) => NavigateInstallView?.Invoke(jarID, InstallType.Fabric);
+        public void InstallFabric(Version version) => NavigateInstallView?.Invoke(version, InstallType.Fabric);
         
 
         //public void InstallOptiFine()
