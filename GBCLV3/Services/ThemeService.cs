@@ -43,7 +43,7 @@ namespace GBCLV3.Services
         private static readonly Color REF_COLOR_SPIKE = Color.FromRgb(15, 105, 200);
         private static readonly Color REF_COLOR_BULLZEYE = Color.FromRgb(210, 50, 55);
         private static readonly Color REF_COLOR_TBONE = Color.FromRgb(165, 125, 10);
-        private static readonly Color REF_COLOR_STEGZ = Color.FromRgb(105, 175, 5);
+        private static readonly Color REF_COLOR_STEGZ = Color.FromRgb(105, 175, 15);
 
         private readonly Config _config;
 
@@ -188,10 +188,10 @@ namespace GBCLV3.Services
             {
                 BackgroundIcon = iconsDict["T-Bone"] as StreamGeometry;
             }
-            //else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ) < COLOR_L2_THRESHOLD)
-            //{
-            //    BackgroundIcon = iconsDict["Stegz"] as StreamGeometry;
-            //}
+            else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ) < 0.0090f)
+            {
+                BackgroundIcon = iconsDict["Stegz"] as StreamGeometry;
+            }
             else
             {
                 BackgroundIcon = iconsDict["DragonIcon"] as StreamGeometry;
