@@ -209,6 +209,9 @@
     <s:String x:Key="SelectMods">Выбор модов</s:String>
     <s:String x:Key="EnableSelected">Включить</s:String>
     <s:String x:Key="DisableSelected">Выключить</s:String>
+    <!-- TRANSLATION NEEDED HERE -->
+    <s:String x:Key="CopyMods">When add new mods, copy instead of moving them from source directory</s:String>
+
 
     <!-- Управление пакетами ресурсов -->
     <s:String x:Key="EnabledPacks">Включенные пакеты</s:String>

@@ -6,8 +6,7 @@
 
         public string FileName { get; set; }
 
-        public string DisplayName => !string.IsNullOrWhiteSpace(Description) ? 
-                                        $"{Description}\nby {Authors}" : null;
+        public string DisplayName { get; set; }
 
         public string Description { get; set; }
 
@@ -26,9 +25,9 @@
 
     #region Json Class
 
-    public class JMod
+    public class ForgeMod
     {
-        public JMod[] modList { get; set; }
+        public ForgeMod[] modList { get; set; }
 
         public string name { get; set; }
 
@@ -43,6 +42,30 @@
         public string[] authorList { get; set; }
 
         public string url { get; set; }
+    }
+
+    class FabricModContact
+    {
+        public string homepage { get; set; }
+
+        public string sources { get; set; }
+    }
+
+    class FabricMod
+    {
+        public int schemaVersion { get; set; }
+
+        public string id { get; set; }
+
+        public string version { get; set; }
+
+        public string name { get; set; }
+
+        public string description { get; set; }
+
+        public string[] authors { get; set; }
+
+        public FabricModContact contact { get; set; }
     }
 
     #endregion

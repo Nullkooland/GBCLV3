@@ -209,6 +209,8 @@
     <s:String x:Key="SelectMods">Mods auswählen</s:String>
     <s:String x:Key="EnableSelected">Aktivieren</s:String>
     <s:String x:Key="DisableSelected">Deaktivieren</s:String>
+    <!-- TRANSLATION NEEDED HERE -->
+    <s:String x:Key="CopyMods">When add new mods, copy instead of moving them from source directory</s:String>
 
     <!-- Resourcepacks-Verwaltung -->
     <s:String x:Key="EnabledPacks">Aktivierte Packs</s:String>

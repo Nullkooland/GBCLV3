@@ -1,4 +1,5 @@
-﻿using GBCLV3.Models.Auxiliary;
+﻿using System;
+using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Microsoft.VisualBasic.FileIO;
@@ -41,12 +42,12 @@ namespace GBCLV3.Services.Auxiliary
             Directory.CreateDirectory(_gamePathService.ModsDir);
 
             return Directory.EnumerateFiles(_gamePathService.ModsDir)
-                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
-                            .Select(path => Load(path))
-                            .OrderByDescending(mod => mod.IsEnabled);
+                .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
+                .Select(path => Load(path))
+                .OrderByDescending(mod => mod.IsEnabled);
         }
 
-        public async ValueTask<Mod[]> MoveLoadAllAsync(IEnumerable<string> paths)
+        public async ValueTask<Mod[]> MoveLoadAllAsync(IEnumerable<string> paths, bool isCopy)
         {
             Directory.CreateDirectory(_gamePathService.ModsDir);
 
@@ -57,7 +58,14 @@ namespace GBCLV3.Services.Auxiliary
 
                 try
                 {
-                    File.Move(path, dstPath);
+                    if (isCopy)
+                    {
+                        File.Copy(path, dstPath);
+                    }
+                    else
+                    {
+                        File.Move(path, dstPath);
+                    }
                 }
                 catch (IOException ex)
                 {
@@ -93,60 +101,104 @@ namespace GBCLV3.Services.Auxiliary
         private static Mod Load(string path)
         {
             using var archive = ZipFile.OpenRead(path);
-            bool isEnabled = path.EndsWith(".jar");
-            if (!isEnabled) path = path[..^9];
+            using var fabricModInfo = archive.GetEntry("fabric.mod.json")?.Open();
+            using var forgeModInfo = archive.GetEntry("mcmod.info")?.Open();
 
-            var info = archive.GetEntry("mcmod.info");
-            if (info == null)
+            Mod mod;
+
+            if (fabricModInfo != null)
             {
-                return new Mod
-                {
-                    Name = Path.GetFileNameWithoutExtension(path),
-                    FileName = Path.GetFileName(path),
-                    Path = path,
-                    IsEnabled = isEnabled,
-                };
+                mod = LoadFabricMods(fabricModInfo);
+            }
+            else if (forgeModInfo != null)
+            {
+                mod = LoadForgeMods(forgeModInfo);
+            }
+            else
+            {
+                mod = new Mod();
             }
 
-            using var infoStream = info.Open();
+            mod.IsEnabled = path.EndsWith(".jar");
+            mod.Path = mod.IsEnabled ? path : path[..^9];
+            mod.Name ??= Path.GetFileNameWithoutExtension(mod.Path);
+            mod.FileName = Path.GetFileName(mod.Path);
+
+            mod.DisplayName = !string.IsNullOrWhiteSpace(mod.Description)
+                ? mod.Description + (!string.IsNullOrEmpty(mod.Authors) ? $"\nby {mod.Authors}" : null)
+                : mod.Name;
+
+            return mod;
+        }
+
+        private static Mod LoadFabricMods(Stream infoStream)
+        {
             using var memoryStream = new MemoryStream();
             infoStream.CopyTo(memoryStream);
 
-            JMod jmod = null;
+            Mod mod = null;
+
+            try
+            {
+                var fabricMod = JsonSerializer.Deserialize<FabricMod>(memoryStream.ToArray());
+                string authors = (fabricMod?.authors != null) ? string.Join(", ", fabricMod.authors) : null;
+
+                mod = new Mod
+                {
+                    Name = fabricMod?.name,
+                    Description = fabricMod?.description.Split('.')[0], // Make it terse!
+                    Version = fabricMod?.version,
+                    Url = fabricMod?.contact?.homepage,
+                    Authors = authors,
+                };
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+            return mod;
+        }
+
+        private static Mod LoadForgeMods(Stream infoStream)
+        {
+            using var memoryStream = new MemoryStream();
+            infoStream.CopyTo(memoryStream);
+
+            Mod mod = null;
 
             try
             {
                 // This is utterly ugly...thanks to the capriciousness of modders
-                jmod = JsonSerializer.Deserialize<JMod[]>(memoryStream.ToArray())[0];
+                var forgeMod = JsonSerializer.Deserialize<ForgeMod[]>(memoryStream.ToArray())[0];
+
+                if (forgeMod?.modList != null)
+                {
+                    // I don't understand what are these modders thinking...
+                    forgeMod = forgeMod.modList[0];
+                }
+
+                var authorList = forgeMod?.authorList ?? forgeMod?.authors;
+                string authors = authorList != null ? string.Join(", ", authorList) : null;
+
+                mod = new Mod
+                {
+                    Name = forgeMod?.name,
+                    Description = forgeMod?.description.Split('.')[0], // Make it terse!
+                    Version = forgeMod?.version,
+                    GameVersion = forgeMod?.mcversion,
+                    Url = forgeMod?.url,
+                    Authors = authors,
+                };
             }
             catch (JsonException ex)
             {
                 Debug.WriteLine(ex.ToString());
             }
 
-            if (jmod?.modList != null)
-            {
-                // I don't understand what are these modders thinking...
-                jmod = jmod.modList[0];
-            }
-
-            string[] authorList = jmod?.authorList ?? jmod?.authors;
-            string authors = authorList != null ? string.Join(", ", authorList) : null;
-
-            return new Mod
-            {
-                Name = jmod?.name ?? Path.GetFileNameWithoutExtension(path),
-                FileName = Path.GetFileName(path),
-                Description = jmod?.description.Split('.')[0], // Make it terse!
-                Version = jmod?.version,
-                GameVersion = jmod?.mcversion,
-                Url = jmod?.url,
-                Authors = authors,
-                Path = path,
-                IsEnabled = isEnabled,
-            };
-
+            return mod;
         }
+
         #endregion
     }
 }
