@@ -210,7 +210,7 @@
     <s:String x:Key="SelectMods">請選擇模組</s:String>
     <s:String x:Key="EnableSelected">啟用選中</s:String>
     <s:String x:Key="DisableSelected">禁用選中</s:String>
-    <s:String x:Key="CopyMods">添加新模組時從原位置複製而非移動</s:String>
+    <s:String x:Key="CopyMods">在添加新模組時，僅進行複製而保留原位置的文件</s:String>
 
     <!-- 資源包管理 -->
     <s:String x:Key="EnabledPacks">啟用的資源包</s:String>

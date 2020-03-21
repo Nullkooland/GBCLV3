@@ -209,7 +209,7 @@
     <s:String x:Key="SelectMods">Select Mods</s:String>
     <s:String x:Key="EnableSelected">Enable</s:String>
     <s:String x:Key="DisableSelected">Disable</s:String>
-    <s:String x:Key="CopyMods">When add new mods, copy instead of moving them from source directory</s:String>
+    <s:String x:Key="CopyMods">When adding new mods, copy instead of moving them from source directory</s:String>
 
 
     <!-- Resourcepacks Management -->
