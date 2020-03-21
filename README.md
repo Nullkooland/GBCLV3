@@ -51,7 +51,7 @@
   - [x] Account Manegement
   - [x] Email and Password Login
   - [x] Token Refresh
-  - [ ] External authentication ([authlib-injector](https://github.com/yushijinhun/authlib-injector))
+  - [x] External authentication ([authlib-injector](https://github.com/yushijinhun/authlib-injector))
 
 - [x] Download and Installation
   - [x] Parallel http download
@@ -70,9 +70,11 @@
 
 - [ ] Multi Language
   - [x] English
-  - [x] Simplified Chinese
-  - [ ] Traditional Chinese
-  - [ ] Japanese
+  - [x] Simplified Chinese - 简体中文
+  - [x] Traditional Chinese - 繁體中文
+  - [x] Russian - Русский (translations provided by @vanja-san)
+  - [x] German - Deutsch (translations provided by @Lolle2000la)
+  - [ ] Japanese - 日本語
 
 - [ ] Auxiliary Functions
   - [x] Mods management

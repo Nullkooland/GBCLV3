@@ -49,14 +49,14 @@
   - [x] 账户管理
   - [x] 邮箱密码登录
   - [x] 令牌刷新
-  - [ ] 外置登录（基于 [authlib-injector](https://github.com/yushijinhun/authlib-injector)）
+  - [x] 外置登录（基于 [authlib-injector](https://github.com/yushijinhun/authlib-injector)）
 
 - [x] 下载安装
   - [x] 并发下载
   - [x] 重试失败下载
   - [x] 修复损坏依赖文件 (主 jar, 依赖库, 资源文件)
   - [x] 安装新版本
-  - [x] 安装 Forge
+  - [x] 安装 Forge (支持1.13.2+新版forge全自动安装)
   - [x] 安装 Fabric
 
 - [ ] 主题
@@ -69,7 +69,9 @@
 - [ ] 多语言
   - [x] 英语
   - [x] 简体中文
-  - [ ] 繁体中文
+  - [x] 繁体中文
+  - [x] 俄语（感谢 @vanja-san 提供的翻译）
+  - [x] 德语（感谢 @Lolle2000la 提供的翻译）
   - [ ] 日语
 
 - [ ] 辅助功能
