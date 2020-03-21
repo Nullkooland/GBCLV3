@@ -8,6 +8,7 @@
                 xmlns:download="clr-namespace:GBCLV3.Models.Download"
                 xmlns:launch="clr-namespace:GBCLV3.Models.Launch"
                 xmlns:util="clr-namespace:GBCLV3.Utils"
+                ScrollViewer.VerticalScrollBarVisibility="Auto"
                 Style="{StaticResource TabPageStyle}">
 
     <ContentControl.Resources>
