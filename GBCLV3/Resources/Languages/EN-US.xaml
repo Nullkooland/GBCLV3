@@ -105,7 +105,7 @@
     <s:String x:Key="DebugModeDescription">Use java.exe to run</s:String>
 
     <s:String x:Key="CustomJvmArgs">Custom JVM Args</s:String>
-    <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g GC configurations)</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g., GC configurations)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
 
     <!-- Launcher Settings -->
