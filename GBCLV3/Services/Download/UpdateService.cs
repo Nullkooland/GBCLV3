@@ -8,7 +8,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
@@ -87,8 +86,11 @@ namespace GBCLV3.Services.Download
             try
             {
                 var json = await _client.GetByteArrayAsync(changelogAsset.Url);
-                var dictByLang = JsonSerializer.Deserialize<Dictionary<string, UpdateChangelog>>(json);
-                return dictByLang[_config.Language.ToLower()];
+                var changelogByLang = JsonSerializer.Deserialize<Dictionary<string, UpdateChangelog>>(json);
+
+                return changelogByLang.ContainsKey(_config.Language)
+                    ? changelogByLang[_config.Language]
+                    : changelogByLang["en-US"];
             }
             catch (Exception ex)
             {
@@ -111,12 +113,11 @@ namespace GBCLV3.Services.Download
                 DownloadedBytes = 0,
             };
 
-            return new List<DownloadItem>(1) { item };
+            return new[] { item };
         }
 
         public void Update()
         {
-
             string currentPath = Process.GetCurrentProcess().MainModule.FileName;
             string tempPath = Path.ChangeExtension(currentPath, "old");
 

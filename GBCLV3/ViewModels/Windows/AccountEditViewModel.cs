@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
 using GBCLV3.Services.Authentication;
+using PropertyChanged;
 using Stylet;
 using StyletIoC;
 
@@ -114,6 +115,7 @@ namespace GBCLV3.ViewModels.Windows
             }
         }
 
+        [SuppressPropertyChangedWarnings]
         public void OnPasswordChanged(PasswordBox passwordBox, EventArgs _) => _password = passwordBox.Password;
 
         public string AuthServerBase

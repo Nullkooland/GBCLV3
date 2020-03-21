@@ -23,7 +23,7 @@ namespace GBCLV3.Services.Authentication
         private readonly DownloadUrlService _downloadUrlService;
         private readonly HttpClient _client;
 
-        private AuthlibInjector _chached;
+        private AuthlibInjector _cached;
 
         #endregion
 
@@ -45,14 +45,14 @@ namespace GBCLV3.Services.Authentication
 
         public async ValueTask<AuthlibInjector> GetLatest()
         {
-            if (_chached != null) return _chached;
+            if (_cached != null) return _cached;
 
             try
             {
                 var json = await _client.GetByteArrayAsync(_downloadUrlService.Base.AuthlibInjector);
                 var info = JsonDocument.Parse(json).RootElement;
 
-                _chached = new AuthlibInjector
+                _cached = new AuthlibInjector
                 {
                     Build = info.GetProperty("build_number").GetInt32(),
                     Version = info.GetProperty("version").GetString(),
@@ -60,7 +60,7 @@ namespace GBCLV3.Services.Authentication
                     SHA256 = info.GetProperty("checksums").GetProperty("sha256").GetString(),
                 };
 
-                return _chached;
+                return _cached;
             }
             catch (Exception ex)
             {

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GBCLV3.Models.Authentication;
@@ -86,6 +87,7 @@ namespace GBCLV3.ViewModels.Windows
             }
         }
 
+        [SuppressMessage("Await.Warning", "CS1998")]
         public async Task<Dictionary<string, IEnumerable<string>>> ValidateAllPropertiesAsync()
         {
             throw new System.NotImplementedException();
