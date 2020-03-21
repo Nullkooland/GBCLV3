@@ -64,7 +64,7 @@ namespace GBCLV3.ViewModels.Tabs
                 EnabledPacks.Clear();
                 DisabledPacks.Clear();
 
-                var (enabledPacks, disabledPacks) = _resourcePackService.GetAll();
+                var (enabledPacks, disabledPacks) = _resourcePackService.LoadAll();
                 EnabledPacks.AddRange(enabledPacks);
                 DisabledPacks.AddRange(disabledPacks);
             });

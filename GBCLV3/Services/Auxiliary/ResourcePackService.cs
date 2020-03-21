@@ -37,7 +37,7 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) GetAll()
+        public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) LoadAll()
         {
             string optionsFile = _gamePathService.WorkingDir + "/options.txt";
             string[] enabledPackIDs = null;
@@ -70,10 +70,10 @@ namespace GBCLV3.Services.Auxiliary
                                  .Where(pack => pack != null)
                                  .ToLookup(pack => pack.IsEnabled);
 
-            // Enabled resourcepacks (followed the order in options)
+                    // Enabled resourcepacks (followed the order in options)
             return (packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
                     // Disabled resourcepacks
-                    packs[false]);
+                    packs[false].OrderBy(pack => pack.Name));
         }
 
         public bool WriteToOptions(IEnumerable<ResourcePack> enabledPacks)

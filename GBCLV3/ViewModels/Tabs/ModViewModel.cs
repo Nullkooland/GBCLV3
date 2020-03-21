@@ -77,7 +77,7 @@ namespace GBCLV3.ViewModels.Tabs
         public async void Reload()
         {
             Mods.Clear();
-            var availableMods = await Task.Run(() => _modService.GetAll().ToList());
+            var availableMods = await Task.Run(() => _modService.LoadAll().ToList());
             Mods.AddRange(availableMods);
         }
 

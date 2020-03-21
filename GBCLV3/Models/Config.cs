@@ -50,8 +50,6 @@ namespace GBCLV3.Models
 
         public DownloadSource DownloadSource { get; set; }
 
-        public bool DownloadAssetsOnInstall { get; set; }
-
         public string FontFamily { get; set; }
 
         public string FontWeight { get; set; }
@@ -65,6 +63,14 @@ namespace GBCLV3.Models
         // public string AccentColor { get; set; }
 
         public int Build { get; set; }
+
+        #endregion
+
+        #region Misc
+
+        public bool DownloadAssetsOnInstall { get; set; }
+
+        public bool CopyPacks { get; set; }
 
         #endregion
     }

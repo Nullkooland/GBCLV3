@@ -132,8 +132,8 @@ namespace GBCLV3.Services.Auxiliary
         {
             Directory.CreateDirectory(Path.GetDirectoryName(path));
 
-            using var httpStream = await _client.GetStreamAsync(url);
-            using var fileStream = File.OpenWrite(path);
+            await using var httpStream = await _client.GetStreamAsync(url);
+            await using var fileStream = File.OpenWrite(path);
             await httpStream.CopyToAsync(fileStream);
             fileStream.Flush();
         }

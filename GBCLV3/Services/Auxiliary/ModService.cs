@@ -35,7 +35,7 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public IEnumerable<Mod> GetAll()
+        public IEnumerable<Mod> LoadAll()
         {
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.ModsDir);
@@ -94,7 +94,7 @@ namespace GBCLV3.Services.Auxiliary
         {
             using var archive = ZipFile.OpenRead(path);
             bool isEnabled = path.EndsWith(".jar");
-            if (!isEnabled) path = path[0..^9];
+            if (!isEnabled) path = path[..^9];
 
             var info = archive.GetEntry("mcmod.info");
             if (info == null)
