@@ -1,0 +1,268 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- MessageBox Button Labels -->
+    <s:String x:Key="OK">OK</s:String>
+    <s:String x:Key="Cancel">Abbrechen</s:String>
+    <s:String x:Key="Yes">Ja</s:String>
+    <s:String x:Key="No">Nein</s:String>
+
+    <!-- Fehlermeldungen -->
+    <s:String x:Key="ErrorReport">Fehlerbericht</s:String>
+    <s:String x:Key="ReportUnexpectedExit">Spiel wurde unerwarted geschlossen</s:String>
+    <s:String x:Key="ReportUnhandledException">Das Programm hat eine unbehandelte Ausnahme geworfen</s:String>
+    <s:String x:Key="Alright">In Ordnung</s:String>
+    <s:String x:Key="ReportOnGithub">Auf GitHub melden</s:String>
+    <s:String x:Key="CopyErrorMessage">Fehlermeldung in Zwischenablage kopieren</s:String>
+
+    <!-- Startvorgang -->
+    <s:String x:Key="Launch">Starten</s:String>
+    <s:String x:Key="ProcessingDependencies">Spielabhängigkeiten verarbeiten</s:String>
+    <s:String x:Key="LoggingIn">Authentifiziere und logge ein</s:String>
+    <s:String x:Key="StartingGameProcess">Starte den Spiel-Prozess</s:String>
+    <s:String x:Key="Boohoo">Huh-huh! Start fehlgeschlagen...</s:String>
+    <s:String x:Key="HappyGame">Fröhliches spielen!</s:String>
+    <s:String x:Key="UnexpectedExit">Unerwartetes Verlassen</s:String>
+
+    <!-- JRE nicht gefunden Fehler -->
+    <s:String x:Key="JreNotFound">JRE konnte nicht gefunden werden!</s:String>
+    <s:String x:Key="PleaseInstallJre">Bitte suchen Sie die JRE manuell oder installieren Sie sie</s:String>
+    <s:String x:Key="DownloadJreInstaller">JRE Installer herunterladen</s:String>
+
+    <!-- Kontoverwaltung -->
+    <s:String x:Key="AccountManagement">Kontoverwaltung</s:String>
+    <s:String x:Key="AddAccount">Konto hinzufügen</s:String>
+    <s:String x:Key="EditAccount">Konto bearbeiten</s:String>
+    <s:String x:Key="ReAuth">Erneut authentifizieren</s:String>
+    <s:String x:Key="DeleteAccount">Konto löschen</s:String>
+    <s:String x:Key="WhetherDeleteAccount">Sind Sie sicher, dass Sie das Konto löschen wollen?</s:String>
+    <s:String x:Key="AuthMode">Authentifizierungsmodus</s:String>
+    <s:String x:Key="Offline">Offline</s:String>
+    <s:String x:Key="Yggdrasil">Mojang</s:String>
+    <s:String x:Key="AuthLibInjector">Externer (authlib-injector)</s:String>
+    <s:String x:Key="Username">Benutzername</s:String>
+    <s:String x:Key="Email">E-Mail</s:String>
+    <s:String x:Key="Password">Passwort</s:String>
+    <s:String x:Key="AuthServer">Authentifizierungsserver</s:String>
+    <s:String x:Key="SelectProfile">Profil auswählen</s:String>
+
+    <s:String x:Key="DuplicateAccount">Das Konto existiert bereits!</s:String>
+    <s:String x:Key="EmptyUsername">Benutzername kann nicht leer sein!</s:String>
+    <s:String x:Key="InvalidEmail">Ungültige E-Mail Adresse!</s:String>
+
+    <s:String x:Key="EnterAccountInformation">Account Informationen eingeben</s:String>
+    <s:String x:Key="NeedReAuth">Aktueller Token ist ungültig, erneute Authentifizierung ist nötig</s:String>
+    <s:String x:Key="CheckingAuthServer">Überprüfe Authentifizierungsserver</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Ungültiger Authentifizierungsserver, bitte überprüfen Sie die URL oder ihre Internetverbindung!</s:String>
+    <s:String x:Key="Authenticating">Authentifiziere</s:String>
+    <s:String x:Key="AuthSuccessful">Authentifizierung erfolgreich</s:String>
+
+    <!-- Authentifizierungsfehler -->
+    <s:String x:Key="AuthFailed">Authentifizierung fehlgeschlagen</s:String>
+    <s:String x:Key="AuthTimeout">Zeitlimit für die Authentifizierung überschritten!</s:String>
+    <s:String x:Key="NoInternetConnection">Bitte überprüfen Sie ihre Internetverbindung!</s:String>
+    <s:String x:Key="InvalidCredentials">Ungültige Anmeldedaten! Bitte überprüfen Sie ihre E-Mail und ihr Passwort!</s:String>
+    <s:String x:Key="InvalidToken">Ungültiger Token! Bitte loggen Sie sich erneut ein!</s:String>
+    <s:String x:Key="InvalidAuthServer">Ungültiger Authentifizierungsserver, bitte überprüfen Sie die URL oder ihre Internetverbindung!</s:String>
+    <s:String x:Key="Unknown">Ein Fehler ist aufgetreten!</s:String>
+    <s:String x:Key="ErrorMessage">Fehlermeldung:</s:String>
+
+
+    <!-- Integritätsprüfung -->
+    <s:String x:Key="IntegrityCheck">Integritätscheck</s:String>
+    <s:String x:Key="MainJarDamaged">Haupt-JAR fehlt oder ist beschädigt</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge-JAR fehlt oder ist beschädigt, und Fehler kann nicht gelöst werden</s:String>
+    <s:String x:Key="PleaseReinstallForge">Bitte installieren Sie Forge neu</s:String>
+    <s:String x:Key="LibsDamaged">Abhängige Bibliotheken fehlen oder sind beschädigt</s:String>
+    <s:String x:Key="AssetsDamaged">Assets fehlen oder sind beschädigt</s:String>
+    <s:String x:Key="WhetherFixNow">Wollen Sie das Problem jetzt lösen?</s:String>
+
+    <!-- Einstellungen -->
+    <s:String x:Key="Settings">Einstellungen</s:String>
+    <s:String x:Key="GameSettings">Spieleinstellungen</s:String>
+    <s:String x:Key="AccountSettings">Kontoeinstellungen</s:String>
+    <s:String x:Key="LauncherSettings">Launchereinstellungen</s:String>
+    <s:String x:Key="AdvancedSettings">Erweiterte Einstellungen</s:String>
+    <s:String x:Key="FunctionSettings">Funktionseinstellungen</s:String>
+    <s:String x:Key="ThemeSettings">Themen Einstellungen</s:String>
+
+    <!-- Spieleinstellungen -->
+    <s:String x:Key="JreDir">JRE Ordner</s:String>
+    <s:String x:Key="SelectJrePath">JRE Pfad auswählen</s:String>
+    <s:String x:Key="JavaMaxMem">Java Max Arbeitsspeicher (MB)</s:String>
+    <s:String x:Key="AvailableMem">Verfügbarer physischer Arbeitsspeicher</s:String>
+
+    <s:String x:Key="GameDir">Spielordner</s:String>
+    <s:String x:Key="SelectGameDir">Spielordner auswählen</s:String>
+    <s:String x:Key="WindowResolution">Fensterauflösung</s:String>
+    <s:String x:Key="FullScreen">Vollbild</s:String>
+
+    <s:String x:Key="ServerAddress">Server-Adresse</s:String>
+    <s:String x:Key="JoinServerOnLaunch">Wenn eine Adresse eingetragen ist, wird Minecraft dieser direkt nach dem Start beitreten.</s:String>
+
+    <s:String x:Key="DebugMode">Debug-Modus</s:String>
+    <s:String x:Key="DebugModeDescription">Java.exe zum starten benutzen</s:String>
+
+    <s:String x:Key="CustomJvmArgs">Benutzerdefinierte JVM-Argumente</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">Dies wird die JVM-Standardargumente überschreiben (z.B. GC Einstellungen)</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Zusätzliche Minecraft Argumente</s:String>
+
+    <!-- Launchereinstellungen -->
+    <s:String x:Key="Language">Sprache</s:String>
+
+    <s:String x:Key="DownloadSource">Download-Quelle</s:String>
+    <s:String x:Key="Official">Offiziell</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="MCBBS">MCBBS</s:String>
+
+    <s:String x:Key="AfterLaunch">Nach dem Start</s:String>
+    <s:String x:Key="Exit">Programm beenden</s:String>
+    <s:String x:Key="Hide">Fenster verstecken</s:String>
+    <s:String x:Key="KeepVisible">Sichtbar halten</s:String>
+
+    <s:String x:Key="UseBackgroundImage">Hintergrundbild benutzen</s:String>
+    <s:String x:Key="SelectImagePath">Bildpfad auswählen</s:String>
+    <s:String x:Key="SelectRandomImage">Zufälliges Bild aus dem .\bg Ordner auswählen</s:String>
+
+    <s:String x:Key="Font">Schriftart</s:String>
+    <s:String x:Key="FontWeight">Schriftgewicht</s:String>
+
+    <!-- Herunterladen -->
+
+    <!-- Arten des Herunterladens -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
+    <s:String x:Key="MainJar">Haupt-JAR</s:String>
+    <s:String x:Key="Libraries">Bibliotheken</s:String>
+    <s:String x:Key="Assets">Assets</s:String>
+    <s:String x:Key="InstallNewVersion">Neue Version installieren</s:String>
+    <s:String x:Key="InstallForge">Forge installieren</s:String>
+    <s:String x:Key="InstallFabric">Fabric installieren</s:String>
+
+    <!-- Fortschritt des Herunterladens -->
+    <s:String x:Key="DownloadProgress">Fortschritt</s:String>
+    <s:String x:Key="CancelDownload">Download abbrechen</s:String>
+    <s:String x:Key="WhetherCancelDownload">Sind Sie sich sicher, dass Sie den Download abbrechen wollen?</s:String>
+    <s:String x:Key="IncompleteDownload">Unvollständiger Download</s:String>
+    <s:String x:Key="DownloadFailures">Dateien konnten nicht heruntergeladen werden</s:String>
+    <s:String x:Key="WhetherRetryDownload">Unvollständigen Download neustarten?</s:String>
+    <s:String x:Key="DownloadCompletedCount">Abgeschlossen</s:String>
+    <s:String x:Key="DownloadFailedCount">Fehlgeschlagen</s:String>
+    <s:String x:Key="DownloadSpeed">Geschwindigkeit</s:String>
+
+    <!-- Versionsverwaltung -->
+    <s:String x:Key="AvailableVersions">Verfügbare Versionen</s:String>
+    <s:String x:Key="SegregateVersions">Versionen trennen</s:String>
+    <s:String x:Key="OpenJson">JSON öffnen</s:String>
+    <s:String x:Key="DeleteVersion">Version löschen</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Möchten Sie die Version wirklich löschen?</s:String>
+
+    <!-- Versionsinstallation -->
+    <s:String x:Key="DownloadAndInstall">Herunterladen und installieren</s:String>
+    <s:String x:Key="NoVersionFound">Keine Version gefunden</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">Soll eine neue Spielversion installiert werden?</s:String>
+    <s:String x:Key="Version">Version</s:String>
+    <s:String x:Key="Type">Typ</s:String>
+    <s:String x:Key="ReleaseTime">Erscheinungsdatum</s:String>
+    <s:String x:Key="ReleaseOnly">Nur stabile Versionen</s:String>
+
+    <s:String x:Key="VersionListLoading">Versionsliste lädt</s:String>
+    <s:String x:Key="VersionListLoaded">Versionsliste geladen</s:String>
+    <s:String x:Key="VersionListLoadFailed">Versionsliste laden fehlgeschlagen</s:String>
+    <s:String x:Key="VersionFetchingJson">Version-JSON abrufen</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">Versionsabhängigkeiten werden heruntergeladen</s:String>
+
+    <s:String x:Key="VersionInstallFailed">Installation is fehlgeschlagen</s:String>
+    <s:String x:Key="VersionAlreadyExists">Eine identische lokale Version existiert bereits!</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">Version-JSON konnte nicht abgerufen werden!</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">Unvollständige Abhängigkeiten</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">Launcher wird alle Abhängigkeiten beim Start vervollständigen</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Assets beim Start herunterladen</s:String>
+    <s:String x:Key="VersionInstallSuccessful">Installation erfolgreich</s:String>
+
+    <!-- Forge-Installation -->
+    <s:String x:Key="ForgeListLoading">Forge-Liste läd</s:String>
+    <s:String x:Key="ForgeListLoadFailed">Forge-List konnte nicht heruntergeladen werden</s:String>
+    <s:String x:Key="NoAvailableForge">Kein Forge ist für die aktuelle Version verfügbar!</s:String>
+    <s:String x:Key="SelectForgeVersion">Bitte wählen Sie eine Version von Forge zum installieren aus</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Forge-Installer wird heruntergeladen</s:String>
+    <s:String x:Key="ForgeManualInstalling">Forge wird manuell installiert</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Forge-Bibliotheken werden heruntergeladen</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">Forge-Installation fehlgeschlagen</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge-JAR-Download fehlgeschlagen!</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge konnte nicht extrahiert werden!</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">Forge-Installation erfolgreiche</s:String>
+
+    <!-- Fabric-Installation -->
+    <s:String x:Key="FabricListLoading">Lade Fabric-Downloadliste</s:String>
+    <s:String x:Key="FabricListLoadFailed">Fabric-Downloadliste konnte nicht geladen werden</s:String>
+    <s:String x:Key="NoAvailableFabric">Kein Fabric für die aktuelle Version verfügbar!</s:String>
+    <s:String x:Key="SelectFabricVersion">Bitte wählen Sie eine Version von Fabric zum installieren aus</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Fabric-Bibliotheken werden heruntergeladen</s:String>
+
+    <s:String x:Key="FabricInstallFailed">Fabric-Installation fehlgeschlagen</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Fabric-Installation erfolgreich</s:String>
+
+    <!-- Mods-Verwaltung -->
+    <s:String x:Key="AvailableMods">Verfügbare Mods</s:String>
+    <s:String x:Key="SelectMods">Mods auswählen</s:String>
+    <s:String x:Key="EnableSelected">Aktivieren</s:String>
+    <s:String x:Key="DisableSelected">Deaktivieren</s:String>
+
+    <!-- Resourcepacks-Verwaltung -->
+    <s:String x:Key="EnabledPacks">Aktivierte Packs</s:String>
+    <s:String x:Key="SelectResourcepacks">Resourcepacks auswählen</s:String>
+    <s:String x:Key="DisabledPacks">Deaktivierte Packs</s:String>
+    <s:String x:Key="OpenPack">Öffnen</s:String>
+
+    <!-- Über -->
+    <s:String x:Key="Dependencies">Abhängigkeiten</s:String>
+    <s:String x:Key="ThanksTo">Danke an</s:String>
+
+    <!-- Update -->
+    <s:String x:Key="Update">Update</s:String>
+    <s:String x:Key="CheckUpdate">Auf Updates überprüfen</s:String>
+    <s:String x:Key="CheckingUpdate">Updates werden gesucht</s:String>
+    <s:String x:Key="AlreadyUpToDate">Sie sind bereits auf der aktuellsten Version</s:String>
+    <s:String x:Key="UpdateAvailable">Update verfügbar</s:String>
+    <s:String x:Key="UpdateCheckFailed">Update-Suche fehlgeschlagen</s:String>
+    <s:String x:Key="AutoCheckUpdate">Beim Start überprüfen</s:String>
+    <s:String x:Key="UpdateChangelog">Änderungsprotokoll</s:String>
+    <s:String x:Key="UpdateNow">Jetzt aktualisieren</s:String>
+    <s:String x:Key="DeferUpdate">Update verzögern</s:String>
+    <s:String x:Key="CancelUpdate">Update abbrechen</s:String>
+    <s:String x:Key="WhetherCancelUpdate">Sind Sie sich sicher, dass Sie das Update abbrechen wollen?</s:String>
+    <s:String x:Key="UpdateFailed">Update fehlgeschlagen</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">Erfolgreich aktualisiert auf</s:String>
+    <s:String x:Key="UpdateSuccessful">Update erfolgreich</s:String>
+
+    <!-- Gemeinsame -->
+    <s:String x:Key="AddNew">Neues hinzufügen</s:String>
+    <s:String x:Key="Hello">Hallo</s:String>
+    <s:String x:Key="InstallNew">Neues installieren</s:String>
+    <s:String x:Key="Reload">Neuladen</s:String>
+    <s:String x:Key="OpenDir">Ordner öffnen</s:String>
+    <s:String x:Key="OpenLink">Link öffnen</s:String>
+    <s:String x:Key="Delete">Löschen</s:String>
+    <s:String x:Key="Edit">Bearbeiten</s:String>
+    <s:String x:Key="Install">Installieren</s:String>
+    <s:String x:Key="InstallSuccessful">Installation erfolgreich</s:String>
+    <s:String x:Key="Versions">Versionen</s:String>
+    <s:String x:Key="VersionsManagement">Versionsverwaltung</s:String>
+    <s:String x:Key="GameInstall">Spiel-Installation</s:String>
+    <s:String x:Key="ForgeInstall">Forge-Installation</s:String>
+    <s:String x:Key="FabricInstall">Fabric-Installation</s:String>
+    <s:String x:Key="Mods">Mods</s:String>
+    <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
+    <s:String x:Key="Saves">Speicherstände</s:String>
+    <s:String x:Key="Skins">Skins</s:String>
+    <s:String x:Key="About">Über</s:String>
+    <s:String x:Key="Auxiliaries">Hilfsmittel</s:String>
+    <s:String x:Key="Auto">Automatisch</s:String>
+
+    <!-- Goose Bomb was machst du da! Goose Bomb!!! -->
+    <s:String x:Key="FlowerOfHope">Blume der Hoffnung 🎵</s:String>
+    <s:String x:Key="DontStop">HÖR NIEMALS AUF!</s:String>
+
+</ResourceDictionary>
