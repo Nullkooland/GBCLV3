@@ -184,7 +184,12 @@ namespace GBCLV3.Services.Installation
             extractFileStream.Close();
 
             // Prepare arguments for bootstrapper
-            string installerPath = $"{_gamePathService.RootDir}/{forge.ID}-installer.jar";
+            string installerPath = $"{_gamePathService.RootDir}/{forge.FullName}-installer.jar";
+
+            var args = $"-cp \"{bootstrapperPath};{installerPath}\" " +
+                       "com.bangbang93.ForgeInstaller .";
+
+            Debug.WriteLine(args);
 
             var startInfo = new ProcessStartInfo
             {
@@ -235,8 +240,9 @@ namespace GBCLV3.Services.Installation
             }
             finally
             {
-                //File.Delete(bootstrapperPath);
-                //File.Delete(installerPath);
+                // Clean up
+                File.Delete(bootstrapperPath);
+                File.Delete(installerPath);
             }
         }
 
