@@ -40,8 +40,33 @@
 
         </StackPanel>
 
-        <GroupBox Grid.Row="1" Grid.ColumnSpan="4" Margin="8"
-                  Header="{DynamicResource AvailableMods}">
+        <GroupBox Grid.Row="1" Grid.ColumnSpan="4" Margin="8">
+
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Grid.Column="0"
+                               VerticalAlignment="Center"
+                               Text="{DynamicResource AvailableMods}" />
+
+                    <ToggleButton Grid.Column="1"
+                            Style="{StaticResource {x:Static adonisUI:Styles.ToolbarToggleButton}}"
+                            HorizontalAlignment="Right"
+                            Width="32" Height="32"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="16"
+                            Content="&#xE8C8;"
+                            ToolTipService.Placement="Relative"
+                            ToolTipService.HorizontalOffset="-240"
+                            ToolTipService.VerticalOffset="32"
+                            ToolTip="{DynamicResource CopyMods}"
+                            IsChecked="{Binding IsCopyMods, Mode=TwoWay}"/>
+                </Grid>
+            </GroupBox.Header>
 
             <ListBox ItemsSource="{Binding Mods, Mode=OneWay}"
                      BorderThickness="1"
@@ -49,7 +74,7 @@
                      ScrollViewer.VerticalScrollBarVisibility="Auto"
                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                      SelectionChanged="{s:Action SelectionChanged}"
-                     Drop="{s:Action DropFiles}">
+                     Drop="{s:Action OnDropMods}">
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>

@@ -11,6 +11,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using GBCLV3.Models;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -24,6 +25,7 @@ namespace GBCLV3.ViewModels.Tabs
         private readonly GamePathService _gamePathService;
         private readonly ModService _modService;
         private readonly LanguageService _languageService;
+        private readonly Config _config;
 
         #endregion
 
@@ -33,11 +35,13 @@ namespace GBCLV3.ViewModels.Tabs
         public ModViewModel(
             GamePathService gamePathService,
             ModService modService,
-            LanguageService languageService)
+            LanguageService languageService,
+            ConfigService configService)
         {
             _gamePathService = gamePathService;
             _modService = modService;
             _languageService = languageService;
+            _config = configService.Entries;
 
             Mods = new BindableCollection<Mod>();
             _selectedMods = new List<Mod>(32);
@@ -49,14 +53,20 @@ namespace GBCLV3.ViewModels.Tabs
 
         public BindableCollection<Mod> Mods { get; }
 
+        public bool IsCopyMods
+        {
+            get => _config.CopyMods;
+            set => _config.CopyMods = value;
+        }
+
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
         public async void OnDropMods(ListBox _, DragEventArgs e)
         {
             var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
-                            .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
+                .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
 
-            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles));
+            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles, IsCopyMods));
         }
 
         public async void AddNew()
@@ -70,7 +80,7 @@ namespace GBCLV3.ViewModels.Tabs
 
             if (dialog.ShowDialog() ?? false)
             {
-                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames));
+                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames, IsCopyMods));
             }
         }
 
