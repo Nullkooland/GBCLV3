@@ -120,7 +120,14 @@ namespace GBCLV3.Services.Authentication
             if (account.AuthMode != AuthMode.Offline)
             {
                 account.Skin = await _skinService.GetSkinAsync(account.Profile);
-                await RefreshSkinAsync(account).ConfigureAwait(account.Profile == null);
+                if (account.Profile == null)
+                {
+                    await RefreshSkinAsync(account);
+                }
+                else
+                {
+                    RefreshSkinAsync(account).ConfigureAwait(false);
+                }
             }
         }
 
