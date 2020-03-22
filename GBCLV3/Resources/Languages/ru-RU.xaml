@@ -12,7 +12,7 @@
     <s:String x:Key="ErrorReport">Отчёт об ошибке</s:String>
     <s:String x:Key="ReportUnexpectedExit">Игра неожиданно вылетела</s:String>
     <s:String x:Key="ReportUnhandledException">Программа столкнулась с необработанным исключением</s:String>
-    <s:String x:Key="Alright">Хорошо</s:String>
+    <s:String x:Key="Alright">Понятно</s:String>
     <s:String x:Key="ReportOnGithub">Отчет на Github</s:String>
     <s:String x:Key="CopyErrorMessage">Скопировать сообщение об ошибке</s:String>
 
@@ -26,7 +26,7 @@
     <s:String x:Key="UnexpectedExit">Неожиданный выход</s:String>
 
     <!-- Ошибка JRE не найдено -->
-    <s:String x:Key="JreNotFound">JRE не найдено!</s:String>
+    <s:String x:Key="JreNotFound">JRE не найден!</s:String>
     <s:String x:Key="PleaseInstallJre">Найдите или установите JRE вручную</s:String>
     <s:String x:Key="DownloadJreInstaller">Скачать установщик JRE</s:String>
 
@@ -54,7 +54,7 @@
     <s:String x:Key="EnterAccountInformation">Введите информацию об учетной записи</s:String>
     <s:String x:Key="NeedReAuth">Текущий токен недействителен, требуется повторная аутентификация</s:String>
     <s:String x:Key="CheckingAuthServer">Проверка сервера аутентификации</s:String>
-    <s:String x:Key="CheckAuthServerFailed">Неверный сервер аутентификации, пожалуйста, проверьте URL-адрес или ваше интернет-соединение!</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Неверный сервер аутентификации, проверьте URL-адрес или ваше интернет-соединение!</s:String>
     <s:String x:Key="Authenticating">Аутентификация</s:String>
     <s:String x:Key="AuthSuccessful">Успешная аунтетификация</s:String>
 
@@ -102,11 +102,11 @@
     <s:String x:Key="JoinServerOnLaunch">При заполнении этого адреса сервера, Minecraft сразу после запуска присоединится к серверу.</s:String>
 
     <s:String x:Key="DebugMode">Режим отладки</s:String>
-    <s:String x:Key="DebugModeDescription">Использовать для запуска java.exe</s:String>
+    <s:String x:Key="DebugModeDescription">Используется для запуска java.exe</s:String>
 
-    <s:String x:Key="CustomJvmArgs">Польз. args JVM</s:String>
+    <s:String x:Key="CustomJvmArgs">Польз. арг. JVM</s:String>
     <s:String x:Key="CustomJvmArgsDescription">Это переопределит аргументы JVM по умолчанию (например, конфигурации GC)</s:String>
-    <s:String x:Key="ExtraMinecraftArgs">Доп. args Minecraft</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Доп. арг. Minecraft</s:String>
 
     <!-- Настройки лаунчера -->
     <s:String x:Key="Language">Язык</s:String>
@@ -151,8 +151,8 @@
     <s:String x:Key="DownloadSpeed">Скорость</s:String>
 
     <!-- Управление версиями -->
-    <s:String x:Key="AvailableVersions">Доступные версии</s:String>
-    <s:String x:Key="SegregateVersions">Отдельные версии</s:String>
+    <s:String x:Key="AvailableVersions">Установленные версии</s:String>
+    <s:String x:Key="SegregateVersions">Разделять версии</s:String>
     <s:String x:Key="OpenJson">Открыть Json</s:String>
     <s:String x:Key="DeleteVersion">Удалить версию</s:String>
     <s:String x:Key="WhetherDeleteVersion">Удалить эту версию?</s:String>
@@ -167,7 +167,7 @@
     <s:String x:Key="ReleaseOnly">Только релизы</s:String>
 
     <s:String x:Key="VersionListLoading">Изменение списка версий</s:String>
-    <s:String x:Key="VersionListLoaded">Список версий загружен</s:String>
+    <s:String x:Key="VersionListLoaded">Список версий</s:String>
     <s:String x:Key="VersionListLoadFailed">Не удалось загрузить список версий</s:String>
     <s:String x:Key="VersionFetchingJson">Извлечение версий json</s:String>
     <s:String x:Key="VersionDownloadingDependencies">Загрузка зависимостей версии</s:String>
@@ -176,9 +176,9 @@
     <s:String x:Key="VersionAlreadyExists">Идентичная локальная версия уже существует!</s:String>
     <s:String x:Key="VersionJsonFetchFailed">Не удалось извлечь версии json!</s:String>
     <s:String x:Key="VersionDependenciesIncomplete">Неполные зависимости</s:String>
-    <s:String x:Key="TryCompleteDependenciesOnLaunch">Лаунчер выполнит все зависимости для версии при запускеg</s:String>
-    <s:String x:Key="DownloadAssetsOnInstall">Скачать активы после установки</s:String>
-    <s:String x:Key="VersionInstallSuccessful">Версия успешно установлена!</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">Лаунчер выполнит все зависимости для версии при запуске</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Скачивать активы после установки</s:String>
+    <s:String x:Key="VersionInstallSuccessful">Успешно установлена версия:</s:String>
 
     <!-- Установить Forge -->
     <s:String x:Key="ForgeListLoading">Изменение загрузки списка Forge</s:String>
@@ -210,12 +210,12 @@
     <s:String x:Key="EnableSelected">Включить</s:String>
     <s:String x:Key="DisableSelected">Выключить</s:String>
     <!-- TRANSLATION NEEDED HERE -->
-    <s:String x:Key="CopyMods">When adding new mods, copy instead of moving them from source directory</s:String>
+    <s:String x:Key="CopyMods">При добавлении новых модов копируйте их, а не перемещайте из исходного каталога</s:String>
 
 
     <!-- Управление пакетами ресурсов -->
     <s:String x:Key="EnabledPacks">Включенные пакеты</s:String>
-    <s:String x:Key="SelectResourcepacks">Выбор пакеты ресурсов</s:String>
+    <s:String x:Key="SelectResourcepacks">Выбор пакетов ресурсов</s:String>
     <s:String x:Key="DisabledPacks">Выключенные пакеты</s:String>
     <s:String x:Key="OpenPack">Открыть</s:String>
 
@@ -227,7 +227,7 @@
     <s:String x:Key="Update">Обновление</s:String>
     <s:String x:Key="CheckUpdate">Проверить обновление</s:String>
     <s:String x:Key="CheckingUpdate">Поиск обновлений</s:String>
-    <s:String x:Key="AlreadyUpToDate">Уже обновлено</s:String>
+    <s:String x:Key="AlreadyUpToDate">Обновлений нет</s:String>
     <s:String x:Key="UpdateAvailable">Доступно обновление</s:String>
     <s:String x:Key="UpdateCheckFailed">Не удалось проверить обновления</s:String>
     <s:String x:Key="AutoCheckUpdate">Проверять при запуске</s:String>
@@ -243,7 +243,7 @@
     <!-- Общие -->
     <s:String x:Key="AddNew">Добавить новый</s:String>
     <s:String x:Key="Hello">Привет</s:String>
-    <s:String x:Key="InstallNew">Установить новый</s:String>
+    <s:String x:Key="InstallNew">Добавить версию</s:String>
     <s:String x:Key="Reload">Перезагрузить</s:String>
     <s:String x:Key="OpenDir">Открыть каталог</s:String>
     <s:String x:Key="OpenLink">Открыть ссылку</s:String>
@@ -253,7 +253,7 @@
     <s:String x:Key="InstallSuccessful">Успешно установлено</s:String>
     <s:String x:Key="Versions">Версии</s:String>
     <s:String x:Key="VersionsManagement">Управление версиями</s:String>
-    <s:String x:Key="GameInstall">Установить игру</s:String>
+    <s:String x:Key="GameInstall">Установка игры</s:String>
     <s:String x:Key="ForgeInstall">Установить Forge</s:String>
     <s:String x:Key="FabricInstall">Установить Fabric</s:String>
     <s:String x:Key="Mods">Моды</s:String>
