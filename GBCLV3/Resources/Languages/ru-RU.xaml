@@ -209,7 +209,6 @@
     <s:String x:Key="SelectMods">Выбор модов</s:String>
     <s:String x:Key="EnableSelected">Включить</s:String>
     <s:String x:Key="DisableSelected">Выключить</s:String>
-    <!-- TRANSLATION NEEDED HERE -->
     <s:String x:Key="CopyMods">При добавлении новых модов копируйте их, а не перемещайте из исходного каталога</s:String>
 
 
