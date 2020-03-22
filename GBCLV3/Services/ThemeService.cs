@@ -139,7 +139,7 @@ namespace GBCLV3.Services
 
         public string[] GetFontWeights()
         {
-            var fontWeights = new FontWeight[]
+            var fontWeights = new[]
             {
                 FontWeights.Light,
                 FontWeights.Normal,

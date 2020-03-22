@@ -4,7 +4,8 @@
         xmlns:s="https://github.com/canton7/Stylet"
         xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
         xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-        Width="640" Height="360"
+        Width="640"
+        SizeToContent="Height"
         ResizeMode="NoResize"
         FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
         FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
@@ -14,7 +15,7 @@
     <Window.Resources>
         <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
             <Setter Property="Margin" Value="0,0,8,8" />
-            <Setter Property="Width" Value="96" />
+            <Setter Property="Padding" Value="16,0" />
             <Setter Property="FontSize" Value="14" />
         </Style>
     </Window.Resources>
