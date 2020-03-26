@@ -175,13 +175,13 @@ namespace GBCLV3.Services.Installation
 
             // Extract forge-install-bootstrapper to disk
             // See https://github.com/bangbang93/forge-install-bootstrapper
-            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar";
+            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar"; 
             var embeddedStream = Application.GetResourceStream(new Uri(FORGE_INSTALL_BOOTSTRAPPER)).Stream;
             var extractFileStream = File.OpenWrite(bootstrapperPath);
 
             embeddedStream.CopyTo(extractFileStream);
-            embeddedStream.Close();
-            extractFileStream.Close();
+            embeddedStream.Dispose();
+            extractFileStream.Dispose();
 
             // Prepare arguments for bootstrapper
             string installerPath = $"{_gamePathService.RootDir}/{forge.FullName}-installer.jar";
