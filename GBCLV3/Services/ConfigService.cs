@@ -34,7 +34,8 @@ namespace GBCLV3.Services
         {
             try
             {
-                var json = SystemUtil.ReadUtf8File(CONFIG_FILENAME);
+                var jsonData = File.ReadAllBytes(CONFIG_FILENAME);
+                var json = SystemUtil.RemoveUtf8BOM(jsonData);
                 Entries = JsonSerializer.Deserialize<Config>(json);
             }
             catch

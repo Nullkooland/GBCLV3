@@ -254,7 +254,8 @@ namespace GBCLV3.Services.Launch
             JVersion jver;
             try
             {
-                var json = SystemUtil.ReadUtf8File(jsonPath);
+                var jsonData = File.ReadAllBytes(jsonPath);
+                var json = SystemUtil.RemoveUtf8BOM(jsonData);
                 jver = JsonSerializer.Deserialize<JVersion>(json);
             }
             catch

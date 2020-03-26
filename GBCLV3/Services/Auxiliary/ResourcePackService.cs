@@ -208,9 +208,11 @@ namespace GBCLV3.Services.Auxiliary
 
         private static ResourcePack ReadInfo(Stream infoStream)
         {
-            using var ms = new MemoryStream();
-            infoStream.CopyTo(ms);
-            var info = JsonSerializer.Deserialize<JResourcePack>(ms.ToArray());
+            using var memoryStream = new MemoryStream();
+            infoStream.CopyTo(memoryStream);
+
+            var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+            var info = JsonSerializer.Deserialize<JResourcePack>(infoJson);
 
             return new ResourcePack
             {

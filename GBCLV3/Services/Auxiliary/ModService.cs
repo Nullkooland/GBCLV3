@@ -140,7 +140,8 @@ namespace GBCLV3.Services.Auxiliary
 
             try
             {
-                var fabricMod = JsonSerializer.Deserialize<FabricMod>(memoryStream.ToArray());
+                var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+                var fabricMod = JsonSerializer.Deserialize<FabricMod>(infoJson);
                 string authors = (fabricMod?.authors != null) ? string.Join(", ", fabricMod.authors) : null;
 
                 mod = new Mod
@@ -170,7 +171,8 @@ namespace GBCLV3.Services.Auxiliary
             try
             {
                 // This is utterly ugly...thanks to the capriciousness of modders
-                var forgeMod = JsonSerializer.Deserialize<ForgeMod[]>(memoryStream.ToArray())[0];
+                var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+                var forgeMod = JsonSerializer.Deserialize<ForgeMod[]>(infoJson)[0];
 
                 if (forgeMod?.modList != null)
                 {
