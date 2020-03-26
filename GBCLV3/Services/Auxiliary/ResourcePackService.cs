@@ -22,6 +22,7 @@ namespace GBCLV3.Services.Auxiliary
 
         // IoC
         private readonly GamePathService _gamePathService;
+        private bool _isNewOptionsFormat = false;
 
         #endregion
 
@@ -52,9 +53,30 @@ namespace GBCLV3.Services.Auxiliary
                     {
                         // Extract “resourcePacks:[${enabledPackIDs}]”
                         enabledPackIDs = line[15..^1]
-                                             .Split(',')
-                                             .Select(id => id.Trim('\"'))
-                                             .ToArray();
+                            .Split(',')
+                            .Select(id =>
+                            {
+                                if (string.IsNullOrWhiteSpace(id))
+                                {
+                                    return null;
+                                }
+
+                                id = id[1..^1];
+
+                                if (id == "vanilla")
+                                {
+                                    _isNewOptionsFormat = true;
+                                }
+
+                                if (id.StartsWith("file/"))
+                                {
+                                    id = id[5..];
+                                }
+
+                                return id;
+                            })
+                            .Where(id => id != null)
+                            .ToArray();
                         break;
                     }
                 }
@@ -64,16 +86,16 @@ namespace GBCLV3.Services.Auxiliary
             Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
 
             var packs = Directory.EnumerateFiles(_gamePathService.ResourcePacksDir, "*.zip")
-                                 .Select(path => LoadZip(path, enabledPackIDs))
-                                 .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePacksDir)
-                                                  .Select(dir => LoadDir(dir, enabledPackIDs)))
-                                 .Where(pack => pack != null)
-                                 .ToLookup(pack => pack.IsEnabled);
+                .Select(path => LoadZip(path, enabledPackIDs))
+                .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePacksDir)
+                    .Select(dir => LoadDir(dir, enabledPackIDs)))
+                .Where(pack => pack != null)
+                .ToLookup(pack => pack.IsEnabled);
 
-                    // Enabled resourcepacks (followed the order in options)
+            // Enabled resourcepacks (followed the order in options)
             return (packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
-                    // Disabled resourcepacks
-                    packs[false].OrderBy(pack => pack.Name));
+                // Disabled resourcepacks
+                packs[false].OrderBy(pack => pack.Name));
         }
 
         public bool WriteToOptions(IEnumerable<ResourcePack> enabledPacks)
@@ -90,7 +112,13 @@ namespace GBCLV3.Services.Auxiliary
                 options = "resourcePacks:[]";
             }
 
-            string enabledPackIDs = string.Join(",", enabledPacks.Reverse().Select(pack => $"\"{pack.Name}\""));
+            string enabledPackIDs =
+                string.Join(",", enabledPacks.Reverse().Select(pack =>
+                {
+                    if (!_isNewOptionsFormat) return $"\"{pack.Name}\"";
+                    //if (pack.Name == "vanilla" || pack.Name == "programmer_art") return pack.Name;
+                    return $"\"file/{pack.Name}\"";
+                }));
 
 
             if (options.Contains("resourcePacks:["))
@@ -108,8 +136,9 @@ namespace GBCLV3.Services.Auxiliary
 
         public ValueTask DeleteFromDiskAsync(ResourcePack pack)
         {
-            return pack.IsExtracted ?
-                SystemUtil.SendDirToRecycleBinAsync(pack.Path) : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
+            return pack.IsExtracted
+                ? SystemUtil.SendDirToRecycleBinAsync(pack.Path)
+                : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
         public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled)
@@ -135,7 +164,7 @@ namespace GBCLV3.Services.Auxiliary
                     Debug.WriteLine(ex);
                     return null;
                 }
-                
+
                 // Modify properties
                 pack.Path = dstPath;
                 pack.IsEnabled = isEnabled;
@@ -208,14 +237,16 @@ namespace GBCLV3.Services.Auxiliary
 
         private static ResourcePack ReadInfo(Stream infoStream)
         {
-            using var ms = new MemoryStream();
-            infoStream.CopyTo(ms);
-            var info = JsonSerializer.Deserialize<JResourcePack>(ms.ToArray());
+            using var memoryStream = new MemoryStream();
+            infoStream.CopyTo(memoryStream);
+
+            var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+            var info = JsonSerializer.Deserialize<JResourcePack>(infoJson);
 
             return new ResourcePack
             {
-                Format = info.pack.pack_format,
-                Description = info.pack.description,
+                Format = info.pack?.pack_format ?? -1,
+                Description = Regex.Replace(info.pack?.description ?? string.Empty, "§.", string.Empty),
             };
         }
 
@@ -232,6 +263,7 @@ namespace GBCLV3.Services.Auxiliary
 
             return img;
         }
+
 
         #endregion
     }

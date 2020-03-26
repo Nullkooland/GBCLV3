@@ -10,10 +10,8 @@ namespace GBCLV3.Utils
 {
     public static class SystemUtil
     {
-        public static ReadOnlySpan<byte> ReadUtf8File(string path)
+        public static ReadOnlySpan<byte> RemoveUtf8BOM(ReadOnlySpan<byte> data)
         {
-            ReadOnlySpan<byte> data = File.ReadAllBytes(path);
-
             // Read past the UTF-8 BOM bytes if a BOM exists.
             if (data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF)
             {
