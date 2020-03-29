@@ -2,31 +2,31 @@
     "en-US": {
         "title": "Bug fixes",
         "details": [
-            "Fix bug when reading UTF8-BOM encoded info json in mods and resourcepacks",
-            "Support new format of options.txt for resourcepacks manager",
-            "Remove §x color escape code in resourcepack description display",
-            "Fix forge-install-bootstrapper extraction bug",
-            "Version number only has three parts now (XD)"
+            "If self-update is failed due to the bug in previous version, please manually rename the downloaded \"GBCL.update\" to \"GBCL.exe\" and replace the older executable!",
+            "Re-implement self-update method using PowerShell script, it should work from now on!",
+            "Fix issue when reading authors from some weird-formatted info files in Fabric mods",
+            "Fix typos in English language file",
+            "Update some dependencies"
         ]
     },
     "zh-CN": {
         "title": "Bug 修复",
         "details": [
-            "修复无法读取模组与资源包内以 UTF8-BOM 编码的说明文件",
-            "支持新版本 options.txt 格式以读取资源包启用顺序",
-            "去除资源包说明显示中 §x 颜色转义代码",
-            "修复 Forge 自动安装器解压问题",
-            "现在版本号只有三个部分啦 (XD)"
+            "如果由于之前版本的 bug 导致自动升级失败，请把目录下下载的 \"GBCL.update\" 重命名为 \"GBCL.exe\" 并替换旧版的可执行文件！",
+            "使用 PowerShell 脚本重新实现自更新功能，现在起应该可以正常工作了！",
+            "修复了从某些格式奇葩的 Fabric 模组信息文件中读取作者的问题",
+            "修正英文语言文件中的一些错误",
+            "升级了一些依赖项版本"
         ]
     },
     "zh-TW": {
         "title": "Bug 修復",
         "details": [
-            "修復無法讀取模組與資源包內以 UTF8-BOM 編碼的說明文件",
-            "支援新版本 options.txt 格式以讀取資源包順序",
-            "去除資源包說明顯示中 §x 顏色轉義代碼",
-            "修復 Forge 自動安裝器解壓問題",
-            "現在版本號只有三個部分啦 (XD)"
+            "如果由於之前版本的 bug 導致自動升級失敗，請把目錄下下載的 \"GBCL.update\" 重命名為 \"GBCL.exe\" 並替換舊版的可執行檔！",
+            "使用 PowerShell 腳本重新實現自更新功能，現在起應該可以正常工作了！",
+            "修復了從某些格式奇葩的 Fabric 模組資訊檔中讀取作者的問題",
+            "修正英文語言檔中的一些錯誤",
+            "升級了一些依賴項版本"
         ]
     }
 }
