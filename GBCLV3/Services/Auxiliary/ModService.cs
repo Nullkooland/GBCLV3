@@ -104,7 +104,7 @@ namespace GBCLV3.Services.Auxiliary
             using var fabricModInfo = archive.GetEntry("fabric.mod.json")?.Open();
             using var forgeModInfo = archive.GetEntry("mcmod.info")?.Open();
 
-            Mod mod;
+            Mod mod = null;
 
             if (fabricModInfo != null)
             {
@@ -114,10 +114,8 @@ namespace GBCLV3.Services.Auxiliary
             {
                 mod = LoadForgeMods(forgeModInfo);
             }
-            else
-            {
-                mod = new Mod();
-            }
+
+            mod ??= new Mod();
 
             mod.IsEnabled = path.EndsWith(".jar");
             mod.Path = mod.IsEnabled ? path : path[..^9];
@@ -135,14 +133,20 @@ namespace GBCLV3.Services.Auxiliary
         {
             using var memoryStream = new MemoryStream();
             infoStream.CopyTo(memoryStream);
-
+            
             Mod mod = null;
 
             try
             {
                 var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
                 var fabricMod = JsonSerializer.Deserialize<FabricMod>(infoJson);
-                string authors = (fabricMod?.authors != null) ? string.Join(", ", fabricMod.authors) : null;
+                var authorList = fabricMod?.authors.Select(element =>
+                {
+                    if (element.ValueKind == JsonValueKind.String) return element.GetString();
+                    return element.TryGetProperty("name", out element) ? element.GetString() : null;
+                });
+
+                string authors = (fabricMod?.authors != null) ? string.Join(", ", authorList) : null;
 
                 mod = new Mod
                 {

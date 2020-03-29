@@ -1,4 +1,6 @@
-﻿namespace GBCLV3.Models.Auxiliary
+﻿using System.Text.Json;
+
+namespace GBCLV3.Models.Auxiliary
 {
     public class Mod
     {
@@ -63,7 +65,7 @@
 
         public string description { get; set; }
 
-        public string[] authors { get; set; }
+        public JsonElement[] authors { get; set; }
 
         public FabricModContact contact { get; set; }
     }
