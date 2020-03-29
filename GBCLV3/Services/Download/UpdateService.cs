@@ -118,17 +118,30 @@ namespace GBCLV3.Services.Download
 
         public void Update()
         {
-            string currentPath = Process.GetCurrentProcess().MainModule.FileName;
-            string tempPath = Path.ChangeExtension(currentPath, "old");
+            int currentPID = Process.GetCurrentProcess().Id;
+            string psCommand =
+                $"Stop-Process -Id {currentPID} -Force;" +
+                $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
+                "Start-Sleep -Milliseconds 500;" +
+                "Remove-Item GBCL.exe -Force;" +
+                "Rename-Item GBCL.update GBCL.exe;" +
+                "Start-Process GBCL.exe -Args updated;";
 
-            // 🌶️💉💧🐮🍺
-            // This is magic...
-            File.Delete(tempPath);
-            File.Move(currentPath, tempPath);
-            File.Move("GBCL.update", currentPath);
-
-            Process.Start(currentPath, "updated");
-            Application.Current.Shutdown();
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = "powershell.exe",
+                    Arguments = psCommand,
+                    WorkingDirectory = Directory.GetCurrentDirectory(),
+                    UseShellExecute = true,
+                    WindowStyle = ProcessWindowStyle.Hidden,
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         #endregion
