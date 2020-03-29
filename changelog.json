@@ -1,0 +1,32 @@
+{
+    "en-US": {
+        "title": "Bug fixes",
+        "details": [
+            "Fix bug when reading UTF8-BOM encoded info json in mods and resourcepacks",
+            "Support new format of options.txt for resourcepacks manager",
+            "Remove §x color escape code in resourcepack description display",
+            "Fix forge-install-bootstrapper extraction bug",
+            "Version number only has three parts now (XD)"
+        ]
+    },
+    "zh-CN": {
+        "title": "Bug 修复",
+        "details": [
+            "修复无法读取模组与资源包内以 UTF8-BOM 编码的说明文件",
+            "支持新版本 options.txt 格式以读取资源包启用顺序",
+            "去除资源包说明显示中 §x 颜色转义代码",
+            "修复 Forge 自动安装器解压问题",
+            "现在版本号只有三个部分啦 (XD)"
+        ]
+    },
+    "zh-TW": {
+        "title": "Bug 修復",
+        "details": [
+            "修復無法讀取模組與資源包內以 UTF8-BOM 編碼的說明文件",
+            "支援新版本 options.txt 格式以讀取資源包順序",
+            "去除資源包說明顯示中 §x 顏色轉義代碼",
+            "修復 Forge 自動安裝器解壓問題",
+            "現在版本號只有三個部分啦 (XD)"
+        ]
+    }
+}
