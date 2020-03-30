@@ -1,0 +1,270 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- MessageBox Button Labels -->
+    <s:String x:Key="OK">Onayla</s:String>
+    <s:String x:Key="Cancel">Iptal</s:String>
+    <s:String x:Key="Yes">Evet</s:String>
+    <s:String x:Key="No">Hayır</s:String>
+
+    <!-- ErrorReport -->
+    <s:String x:Key="ErrorReport">Hata Raporla</s:String>
+    <s:String x:Key="ReportUnexpectedExit">Oyun beklenmedik şekilde kapandı</s:String>
+    <s:String x:Key="ReportUnhandledException">Program istenmeyen bir hatayla karşılaştı</s:String>
+    <s:String x:Key="Alright">İyi</s:String>
+    <s:String x:Key="ReportOnGithub">Githubdan raporla</s:String>
+    <s:String x:Key="CopyErrorMessage">Hata mesajını kopyala</s:String>
+
+    <!-- Launch Procedure -->
+    <s:String x:Key="Launch">Başlat</s:String>
+    <s:String x:Key="ProcessingDependencies">Oyun gereksinimleri işleniyor</s:String>
+    <s:String x:Key="LoggingIn">Kimlik doğrulanıyor ve giriş yapılıyor</s:String>
+    <s:String x:Key="StartingGameProcess">Oyun başlatılıyor</s:String>
+    <s:String x:Key="Boohoo">Boohoo! Oyun başlatılamadı...</s:String>
+    <s:String x:Key="HappyGame">Keyifli Oyunlar</s:String>
+    <s:String x:Key="UnexpectedExit">Beklenmeyen Çıkış</s:String>
+
+    <!-- JRE Not Found Error -->
+    <s:String x:Key="JreNotFound">Java bulunamadı!</s:String>
+    <s:String x:Key="PleaseInstallJre">Java konumunu elle belirleyin veya yükleyin!</s:String>
+    <s:String x:Key="DownloadJreInstaller">Java indiriciyi yükle</s:String>
+
+    <!-- Account Management -->
+    <s:String x:Key="AccountManagement">Hesap düzenleyici</s:String>
+    <s:String x:Key="AddAccount">Hesap ekle</s:String>
+    <s:String x:Key="EditAccount">Hesabı düzenle</s:String>
+    <s:String x:Key="ReAuth">Tekrar doğrulama</s:String>
+    <s:String x:Key="DeleteAccount">Hesabı sil</s:String>
+    <s:String x:Key="WhetherDeleteAccount">Hesabı silmek istediğine emin misin?</s:String>
+    <s:String x:Key="AuthMode">Doğrulama Modu</s:String>
+    <s:String x:Key="Offline">Çevim Dışı (crack)</s:String>
+    <s:String x:Key="Yggdrasil">Mojang</s:String>
+    <s:String x:Key="AuthLibInjector">Harici (authlib-injector)</s:String>
+    <s:String x:Key="Username">Kullanıcı Adı</s:String>
+    <s:String x:Key="Email">Eposta</s:String>
+    <s:String x:Key="Password">Şifre</s:String>
+    <s:String x:Key="AuthServer">Doğrulama Sunucusu</s:String>
+    <s:String x:Key="SelectProfile">Profil Seç</s:String>
+
+    <s:String x:Key="DuplicateAccount">Hesap zaten mevcut!</s:String>
+    <s:String x:Key="EmptyUsername">Kullanıcı adı boş olamaz!</s:String>
+    <s:String x:Key="InvalidEmail">Geçersiz eposta adresi!</s:String>
+
+    <s:String x:Key="EnterAccountInformation">Hesap bilgilerini girin</s:String>
+    <s:String x:Key="NeedReAuth">Simge geçersiz, yeniden doğrulama yapılmalı</s:String>
+    <s:String x:Key="CheckingAuthServer">Doğrulama sunucusu yoklanıyor</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Doğrulama sunucusu bulunamadı, Internetini veya URLyi kontrol et!</s:String>
+    <s:String x:Key="Authenticating">Kimlik doğrulanıyor</s:String>
+    <s:String x:Key="AuthSuccessful">Kimlik doğrulama başarılı</s:String>
+
+    <!-- Authentication Errors -->
+    <s:String x:Key="AuthFailed">Kimlik doğrulama başarısız</s:String>
+    <s:String x:Key="AuthTimeout">Kimlik doğrulama zaman aşımına uğradı!</s:String>
+    <s:String x:Key="NoInternetConnection">Internete bağlı olduğundan emin ol!</s:String>
+    <s:String x:Key="InvalidCredentials">Geçersiz hesap bilgileri! Lütfen eposta veya şifreni kontrol et.</s:String>
+    <s:String x:Key="InvalidToken">Geçersiz simge! Lütfen eposta ve şifre kullanarak tekrar giriş yapın.</s:String>
+    <s:String x:Key="InvalidAuthServer">Geçersiz doğulama sunucusu, Lütfen URLyi veya Internet bağlantını kontrol et!</s:String>
+    <s:String x:Key="Unknown">Hata meydana geldi!</s:String>
+    <s:String x:Key="ErrorMessage">Hata mesajı:</s:String>
+
+
+    <!-- Integrity Check -->
+    <s:String x:Key="IntegrityCheck">Bütünlük denetimi</s:String>
+    <s:String x:Key="MainJarDamaged">Sürüm dosyası hasarlı veya eksik</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge sürümü hata görmüş veya eksik, ve düzeltilemez.</s:String>
+    <s:String x:Key="PleaseReinstallForge">Lütfen Forgeu baştan kurun.</s:String>
+    <s:String x:Key="LibsDamaged">Bağımlı kütüphaneler eksik veya hasarlı</s:String>
+    <s:String x:Key="AssetsDamaged">İçerikler eksik veya hasarlı</s:String>
+    <s:String x:Key="WhetherFixNow">Hemen düzeltmek ister misin?</s:String>
+
+    <!-- Settings -->
+    <s:String x:Key="Settings">Ayarlar</s:String>
+    <s:String x:Key="GameSettings">Oyun Ayarları</s:String>
+    <s:String x:Key="AccountSettings">Hesap Ayarları</s:String>
+    <s:String x:Key="LauncherSettings">Başlatıcı Ayarları</s:String>
+    <s:String x:Key="AdvancedSettings">Gelişmiş Ayarlar</s:String>
+    <s:String x:Key="FunctionSettings">İşlev Ayarları</s:String>
+    <s:String x:Key="ThemeSettings">Tema Ayarları</s:String>
+
+    <!-- Game Settings -->
+    <s:String x:Key="JreDir">Java Klasörü</s:String>
+    <s:String x:Key="SelectJrePath">Java konumunu belirle</s:String>
+    <s:String x:Key="JavaMaxMem">Java Maks RAM (MB)</s:String>
+    <s:String x:Key="AvailableMem">Mevcut fiziksel RAM</s:String>
+
+    <s:String x:Key="GameDir">Oyun Dosyaları</s:String>
+    <s:String x:Key="SelectGameDir">Oyun dosyasını seç</s:String>
+    <s:String x:Key="WindowResolution">Pencere Boyutu</s:String>
+    <s:String x:Key="FullScreen">Tam Ekran</s:String>
+
+    <s:String x:Key="ServerAddress">Sunucu Adresi</s:String>
+    <s:String x:Key="JoinServerOnLaunch">Burayı sunucu adresi yazınca, oyun başlar başlamaz sunucuya katılacaksınız.</s:String>
+
+    <s:String x:Key="DebugMode">Debug Modu</s:String>
+    <s:String x:Key="DebugModeDescription">Java.exeyi kullanarak başlat</s:String>
+
+    <s:String x:Key="CustomJvmArgs">Özel JVM argümanları</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">Bu, varsayılan JVM bağımsız değişkenlerini geçersiz kılar (örn., GC ayarlamaları)</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Ekstra Minecraft argümanları</s:String>
+
+    <!-- Launcher Settings -->
+    <s:String x:Key="Language">Dil</s:String>
+
+    <s:String x:Key="DownloadSource">Kaynak Indirici</s:String>
+    <s:String x:Key="Official">Resmi</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="MCBBS">MCBBS</s:String>
+
+    <s:String x:Key="AfterLaunch">Başlatılmadan sonra</s:String>
+    <s:String x:Key="Exit">Başlatıcıyı Kapat</s:String>
+    <s:String x:Key="Hide">Başlatıcıyı Gizle</s:String>
+    <s:String x:Key="KeepVisible">Başlatıcıyı Açık Tut</s:String>
+
+    <s:String x:Key="UseBackgroundImage">Arka plan resmini değiştir</s:String>
+    <s:String x:Key="SelectImagePath">Görselin yolunu seç</s:String>
+    <s:String x:Key="SelectRandomImage">.\bg içinden rastgele resim seç</s:String>
+
+    <s:String x:Key="Font">Font Ailesi</s:String>
+    <s:String x:Key="FontWeight">Font Büyüklüğü</s:String>
+
+    <!-- Download -->
+
+    <!-- Download Types -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
+    <s:String x:Key="MainJar">Ana Jar</s:String>
+    <s:String x:Key="Libraries">Kütüphaneler</s:String>
+    <s:String x:Key="Assets">Assets</s:String>
+    <s:String x:Key="InstallNewVersion">Yeni Indir</s:String>
+    <s:String x:Key="InstallForge">Forge Indir</s:String>
+    <s:String x:Key="InstallFabric">Fabric Indir</s:String>
+
+    <!-- Download Progress -->
+    <s:String x:Key="DownloadProgress">Indiriliyor</s:String>
+    <s:String x:Key="CancelDownload">Iptal Et</s:String>
+    <s:String x:Key="WhetherCancelDownload">Indirmeyi iptal etmek istediğine emin misin?</s:String>
+    <s:String x:Key="IncompleteDownload">Tamamlanmayan Indirme</s:String>
+    <s:String x:Key="DownloadFailures">dosyalar indirilemedi</s:String>
+    <s:String x:Key="WhetherRetryDownload">Bitmeyen indirmeyi yeniden dene?</s:String>
+    <s:String x:Key="DownloadCompletedCount">Tamamlandı</s:String>
+    <s:String x:Key="DownloadFailedCount">Başarısız</s:String>
+    <s:String x:Key="DownloadSpeed">Hız</s:String>
+
+    <!-- Versions Management -->
+    <s:String x:Key="AvailableVersions">Mevcut Sürümler</s:String>
+    <s:String x:Key="SegregateVersions">Ayrılmış Sürümler</s:String>
+    <s:String x:Key="OpenJson">JSONu Aç</s:String>
+    <s:String x:Key="DeleteVersion">Sürümü Sil</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Bu sürümü silmek istediğine emin misin?</s:String>
+
+    <!-- Version Install -->
+    <s:String x:Key="DownloadAndInstall">Indir ve Yükle</s:String>
+    <s:String x:Key="NoVersionFound">Sürüm bulunamadı</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">Yeni sürümün yüklenip yüklenmeyeceğini seç?</s:String>
+    <s:String x:Key="Version">Sürüm</s:String>
+    <s:String x:Key="Type">Tür</s:String>
+    <s:String x:Key="ReleaseTime">Yayın Tarihi</s:String>
+    <s:String x:Key="ReleaseOnly">Yayın Sürümü</s:String>
+
+    <s:String x:Key="VersionListLoading">Sürüm listesi yükleniyor</s:String>
+    <s:String x:Key="VersionListLoaded">Sürüm listesi yüklendi</s:String>
+    <s:String x:Key="VersionListLoadFailed">Sürüm listesi yüklenemedi!</s:String>
+    <s:String x:Key="VersionFetchingJson">Sürüm JSONu getiriliyor</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">Versiyon gereksinimleri yükleniyor</s:String>
+
+    <s:String x:Key="VersionInstallFailed">Yükleme başarısız oldu</s:String>
+    <s:String x:Key="VersionAlreadyExists">Aynı yerel sürüm zaten var!</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">Sürüm JSONu getirilemedi!</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">Eksik gereksinimler</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">Başlatıcı, başlatma sırasında sürüm için tüm gereksinimleri tamamlayacak</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Assetleri yükleme sırasında indir</s:String>
+    <s:String x:Key="VersionInstallSuccessful">Sürüm başarıyla yüklendi</s:String>
+
+    <!-- Forge Install -->
+    <s:String x:Key="ForgeListLoading">Forge indirme listesi yükleniyor</s:String>
+    <s:String x:Key="ForgeListLoadFailed">Forge indirme listesi yüklemesi başarısız oldu</s:String>
+    <s:String x:Key="NoAvailableForge">Bu sürüm için Forge yok!</s:String>
+    <s:String x:Key="SelectForgeVersion">Lütfen yüklenecek Forge sürümünü seçin</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Forge başlatıcı yükleniyor</s:String>
+    <s:String x:Key="ForgeInstalling">Forge Yükleniyor</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Forge Kütüphanesi yükleniyor..</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">Forge yüklemesi başarısız oldu</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge JAR yüklemesi başarısız oldu</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge ayrıştırma başarısız oldu!</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">Forge başarıyla yüklendi</s:String>
+
+    <!-- Fabric Install -->
+    <s:String x:Key="FabricListLoading">Fabric indirme listesi yükleniyor</s:String>
+    <s:String x:Key="FabricListLoadFailed">Fabric indirme listesi yüklemesi başarısız oldu</s:String>
+    <s:String x:Key="NoAvailableFabric">Bu sürüm için Fabric yok!</s:String>
+    <s:String x:Key="SelectFabricVersion">Lütfen yüklenecek Fabric sürümünü seçin</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Fabric Kütüphanesi yükleniyor..</s:String>
+
+    <s:String x:Key="FabricInstallFailed">Fabric yüklemesi başarısız oldu</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Fabric başarıyla yüklendi</s:String>
+
+    <!-- Mods Management -->
+    <s:String x:Key="AvailableMods">Kullanılabilir Modlar</s:String>
+    <s:String x:Key="SelectMods">Mod Seç</s:String>
+    <s:String x:Key="EnableSelected">Aktif Et</s:String>
+    <s:String x:Key="DisableSelected">Devredışı Bırak</s:String>
+    <s:String x:Key="CopyMods">Yeni mod eklerken kaynak dizininden taşımak yerine kopyalayın</s:String>
+
+
+    <!-- Resourcepacks Management -->
+    <s:String x:Key="EnabledPacks">Aktif Doku Paketleri</s:String>
+    <s:String x:Key="SelectResourcepacks">Doku Paketi Seç</s:String>
+    <s:String x:Key="DisabledPacks">Devre Dışı Doku Paketleri</s:String>
+    <s:String x:Key="OpenPack">Aç</s:String>
+
+    <!-- About -->
+    <s:String x:Key="Dependencies">Gereksinimler</s:String>
+    <s:String x:Key="ThanksTo">Şunlara Teşekkürler:</s:String>
+
+    <!-- Update -->
+    <s:String x:Key="Update">Güncelle</s:String>
+    <s:String x:Key="CheckUpdate">Güncellemeyi kontrol et</s:String>
+    <s:String x:Key="CheckingUpdate">Güncelleme kontrol ediliyor</s:String>
+    <s:String x:Key="AlreadyUpToDate">Zaten son sürüm</s:String>
+    <s:String x:Key="UpdateAvailable">Güncelleme mevcut</s:String>
+    <s:String x:Key="UpdateCheckFailed">Güncelleme kontrolü başarısız</s:String>
+    <s:String x:Key="AutoCheckUpdate">Çalıştırıldığında kontrol et</s:String>
+    <s:String x:Key="UpdateChangelog">Değişiklikler</s:String>
+    <s:String x:Key="UpdateNow">Şimdi Güncelle</s:String>
+    <s:String x:Key="DeferUpdate">Güncellemeyi Ertele</s:String>
+    <s:String x:Key="CancelUpdate">Güncellemeyi Iptal Et</s:String>
+    <s:String x:Key="WhetherCancelUpdate">Güncellemeyi iptal etmek istediğine emin misin?</s:String>
+    <s:String x:Key="UpdateFailed">Güncelleme başarısız</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">Başarıyla şu sürüme yükseltildi</s:String>
+    <s:String x:Key="UpdateSuccessful">Güncelleme başarılı</s:String>
+
+    <!-- Common -->
+    <s:String x:Key="AddNew">Yeni Ekle</s:String>
+    <s:String x:Key="Hello">Merhaba</s:String>
+    <s:String x:Key="InstallNew">Yenisini Yükle</s:String>
+    <s:String x:Key="Reload">Yenile</s:String>
+    <s:String x:Key="OpenDir">Klasörü Aç</s:String>
+    <s:String x:Key="OpenLink">Link Aç</s:String>
+    <s:String x:Key="Delete">Sil</s:String>
+    <s:String x:Key="Edit">Düzenle</s:String>
+    <s:String x:Key="Install">Yükle</s:String>
+    <s:String x:Key="InstallSuccessful">Yükleme Başarılı</s:String>
+    <s:String x:Key="Versions">Sürümler</s:String>
+    <s:String x:Key="VersionsManagement">Sürümleri Yönet</s:String>
+    <s:String x:Key="GameInstall">Sürüm Yükle</s:String>
+    <s:String x:Key="ForgeInstall">Forge Yükle</s:String>
+    <s:String x:Key="FabricInstall">Fabric Yükle</s:String>
+    <s:String x:Key="Mods">Modlar</s:String>
+    <s:String x:Key="Resourcepacks">Doku Paketleri</s:String>
+    <s:String x:Key="Saves">Kayıtlar</s:String>
+    <s:String x:Key="Skins">Skinler</s:String>
+    <s:String x:Key="About">Hakkında</s:String>
+    <s:String x:Key="Auxiliaries">Yardımcılar</s:String>
+    <s:String x:Key="Auto">Otomatik</s:String>
+
+    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
+    <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
+
+</ResourceDictionary>
