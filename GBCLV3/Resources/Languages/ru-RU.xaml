@@ -166,7 +166,7 @@
     <s:String x:Key="ReleaseTime">Дата релиза</s:String>
     <s:String x:Key="ReleaseOnly">Только релизы</s:String>
 
-    <s:String x:Key="VersionListLoading">Изменение списка версий</s:String>
+    <s:String x:Key="VersionListLoading">Загрузка списка версий</s:String>
     <s:String x:Key="VersionListLoaded">Список версий</s:String>
     <s:String x:Key="VersionListLoadFailed">Не удалось загрузить список версий</s:String>
     <s:String x:Key="VersionFetchingJson">Извлечение версий json</s:String>
@@ -181,7 +181,7 @@
     <s:String x:Key="VersionInstallSuccessful">Успешно установлена версия:</s:String>
 
     <!-- Установить Forge -->
-    <s:String x:Key="ForgeListLoading">Изменение загрузки списка Forge</s:String>
+    <s:String x:Key="ForgeListLoading">Загрузка списка Forge</s:String>
     <s:String x:Key="ForgeListLoadFailed">Не удалось загрузить список загрузок Forge</s:String>
     <s:String x:Key="NoAvailableForge">Нет доступного Forge для этой версии!</s:String>
     <s:String x:Key="SelectForgeVersion">Выберите версию Forge для установки</s:String>
@@ -195,7 +195,7 @@
     <s:String x:Key="ForgeInstallSuccessful">Forge успешно установлен!</s:String>
 
     <!-- Установить Fabric -->
-    <s:String x:Key="FabricListLoading">Изменение загрузки списка Fabric</s:String>
+    <s:String x:Key="FabricListLoading">Загрузка списка Fabric</s:String>
     <s:String x:Key="FabricListLoadFailed">Не удалось загрузить список загрузок Fabric</s:String>
     <s:String x:Key="NoAvailableFabric">Нет доступного Fabric для этой версии!</s:String>
     <s:String x:Key="SelectFabricVersion">Выберите версию Fabric для установки</s:String>
