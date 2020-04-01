@@ -7,6 +7,7 @@
     <s:String x:Key="zh-TW">繁體中文</s:String>
     <s:String x:Key="ru-RU">Русский</s:String>
     <s:String x:Key="de-DE">Deutsch</s:String>
+    <s:String x:Key="tr-TR">Türkçe</s:String>
     <!-- <s:String x:Key="ja-JP">日本語</s:String> -->
 
 </ResourceDictionary>
