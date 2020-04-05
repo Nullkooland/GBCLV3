@@ -126,7 +126,7 @@ namespace GBCLV3.Services.Launch
             var query = libraries.Where(lib =>
             {
                 string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
-                return lib.SHA1 != null && !(File.Exists(libPath) && CryptUtil.ValidateFileSHA1(libPath, lib.SHA1));
+                return !File.Exists(libPath) || (lib.SHA1 != null && !CryptUtil.ValidateFileSHA1(libPath, lib.SHA1));
             });
 
             return Task.FromResult(query.ToArray());
