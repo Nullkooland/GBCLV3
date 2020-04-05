@@ -93,7 +93,7 @@ namespace GBCLV3.ViewModels.Windows
             throw new System.NotImplementedException();
         }
 
-        public static bool IsValidEmailAddress(string emailAddress)
+        private static bool IsValidEmailAddress(string emailAddress)
         {
             var regex = new Regex("^\\s*([A-Za-z0-9_-]+(\\.\\w+)*@(\\w+\\.)+\\w{2,5})\\s*$");
             return emailAddress != null && regex.IsMatch(emailAddress);

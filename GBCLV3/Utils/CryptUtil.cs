@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
@@ -7,6 +8,9 @@ namespace GBCLV3.Utils
     public static class CryptUtil
     {
         public static string Guid => System.Guid.NewGuid().ToString("N");
+
+        private static readonly char[] _hexTable =
+            { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
 
         public static string GetStringMD5(string str)
         {
@@ -18,35 +22,48 @@ namespace GBCLV3.Utils
             {
                 sb.Append(b.ToString("x2"));
             }
+
             return sb.ToString();
         }
 
-        public static string GetFileSHA1(string path)
+        public static bool ValidateFileSHA1(string path, ReadOnlySpan<char> sha1)
         {
             using var sha1Provider = new SHA1CryptoServiceProvider();
             using var fileStream = File.OpenRead(path);
-            byte[] sha1Bytes = sha1Provider.ComputeHash(fileStream);
-            var sb = new StringBuilder(40);
+            var sha1Bytes = sha1Provider.ComputeHash(fileStream);
 
-            foreach (byte b in sha1Bytes)
+            for (int i = 0; i < sha1Bytes.Length; i++)
             {
-                sb.Append(b.ToString("x2"));
+                char c0 = _hexTable[sha1Bytes[i] >> 4];
+                char c1 = _hexTable[sha1Bytes[i] & 0x0F];
+
+                if (c0 != sha1[2 * i] || c1 != sha1[2 * i + 1])
+                {
+                    return false;
+                }
             }
-            return sb.ToString();
+
+            return true;
         }
 
-        public static string GetFileSHA256(string path)
+        public static bool ValidateFileSHA256(string path, ReadOnlySpan<char> sha256)
         {
-            using var sha256Provider = new SHA256CryptoServiceProvider();
+            using var sha1Provider = new SHA256CryptoServiceProvider();
             using var fileStream = File.OpenRead(path);
-            byte[] sha256Bytes = sha256Provider.ComputeHash(fileStream);
-            var sb = new StringBuilder(64);
+            var sha256Bytes = sha1Provider.ComputeHash(fileStream);
 
-            foreach (byte b in sha256Bytes)
+            for (int i = 0; i < sha256Bytes.Length; i++)
             {
-                sb.Append(b.ToString("x2"));
+                char c0 = _hexTable[sha256Bytes[i] >> 4];
+                char c1 = _hexTable[sha256Bytes[i] & 0x0F];
+
+                if (c0 != sha256[2 * i] || c1 != sha256[2 * i + 1])
+                {
+                    return false;
+                }
             }
-            return sb.ToString();
+
+            return true;
         }
     }
 }

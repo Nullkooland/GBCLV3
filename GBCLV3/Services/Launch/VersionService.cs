@@ -227,7 +227,7 @@ namespace GBCLV3.Services.Launch
         public bool CheckIntegrity(Version version)
         {
             string jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
-            return File.Exists(jarPath) && CryptUtil.GetFileSHA1(jarPath) == version.SHA1;
+            return File.Exists(jarPath) && CryptUtil.ValidateFileSHA1(jarPath, version.SHA1);
         }
 
         public IEnumerable<DownloadItem> GetDownload(Version version)

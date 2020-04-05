@@ -11,6 +11,7 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GBCLV3.Utils;
 
 namespace GBCLV3.Services.Launch
 {
@@ -64,8 +65,8 @@ namespace GBCLV3.Services.Launch
                     .AsParallel()
                     .Where(obj =>
                     {
-                        string path = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
-                        return !File.Exists(path) || obj.Hash != Utils.CryptUtil.GetFileSHA1(path);
+                        string objPath = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
+                        return !(File.Exists(objPath) && CryptUtil.ValidateFileSHA1(objPath, obj.Hash));
                     });
 
             return Task.FromResult(query?.ToArray());
