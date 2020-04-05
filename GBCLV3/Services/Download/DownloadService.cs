@@ -47,7 +47,7 @@ namespace GBCLV3.Services.Download
 
         private int _totalCount;
         private int _completedCount;
-        private int _failledCount;
+        private int _failedCount;
 
         #endregion
 
@@ -85,7 +85,7 @@ namespace GBCLV3.Services.Download
 
             _totalCount = _downloadItems.Count();
             _completedCount = 0;
-            _failledCount = 0;
+            _failedCount = 0;
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace GBCLV3.Services.Download
                     }
                 }
 
-                if (_failledCount > 0 && !_userCts.IsCancellationRequested)
+                if (_failedCount > 0 && !_userCts.IsCancellationRequested)
                 {
                     Completed?.Invoke(DownloadResult.Incomplete);
                 }
@@ -165,7 +165,7 @@ namespace GBCLV3.Services.Download
         public void Retry()
         {
             _downloadItems = _downloadItems.Where(item => !item.IsCompleted).ToList();
-            _failledCount = 0;
+            _failedCount = 0;
 
             _sync.Set();
         }
@@ -275,7 +275,7 @@ namespace GBCLV3.Services.Download
             // If is not caused by cancellation, mark as failure
             if (!_userCts.IsCancellationRequested)
             {
-                Interlocked.Increment(ref _failledCount);
+                Interlocked.Increment(ref _failedCount);
 
                 // 全  部  木  大
                 Interlocked.Add(ref _downloadedBytes, -item.DownloadedBytes);
@@ -296,7 +296,7 @@ namespace GBCLV3.Services.Download
             {
                 TotalCount = _totalCount,
                 CompletedCount = _completedCount,
-                FailedCount = _failledCount,
+                FailedCount = _failedCount,
                 TotalBytes = _totalBytes,
                 DownloadedBytes = _downloadedBytes,
                 Speed = diffBytes / UPDATE_INTERVAL,
