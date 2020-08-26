@@ -1,0 +1,270 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <!-- MessageBox Button Labels -->
+    <s:String x:Key="OK">Rendben</s:String>
+    <s:String x:Key="Cancel">Mégsem</s:String>
+    <s:String x:Key="Yes">Igen</s:String>
+    <s:String x:Key="No">Nem</s:String>
+
+    <!-- ErrorReport -->
+    <s:String x:Key="ErrorReport">Hibajelentés</s:String>
+    <s:String x:Key="ReportUnexpectedExit">A játék váratlanul kilépett</s:String>
+    <s:String x:Key="ReportUnhandledException">A program kezelhetetlen kivételt tapasztalt</s:String>
+    <s:String x:Key="Alright">Rendben</s:String>
+    <s:String x:Key="ReportOnGithub">Jelentés a Githubron</s:String>
+    <s:String x:Key="CopyErrorMessage">Hibaüzenet másolása</s:String>
+
+    <!-- Launch Procedure -->
+    <s:String x:Key="Launch">Launch</s:String>
+    <s:String x:Key="ProcessingDependencies">A játékfüggőségek feldolgozása</s:String>
+    <s:String x:Key="LoggingIn">Hitelesítés és bejelentkezés</s:String>
+    <s:String x:Key="StartingGameProcess">A játék folyamatának indítása</s:String>
+    <s:String x:Key="Boohoo">Boohoo! Az indítás nem sikerült...</s:String>
+    <s:String x:Key="HappyGame">Boldog játékot!</s:String>
+    <s:String x:Key="UnexpectedExit">Váratlan kilépés</s:String>
+
+    <!-- JRE Not Found Error -->
+    <s:String x:Key="JreNotFound">JRE nem található!</s:String>
+    <s:String x:Key="PleaseInstallJre">Kérem keresse meg vagy telepítse a JRE-t</s:String>
+    <s:String x:Key="DownloadJreInstaller">Töltse le a Jre telepítőt</s:String>
+
+    <!-- Account Management -->
+    <s:String x:Key="AccountManagement">Számlavezetés</s:String>
+    <s:String x:Key="AddAccount">Fiók hozzáadása</s:String>
+    <s:String x:Key="EditAccount">Fiók szerkesztése</s:String>
+    <s:String x:Key="ReAuth">Ujra hitelesítés</s:String>
+    <s:String x:Key="DeleteAccount">Fiók törlése</s:String>
+    <s:String x:Key="WhetherDeleteAccount">Biztosan törli ezt a fiókot?</s:String>
+    <s:String x:Key="AuthMode">Hitelesítési mód</s:String>
+    <s:String x:Key="Offline">Offline</s:String>
+    <s:String x:Key="Yggdrasil">Mojang</s:String>
+    <s:String x:Key="AuthLibInjector">Külső (authlib-injektor)</s:String>
+    <s:String x:Key="Username">Felhasználónév</s:String>
+    <s:String x:Key="Email">Email</s:String>
+    <s:String x:Key="Password">Jelszó</s:String>
+    <s:String x:Key="AuthServer">Hitelesítési szerver</s:String>
+    <s:String x:Key="SelectProfile">Válassza a Profil lehetőséget</s:String>
+
+    <s:String x:Key="DuplicateAccount">A fiók már létezik!</s:String>
+    <s:String x:Key="EmptyUsername">A felhasználónév nem lehet üres!</s:String>
+    <s:String x:Key="InvalidEmail">Érvénytelen e-mail cím!</s:String>
+
+    <s:String x:Key="EnterAccountInformation">Adja meg a fiókadatokat</s:String>
+    <s:String x:Key="NeedReAuth">A jelenlegi token érvénytelen, újrahitelesítésre szorul</s:String>
+    <s:String x:Key="CheckingAuthServer">A hitelesítési szerver ellenőrzése</s:String>
+    <s:String x:Key="CheckAuthServerFailed">Érvénytelen hitelesítési szerver, kérjük, ellenőrizze az URL-t vagy az internet-kapcsolatot!</s:String>
+    <s:String x:Key="Authenticating">Hitelesítés</s:String>
+    <s:String x:Key="AuthSuccessful">A hitelesítés sikeres</s:String>
+
+    <!-- Authentication Errors -->
+    <s:String x:Key="AuthFailed">Hitelesítés sikertelen</s:String>
+    <s:String x:Key="AuthTimeout">Hitelesítési időtúllépés!</s:String>
+    <s:String x:Key="NoInternetConnection">Kérjük, ellenőrizze internetkapcsolatát!</s:String>
+    <s:String x:Key="InvalidCredentials">Érvénytelen hitelesítő adatok! Kérjük, ellenőrizze e-mail címét vagy jelszavát!</s:String>
+    <s:String x:Key="InvalidToken">Érvénytelen kód! Kérjük, jelentkezzen be újra e-mail és jelszó segítségével!</s:String>
+    <s:String x:Key="InvalidAuthServer">Érvénytelen hitelesítési szerver, kérjük, ellenőrizze az URL-t vagy az internet-kapcsolatot!</s:String>
+    <s:String x:Key="Unknown">Hiba lépett fel!</s:String>
+    <s:String x:Key="ErrorMessage">Hiba üzenet:</s:String>
+
+
+    <!-- Integrity Check -->
+    <s:String x:Key="IntegrityCheck">Integritás ellenőrzése</s:String>
+    <s:String x:Key="MainJarDamaged">A fő jar hiányzik vagy sérült</s:String>
+    <s:String x:Key="ForgeJarDamaged">A forge jar hiányzik vagy sérült, és nem lehet rögzíteni</s:String>
+    <s:String x:Key="PleaseReinstallForge">Kérjük, telepítse újra a hamisítást</s:String>
+    <s:String x:Key="LibsDamaged">Hiányoznak vagy sérültek a függő könyvtárak</s:String>
+    <s:String x:Key="AssetsDamaged">Assets hiányoznak vagy sérültek</s:String>
+    <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
+
+    <!-- Settings -->
+    <s:String x:Key="Settings">Beállítások</s:String>
+    <s:String x:Key="GameSettings">Játék beállítások</s:String>
+    <s:String x:Key="AccountSettings">Fiók beállítások</s:String>
+    <s:String x:Key="LauncherSettings">Indítóbeállítások</s:String>
+    <s:String x:Key="AdvancedSettings">További beállítások</s:String>
+    <s:String x:Key="FunctionSettings">Funkcióbeállítások</s:String>
+    <s:String x:Key="ThemeSettings">Téma beállítások</s:String>
+
+    <!-- Game Settings -->
+    <s:String x:Key="JreDir">JRE könyvtár</s:String>
+    <s:String x:Key="SelectJrePath">Válassza a JRE útvonalat</s:String>
+    <s:String x:Key="JavaMaxMem">Java maximális memória (MB)</s:String>
+    <s:String x:Key="AvailableMem">Rendelkezésre álló fizikai memória</s:String>
+
+    <s:String x:Key="GameDir">Játékkönyvtár</s:String>
+    <s:String x:Key="SelectGameDir">Válassza ki a játékkönyvtárat</s:String>
+    <s:String x:Key="WindowResolution">Ablak felbontása</s:String>
+    <s:String x:Key="FullScreen">Teljes képernyő</s:String>
+
+    <s:String x:Key="ServerAddress">Szerver címe</s:String>
+    <s:String x:Key="JoinServerOnLaunch">Ha ezt kitölti egy szerver címével, a minecraft közvetlenül a indítás után csatlakozik a szerverhez.</s:String>
+
+    <s:String x:Key="DebugMode">Hibakeresési mód</s:String>
+    <s:String x:Key="DebugModeDescription">A java.exe fájl futtatásához</s:String>
+
+    <s:String x:Key="CustomJvmArgs">Saját JVM Args</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">Ez felülbírálja az alapértelmezett JVM argumentumokat (pl. GC konfigurációk)</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
+
+    <!-- Launcher Settings -->
+    <s:String x:Key="Language">Nyelv</s:String>
+
+    <s:String x:Key="DownloadSource">Töltse le a forrást</s:String>
+    <s:String x:Key="Official">Hivatalos</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="MCBBS">MCBBS</s:String>
+
+    <s:String x:Key="AfterLaunch">Indítás után</s:String>
+    <s:String x:Key="Exit">Kilépés a programból</s:String>
+    <s:String x:Key="Hide">Ablak elrejtése</s:String>
+    <s:String x:Key="KeepVisible">Tartsa láthatóan</s:String>
+
+    <s:String x:Key="UseBackgroundImage">Használja a háttérképet</s:String>
+    <s:String x:Key="SelectImagePath">Válassza ki a kép elérési útját</s:String>
+    <s:String x:Key="SelectRandomImage">Véletlenszerűen válasszon ki egy képet a .bg könyvtárból</s:String>
+
+    <s:String x:Key="Font">Betűtípus család</s:String>
+    <s:String x:Key="FontWeight">Betűtípus súlya</s:String>
+
+    <!-- Download -->
+
+    <!-- Download Types -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
+    <s:String x:Key="MainJar">Fő Jar</s:String>
+    <s:String x:Key="Libraries">könyvtárak</s:String>
+    <s:String x:Key="Assets">Assets</s:String>
+    <s:String x:Key="InstallNewVersion">Új verziók telepítése</s:String>
+    <s:String x:Key="InstallForge">Forge telepítése</s:String>
+    <s:String x:Key="InstallFabric">Fabric telepítése</s:String>
+
+    <!-- Download Progress -->
+    <s:String x:Key="DownloadProgress">Progress</s:String>
+    <s:String x:Key="CancelDownload">Letöltés megszakítása</s:String>
+    <s:String x:Key="WhetherCancelDownload">Biztosan leállítja a letöltést?</s:String>
+    <s:String x:Key="IncompleteDownload">Hiányos letöltés</s:String>
+    <s:String x:Key="DownloadFailures">a fájlok letöltése nem sikerült</s:String>
+    <s:String x:Key="WhetherRetryDownload">Próbálkozzon újra a hiányos letöltéssel?</s:String>
+    <s:String x:Key="DownloadCompletedCount">Befejezettek</s:String>
+    <s:String x:Key="DownloadFailedCount">Nem sikerült</s:String>
+    <s:String x:Key="DownloadSpeed">Sebesség</s:String>
+
+    <!-- Versions Management -->
+    <s:String x:Key="AvailableVersions">Elérhető verziók</s:String>
+    <s:String x:Key="SegregateVersions">Elkülönített verziók</s:String>
+    <s:String x:Key="OpenJson">Nyisd meg a Jsont</s:String>
+    <s:String x:Key="DeleteVersion">Verzió törlése</s:String>
+    <s:String x:Key="WhetherDeleteVersion">Biztosan törli a verziót</s:String>
+
+    <!-- Version Install -->
+    <s:String x:Key="DownloadAndInstall">letöltés és telepítés</s:String>
+    <s:String x:Key="NoVersionFound">Nem található verzió</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">Telepíthető-e új játékverzió?</s:String>
+    <s:String x:Key="Version">Verzió</s:String>
+    <s:String x:Key="Type">Típus</s:String>
+    <s:String x:Key="ReleaseTime">Kiadási dátum</s:String>
+    <s:String x:Key="ReleaseOnly">Csak kiadás</s:String>
+
+    <s:String x:Key="VersionListLoading">A verziólista betöltése</s:String>
+    <s:String x:Key="VersionListLoaded">A verziólista betöltve</s:String>
+    <s:String x:Key="VersionListLoadFailed">A verziólista betöltése nem sikerült</s:String>
+    <s:String x:Key="VersionFetchingJson">A json verzió letöltése</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">Verziófüggőségek letöltése</s:String>
+
+    <s:String x:Key="VersionInstallFailed">A telepítés sikertelen</s:String>
+    <s:String x:Key="VersionAlreadyExists">Identikus helyi verzió már létezik!</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">A json verzió letöltése nem sikerült!</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">Hiányos függőségek</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">A Launcher az indításkor kipróbálja a verzió minden függőségeit</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">Töltse le az forrásokat telepítéskor</s:String>
+    <s:String x:Key="VersionInstallSuccessful">A verzió sikeres telepítése</s:String>
+
+    <!-- Forge Install -->
+    <s:String x:Key="ForgeListLoading">A Forge letöltési lista betöltése</s:String>
+    <s:String x:Key="ForgeListLoadFailed">A letöltési lista betöltése nem sikerült</s:String>
+    <s:String x:Key="NoAvailableForge">Ehhez a verzióhoz nem áll rendelkezésre Forge!</s:String>
+    <s:String x:Key="SelectForgeVersion">Válassza ki a telepíteni kívánt forge verziót</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Töltse le a hamis telepítőt</s:String>
+    <s:String x:Key="ForgeInstalling">Forge telepítése</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Forge könyvtárak letöltése</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">A Forge telepítése sikertelen</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">A Forge jar letöltése nem sikerült!</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge kicsomagolása sikertelen!</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">A forge telepítése sikeres</s:String>
+
+    <!-- Fabric Install -->
+    <s:String x:Key="FabricListLoading">Fabric letöltési lista betöltése</s:String>
+    <s:String x:Key="FabricListLoadFailed">Nem sikerült betölteni a Fabric letöltési listáját</s:String>
+    <s:String x:Key="NoAvailableFabric">Nincs elérhető Fabric ehhez a verzióhoz!</s:String>
+    <s:String x:Key="SelectFabricVersion">Kérjük, válassza ki a telepíteni kívánt Fabric verziót</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Fabric könyvtárak letöltése</s:String>
+
+    <s:String x:Key="FabricInstallFailed">A Fabric telepítés sikertelen</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Fabric telepítése sikeres</s:String>
+
+    <!-- Mods Management -->
+    <s:String x:Key="AvailableMods">Elérhető modok</s:String>
+    <s:String x:Key="SelectMods">Válassza a Mods lehetőséget</s:String>
+    <s:String x:Key="EnableSelected">Engedélyezés</s:String>
+    <s:String x:Key="DisableSelected">Letiltás</s:String>
+    <s:String x:Key="CopyMods">Új modok hozzáadásakor másolja ahelyett, hogy áthelyezné őket a forráskönyvtárba</s:String>
+
+
+    <!-- Resourcepacks Management -->
+    <s:String x:Key="EnabledPacks">Engedélyezve a csomagok</s:String>
+    <s:String x:Key="SelectResourcepacks">Válassza az Erőforrás-csomagok lehetőséget</s:String>
+    <s:String x:Key="DisabledPacks">Kikapcsolt csomagok</s:String>
+    <s:String x:Key="OpenPack">Nyisd ki</s:String>
+
+    <!-- About -->
+    <s:String x:Key="Dependencies">Függőségek</s:String>
+    <s:String x:Key="ThanksTo">Köszönet</s:String>
+
+    <!-- Update -->
+    <s:String x:Key="Update">frissítés</s:String>
+    <s:String x:Key="CheckUpdate">Frissítés ellenőrzése</s:String>
+    <s:String x:Key="CheckingUpdate">A frissítés ellenőrzése</s:String>
+    <s:String x:Key="AlreadyUpToDate">Már naprakész</s:String>
+    <s:String x:Key="UpdateAvailable">Frissítés elérhető</s:String>
+    <s:String x:Key="UpdateCheckFailed">A frissítés ellenőrzése sikertelen</s:String>
+    <s:String x:Key="AutoCheckUpdate">Ellenőrizze a kezdéskor</s:String>
+    <s:String x:Key="UpdateChangelog">Változási napló</s:String>
+    <s:String x:Key="UpdateNow">Frissítse most</s:String>
+    <s:String x:Key="DeferUpdate">Halasztja a frissítést</s:String>
+    <s:String x:Key="CancelUpdate">Frissítés megszakítása</s:String>
+    <s:String x:Key="WhetherCancelUpdate">Biztosan megszakítja a frissítést?</s:String>
+    <s:String x:Key="UpdateFailed">Frissítés sikertelen</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">Sikeres frissítés ide:</s:String>
+    <s:String x:Key="UpdateSuccessful">Frissítés sikeres volt</s:String>
+
+    <!-- Common -->
+    <s:String x:Key="AddNew">Új hozzáadása</s:String>
+    <s:String x:Key="Hello">Szia</s:String>
+    <s:String x:Key="InstallNew">Telepítse az Új lehetőséget</s:String>
+    <s:String x:Key="Reload">Ujratöltés</s:String>
+    <s:String x:Key="OpenDir">Nyissa meg a könyvtárat</s:String>
+    <s:String x:Key="OpenLink">Link megnyitása</s:String>
+    <s:String x:Key="Delete">Töröl</s:String>
+    <s:String x:Key="Edit">szerkesztése</s:String>
+    <s:String x:Key="Install">Telepítés</s:String>
+    <s:String x:Key="InstallSuccessful">Telepítés sikeres</s:String>
+    <s:String x:Key="Versions">Versions</s:String>
+    <s:String x:Key="VersionsManagement">Verziókezelés</s:String>
+    <s:String x:Key="GameInstall">Játék telepítése</s:String>
+    <s:String x:Key="ForgeInstall">Forge Telepítése</s:String>
+    <s:String x:Key="FabricInstall">Fabric Telepítése</s:String>
+    <s:String x:Key="Mods">Modok</s:String>
+    <s:String x:Key="Resourcepacks">Resourcepackok</s:String>
+    <s:String x:Key="Saves">Mentések</s:String>
+    <s:String x:Key="Skins">Skinek</s:String>
+    <s:String x:Key="About">About</s:String>
+    <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
+    <s:String x:Key="Auto">Automata</s:String>
+
+    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
+    <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
+
+</ResourceDictionary>
