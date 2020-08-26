@@ -105,11 +105,11 @@
                         </Trigger>
                         <Trigger Property="IsActive" Value="False">
                             <!--<Setter Property="BorderBrush" Value="Transparent"/>-->
-                            <Setter TargetName="TitleTextBlock" Property="Foreground" Value="#FF999999" />
-                            <Setter TargetName="MinimizeButton" Property="Foreground" Value="#FF999999" />
-                            <Setter TargetName="RestoreButton" Property="Foreground" Value="#FF999999" />
-                            <Setter TargetName="MaximizeButton" Property="Foreground" Value="#FF999999" />
-                            <Setter TargetName="CloseButton" Property="Foreground" Value="#FF999999" />
+                            <Setter TargetName="TitleTextBlock" Property="Foreground" Value="#FF808080" />
+                            <Setter TargetName="MinimizeButton" Property="Foreground" Value="#FF808080" />
+                            <Setter TargetName="RestoreButton" Property="Foreground" Value="#FF808080" />
+                            <Setter TargetName="MaximizeButton" Property="Foreground" Value="#FF808080" />
+                            <Setter TargetName="CloseButton" Property="Foreground" Value="#FF808080" />
 
                             <Setter TargetName="CaptionColorLayer" Property="Opacity" Value="1" />
                             <Setter TargetName="CaptionColorLayer" Property="Fill" Value="#FF2B2B2B" />

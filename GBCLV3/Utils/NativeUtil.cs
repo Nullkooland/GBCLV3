@@ -16,8 +16,8 @@ namespace GBCLV3.Utils
             accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
 
             //accent.AccentFlags = 0x20 | 0x40 | 0x80 | 0x100;
-            accent.GradientColor = 0x99FFFFFF;
-            // accent.GradientColor = 0x00FFFFFF;
+            //accent.GradientColor = 0x99FFFFFF;
+            accent.GradientColor = 0x018B8B8B;
 
             var accentPtr = Marshal.AllocHGlobal(accentStructSize);
             Marshal.StructureToPtr(accent, accentPtr, false);
