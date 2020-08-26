@@ -263,6 +263,7 @@
     <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
     <s:String x:Key="Auto">Auto</s:String>
 
+    <!-- Just some bad jokes, plz ignore them XD -->
     <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
     <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
     <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
