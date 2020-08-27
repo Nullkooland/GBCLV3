@@ -61,6 +61,11 @@ namespace GBCLV3.Services.Installation
 
         #region Public Methods
 
+        public bool IsInstallerNeeded(Forge forge)
+        {
+            return forge.ReleaseTime.Year >= 2019;
+        }
+
         public async ValueTask<IEnumerable<Forge>> GetDownloadListAsync(string jarID)
         {
             try
