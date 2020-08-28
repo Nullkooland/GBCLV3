@@ -149,9 +149,9 @@ namespace GBCLV3.Services.Auxiliary
             int bytesPerPixel = PixelFormats.Bgra32.BitsPerPixel / 8;
             int stride = size * bytesPerPixel;
 
-            int bufferSize = size * size * bytesPerPixel;
-            var bufferMain = new byte[bufferSize];
-            var bufferOverlay = new byte[bufferSize];
+            int pixelCount = size * size * bytesPerPixel / 4;
+            var bufferMain = new uint[pixelCount];
+            var bufferOverlay = new uint[pixelCount];
 
             var faceMain = new CroppedBitmap(body, new Int32Rect(size, size, size, size));
             var faceOverlay = new CroppedBitmap(body, new Int32Rect(size * 5, size, size, size));
@@ -160,20 +160,20 @@ namespace GBCLV3.Services.Auxiliary
             faceOverlay.CopyPixels(bufferOverlay, stride, 0);
 
             // I can't believe I'm doing manual alpha blending
-            for (int i = 0; i < bufferSize; i += bytesPerPixel)
+            for (int i = 0; i < pixelCount; i++)
             {
-                byte alpha = bufferOverlay[i + 3];
-                if (alpha != 0x00)
+                uint pixel = bufferOverlay[i];
+
+                if ((pixel & 0xFF000000) != 0x0)
                 {
-                    bufferMain[i] = bufferOverlay[i];
-                    bufferMain[i + 1] = bufferOverlay[i + 1];
-                    bufferMain[i + 2] = bufferOverlay[i + 2];
+                    bufferMain[i] = pixel;
                 }
             }
 
             var faceCombined = BitmapSource.Create(size, size, 96, 96,
                 PixelFormats.Bgra32, null,
                 bufferMain, size * bytesPerPixel);
+
             faceCombined.Freeze();
             return faceCombined;
         }
