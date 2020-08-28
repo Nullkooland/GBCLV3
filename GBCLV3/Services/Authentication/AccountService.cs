@@ -82,7 +82,7 @@ namespace GBCLV3.Services.Authentication
             string authServer = null)
         {
             var account = new Account();
-            await UpdateOnlineAccountAsync(account, authMode, email, authResult, authServer);
+            await UpdateAccountAsync(account, null, authMode, email, authResult, authServer);
 
             if (!_accounts.Any()) account.IsSelected = true;
 
@@ -91,18 +91,23 @@ namespace GBCLV3.Services.Authentication
             return account;
         }
 
-        public async Task UpdateOnlineAccountAsync(Account account, AuthMode authMode, string email,
-            AuthResult authResult,
+        public async ValueTask UpdateAccountAsync(
+            Account account,
+            string username = null,
+            AuthMode authMode = AuthMode.Offline,
+            string email = null,
+            AuthResult authResult = null,
             string authServer = null)
         {
             account.AuthMode = authMode;
             account.Email = email;
-            account.Username = authResult.SelectedProfile.Name;
-            account.UUID = authResult.SelectedProfile.Id;
-            account.ClientToken = authResult.ClientToken;
-            account.AccessToken = authResult.AccessToken;
+            account.Username = authResult?.SelectedProfile.Name ?? username;
+            account.UUID = authResult?.SelectedProfile.Id;
+            account.ClientToken = authResult?.ClientToken;
+            account.AccessToken = authResult?.AccessToken;
             account.AuthServerBase = authMode == AuthMode.AuthLibInjector ? authServer : null;
 
+            if (authMode == AuthMode.Offline) return;
             await LoadSkinAsync(account);
         }
 

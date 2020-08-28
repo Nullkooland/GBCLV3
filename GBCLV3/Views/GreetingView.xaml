@@ -5,9 +5,8 @@
       xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
       Background="#A0161616"
       MinWidth="280" Height="80"
-      IsHitTestVisible="False"
       Opacity="0"
-      Visibility="{Binding SelectedAccount, Mode=OneWay,
+      Visibility="{Binding CurrentAccount, Mode=OneWay,
                    Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
 
     <Grid.Effect>
@@ -82,26 +81,37 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <Image Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"
-           Width="64" Height="64"
-           Source="{Binding SelectedAccount.Avatar, Mode=OneWay}"
-           RenderOptions.BitmapScalingMode="NearestNeighbor">
-        <Image.Effect>
+    <Button Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"
+            Width="64" Height="64"
+            Padding="1"
+            Focusable="False"
+            BorderBrush="#404B4B4B"
+            Cursor="Hand"
+            ToolTip="{DynamicResource EditAccount}"
+            Click="{s:Action EditCurrentAccount}">
+        
+        <Button.Content>
+            <Image Source="{Binding CurrentAccount.Avatar, Mode=OneWay}"
+                   RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        </Button.Content>
+        
+        <Button.Effect>
             <DropShadowEffect ShadowDepth="0" Opacity="0.75" BlurRadius="6" />
-        </Image.Effect>
-    </Image>
+        </Button.Effect>
+        
+    </Button>
 
     <TextBlock Grid.Row="1" Grid.Column="2" Margin="8,4,16,0"
                HorizontalAlignment="Left" VerticalAlignment="Center"
                MaxWidth="240" TextTrimming="CharacterEllipsis"
                FontSize="18" Foreground="White"
-               Text="{Binding SelectedAccount.Username, Mode=OneWay}" />
+               Text="{Binding CurrentAccount.Username, Mode=OneWay}" />
 
     <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="8,4,16,4"
                HorizontalAlignment="Left" VerticalAlignment="Top"
                FontSize="12"
                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-               Text="{Binding SelectedAccount.Email, Mode=OneWay}" />
+               Text="{Binding CurrentAccount.Email, Mode=OneWay}" />
 
     <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="8,4,16,4"
                HorizontalAlignment="Left" VerticalAlignment="Top"

@@ -15,7 +15,7 @@ namespace GBCLV3.ViewModels.Tabs
         // IoC
         private readonly AccountService _accountService;
         private readonly IWindowManager _windowManager;
-        private readonly AccountEditViewModel _accountEditEditVM;
+        private readonly AccountEditViewModel _accountEditVM;
         private readonly GreetingViewModel _greetingVM;
 
         #endregion
@@ -30,7 +30,7 @@ namespace GBCLV3.ViewModels.Tabs
             GreetingViewModel greetingVM)
         {
             _windowManager = windowManager;
-            _accountEditEditVM = accountEditVM;
+            _accountEditVM = accountEditVM;
             _greetingVM = greetingVM;
 
             _accountService = accountService;
@@ -50,8 +50,8 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void AddNew()
         {
-            _accountEditEditVM.Setup(AccountEditType.AddAccount);
-            _windowManager.ShowDialog(_accountEditEditVM);
+            _accountEditVM.Setup(AccountEditType.AddAccount);
+            _windowManager.ShowDialog(_accountEditVM);
 
             _greetingVM.NotifyAccountChanged();
             _greetingVM.IsShown = true;
@@ -74,8 +74,8 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void Edit(Account account)
         {
-            _accountEditEditVM.Setup(AccountEditType.EditAccount, account);
-            _windowManager.ShowDialog(_accountEditEditVM);
+            _accountEditVM.Setup(AccountEditType.EditAccount, account);
+            _windowManager.ShowDialog(_accountEditVM);
             Accounts.Refresh();
             _greetingVM.NotifyAccountChanged();
         }
