@@ -116,11 +116,7 @@ namespace GBCLV3.Services.Authentication
             _accounts.Remove(account);
         }
 
-        #endregion
-
-        #region Private Methods
-
-        private async Task LoadSkinAsync(Account account)
+        public async Task LoadSkinAsync(Account account)
         {
             if (account.AuthMode != AuthMode.Offline)
             {
@@ -136,7 +132,7 @@ namespace GBCLV3.Services.Authentication
             }
         }
 
-        private async Task RefreshSkinAsync(Account account)
+        public async Task RefreshSkinAsync(Account account)
         {
             var latestProfile = await _skinService.GetProfileAsync(account.UUID, account.ProfileServer);
             account.Profile = latestProfile ?? account.Profile;
