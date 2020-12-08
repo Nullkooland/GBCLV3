@@ -38,8 +38,8 @@ namespace GBCLV3.ViewModels.Pages
         public string AdonisUI => "Adonis UI Toolkit";
         public string AdonisUIPage => "https://github.com/benruehl/adonis-ui";
 
-        public string OokiiDialogs => "Ookii Dialogs";
-        public string OokiiDialogsPage => "http://www.ookii.org/software/dialogs";
+        public string OokiiDialogs => "Ookii.Dialogs.Wpf";
+        public string OokiiDialogsPage => "https://github.com/augustoproiete/ookii-dialogs-wpf";
 
         public string BMCLAPI => "BMCLAPI Download Mirror";
         public string BMCLAPIPage => "https://bmclapidoc.bangbang93.com";
