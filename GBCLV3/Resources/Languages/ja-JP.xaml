@@ -1,0 +1,278 @@
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <!--  メッセージボックスボタンのラベル  -->
+    <s:String x:Key="OK">決める</s:String>
+    <s:String x:Key="Cancel">取り消す</s:String>
+    <s:String x:Key="Yes">はい</s:String>
+    <s:String x:Key="No">いいえ</s:String>
+    <s:String x:Key="Enable">有効にする</s:String>
+    <s:String x:Key="Disable">無効にする</s:String>
+
+    <!--  エラーレポート  -->
+    <s:String x:Key="ErrorReport">エラーレポート</s:String>
+    <s:String x:Key="ReportUnexpectedExit">ゲームが異常終了しました</s:String>
+    <s:String x:Key="ReportUnhandledException">未処理の例外が発生しました</s:String>
+    <s:String x:Key="Alright">( *｀･ω´･)ゞよし</s:String>
+    <s:String x:Key="ReportOnGithub">Githubにレポートします</s:String>
+    <s:String x:Key="CopyErrorMessage">エラーメッセージをコピーします</s:String>
+
+    <!--  起動プロセス  -->
+    <s:String x:Key="Launch">起動</s:String>
+    <s:String x:Key="ProcessingDependencies">依存ファイル処理中</s:String>
+    <s:String x:Key="LoggingIn">ログイン確認中</s:String>
+    <s:String x:Key="StartingGameProcess">ゲームプロセス開始中</s:String>
+    <s:String x:Key="Boohoo">おやっ、起動に失敗しました…(´；ω；｀)</s:String>
+    <s:String x:Key="HappyGame">楽しんでね！</s:String>
+
+    <!--  JREが見つかりませんのエラー  -->
+    <s:String x:Key="JreNotFound">Javaランタイム環境が見つかりません！</s:String>
+    <s:String x:Key="PleaseInstallJre">パスを手動で指定して、またはJavaランタイム環境をインストールしてください</s:String>
+    <s:String x:Key="DownloadJreInstaller">JREインストールパッケージをダウンロードする</s:String>
+
+    <!--  アカウント設定  -->
+    <s:String x:Key="AccountManagement">アカウント設定</s:String>
+    <s:String x:Key="AddAccount">アカウントを追加する</s:String>
+    <s:String x:Key="EditAccount">アカウントを編集する</s:String>
+    <s:String x:Key="ReAuth">再認証する</s:String>
+    <s:String x:Key="DeleteAccount">アカウントを削除する</s:String>
+    <s:String x:Key="WhetherDeleteAccount">このアカウントを削除してもよろしいですか？</s:String>
+    <s:String x:Key="AuthMode">認証したモード</s:String>
+    <s:String x:Key="Offline">オフラインモード</s:String>
+    <s:String x:Key="Yggdrasil">Mojang</s:String>
+    <s:String x:Key="AuthLibInjector">外部（authlib-injector）</s:String>
+    <s:String x:Key="Username">ユーザー名</s:String>
+    <s:String x:Key="Email">電子メールアドレス</s:String>
+    <s:String x:Key="Password">ログインパスワード</s:String>
+    <s:String x:Key="AuthServer">認証サーバー</s:String>
+    <s:String x:Key="SelectProfile">キャラクターを選択する</s:String>
+
+    <s:String x:Key="DuplicateAccount">このアカウントはすでに存在します！</s:String>
+    <s:String x:Key="EmptyUsername">ユーザー名は空にできません！</s:String>
+    <s:String x:Key="InvalidEmail">無効な電子メールアドレスです！</s:String>
+
+    <s:String x:Key="EnterAccountInformation">アカウント情報を入力する</s:String>
+    <s:String x:Key="NeedReAuth">現在のトークンは無効です。再認証が必要です</s:String>
+    <s:String x:Key="CheckingAuthServer">認証サーバー確認中</s:String>
+    <s:String x:Key="CheckAuthServerFailed">無効な認証サーバーです。URLまたはインターネット接続を確認してください！</s:String>
+    <s:String x:Key="Authenticating">認証中</s:String>
+    <s:String x:Key="AuthSuccessful">認証に成功しました</s:String>
+
+    <!--  認証のエラー  -->
+    <s:String x:Key="AuthFailed">認証に失敗しました</s:String>
+    <s:String x:Key="AuthTimeout">認証がタイムアウトしました！</s:String>
+    <s:String x:Key="NoInternetConnection">インターネット接続を確認してください！</s:String>
+    <s:String x:Key="InvalidCredentials">無効な資格情報です！ 電子メールアドレスまたはパスワードを確認してください！</s:String>
+    <s:String x:Key="InvalidToken">無効なトークンです！ 電子メールとパスワードを使用して再ログインしてください！</s:String>
+    <s:String x:Key="InvalidAuthServer">無効な認証サーバーです。URLまたはインターネット接続を確認してください！</s:String>
+    <s:String x:Key="Unknown">エラーが発生しました！</s:String>
+    <s:String x:Key="ErrorMessage">エラーメッセージ：</s:String>
+
+    <!--  完全性チェック  -->
+    <s:String x:Key="IntegrityCheck">完全性チェック中</s:String>
+    <s:String x:Key="MainJarDamaged">メインjarファイルが見つからないか破損しています</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge jarが見つからないか破損していて、修正することができません</s:String>
+    <s:String x:Key="PleaseReinstallForge">Forgeを再インストールしてください</s:String>
+    <s:String x:Key="LibsDamaged">依存ライブラリが見つからないか破損しています</s:String>
+    <s:String x:Key="AssetsDamaged">アセットが見つからないか破損しています</s:String>
+    <s:String x:Key="WhetherFixNow">今すぐ修正しますか？</s:String>
+
+    <!--  設定  -->
+    <s:String x:Key="Settings">設定</s:String>
+    <s:String x:Key="GameSettings">ゲーム設定</s:String>
+    <s:String x:Key="AccountSettings">アカウント設定</s:String>
+    <s:String x:Key="LauncherSettings">ランチャー設定</s:String>
+    <s:String x:Key="AdvancedSettings">詳細設定</s:String>
+    <s:String x:Key="FunctionSettings">機能設定</s:String>
+    <s:String x:Key="ThemeSettings">テーマ設定</s:String>
+
+    <!--  ゲーム設定  -->
+    <s:String x:Key="JreDir">JREディレクトリ</s:String>
+    <s:String x:Key="SelectJrePath">JREパスを選択する</s:String>
+    <s:String x:Key="JavaMaxMem">Java最大メモリ（MB）</s:String>
+    <s:String x:Key="AvailableMem">利用可能な物理メモリ</s:String>
+
+    <s:String x:Key="GameDir">ゲームディレクトリ</s:String>
+    <s:String x:Key="SelectGameDir">ゲームディレクトリを選択する</s:String>
+
+    <s:String x:Key="WindowResolution">ウィンドウ解像度</s:String>
+    <s:String x:Key="FullScreen">全画面表示</s:String>
+
+    <!--  詳細設定  -->
+    <s:String x:Key="ServerAddress">サーバーアドレス</s:String>
+    <s:String x:Key="JoinServerOnLaunch">ここにサーバーアドレスを入力すると、Minecraftは起動後に直接サーバーに参加します。</s:String>
+
+    <s:String x:Key="DebugMode">デバッグモード</s:String>
+    <s:String x:Key="DebugModeDescription">java.exeで起動する</s:String>
+
+    <s:String x:Key="CustomJvmArgs">カスタムJVM引数</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">これにより、デフォルトのJVM引数（GC構成など）が上書きされます</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">追加のMinecraft引数</s:String>
+
+    <!--  ランチャー設定  -->
+    <s:String x:Key="Language">言語</s:String>
+
+    <s:String x:Key="DownloadSource">ダウンロードソース</s:String>
+    <s:String x:Key="Official">公式</s:String>
+    <s:String x:Key="BMCLAPI">BMCLAPI</s:String>
+    <s:String x:Key="MCBBS">MCBBS</s:String>
+
+    <s:String x:Key="AfterLaunch">起動後</s:String>
+    <s:String x:Key="Exit">戻る</s:String>
+    <s:String x:Key="Hide">ウィンドウを隠す</s:String>
+    <s:String x:Key="KeepVisible">見えるようにする</s:String>
+    <s:String x:Key="UnexpectedExit">異常終了する</s:String>
+
+    <s:String x:Key="BackgroundImage">背景画像</s:String>
+    <s:String x:Key="SelectImagePath">画像パスを選択する</s:String>
+    <s:String x:Key="SelectRandomImage">.\bg ディレクトリから画像をランダムに選択する</s:String>
+
+    <s:String x:Key="BackgroundEffect">背景効果</s:String>
+    <s:String x:Key="BlurBehind">がぼやける</s:String>
+    <s:String x:Key="AcrylicMaterial">アクリル</s:String>
+    <s:String x:Key="SolidColor">ソリッドカラー</s:String>
+
+    <s:String x:Key="Font">フォント</s:String>
+    <s:String x:Key="FontFamily">フォントファミリー</s:String>
+    <s:String x:Key="FontWeight">フォントの太さ</s:String>
+
+    <!--  ダウンロード  -->
+
+    <!--  ダウンロードの種類  -->
+    <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
+    <s:String x:Key="MainJar">メインJar</s:String>
+    <s:String x:Key="Libraries">ライブラリー</s:String>
+    <s:String x:Key="Assets">アセット</s:String>
+    <s:String x:Key="InstallNewVersion">新しいバージョンをインストールする</s:String>
+    <s:String x:Key="InstallForge">Forgeをインストールする</s:String>
+    <s:String x:Key="InstallFabric">Fabricをインストールする</s:String>
+
+    <!--  ダウンロードの進行状況  -->
+    <s:String x:Key="DownloadProgress">進行状況</s:String>
+    <s:String x:Key="CancelDownload">ダウンロードをキャンセルする</s:String>
+    <s:String x:Key="WhetherCancelDownload">ダウンロードをキャンセルしてもよろしいですか？</s:String>
+    <s:String x:Key="IncompleteDownload">不完全なダウンロードです</s:String>
+    <s:String x:Key="DownloadFailures">ファイルのダウンロードに失敗しました</s:String>
+    <s:String x:Key="WhetherRetryDownload">不完全なダウンロードを再試行しますか？</s:String>
+    <s:String x:Key="DownloadCompletedCount">完了しました</s:String>
+    <s:String x:Key="DownloadFailedCount">失敗しました</s:String>
+    <s:String x:Key="DownloadSpeed">速度</s:String>
+
+    <!--  バージョン管理  -->
+    <s:String x:Key="AvailableVersions">利用可能なバージョン</s:String>
+    <s:String x:Key="SegregateVersions">バージョンを隔離する</s:String>
+    <s:String x:Key="OpenJson">Jsonを開きます</s:String>
+    <s:String x:Key="DeleteVersion">バージョンを削除する</s:String>
+    <s:String x:Key="WhetherDeleteVersion">このバージョンを削除してもよろしいですか？</s:String>
+
+    <!--  バージョンインストール  -->
+    <s:String x:Key="DownloadAndInstall">ダウンロードしてインストールする</s:String>
+    <s:String x:Key="NoVersionFound">バージョンが見つかりません</s:String>
+    <s:String x:Key="WhetherInstallNewVersion">新しいバージョンをインストールしますか？</s:String>
+    <s:String x:Key="Version">バージョン</s:String>
+    <s:String x:Key="Type">種類</s:String>
+    <s:String x:Key="ReleaseTime">発売日</s:String>
+    <s:String x:Key="ReleaseOnly">公式バージョンのみを表示する</s:String>
+
+    <s:String x:Key="VersionListLoading">バージョンリストを読み込み中</s:String>
+    <s:String x:Key="VersionListLoaded">バージョンリストがロードされました</s:String>
+    <s:String x:Key="VersionListLoadFailed">バージョンリストを読み込めませんでした</s:String>
+    <s:String x:Key="VersionFetchingJson">バージョンjsonを取得中</s:String>
+    <s:String x:Key="VersionDownloadingDependencies">バージョン依存をダウンロード中</s:String>
+
+    <s:String x:Key="VersionInstallFailed">インストールに失敗しました</s:String>
+    <s:String x:Key="VersionAlreadyExists">同じローカルバージョンが既に存在します！</s:String>
+    <s:String x:Key="VersionJsonFetchFailed">バージョンjsonの取得に失敗しました！</s:String>
+    <s:String x:Key="VersionDependenciesIncomplete">依存は不完全です</s:String>
+    <s:String x:Key="TryCompleteDependenciesOnLaunch">起動時にバージョンのすべての依存関係を完了します</s:String>
+    <s:String x:Key="DownloadAssetsOnInstall">インストール時にアセットをダウンロードする</s:String>
+    <s:String x:Key="VersionInstallSuccessful">このバージョンのインストールに成功しました：</s:String>
+
+    <!--  Forgeインストール  -->
+    <s:String x:Key="ForgeListLoading">Forgeダウンロードリストを読み込み中</s:String>
+    <s:String x:Key="ForgeListLoadFailed">Forgeダウンロードリストを読み込めませんでした</s:String>
+    <s:String x:Key="NoAvailableForge">このバージョンで利用可能なForgeはありません！</s:String>
+    <s:String x:Key="SelectForgeVersion">インストールしようForgeのバージョンを選択してください</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Forgeインストーラーをダウンロード中</s:String>
+    <s:String x:Key="ForgeInstalling">Forgeをインストール中</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Forgeライブラリをダウンロード中</s:String>
+
+    <s:String x:Key="ForgeInstallFailed">Forgeのインストールに失敗しました</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge jarのインストールに失敗しました！</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forgeの抽出に失敗しました！</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">Forgeのインストールに成功しました</s:String>
+
+    <!--  Fabricインストール  -->
+    <s:String x:Key="FabricListLoading">Fabricダウンロードリストを読み込み中</s:String>
+    <s:String x:Key="FabricListLoadFailed">Fabricダウンロードリストを読み込めませんでした</s:String>
+    <s:String x:Key="NoAvailableFabric">このバージョンで利用可能なFabricはありません！</s:String>
+    <s:String x:Key="SelectFabricVersion">インストールしようFabricのバージョンを選択してください</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Fabricライブラリをダウンロード中</s:String>
+
+    <s:String x:Key="FabricInstallFailed">Fabricのインストールに失敗しました</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Fabricのインストールに成功しました</s:String>
+
+    <!--  モッド管理  -->
+    <s:String x:Key="AvailableMods">利用可能なモッド</s:String>
+    <s:String x:Key="SelectMods">モッドを選択してください</s:String>
+    <s:String x:Key="EnableSelected">有効にする</s:String>
+    <s:String x:Key="DisableSelected">無効にする</s:String>
+    <s:String x:Key="CopyMods">新しいモッドを追加するときは、ソースディレクトリから移動せずにコピーする</s:String>
+
+    <!--  リソースパック管理  -->
+    <s:String x:Key="EnabledPacks">有効なパック</s:String>
+    <s:String x:Key="SelectResourcepacks">リソースパックを選択してください</s:String>
+    <s:String x:Key="DisabledPacks">無効なパック</s:String>
+    <s:String x:Key="OpenPack">パックを開く</s:String>
+
+    <!--  このアプリについて  -->
+    <s:String x:Key="Dependencies">依存</s:String>
+    <s:String x:Key="ThanksTo">おかげ</s:String>
+
+    <!--  更新する  -->
+    <s:String x:Key="Update">更新する</s:String>
+    <s:String x:Key="CheckUpdate">更新状況を確認する</s:String>
+    <s:String x:Key="CheckingUpdate">更新を確認中</s:String>
+    <s:String x:Key="AlreadyUpToDate">すでに最新です</s:String>
+    <s:String x:Key="UpdateAvailable">利用可能なアップデートがあります</s:String>
+    <s:String x:Key="UpdateCheckFailed">更新チェックに失敗しました</s:String>
+    <s:String x:Key="AutoCheckUpdate">更新を自動的に確認する</s:String>
+    <s:String x:Key="UpdateChangelog">変更ログ</s:String>
+    <s:String x:Key="UpdateNow">今すぐ更新する</s:String>
+    <s:String x:Key="DeferUpdate">更新を延期する</s:String>
+    <s:String x:Key="CancelUpdate">更新をキャンセルする</s:String>
+    <s:String x:Key="WhetherCancelUpdate">更新をキャンセルしてもよろしいですか？</s:String>
+    <s:String x:Key="UpdateFailed">更新に失敗しました</s:String>
+    <s:String x:Key="SuccessfullyUpdatedTo">更新したバージョン：</s:String>
+    <s:String x:Key="UpdateSuccessful">更新に成功しました</s:String>
+
+    <!--  一般  -->
+    <s:String x:Key="Hello">ようこそ</s:String>
+    <s:String x:Key="AddNew">追加する</s:String>
+    <s:String x:Key="InstallNew">新しいバージョンをインストールする</s:String>
+    <s:String x:Key="Reload">リロードする</s:String>
+    <s:String x:Key="OpenDir">ディレクトリを開く</s:String>
+    <s:String x:Key="OpenLink">リンクを開く</s:String>
+    <s:String x:Key="Delete">削除する</s:String>
+    <s:String x:Key="Edit">編集する</s:String>
+    <s:String x:Key="Install">インストールする</s:String>
+    <s:String x:Key="InstallSuccessful">インストールに成功しました</s:String>
+    <s:String x:Key="Versions">バージョン</s:String>
+    <s:String x:Key="VersionsManagement">バージョン管理</s:String>
+    <s:String x:Key="GameInstall">ゲームのインストール</s:String>
+    <s:String x:Key="ForgeInstall">Forgeインストール</s:String>
+    <s:String x:Key="FabricInstall">Fabricインストール</s:String>
+    <s:String x:Key="Mods">モッド管理</s:String>
+    <s:String x:Key="Resourcepacks">リソースパック管理</s:String>
+    <s:String x:Key="Saves">セーブ管理</s:String>
+    <s:String x:Key="Skins">スキン管理</s:String>
+    <s:String x:Key="About">このアプリについて</s:String>
+    <s:String x:Key="Auxiliaries">補助</s:String>
+    <s:String x:Key="Auto">自動</s:String>
+
+    <!--  Goose Bomb？何やってんだよ！Goose Bomb！  -->
+    <s:String x:Key="FlowerOfHope">キボウのハナ～🎵</s:String>
+    <s:String x:Key="DontStop">とまんねぇー！</s:String>
+</ResourceDictionary>
