@@ -9,10 +9,6 @@ namespace GBCLV3.Behaviors
     {
         #region Attached Properties
 
-        public static readonly DependencyProperty IsBlurBehindProperty = DependencyProperty.RegisterAttached(
-            "IsBlurBehind", typeof(bool),
-            typeof(WindowBehavior), new PropertyMetadata(false, OnIsBlurBehindChanged));
-
         public static readonly DependencyProperty CaptionButtonStateProperty = DependencyProperty.RegisterAttached(
             "CaptionButtonState", typeof(WindowState?),
             typeof(WindowBehavior), new PropertyMetadata(null, OnButtonStateChanged));
@@ -24,12 +20,6 @@ namespace GBCLV3.Behaviors
         #endregion
 
         #region Getters & Setters
-
-        public static bool GetIsBlurBehind(DependencyObject element)
-            => (bool)element.GetValue(IsBlurBehindProperty);
-
-        public static void SetIsBlurBehind(DependencyObject element, bool value)
-            => element.SetValue(IsBlurBehindProperty, value);
 
         public static WindowState? GetCaptionButtonState(DependencyObject element)
             => (WindowState?)element.GetValue(CaptionButtonStateProperty);
@@ -47,21 +37,6 @@ namespace GBCLV3.Behaviors
         #endregion
 
         #region AttachedPropertyChanged Handlers
-
-        private static void OnIsBlurBehindChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            var window = d as Window;
-
-            if (e.OldValue is true)
-            {
-                window.Loaded -= OnWindowLoaded;
-            }
-
-            if (e.NewValue is true)
-            {
-                window.Loaded += OnWindowLoaded;
-            }
-        }
 
         private static void OnButtonStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -96,12 +71,6 @@ namespace GBCLV3.Behaviors
         #endregion
 
         #region Control Event Handlers
-
-        private static void OnWindowLoaded(object sender, RoutedEventArgs e)
-        {
-            var handle = new WindowInteropHelper(sender as Window).Handle;
-            NativeUtil.EnableBlur(handle);
-        }
 
         private static void OnStateButtonClicked(object sender, RoutedEventArgs e)
         {

@@ -2,6 +2,7 @@
 using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
+using GBCLV3.Models.Theme;
 using GBCLV3.Services;
 using GBCLV3.Services.Download;
 using GBCLV3.ViewModels.Windows;
@@ -79,6 +80,16 @@ namespace GBCLV3.ViewModels.Tabs
             set => _config.AfterLaunch = value;
         }
 
+        public BackgroundEffect SelectedBackgroundEffect
+        {
+            get => _config.BackgroundEffect;
+            set
+            {
+                _config.BackgroundEffect = value;
+                _themeService.SetBackgroundEffect();
+            }
+        }
+
         public bool IsAutoCheckUpdate
         {
             get => _config.AutoCheckUpdate;
@@ -145,7 +156,7 @@ namespace GBCLV3.ViewModels.Tabs
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Title = _languageService.GetEntry("SelectImagePath"),
-                Filter = "Images | *.jpg; *.jpeg; *.jfif; *.bmp; *.png; *.tif; *.tiff; *.webp",
+                Filter = "Images | *.jpg; *.jpeg; *.jfif; *.bmp; *.png; *.tif; *.tiff; *.webp;",
             };
 
             if (dialog.ShowDialog() ?? false)

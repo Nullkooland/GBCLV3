@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GBCLV3.Models.Theme;
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
 
@@ -8,12 +9,18 @@ namespace GBCLV3.Utils
     {
         #region Window Blur
 
-        public static void EnableBlur(IntPtr hwnd)
+        public static void EnableBlur(IntPtr hwnd, BackgroundEffect effect)
         {
             var accent = new AccentPolicy();
             int accentStructSize = Marshal.SizeOf(accent);
 
-            accent.AccentState = AccentState.ACCENT_ENABLE_BLURBEHIND;
+            accent.AccentState = effect switch
+            {
+                BackgroundEffect.SolidColor => AccentState.ACCENT_ENABLE_TRANSPARENTGRADIENT,
+                BackgroundEffect.BlurBehind => AccentState.ACCENT_ENABLE_BLURBEHIND,
+                BackgroundEffect.AcrylicMaterial => AccentState.ACCENT_ENABLE_ACRYLICBLURBEHIND,
+                _ => AccentState.ACCENT_ENABLE_BLURBEHIND,
+            };
 
             //accent.AccentFlags = 0x20 | 0x40 | 0x80 | 0x100;
             //accent.GradientColor = 0x99FFFFFF;

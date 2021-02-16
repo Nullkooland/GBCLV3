@@ -1,14 +1,17 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
-    <!-- MessageBox Button Labels -->
+    <!--  MessageBox Button Labels  -->
     <s:String x:Key="OK">OK</s:String>
     <s:String x:Key="Cancel">Отмена</s:String>
     <s:String x:Key="Yes">Да</s:String>
     <s:String x:Key="No">Нет</s:String>
+    <s:String x:Key="Enable">Давать возможность</s:String>
+    <s:String x:Key="Disable">Запрещать</s:String>
 
-    <!-- ErrorReport -->
+    <!--  ErrorReport  -->
     <s:String x:Key="ErrorReport">Отчёт об ошибке</s:String>
     <s:String x:Key="ReportUnexpectedExit">Игра неожиданно вылетела</s:String>
     <s:String x:Key="ReportUnhandledException">Программа столкнулась с необработанным исключением</s:String>
@@ -16,7 +19,7 @@
     <s:String x:Key="ReportOnGithub">Отчет на Github</s:String>
     <s:String x:Key="CopyErrorMessage">Скопировать сообщение об ошибке</s:String>
 
-    <!-- Процедура запуска -->
+    <!--  Процедура запуска  -->
     <s:String x:Key="Launch">ИГРАТЬ</s:String>
     <s:String x:Key="ProcessingDependencies">Обработка игровых зависимостей</s:String>
     <s:String x:Key="LoggingIn">Аутентификация и вход в систему</s:String>
@@ -25,12 +28,12 @@
     <s:String x:Key="HappyGame">Счастливой игры!</s:String>
     <s:String x:Key="UnexpectedExit">Неожиданный выход</s:String>
 
-    <!-- Ошибка JRE не найдено -->
+    <!--  Ошибка JRE не найдено  -->
     <s:String x:Key="JreNotFound">JRE не найден!</s:String>
     <s:String x:Key="PleaseInstallJre">Найдите или установите JRE вручную</s:String>
     <s:String x:Key="DownloadJreInstaller">Скачать установщик JRE</s:String>
 
-    <!-- Управление учётными записями -->
+    <!--  Управление учётными записями  -->
     <s:String x:Key="AccountManagement">Управление учётными записями</s:String>
     <s:String x:Key="AddAccount">Добавить учётную запись</s:String>
     <s:String x:Key="EditAccount">Изменить учётную запись</s:String>
@@ -58,7 +61,7 @@
     <s:String x:Key="Authenticating">Аутентификация</s:String>
     <s:String x:Key="AuthSuccessful">Успешная аунтетификация</s:String>
 
-    <!-- Ошибки аутентификации -->
+    <!--  Ошибки аутентификации  -->
     <s:String x:Key="AuthFailed">Ошибка аутентификации</s:String>
     <s:String x:Key="AuthTimeout">Истекло время аутентификации!</s:String>
     <s:String x:Key="NoInternetConnection">Проверьте своё интернет-соединение!</s:String>
@@ -69,7 +72,7 @@
     <s:String x:Key="ErrorMessage">Сообщение об ошибке:</s:String>
 
 
-    <!-- Проверка целостности -->
+    <!--  Проверка целостности  -->
     <s:String x:Key="IntegrityCheck">Проверка целостности</s:String>
     <s:String x:Key="MainJarDamaged">Основной jar отсутствует или повреждён</s:String>
     <s:String x:Key="ForgeJarDamaged">Forge jar отсутствует или повреждён и не может быть исправлен</s:String>
@@ -78,7 +81,7 @@
     <s:String x:Key="AssetsDamaged">Активы отсутствуют или повреждены</s:String>
     <s:String x:Key="WhetherFixNow">Выполнить исправление?</s:String>
 
-    <!-- Настройки -->
+    <!--  Настройки  -->
     <s:String x:Key="Settings">Настройки</s:String>
     <s:String x:Key="GameSettings">Настройки игры</s:String>
     <s:String x:Key="AccountSettings">Настройки уч. записи</s:String>
@@ -87,7 +90,7 @@
     <s:String x:Key="FunctionSettings">Настройки функций</s:String>
     <s:String x:Key="ThemeSettings">Настройки темы</s:String>
 
-    <!-- Настройки игры -->
+    <!--  Настройки игры  -->
     <s:String x:Key="JreDir">Каталог JRE</s:String>
     <s:String x:Key="SelectJrePath">Выбрать путь JRE</s:String>
     <s:String x:Key="JavaMaxMem">Макс. память Java (МБ)</s:String>
@@ -108,7 +111,7 @@
     <s:String x:Key="CustomJvmArgsDescription">Это переопределит аргументы JVM по умолчанию (например, конфигурации GC)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Доп. арг. Minecraft</s:String>
 
-    <!-- Настройки лаунчера -->
+    <!--  Настройки лаунчера  -->
     <s:String x:Key="Language">Язык</s:String>
 
     <s:String x:Key="DownloadSource">Источник скачивания</s:String>
@@ -121,16 +124,22 @@
     <s:String x:Key="Hide">Свернуть программу</s:String>
     <s:String x:Key="KeepVisible">Оставить как есть</s:String>
 
-    <s:String x:Key="UseBackgroundImage">Использовать фоновое изображение</s:String>
+    <s:String x:Key="BackgroundImage">фоновое изображение</s:String>
     <s:String x:Key="SelectImagePath">Выбрать путь к изображению</s:String>
     <s:String x:Key="SelectRandomImage">Случайный выбор изображения из каталога .\bg</s:String>
 
+    <s:String x:Key="BackgroundEffect">фоновый эффект</s:String>
+    <s:String x:Key="BlurBehind">Обычное размытие сзади</s:String>
+    <s:String x:Key="AcrylicMaterial">Акриловый материал</s:String>
+    <s:String x:Key="SolidColor">Сплошной цвет</s:String>
+
     <s:String x:Key="Font">Шрифт</s:String>
+    <s:String x:Key="FontFamily">Семейство шрифтов</s:String>
     <s:String x:Key="FontWeight">Толщина шрифта</s:String>
 
-    <!-- Скачать -->
+    <!--  Скачать  -->
 
-    <!-- Тип скачивания -->
+    <!--  Тип скачивания  -->
     <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
     <s:String x:Key="MainJar">Основной Jar</s:String>
     <s:String x:Key="Libraries">Библиотеки</s:String>
@@ -139,7 +148,7 @@
     <s:String x:Key="InstallForge">Установить Forge</s:String>
     <s:String x:Key="InstallFabric">Установить Fabric</s:String>
 
-    <!-- Прогресс скачивания -->
+    <!--  Прогресс скачивания  -->
     <s:String x:Key="DownloadProgress">Прогресс</s:String>
     <s:String x:Key="CancelDownload">Отменить скачивание</s:String>
     <s:String x:Key="WhetherCancelDownload">Отменить скачивание?</s:String>
@@ -150,14 +159,14 @@
     <s:String x:Key="DownloadFailedCount">Неудалось</s:String>
     <s:String x:Key="DownloadSpeed">Скорость</s:String>
 
-    <!-- Управление версиями -->
+    <!--  Управление версиями  -->
     <s:String x:Key="AvailableVersions">Установленные версии</s:String>
     <s:String x:Key="SegregateVersions">Разделять версии</s:String>
     <s:String x:Key="OpenJson">Открыть Json</s:String>
     <s:String x:Key="DeleteVersion">Удалить версию</s:String>
     <s:String x:Key="WhetherDeleteVersion">Удалить эту версию?</s:String>
 
-    <!-- Установка версии -->
+    <!--  Установка версии  -->
     <s:String x:Key="DownloadAndInstall">Скачать и установить</s:String>
     <s:String x:Key="NoVersionFound">Версия не найдена</s:String>
     <s:String x:Key="WhetherInstallNewVersion">Установить новую версию игры?</s:String>
@@ -180,7 +189,7 @@
     <s:String x:Key="DownloadAssetsOnInstall">Скачивать активы после установки</s:String>
     <s:String x:Key="VersionInstallSuccessful">Успешно установлена версия:</s:String>
 
-    <!-- Установить Forge -->
+    <!--  Установить Forge  -->
     <s:String x:Key="ForgeListLoading">Загрузка списка Forge</s:String>
     <s:String x:Key="ForgeListLoadFailed">Не удалось загрузить список загрузок Forge</s:String>
     <s:String x:Key="NoAvailableForge">Нет доступного Forge для этой версии!</s:String>
@@ -194,7 +203,7 @@
     <s:String x:Key="ForgeExtractFailed">Не удалось извлечь Forge!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">Forge успешно установлен!</s:String>
 
-    <!-- Установить Fabric -->
+    <!--  Установить Fabric  -->
     <s:String x:Key="FabricListLoading">Загрузка списка Fabric</s:String>
     <s:String x:Key="FabricListLoadFailed">Не удалось загрузить список загрузок Fabric</s:String>
     <s:String x:Key="NoAvailableFabric">Нет доступного Fabric для этой версии!</s:String>
@@ -204,7 +213,7 @@
     <s:String x:Key="FabricInstallFailed">Не удалось установить Fabric</s:String>
     <s:String x:Key="FabricInstallSuccessful">Fabric успешно установлен!</s:String>
 
-    <!-- Управление модами -->
+    <!--  Управление модами  -->
     <s:String x:Key="AvailableMods">Доступные моды</s:String>
     <s:String x:Key="SelectMods">Выбор модов</s:String>
     <s:String x:Key="EnableSelected">Включить</s:String>
@@ -212,17 +221,17 @@
     <s:String x:Key="CopyMods">При добавлении новых модов копируйте их, а не перемещайте из исходного каталога</s:String>
 
 
-    <!-- Управление пакетами ресурсов -->
+    <!--  Управление пакетами ресурсов  -->
     <s:String x:Key="EnabledPacks">Включенные пакеты</s:String>
     <s:String x:Key="SelectResourcepacks">Выбор пакетов ресурсов</s:String>
     <s:String x:Key="DisabledPacks">Выключенные пакеты</s:String>
     <s:String x:Key="OpenPack">Открыть</s:String>
 
-    <!-- О программе -->
+    <!--  О программе  -->
     <s:String x:Key="Dependencies">Зависимости:</s:String>
     <s:String x:Key="ThanksTo">Отдельное спасибо:</s:String>
 
-    <!-- Обновление -->
+    <!--  Обновление  -->
     <s:String x:Key="Update">Обновление</s:String>
     <s:String x:Key="CheckUpdate">Проверить обновление</s:String>
     <s:String x:Key="CheckingUpdate">Поиск обновлений</s:String>
@@ -239,7 +248,7 @@
     <s:String x:Key="SuccessfullyUpdatedTo">Успешно обновлено до</s:String>
     <s:String x:Key="UpdateSuccessful">Обновление выполнено успешно!</s:String>
 
-    <!-- Общие -->
+    <!--  Общие  -->
     <s:String x:Key="AddNew">Добавить новый</s:String>
     <s:String x:Key="Hello">Привет</s:String>
     <s:String x:Key="InstallNew">Добавить версию</s:String>
@@ -263,7 +272,7 @@
     <s:String x:Key="Auxiliaries">Доп. функции</s:String>
     <s:String x:Key="Auto">Авто</s:String>
 
-    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <!--  Goose Bomb what are you doing! Goose Bomb!!!  -->
     <s:String x:Key="FlowerOfHope">Цветок надежды 🎵</s:String>
     <s:String x:Key="DontStop">НИКОГДА НЕ ОСТАНАВЛИВАЙСЯ!</s:String>
 

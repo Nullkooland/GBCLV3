@@ -1,14 +1,17 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
-    <!-- MessageBox Button Labels -->
+    <!--  MessageBox Button Labels  -->
     <s:String x:Key="OK">Rendben</s:String>
     <s:String x:Key="Cancel">Mégsem</s:String>
     <s:String x:Key="Yes">Igen</s:String>
     <s:String x:Key="No">Nem</s:String>
+    <s:String x:Key="Enable">Engedélyezze</s:String>
+    <s:String x:Key="Disable">Letiltás</s:String>
 
-    <!-- ErrorReport -->
+    <!--  ErrorReport  -->
     <s:String x:Key="ErrorReport">Hibajelentés</s:String>
     <s:String x:Key="ReportUnexpectedExit">A játék váratlanul kilépett</s:String>
     <s:String x:Key="ReportUnhandledException">A program kezelhetetlen kivételt tapasztalt</s:String>
@@ -16,7 +19,7 @@
     <s:String x:Key="ReportOnGithub">Jelentés a Githubron</s:String>
     <s:String x:Key="CopyErrorMessage">Hibaüzenet másolása</s:String>
 
-    <!-- Launch Procedure -->
+    <!--  Launch Procedure  -->
     <s:String x:Key="Launch">Launch</s:String>
     <s:String x:Key="ProcessingDependencies">A játékfüggőségek feldolgozása</s:String>
     <s:String x:Key="LoggingIn">Hitelesítés és bejelentkezés</s:String>
@@ -25,12 +28,12 @@
     <s:String x:Key="HappyGame">Boldog játékot!</s:String>
     <s:String x:Key="UnexpectedExit">Váratlan kilépés</s:String>
 
-    <!-- JRE Not Found Error -->
+    <!--  JRE Not Found Error  -->
     <s:String x:Key="JreNotFound">JRE nem található!</s:String>
     <s:String x:Key="PleaseInstallJre">Kérem keresse meg vagy telepítse a JRE-t</s:String>
     <s:String x:Key="DownloadJreInstaller">Töltse le a Jre telepítőt</s:String>
 
-    <!-- Account Management -->
+    <!--  Account Management  -->
     <s:String x:Key="AccountManagement">Számlavezetés</s:String>
     <s:String x:Key="AddAccount">Fiók hozzáadása</s:String>
     <s:String x:Key="EditAccount">Fiók szerkesztése</s:String>
@@ -58,7 +61,7 @@
     <s:String x:Key="Authenticating">Hitelesítés</s:String>
     <s:String x:Key="AuthSuccessful">A hitelesítés sikeres</s:String>
 
-    <!-- Authentication Errors -->
+    <!--  Authentication Errors  -->
     <s:String x:Key="AuthFailed">Hitelesítés sikertelen</s:String>
     <s:String x:Key="AuthTimeout">Hitelesítési időtúllépés!</s:String>
     <s:String x:Key="NoInternetConnection">Kérjük, ellenőrizze internetkapcsolatát!</s:String>
@@ -69,7 +72,7 @@
     <s:String x:Key="ErrorMessage">Hiba üzenet:</s:String>
 
 
-    <!-- Integrity Check -->
+    <!--  Integrity Check  -->
     <s:String x:Key="IntegrityCheck">Integritás ellenőrzése</s:String>
     <s:String x:Key="MainJarDamaged">A fő jar hiányzik vagy sérült</s:String>
     <s:String x:Key="ForgeJarDamaged">A forge jar hiányzik vagy sérült, és nem lehet rögzíteni</s:String>
@@ -78,7 +81,7 @@
     <s:String x:Key="AssetsDamaged">Assets hiányoznak vagy sérültek</s:String>
     <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
 
-    <!-- Settings -->
+    <!--  Settings  -->
     <s:String x:Key="Settings">Beállítások</s:String>
     <s:String x:Key="GameSettings">Játék beállítások</s:String>
     <s:String x:Key="AccountSettings">Fiók beállítások</s:String>
@@ -87,7 +90,7 @@
     <s:String x:Key="FunctionSettings">Funkcióbeállítások</s:String>
     <s:String x:Key="ThemeSettings">Téma beállítások</s:String>
 
-    <!-- Game Settings -->
+    <!--  Game Settings  -->
     <s:String x:Key="JreDir">JRE könyvtár</s:String>
     <s:String x:Key="SelectJrePath">Válassza a JRE útvonalat</s:String>
     <s:String x:Key="JavaMaxMem">Java maximális memória (MB)</s:String>
@@ -108,7 +111,7 @@
     <s:String x:Key="CustomJvmArgsDescription">Ez felülbírálja az alapértelmezett JVM argumentumokat (pl. GC konfigurációk)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
 
-    <!-- Launcher Settings -->
+    <!--  Launcher Settings  -->
     <s:String x:Key="Language">Nyelv</s:String>
 
     <s:String x:Key="DownloadSource">Töltse le a forrást</s:String>
@@ -121,16 +124,22 @@
     <s:String x:Key="Hide">Ablak elrejtése</s:String>
     <s:String x:Key="KeepVisible">Tartsa láthatóan</s:String>
 
-    <s:String x:Key="UseBackgroundImage">Használja a háttérképet</s:String>
+    <s:String x:Key="BackgroundImage">háttérképet</s:String>
     <s:String x:Key="SelectImagePath">Válassza ki a kép elérési útját</s:String>
     <s:String x:Key="SelectRandomImage">Véletlenszerűen válasszon ki egy képet a .bg könyvtárból</s:String>
 
-    <s:String x:Key="Font">Betűtípus család</s:String>
+    <s:String x:Key="BackgroundEffect">Háttérhatás</s:String>
+    <s:String x:Key="BlurBehind">Rendszeres elmosódás mögött</s:String>
+    <s:String x:Key="AcrylicMaterial">Akril anyag</s:String>
+    <s:String x:Key="SolidColor">Szolid szín</s:String>
+
+    <s:String x:Key="Font">Betűtípus</s:String>
+    <s:String x:Key="FontFamily">Betűtípus család</s:String>
     <s:String x:Key="FontWeight">Betűtípus súlya</s:String>
 
-    <!-- Download -->
+    <!--  Download  -->
 
-    <!-- Download Types -->
+    <!--  Download Types  -->
     <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
     <s:String x:Key="MainJar">Fő Jar</s:String>
     <s:String x:Key="Libraries">könyvtárak</s:String>
@@ -139,7 +148,7 @@
     <s:String x:Key="InstallForge">Forge telepítése</s:String>
     <s:String x:Key="InstallFabric">Fabric telepítése</s:String>
 
-    <!-- Download Progress -->
+    <!--  Download Progress  -->
     <s:String x:Key="DownloadProgress">Progress</s:String>
     <s:String x:Key="CancelDownload">Letöltés megszakítása</s:String>
     <s:String x:Key="WhetherCancelDownload">Biztosan leállítja a letöltést?</s:String>
@@ -150,14 +159,14 @@
     <s:String x:Key="DownloadFailedCount">Nem sikerült</s:String>
     <s:String x:Key="DownloadSpeed">Sebesség</s:String>
 
-    <!-- Versions Management -->
+    <!--  Versions Management  -->
     <s:String x:Key="AvailableVersions">Elérhető verziók</s:String>
     <s:String x:Key="SegregateVersions">Elkülönített verziók</s:String>
     <s:String x:Key="OpenJson">Nyisd meg a Jsont</s:String>
     <s:String x:Key="DeleteVersion">Verzió törlése</s:String>
     <s:String x:Key="WhetherDeleteVersion">Biztosan törli a verziót</s:String>
 
-    <!-- Version Install -->
+    <!--  Version Install  -->
     <s:String x:Key="DownloadAndInstall">letöltés és telepítés</s:String>
     <s:String x:Key="NoVersionFound">Nem található verzió</s:String>
     <s:String x:Key="WhetherInstallNewVersion">Telepíthető-e új játékverzió?</s:String>
@@ -180,7 +189,7 @@
     <s:String x:Key="DownloadAssetsOnInstall">Töltse le az forrásokat telepítéskor</s:String>
     <s:String x:Key="VersionInstallSuccessful">A verzió sikeres telepítése</s:String>
 
-    <!-- Forge Install -->
+    <!--  Forge Install  -->
     <s:String x:Key="ForgeListLoading">A Forge letöltési lista betöltése</s:String>
     <s:String x:Key="ForgeListLoadFailed">A letöltési lista betöltése nem sikerült</s:String>
     <s:String x:Key="NoAvailableForge">Ehhez a verzióhoz nem áll rendelkezésre Forge!</s:String>
@@ -194,7 +203,7 @@
     <s:String x:Key="ForgeExtractFailed">Forge kicsomagolása sikertelen!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">A forge telepítése sikeres</s:String>
 
-    <!-- Fabric Install -->
+    <!--  Fabric Install  -->
     <s:String x:Key="FabricListLoading">Fabric letöltési lista betöltése</s:String>
     <s:String x:Key="FabricListLoadFailed">Nem sikerült betölteni a Fabric letöltési listáját</s:String>
     <s:String x:Key="NoAvailableFabric">Nincs elérhető Fabric ehhez a verzióhoz!</s:String>
@@ -204,7 +213,7 @@
     <s:String x:Key="FabricInstallFailed">A Fabric telepítés sikertelen</s:String>
     <s:String x:Key="FabricInstallSuccessful">Fabric telepítése sikeres</s:String>
 
-    <!-- Mods Management -->
+    <!--  Mods Management  -->
     <s:String x:Key="AvailableMods">Elérhető modok</s:String>
     <s:String x:Key="SelectMods">Válassza a Mods lehetőséget</s:String>
     <s:String x:Key="EnableSelected">Engedélyezés</s:String>
@@ -212,17 +221,17 @@
     <s:String x:Key="CopyMods">Új modok hozzáadásakor másolja ahelyett, hogy áthelyezné őket a forráskönyvtárba</s:String>
 
 
-    <!-- Resourcepacks Management -->
+    <!--  Resourcepacks Management  -->
     <s:String x:Key="EnabledPacks">Engedélyezve a csomagok</s:String>
     <s:String x:Key="SelectResourcepacks">Válassza az Erőforrás-csomagok lehetőséget</s:String>
     <s:String x:Key="DisabledPacks">Kikapcsolt csomagok</s:String>
     <s:String x:Key="OpenPack">Nyisd ki</s:String>
 
-    <!-- About -->
+    <!--  About  -->
     <s:String x:Key="Dependencies">Függőségek</s:String>
     <s:String x:Key="ThanksTo">Köszönet</s:String>
 
-    <!-- Update -->
+    <!--  Update  -->
     <s:String x:Key="Update">frissítés</s:String>
     <s:String x:Key="CheckUpdate">Frissítés ellenőrzése</s:String>
     <s:String x:Key="CheckingUpdate">A frissítés ellenőrzése</s:String>
@@ -239,7 +248,7 @@
     <s:String x:Key="SuccessfullyUpdatedTo">Sikeres frissítés ide:</s:String>
     <s:String x:Key="UpdateSuccessful">Frissítés sikeres volt</s:String>
 
-    <!-- Common -->
+    <!--  Common  -->
     <s:String x:Key="AddNew">Új hozzáadása</s:String>
     <s:String x:Key="Hello">Szia</s:String>
     <s:String x:Key="InstallNew">Telepítse az Új lehetőséget</s:String>
@@ -263,7 +272,7 @@
     <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
     <s:String x:Key="Auto">Automata</s:String>
 
-    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <!--  Goose Bomb what are you doing! Goose Bomb!!!  -->
     <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
     <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
 

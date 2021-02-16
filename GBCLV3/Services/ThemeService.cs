@@ -1,4 +1,5 @@
 ﻿using GBCLV3.Models;
+using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -115,6 +117,12 @@ namespace GBCLV3.Services
             BackgroundImage.CacheOption = BitmapCacheOption.OnLoad;
             BackgroundImage.EndInit();
             BackgroundImage.Freeze();
+        }
+
+        public void SetBackgroundEffect()
+        {
+            var handle = new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            NativeUtil.EnableBlur(handle, _config.BackgroundEffect);
         }
 
         public string[] GetSystemFontNames()

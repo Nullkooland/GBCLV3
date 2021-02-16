@@ -1,27 +1,30 @@
-﻿<ContentControl x:Class="GBCLV3.Views.Tabs.LauncherSettingsView"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
-                xmlns:s="https://github.com/canton7/Stylet"
-                xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-                xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-                xmlns:download="clr-namespace:GBCLV3.Models.Download"
-                xmlns:launch="clr-namespace:GBCLV3.Models.Launch"
-                xmlns:util="clr-namespace:GBCLV3.Utils"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                Style="{StaticResource TabPageStyle}">
+﻿<ContentControl
+    x:Class="GBCLV3.Views.Tabs.LauncherSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:cm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:download="clr-namespace:GBCLV3.Models.Download"
+    xmlns:launch="clr-namespace:GBCLV3.Models.Launch"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:theme="clr-namespace:GBCLV3.Models.Theme"
+    xmlns:util="clr-namespace:GBCLV3.Utils"
+    ScrollViewer.VerticalScrollBarVisibility="Auto"
+    Style="{StaticResource TabPageStyle}">
 
     <ContentControl.Resources>
-        <Style x:Key="DescriptionText" TargetType="TextBlock"
-               BasedOn="{StaticResource {x:Type TextBlock}}">
-            <Setter Property="Margin" Value="16,8,16,0" />
+        <Style
+            x:Key="DescriptionText"
+            BasedOn="{StaticResource {x:Type TextBlock}}"
+            TargetType="TextBlock">
+            <Setter Property="Margin" Value="8,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="14" />
         </Style>
 
-        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
-            <Setter Property="Margin" Value="8,8,0,0" />
+        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
             <Setter Property="Height" Value="32" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -30,21 +33,18 @@
             <Setter Property="FontSize" Value="14" />
         </Style>
 
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
-            <Setter Property="Margin" Value="0,8,0,0" />
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
             <Setter Property="Height" Value="32" />
             <Setter Property="FontSize" Value="14" />
         </Style>
 
-        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
-            <Setter Property="Margin" Value="8,8,8,0" />
+        <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="14" />
         </Style>
 
-        <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
-            <Setter Property="Margin" Value="0,8,8,0" />
+        <Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="ComboBox">
             <Setter Property="Height" Value="32" />
             <Setter Property="FontSize" Value="14" />
         </Style>
@@ -58,146 +58,223 @@
 
     <StackPanel Orientation="Vertical">
 
-        <GroupBox Margin="8,8,8,0"
-                  Header="{DynamicResource FunctionSettings}">
-            <Grid>
+        <GroupBox Margin="8,8,8,0" Header="{DynamicResource FunctionSettings}">
+            <Grid Margin="8,4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="8" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="160"/>
+                    <ColumnDefinition Width="Auto" MinWidth="160" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                           Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource Language}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource Language}" />
 
-                <ComboBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="3"
-                          ItemsSource="{Binding Languages, Mode=OneTime}"
-                          DisplayMemberPath="Label"
-                          SelectedValuePath="Value"
-                          SelectedValue="{Binding SelectedLanguage, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    DisplayMemberPath="Label"
+                    ItemsSource="{Binding Languages, Mode=OneTime}"
+                    SelectedValue="{Binding SelectedLanguage, Mode=TwoWay}"
+                    SelectedValuePath="Value" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
-                           Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource DownloadSource}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource DownloadSource}" />
 
-                <ComboBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                          ItemsSource="{util:EnumBindingSource {x:Type download:DownloadSource}}"
-                          SelectedItem="{Binding SelectedDownloadSource, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{util:EnumBindingSource {x:Type download:DownloadSource}}"
+                    SelectedItem="{Binding SelectedDownloadSource, Mode=TwoWay}" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0"
-                           Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource AfterLaunch}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource AfterLaunch}" />
 
-                <ComboBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="3"
-                          ItemsSource="{util:EnumBindingSource {x:Type launch:AfterLaunchBehavior}}"
-                          SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}" />
+                <ComboBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    ItemsSource="{util:EnumBindingSource {x:Type launch:AfterLaunchBehavior}}"
+                    SelectedItem="{Binding SelectedAfterLaunchBehavior, Mode=TwoWay}" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0"
-                           Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource Update}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource Update}" />
 
-                <Button Grid.Row="3" Grid.Column="1"
-                        Padding="24,0"
-                        Content="{DynamicResource CheckUpdate}"
-                        Click="{s:Action CheckUpdate}"
-                        IsEnabled="{Binding IsFreeToCheckUpdate, Mode=OneWay}" />
+                <CheckBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Content="{DynamicResource AutoCheckUpdate}"
+                    IsChecked="{Binding IsAutoCheckUpdate}" />
 
-                <TextBlock Grid.Row="3" Grid.Column="2" Margin="16,8,8,0"
-                           Style="{StaticResource DescriptionText}"
-                           Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
-                           Text="{Binding CheckStatus, Mode=OneWay}" />
+                <Button
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Margin="16,0,0,0"
+                    Click="{s:Action CheckUpdate}"
+                    Content="{DynamicResource CheckUpdate}"
+                    IsEnabled="{Binding IsFreeToCheckUpdate, Mode=OneWay}" />
 
-                <CheckBox Grid.Row="3" Grid.Column="3"
-                          HorizontalAlignment="Right"
-                          Content="{DynamicResource AutoCheckUpdate}"
-                          IsChecked="{Binding IsAutoCheckUpdate}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    HorizontalAlignment="Right"
+                    Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{Binding CheckStatus, Mode=OneWay}"
+                    TextTrimming="WordEllipsis" />
             </Grid>
         </GroupBox>
 
-        <GroupBox Margin="8"
-                  Header="{DynamicResource ThemeSettings}">
-            <Grid>
+        <GroupBox Margin="8" Header="{DynamicResource ThemeSettings}">
+            <Grid Margin="8,4">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="8" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="40" />
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="2*" />
-                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" MinWidth="160" />
                     <ColumnDefinition Width="*" />
-                    <ColumnDefinition Width="48" />
                 </Grid.ColumnDefinitions>
 
-                <CheckBox Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
-                          Content="{DynamicResource UseBackgroundImage}"
-                          IsChecked="{Binding IsUseBackgroundImage, Mode=TwoWay}" />
+                <!--  Background Image  -->
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource BackgroundImage}" />
 
-                <TextBox Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4"
-                         adonisExtensions:WatermarkExtension.IsWatermarkVisible="{Binding IsSelectRandomImage, Mode=OneWay}"
-                         adonisExtensions:WatermarkExtension.Watermark="{DynamicResource SelectRandomImage}"
-                         IsEnabled="{Binding IsUseBackgroundImage, Mode=OneWay}"
-                         Text="{Binding BackgroundImagePath, Mode=TwoWay}" />
+                <Grid Grid.Row="0" Grid.Column="1">
 
-                <Button Grid.Row="1" Grid.Column="4"
-                        Width="32" Height="32"
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <CheckBox
+                        Grid.Column="0"
+                        Margin="0"
+                        Content="{DynamicResource Enable}"
+                        IsChecked="{Binding IsUseBackgroundImage, Mode=TwoWay}" />
+
+                    <TextBox
+                        Grid.Column="1"
+                        Margin="16,0,8,0"
+                        adonisExtensions:WatermarkExtension.IsWatermarkVisible="{Binding IsSelectRandomImage, Mode=OneWay}"
+                        adonisExtensions:WatermarkExtension.Watermark="{DynamicResource SelectRandomImage}"
+                        IsEnabled="{Binding IsUseBackgroundImage, Mode=OneWay}"
+                        Text="{Binding BackgroundImagePath, Mode=TwoWay}" />
+
+                    <Button
+                        Grid.Column="2"
+                        Width="32"
+                        Height="32"
+                        Click="{s:Action SelectBackgoundImagePath}"
+                        Content="&#xED25;"
                         FontFamily="Segoe MDL2 Assets"
                         FontSize="16"
-                        Content="&#xED25;"
-                        ToolTipService.Placement="Bottom"
-                        ToolTip="{DynamicResource SelectImagePath}"
                         IsEnabled="{Binding IsUseBackgroundImage, Mode=OneWay}"
-                        Click="{s:Action SelectBackgoundImagePath}" />
+                        ToolTip="{DynamicResource SelectImagePath}"
+                        ToolTipService.Placement="Bottom" />
+                </Grid>
 
-                <TextBlock Grid.Row="2" Grid.Column="0"
-                           Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource Font}" />
+                <!--  Background Effect  -->
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource BackgroundEffect}" />
 
-                <!-- Font Select Box -->
-                <ComboBox Grid.Row="2" Grid.Column="1"
-                          IsSynchronizedWithCurrentItem="True"
-                          VirtualizingPanel.IsVirtualizing="True"
-                          ItemsSource="{Binding SystemFontNames, Mode=OneTime}"
-                          SelectedItem="{Binding SelectedFontFamily, Mode=TwoWay}"
-                          FontFamily="{Binding SelectedValue, RelativeSource={RelativeSource Self}}">
+                <ComboBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    ItemsSource="{util:EnumBindingSource {x:Type theme:BackgroundEffect}}"
+                    SelectedItem="{Binding SelectedBackgroundEffect, Mode=TwoWay}" />
 
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" FontFamily="{Binding}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
+                <!--  Fonts  -->
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Style="{StaticResource DescriptionText}"
+                    Text="{DynamicResource Font}" />
 
-                </ComboBox>
 
-                <TextBlock Grid.Row="2" Grid.Column="2" Margin="8,8,16,0"
-                           Style="{StaticResource DescriptionText}"
-                           Text="{DynamicResource FontWeight}" />
+                <Grid Grid.Row="2" Grid.Column="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="2*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
 
-                <ComboBox Grid.Row="2" Grid.Column="3" Grid.ColumnSpan="2"
-                          IsSynchronizedWithCurrentItem="True"
-                          ItemsSource="{Binding FontWeights, Mode=OneTime}"
-                          SelectedItem="{Binding SelectedFontWeight, Mode=TwoWay}">
+                    <TextBlock
+                        Grid.Column="0"
+                        Margin="0"
+                        Style="{StaticResource DescriptionText}"
+                        Text="{DynamicResource FontFamily}" />
 
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding}" FontWeight="{Binding}" />
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
 
-                </ComboBox>
+                    <ComboBox
+                        Grid.Column="1"
+                        Margin="8,0"
+                        FontFamily="{Binding SelectedValue, RelativeSource={RelativeSource Self}}"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding SystemFontNames, Mode=OneTime}"
+                        SelectedItem="{Binding SelectedFontFamily, Mode=TwoWay}"
+                        VirtualizingPanel.IsVirtualizing="True">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontFamily="{Binding}" Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                    </ComboBox>
+
+                    <TextBlock
+                        Grid.Column="2"
+                        Margin="16,0,8,0"
+                        Style="{StaticResource DescriptionText}"
+                        Text="{DynamicResource FontWeight}" />
+
+                    <ComboBox
+                        Grid.Column="3"
+                        IsSynchronizedWithCurrentItem="True"
+                        ItemsSource="{Binding FontWeights, Mode=OneTime}"
+                        SelectedItem="{Binding SelectedFontWeight, Mode=TwoWay}">
+
+                        <ComboBox.ItemTemplate>
+                            <DataTemplate>
+                                <TextBlock FontWeight="{Binding}" Text="{Binding}" />
+                            </DataTemplate>
+                        </ComboBox.ItemTemplate>
+
+                    </ComboBox>
+                </Grid>
+
             </Grid>
         </GroupBox>
 

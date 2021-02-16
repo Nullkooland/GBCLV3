@@ -24,7 +24,6 @@
         <Setter Property="Background" Value="#80333333" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0.75" />
-        <Setter Property="behaviors:WindowBehavior.IsBlurBehind" Value="True" />
 
         <Setter Property="Template">
             <Setter.Value>
