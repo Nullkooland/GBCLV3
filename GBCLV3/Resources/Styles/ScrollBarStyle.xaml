@@ -38,52 +38,16 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ScrollEdgeButton" TargetType="RepeatButton">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="Height" Value="12" />
-
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="RepeatButton">
-                    <Border Background="Transparent">
-                        <TextBlock
-                            Margin="2"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            FontFamily="Segoe MDL2 Assets"
-                            FontSize="8"
-                            Foreground="{DynamicResource {x:Static adonisUI:Brushes.ForegroundBrush}}"
-                            Text="{TemplateBinding Content}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="{x:Type ScrollBar}" TargetType="ScrollBar">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="OverridesDefaultStyle" Value="True" />
-        <Setter Property="Width" Value="12" />
+        <Setter Property="Width" Value="8" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ScrollBar">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                            <RowDefinition Height="Auto" />
-                        </Grid.RowDefinitions>
-
-                        <Rectangle
-                            Grid.RowSpan="3"
-                            Fill="{DynamicResource {x:Static adonisUI:Brushes.Layer2BackgroundBrush}}"
-                            Opacity="0.5" />
-
+                    <Grid Background="{DynamicResource {x:Static adonisUI:Brushes.Layer1BackgroundBrush}}">
                         <Track
                             Name="PART_Track"
-                            Grid.Row="1"
                             Width="{TemplateBinding Width}"
                             HorizontalAlignment="Center"
                             IsDirectionReversed="True"
@@ -104,17 +68,6 @@
                             </Track.Thumb>
                         </Track>
 
-                        <RepeatButton
-                            Grid.Row="0"
-                            Command="ScrollBar.LineUpCommand"
-                            Content="&#xE96D;"
-                            Style="{StaticResource ScrollEdgeButton}" />
-
-                        <RepeatButton
-                            Grid.Row="2"
-                            Command="ScrollBar.LineDownCommand"
-                            Content="&#xE96E;"
-                            Style="{StaticResource ScrollEdgeButton}" />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
