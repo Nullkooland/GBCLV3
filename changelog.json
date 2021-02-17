@@ -1,32 +1,35 @@
 {
     "en-US": {
-        "title": "Bug fixes",
+        "title": "Man, it's been a while but I'm still working on it!（＞人＜；）",
         "details": [
-            "If self-update is failed due to the bug in previous version, please manually rename the downloaded \"GBCL.update\" to \"GBCL.exe\" and replace the older executable!",
-            "Re-implement self-update method using PowerShell script, it should work from now on!",
-            "Fix issue when reading authors from some weird-formatted info files in Fabric mods",
-            "Fix typos in English language file",
-            "Update some dependencies"
+            "Fix bug relating to mods loading.",
+            "Add background effect options, now you can enable Win10's acrylic blur (although it could make the window laggy to drag, which is a common bug when using the system acrylic blur API and unfixable now).",
+            "Now you can open account edit window directly at home page by clicking the account avatar.",
+            "Add Japanese translations, thanks to my dear friend Ngain.",
+            "Some UI adjustments for better consistency.",
+            "Update versions of dependencies"
         ]
     },
     "zh-CN": {
-        "title": "Bug 修复",
+        "title": "咕咕咕，那是鸽子的声音！（＞人＜；）",
         "details": [
-            "如果由于之前版本的 bug 导致自动升级失败，请把目录下下载的 \"GBCL.update\" 重命名为 \"GBCL.exe\" 并替换旧版的可执行文件！",
-            "使用 PowerShell 脚本重新实现自更新功能，现在起应该可以正常工作了！",
-            "修复了从某些格式奇葩的 Fabric 模组信息文件中读取作者的问题",
-            "修正英文语言文件中的一些错误",
-            "升级了一些依赖项版本"
+            "修复与模组读取相关的 bug，信息文件不完整的 mod 不再导致崩溃。",
+            "加入新的背景效果选项，现在你可以启用 Win10 的亚克力模糊效果（虽然会导致窗口拖动缓慢，这个问题是使用了亚克力效果 API 导致的，暂时没有解决方法）。",
+            "现在可以从主界面点击头像直接打开账号编辑窗口。",
+            "加入日语翻译，感谢我的好朋友窨井（偷偷rua一把好了！)",
+            "各种 UI 调整以增加整体一致性。",
+            "升级各依赖项版本。"
         ]
     },
     "zh-TW": {
-        "title": "Bug 修復",
+        "title": "咕咕咕，那是鴿子的聲音！（＞人＜；）",
         "details": [
-            "如果由於之前版本的 bug 導致自動升級失敗，請把目錄下下載的 \"GBCL.update\" 重命名為 \"GBCL.exe\" 並替換舊版的可執行檔！",
-            "使用 PowerShell 腳本重新實現自更新功能，現在起應該可以正常工作了！",
-            "修復了從某些格式奇葩的 Fabric 模組資訊檔中讀取作者的問題",
-            "修正英文語言檔中的一些錯誤",
-            "升級了一些依賴項版本"
+            "修復與模組讀取相關的 bug，資訊檔不完整的 mod 不再導致崩潰。",
+            "加入新的背景效果選項，現在你可以啟用 Win10 的亞克力模糊效果（雖然會導致視窗拖動緩慢，這個問題是使用了亞克力效果 API 導致的，暫時沒有解決方法）。",
+            "現在可以從主介面點擊頭像直接打開帳號編輯視窗。",
+            "加入日語翻譯，感謝我的好朋友窨井（偷偷rua一把好了！)",
+            "各種 UI 調整以增加整體一致性。",
+            "升級各依賴項版本。"
         ]
     }
 }
