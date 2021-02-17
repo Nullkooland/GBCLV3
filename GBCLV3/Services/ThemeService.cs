@@ -19,6 +19,8 @@ namespace GBCLV3.Services
     {
         #region Binding Properties
 
+        public static string[] ImageExtenstions { get; } = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff", ".webp", ".heif", ".heic", ".avif" };
+
         public BitmapImage BackgroundImage { get; private set; }
 
         public StreamGeometry BackgroundIcon { get; private set; }
@@ -98,9 +100,8 @@ namespace GBCLV3.Services
                 string imgSearchDir = Environment.CurrentDirectory + "/bg";
                 if (Directory.Exists(imgSearchDir))
                 {
-                    string[] imgExtensions = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff", ".webp" };
                     string[] imgFiles = Directory.EnumerateFiles(imgSearchDir)
-                                                 .Where(file => imgExtensions.Any(file.ToLower().EndsWith))
+                                                 .Where(file => ImageExtenstions.Any(file.ToLower().EndsWith))
                                                  .ToArray();
 
                     if (imgFiles.Any())

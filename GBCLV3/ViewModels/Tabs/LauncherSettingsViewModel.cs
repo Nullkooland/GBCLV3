@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Text;
 using System.Windows;
 using GBCLV3.Models;
 using GBCLV3.Models.Download;
@@ -154,10 +155,16 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void SelectBackgoundImagePath()
         {
+            var sb = new StringBuilder("Images |");
+            foreach(var extenstion in ThemeService.ImageExtenstions)
+            {
+                sb.Append($"*{extenstion};");
+            }
+
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Title = _languageService.GetEntry("SelectImagePath"),
-                Filter = "Images | *.jpg; *.jpeg; *.jfif; *.bmp; *.png; *.tif; *.tiff; *.webp;",
+                Filter = sb.ToString(),
             };
 
             if (dialog.ShowDialog() ?? false)
