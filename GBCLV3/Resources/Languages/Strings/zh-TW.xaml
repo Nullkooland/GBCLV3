@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
+    <!--  語言翻譯提供者  -->
+    <s:String x:Key="MultilingualTranslation">多語言翻譯</s:String>
+    <s:String x:Key="TranslatorName">鵝彈 (Goose Bomb)</s:String>
+
     <!--  對話方塊按鈕標籤  -->
     <s:String x:Key="OK">好</s:String>
     <s:String x:Key="Cancel">取消</s:String>

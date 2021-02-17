@@ -3,6 +3,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
+    <!--  Translator  -->
+    <s:String x:Key="MultilingualTranslation">Çok Dilli Çeviri</s:String>
+    <s:String x:Key="TranslatorName">Geik</s:String>
+
     <!--  MessageBox Button Labels  -->
     <s:String x:Key="OK">Onayla</s:String>
     <s:String x:Key="Cancel">Iptal</s:String>

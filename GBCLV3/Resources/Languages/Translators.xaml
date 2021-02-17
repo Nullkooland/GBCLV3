@@ -1,0 +1,15 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+
+    <s:String x:Key="en-US">Goose Bomb</s:String>
+    <s:String x:Key="zh-CN">鹅弹 (Goose Bomb)</s:String>
+    <s:String x:Key="zh-TW">鵝彈 (Goose Bomb)</s:String>
+    <s:String x:Key="ru-RU">The_BadUser (vanja-san)</s:String>
+    <s:String x:Key="de-DE">Luca Auer (Lolle2000la)</s:String>
+    <s:String x:Key="tr-TR">Geik</s:String>
+    <s:String x:Key="hu-HU">lolraceHun</s:String>
+    <s:String x:Key="ja-JP">窨井</s:String>
+
+</ResourceDictionary>

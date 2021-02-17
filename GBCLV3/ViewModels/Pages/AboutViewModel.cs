@@ -1,4 +1,5 @@
-﻿using GBCLV3.Utils;
+﻿using GBCLV3.Services;
+using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 
@@ -10,15 +11,17 @@ namespace GBCLV3.ViewModels.Pages
 
         // IoC
         private readonly IWindowManager _windowManager;
+        private readonly LanguageService _languageService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public AboutViewModel(IWindowManager windowManager)
+        public AboutViewModel(IWindowManager windowManager, LanguageService languageService)
         {
             _windowManager = windowManager;
+            _languageService = languageService;
         }
 
         #endregion
@@ -55,7 +58,7 @@ namespace GBCLV3.ViewModels.Pages
 
         public void OpenLink(string url) => SystemUtil.OpenLink(url);
 
-        public void DontStop() => _windowManager.ShowMessageBox("${DontStop}", "${FlowerOfHope}");
+        public void DontStop() => _windowManager.ShowMessageBox("${DontStop}", "${FlowerOfHope}"); 
 
         #endregion
 
