@@ -1,25 +1,27 @@
-﻿<ContentControl x:Class="GBCLV3.Views.Tabs.GameSettingsView"
-                xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                xmlns:s="https://github.com/canton7/Stylet"
-                xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-                xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-                xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                mc:Ignorable="d"
-                d:DesignHeight="450" d:DesignWidth="800"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                Style="{StaticResource TabPageStyle}">
+﻿<ContentControl
+    x:Class="GBCLV3.Views.Tabs.GameSettingsView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    ScrollViewer.VerticalScrollBarVisibility="Auto"
+    Style="{StaticResource TabPageStyle}"
+    mc:Ignorable="d">
 
     <ContentControl.Resources>
-        <Style TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
             <Setter Property="Margin" Value="16,8,16,0" />
             <Setter Property="HorizontalAlignment" Value="Left" />
             <Setter Property="VerticalAlignment" Value="Center" />
             <Setter Property="FontSize" Value="14" />
         </Style>
 
-        <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+        <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="TextBox">
             <Setter Property="Margin" Value="0,8,0,0" />
             <Setter Property="Height" Value="32" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
@@ -29,7 +31,7 @@
             <Setter Property="FontSize" Value="14" />
         </Style>
 
-        <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
             <Setter Property="Margin" Value="0,8,0,0" />
             <Setter Property="Width" Value="32" />
             <Setter Property="Height" Value="32" />
@@ -38,7 +40,7 @@
             <Setter Property="FontSize" Value="16" />
         </Style>
 
-        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}">
+        <Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="CheckBox">
             <Setter Property="Margin" Value="16,8,0,0" />
             <Setter Property="Height" Value="32" />
             <Setter Property="HorizontalAlignment" Value="Left" />
@@ -49,9 +51,8 @@
 
     <StackPanel Orientation="Vertical">
 
-        <!-- Game Settings -->
-        <GroupBox Margin="8,8,8,0"
-                  Header="{DynamicResource GameSettings}">
+        <!--  Game Settings  -->
+        <GroupBox Margin="8,8,8,0" Header="{DynamicResource GameSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -63,7 +64,7 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="160"/>
+                    <ColumnDefinition Width="Auto" MinWidth="160" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="32" />
                     <ColumnDefinition Width="*" />
@@ -71,78 +72,110 @@
                     <ColumnDefinition Width="48" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="{DynamicResource JreDir}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="{DynamicResource JreDir}" />
 
-                <TextBox Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="4"
-                         IsReadOnly="True"
-                         adonisExtensions:WatermarkExtension.Watermark="{DynamicResource JreNotFound}"
-                         Text="{Binding JreDir, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    adonisExtensions:WatermarkExtension.Watermark="{DynamicResource JreNotFound}"
+                    IsReadOnly="True"
+                    Text="{Binding JreDir, Mode=TwoWay}" />
 
-                <Button Grid.Row="0" Grid.Column="5"
-                        Content="&#xED25;"
-                        ToolTipService.Placement="Bottom"
-                        ToolTip="{DynamicResource SelectJrePath}"
-                        Click="{s:Action SelectJrePath}" />
+                <Button
+                    Grid.Row="0"
+                    Grid.Column="5"
+                    Click="{s:Action SelectJrePath}"
+                    Content="&#xED25;"
+                    ToolTip="{DynamicResource SelectJrePath}"
+                    ToolTipService.Placement="Bottom" />
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
-                           Text="{DynamicResource JavaMaxMem}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="{DynamicResource JavaMaxMem}" />
 
-                <TextBox Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"
-                         Text="{Binding JavaMaxMemory, Mode=TwoWay}"
-                         ToolTipService.Placement="Bottom"
-                         ToolTip="{Binding AvailableMemory, Mode=OneWay}"
-                         ToolTipOpening="{s:Action UpdateAvailableMemoryDisplay}" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="3"
+                    Text="{Binding JavaMaxMemory, Mode=TwoWay}"
+                    ToolTip="{Binding AvailableMemory, Mode=OneWay}"
+                    ToolTipOpening="{s:Action UpdateAvailableMemoryDisplay}"
+                    ToolTipService.Placement="Bottom" />
 
-                <CheckBox Grid.Row="1" Grid.Column="4"
-                          Content="{DynamicResource DebugMode}"
-                          IsChecked="{Binding IsDebugMode, Mode=TwoWay}"
-                          ToolTipService.Placement="Bottom"
-                          ToolTip="{DynamicResource DebugModeDescription}" />
+                <CheckBox
+                    Grid.Row="1"
+                    Grid.Column="4"
+                    Content="{DynamicResource DebugMode}"
+                    IsChecked="{Binding IsDebugMode, Mode=TwoWay}"
+                    ToolTip="{DynamicResource DebugModeDescription}"
+                    ToolTipService.Placement="Bottom" />
 
-                <Button Grid.Row="1" Grid.Column="5"
-                        Content="&#xE896;"
-                        ToolTipService.Placement="Bottom"
-                        ToolTip="{DynamicResource DownloadJreInstaller}"
-                        Click="{s:Action DownloadJreInstaller}"
-                        Visibility="{Binding JreDir, Mode=OneWay,
-                                     Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="5"
+                    Click="{s:Action DownloadJreInstaller}"
+                    Content="&#xE896;"
+                    ToolTip="{DynamicResource DownloadJreInstaller}"
+                    ToolTipService.Placement="Bottom"
+                    Visibility="{Binding JreDir, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.InverseInstance}}" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0"
-                           Text="{DynamicResource GameDir}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="{DynamicResource GameDir}" />
 
-                <TextBox Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="4"
-                         Text="{Binding GameDir}" />
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Grid.ColumnSpan="4"
+                    Text="{Binding GameDir}" />
 
-                <Button Grid.Row="2" Grid.Column="5"
-                        Content="&#xED25;"
-                        ToolTipService.Placement="Bottom"
-                        ToolTip="{DynamicResource SelectGameDir}"
-                        Click="{s:Action SelectGameDir}" />
+                <Button
+                    Grid.Row="2"
+                    Grid.Column="5"
+                    Click="{s:Action SelectGameDir}"
+                    Content="&#xED25;"
+                    ToolTip="{DynamicResource SelectGameDir}"
+                    ToolTipService.Placement="Bottom" />
 
-                <TextBlock Grid.Row="3" Grid.Column="0"
-                           Text="{DynamicResource WindowResolution}" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="0"
+                    Text="{DynamicResource WindowResolution}" />
 
-                <TextBox Grid.Row="3" Grid.Column="1"
-                         Text="{Binding WindowWidth, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Text="{Binding WindowWidth, Mode=TwoWay}" />
 
-                <TextBlock Grid.Row="3" Grid.Column="2" Margin="0,8,0,0"
-                           HorizontalAlignment="Center"
-                           FontFamily="Segoe MDL2 Assets"
-                           Text="&#xE947;" />
+                <TextBlock
+                    Grid.Row="3"
+                    Grid.Column="2"
+                    Margin="0,8,0,0"
+                    HorizontalAlignment="Center"
+                    FontFamily="Segoe MDL2 Assets"
+                    Text="&#xE947;" />
 
-                <TextBox Grid.Row="3" Grid.Column="3"
-                         Text="{Binding WindowHeight, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="3"
+                    Grid.Column="3"
+                    Text="{Binding WindowHeight, Mode=TwoWay}" />
 
-                <CheckBox Grid.Row="3" Grid.Column="4"
-                          Content="{DynamicResource FullScreen}"
-                          IsChecked="{Binding IsFullScreen, Mode=TwoWay}" />
+                <CheckBox
+                    Grid.Row="3"
+                    Grid.Column="4"
+                    Content="{DynamicResource FullScreen}"
+                    IsChecked="{Binding IsFullScreen, Mode=TwoWay}" />
             </Grid>
         </GroupBox>
 
-        <!-- Other Settings -->
-        <GroupBox Margin="8"
-                  Header="{DynamicResource AdvancedSettings}">
+        <!--  Other Settings  -->
+        <GroupBox Margin="8" Header="{DynamicResource AdvancedSettings}">
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
@@ -152,33 +185,45 @@
                 </Grid.RowDefinitions>
 
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" MinWidth="160"/>
+                    <ColumnDefinition Width="Auto" MinWidth="160" />
                     <ColumnDefinition Width="*" />
                     <ColumnDefinition Width="8" />
                 </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0"
-                           Text="{DynamicResource ServerAddress}" />
+                <TextBlock
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Text="{DynamicResource ServerAddress}" />
 
-                <TextBox Grid.Row="0" Grid.Column="1"
-                         Text="{Binding ServerAddress}"
-                         ToolTipService.Placement="Bottom"
-                         ToolTip="{DynamicResource JoinServerOnLaunch}" />
+                <TextBox
+                    Grid.Row="0"
+                    Grid.Column="1"
+                    Text="{Binding ServerAddress}"
+                    ToolTip="{DynamicResource JoinServerOnLaunch}"
+                    ToolTipService.Placement="Bottom" />
 
 
-                <TextBlock Grid.Row="1" Grid.Column="0"
-                           Text="{DynamicResource CustomJvmArgs}" />
+                <TextBlock
+                    Grid.Row="1"
+                    Grid.Column="0"
+                    Text="{DynamicResource CustomJvmArgs}" />
 
-                <TextBox Grid.Row="1" Grid.Column="1"
-                         Text="{Binding JvmArgs, Mode=TwoWay}"
-                         ToolTipService.Placement="Bottom"
-                         ToolTip="{DynamicResource CustomJvmArgsDescription}" />
+                <TextBox
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Text="{Binding JvmArgs, Mode=TwoWay}"
+                    ToolTip="{DynamicResource CustomJvmArgsDescription}"
+                    ToolTipService.Placement="Bottom" />
 
-                <TextBlock Grid.Row="2" Grid.Column="0"
-                           Text="{DynamicResource ExtraMinecraftArgs}" />
+                <TextBlock
+                    Grid.Row="2"
+                    Grid.Column="0"
+                    Text="{DynamicResource ExtraMinecraftArgs}" />
 
-                <TextBox Grid.Row="2" Grid.Column="1"
-                         Text="{Binding ExtraMinecraftArgs, Mode=TwoWay}" />
+                <TextBox
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Text="{Binding ExtraMinecraftArgs, Mode=TwoWay}" />
 
             </Grid>
         </GroupBox>

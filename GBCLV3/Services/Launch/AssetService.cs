@@ -19,23 +19,25 @@ namespace GBCLV3.Services.Launch
     {
         #region Private Fields
 
-        private readonly HttpClient _client;
 
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
+        private readonly HttpClient _client;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public AssetService(GamePathService gamePathService, DownloadUrlService urlService)
+        public AssetService(
+            GamePathService gamePathService, 
+            DownloadUrlService urlService,
+            HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
-
-            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
+            _client = client;
         }
 
         #endregion

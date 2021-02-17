@@ -13,9 +13,14 @@ namespace GBCLV3.Services
     {
         #region Private Fields
 
+        private const string AVAILABLE_LANGS_DICT_PATH = "/Resources/Languages/AvailableLanguages.xaml";
+        private const string TRANSLATOR_DICT_PATH = "/Resources/Languages/Translators.xaml";
+        private const string STRINGS_DICTS_DIR = "/Resources/Languages/Strings";
+
         private readonly Config _config;
 
         private readonly Dictionary<string, string> _availableLanguages;
+        private readonly Dictionary<string, string> _translators;
         private ResourceDictionary _currentLangDict;
 
         #endregion
@@ -27,16 +32,22 @@ namespace GBCLV3.Services
         {
             _config = configService.Entries;
 
-            var langsResourceDict =
-                Application.LoadComponent(new Uri("/Resources/Languages/AvailableLanguages.xaml", UriKind.Relative)) as
+            var availableLangsDict =
+                Application.LoadComponent(new Uri(AVAILABLE_LANGS_DICT_PATH, UriKind.Relative)) as
                     ResourceDictionary;
 
-            _availableLanguages = langsResourceDict.Keys.Cast<string>()
+            var translatorsDict = Application.LoadComponent(new Uri(TRANSLATOR_DICT_PATH, UriKind.Relative)) as
+                    ResourceDictionary;
+
+            _availableLanguages = availableLangsDict.Keys.Cast<string>()
                 .OrderBy(key => key)
                 .ToDictionary(
                     key => key,
-                    key => langsResourceDict[key] as string
+                    key => availableLangsDict[key] as string
                 );
+
+            _translators = _availableLanguages.Keys
+                .ToDictionary(key => _availableLanguages[key], key => translatorsDict[key] as string);
 
             if (string.IsNullOrEmpty(_config.Language))
             {
@@ -49,7 +60,7 @@ namespace GBCLV3.Services
             }
 
             _currentLangDict =
-                Application.LoadComponent(new Uri($"/Resources/Languages/{_config.Language}.xaml", UriKind.Relative)) as
+                Application.LoadComponent(new Uri($"{STRINGS_DICTS_DIR}/{_config.Language}.xaml", UriKind.Relative)) as
                     ResourceDictionary;
 
             Application.Current.Resources.MergedDictionaries.Add(_currentLangDict);
@@ -62,7 +73,7 @@ namespace GBCLV3.Services
         public void Change(string langTag)
         {
             var replaceLangDict =
-                Application.LoadComponent(new Uri($"/Resources/Languages/{langTag}.xaml", UriKind.Relative)) as
+                Application.LoadComponent(new Uri($"{STRINGS_DICTS_DIR}/{langTag}.xaml", UriKind.Relative)) as
                     ResourceDictionary;
 
             Application.Current.Resources.MergedDictionaries.Remove(_currentLangDict);
@@ -73,6 +84,8 @@ namespace GBCLV3.Services
         }
 
         public Dictionary<string, string> GetAvailableLanguages() => _availableLanguages;
+
+        public Dictionary<string, string> GetTranslators() => _translators;
 
         public string GetEntry(string key)
         {

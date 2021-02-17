@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
@@ -151,7 +152,7 @@ namespace GBCLV3.ViewModels.Windows
                 }
                 else
                 {
-                    CurrentAccount.Username = _username;
+                    await _accountService.UpdateAccountAsync(CurrentAccount, Username);
                 }
 
                 this.RequestClose(true);
@@ -209,8 +210,8 @@ namespace GBCLV3.ViewModels.Windows
                 }
                 else
                 {
-                    await _accountService.UpdateOnlineAccountAsync(CurrentAccount, AuthMode, _email, authResult,
-                        _authServerBase);
+                    await _accountService.UpdateAccountAsync(CurrentAccount, null, AuthMode, _email, authResult,
+                          _authServerBase);
                     NotifyOfPropertyChange(nameof(CurrentAccount));
                 }
 
@@ -230,6 +231,11 @@ namespace GBCLV3.ViewModels.Windows
         }
 
         public void Cancel() => RequestClose(false);
+
+        public void OnWindowLoaded(Window window, RoutedEventArgs _)
+        {
+            ThemeService.SetBackgroundEffect(window);
+        }
 
         #endregion
 

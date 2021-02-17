@@ -1,36 +1,41 @@
-﻿<Grid x:Class="GBCLV3.Views.GreetingView"
-      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-      xmlns:s="https://github.com/canton7/Stylet"
-      xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-      Background="#A0161616"
-      MinWidth="280" Height="80"
-      IsHitTestVisible="False"
-      Opacity="0"
-      Visibility="{Binding SelectedAccount, Mode=OneWay,
-                   Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
+﻿<Grid
+    x:Class="GBCLV3.Views.GreetingView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:s="https://github.com/canton7/Stylet"
+    Height="80"
+    MinWidth="280"
+    Background="#A0161616"
+    Opacity="0"
+    Visibility="{Binding CurrentAccount, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
 
     <Grid.Effect>
-        <BlurEffect KernelType="Gaussian" Radius="0" RenderingBias="Quality" />
+        <BlurEffect
+            KernelType="Gaussian"
+            Radius="0"
+            RenderingBias="Quality" />
     </Grid.Effect>
 
     <Grid.Style>
         <Style TargetType="Grid">
             <Style.Triggers>
                 <DataTrigger Binding="{Binding IsShown, Mode=OneWay}" Value="True">
-                    <!-- Enter animation -->
+                    <!--  Enter animation  -->
                     <DataTrigger.EnterActions>
                         <BeginStoryboard>
                             <Storyboard>
 
-                                <DoubleAnimation Storyboard.TargetProperty="(Effect).(BlurEffect.Radius)"
-                                                 BeginTime="0:0:0.80"
-                                                 Duration="0:0:0.30"
-                                                 AccelerationRatio="0.1" DecelerationRatio="0.6"
-                                                 From="16" To="0" />
+                                <DoubleAnimation
+                                    AccelerationRatio="0.1"
+                                    BeginTime="0:0:0.80"
+                                    DecelerationRatio="0.6"
+                                    Storyboard.TargetProperty="(Effect).(BlurEffect.Radius)"
+                                    From="16"
+                                    To="0"
+                                    Duration="0:0:0.30" />
 
-                                <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.80"
-                                                               Storyboard.TargetProperty="Opacity">
+                                <DoubleAnimationUsingKeyFrames BeginTime="0:0:0.80" Storyboard.TargetProperty="Opacity">
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0.00" Value="0.0" />
                                     <EasingDoubleKeyFrame KeyTime="0:0:0.30" Value="1.0">
                                         <EasingDoubleKeyFrame.EasingFunction>
@@ -42,14 +47,17 @@
                             </Storyboard>
                         </BeginStoryboard>
                     </DataTrigger.EnterActions>
-                    <!-- Exit animation -->
+                    <!--  Exit animation  -->
                     <DataTrigger.ExitActions>
                         <BeginStoryboard>
                             <Storyboard>
-                                <DoubleAnimation Storyboard.TargetProperty="(Effect).(BlurEffect.Radius)"
-                                                 Duration="0:0:0.30"
-                                                 AccelerationRatio="0.1" DecelerationRatio="0.6"
-                                                 From="0" To="16" />
+                                <DoubleAnimation
+                                    AccelerationRatio="0.1"
+                                    DecelerationRatio="0.6"
+                                    Storyboard.TargetProperty="(Effect).(BlurEffect.Radius)"
+                                    From="0"
+                                    To="16"
+                                    Duration="0:0:0.30" />
 
                                 <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="Opacity">
                                     <DiscreteDoubleKeyFrame KeyTime="0:0:0.00" Value="1.0" />
@@ -82,32 +90,64 @@
         <ColumnDefinition Width="*" />
     </Grid.ColumnDefinitions>
 
-    <Image Grid.Row="1" Grid.RowSpan="2" Grid.Column="0"
-           Width="64" Height="64"
-           Source="{Binding SelectedAccount.Avatar, Mode=OneWay}"
-           RenderOptions.BitmapScalingMode="NearestNeighbor">
-        <Image.Effect>
-            <DropShadowEffect ShadowDepth="0" Opacity="0.75" BlurRadius="6" />
-        </Image.Effect>
-    </Image>
+    <Button
+        Grid.Row="1"
+        Grid.RowSpan="2"
+        Grid.Column="0"
+        Width="64"
+        Height="64"
+        Padding="1"
+        BorderBrush="#404B4B4B"
+        Click="{s:Action EditCurrentAccount}"
+        Cursor="Hand"
+        Focusable="False"
+        ToolTip="{DynamicResource EditAccount}">
 
-    <TextBlock Grid.Row="1" Grid.Column="2" Margin="8,4,16,0"
-               HorizontalAlignment="Left" VerticalAlignment="Center"
-               MaxWidth="240" TextTrimming="CharacterEllipsis"
-               FontSize="18" Foreground="White"
-               Text="{Binding SelectedAccount.Username, Mode=OneWay}" />
+        <Button.Content>
+            <Image RenderOptions.BitmapScalingMode="NearestNeighbor" Source="{Binding CurrentAccount.Avatar, Mode=OneWay}" />
+        </Button.Content>
 
-    <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="8,4,16,4"
-               HorizontalAlignment="Left" VerticalAlignment="Top"
-               FontSize="12"
-               Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-               Text="{Binding SelectedAccount.Email, Mode=OneWay}" />
+        <Button.Effect>
+            <DropShadowEffect
+                BlurRadius="6"
+                Opacity="0.75"
+                ShadowDepth="0" />
+        </Button.Effect>
 
-    <TextBlock Grid.Row="2" Grid.Column="1" Grid.ColumnSpan="2" Margin="8,4,16,4"
-               HorizontalAlignment="Left" VerticalAlignment="Top"
-               FontSize="12"
-               Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-               Text="{DynamicResource Offline}"
-               Visibility="{Binding IsOfflineMode, Mode=OneWay,
-                            Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
+    </Button>
+
+    <TextBlock
+        Grid.Row="1"
+        Grid.Column="2"
+        MaxWidth="240"
+        Margin="8,4,16,0"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Center"
+        FontSize="18"
+        Foreground="White"
+        Text="{Binding CurrentAccount.Username, Mode=OneWay}"
+        TextTrimming="CharacterEllipsis" />
+
+    <TextBlock
+        Grid.Row="2"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        Margin="8,4,16,4"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        FontSize="12"
+        Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
+        Text="{Binding CurrentAccount.Email, Mode=OneWay}" />
+
+    <TextBlock
+        Grid.Row="2"
+        Grid.Column="1"
+        Grid.ColumnSpan="2"
+        Margin="8,4,16,4"
+        HorizontalAlignment="Left"
+        VerticalAlignment="Top"
+        FontSize="12"
+        Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
+        Text="{DynamicResource Offline}"
+        Visibility="{Binding IsOfflineMode, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 </Grid>

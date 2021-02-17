@@ -1,123 +1,148 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI">
-    
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI">
+
     <Style x:Key="CaptionButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="OverridesDefaultStyle" Value="True"/>
-        <Setter Property="Width" Value="45"/>
-        <Setter Property="Padding" Value="0"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentForegroundBrush}}"/>
-        <Setter Property="IsTabStop" Value="False"/>
-        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True"/>
-        <Setter Property="FontSize" Value="10"/>
+        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="Width" Value="45" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentForegroundBrush}}" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="WindowChrome.IsHitTestVisibleInChrome" Value="True" />
+        <Setter Property="FontSize" Value="10" />
     </Style>
 
-    <Style x:Key="GrayCaptionButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Background" Value="DarkGray"/>
+    <Style
+        x:Key="GrayCaptionButtonStyle"
+        BasedOn="{StaticResource CaptionButtonStyle}"
+        TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="DarkGray" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
+                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" />
+                        <TextBlock
+                            x:Name="Icon"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="{TemplateBinding FontSize}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Text="{TemplateBinding Content}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                         Storyboard.TargetName="ButtonBorder"
-                                                         To="0.0" Duration="0:0:0.150">
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonBorder"
+                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                            To="0.0"
+                                            Duration="0:0:0.150">
                                             <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseIn"/>
+                                                <CubicEase EasingMode="EaseIn" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" 
-                                                         Storyboard.TargetName="ButtonBorder"
-                                                         To="0.3" Duration="0:0:0.150">
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonBorder"
+                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                            To="0.3"
+                                            Duration="0:0:0.150">
                                             <DoubleAnimation.EasingFunction>
-                                                <ExponentialEase EasingMode="EaseOut"/>
+                                                <ExponentialEase EasingMode="EaseOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" 
-                                                         Storyboard.TargetName="ButtonBorder"
-                                                         To="0.5" Duration="0:0:0.150">
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonBorder"
+                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                            To="0.5"
+                                            Duration="0:0:0.150">
                                             <DoubleAnimation.EasingFunction>
-                                                <ExponentialEase EasingMode="EaseOut"/>
+                                                <ExponentialEase EasingMode="EaseOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}"/>
-                        <TextBlock x:Name="Icon" 
-                                   FontSize="{TemplateBinding FontSize}" FontFamily="Segoe MDL2 Assets"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="RedCaptionButtonStyle" TargetType="{x:Type Button}" BasedOn="{StaticResource CaptionButtonStyle}">
-        <Setter Property="Background" Value="Red"/>
+    <Style
+        x:Key="RedCaptionButtonStyle"
+        BasedOn="{StaticResource CaptionButtonStyle}"
+        TargetType="{x:Type Button}">
+        <Setter Property="Background" Value="Red" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Grid>
+                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}" />
+                        <TextBlock
+                            x:Name="Icon"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="{TemplateBinding FontSize}"
+                            Foreground="{TemplateBinding Foreground}"
+                            Text="{TemplateBinding Content}" />
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="CommonStates">
                                 <VisualState x:Name="Normal">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" 
-                                                         Storyboard.TargetName="ButtonBorder"
-                                                         To="0.0" Duration="0:0:0.150">
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonBorder"
+                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                            To="0.0"
+                                            Duration="0:0:0.150">
                                             <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseIn"/>
+                                                <CubicEase EasingMode="EaseIn" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="MouseOver">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" 
-                                                         Storyboard.TargetName="ButtonBorder"
-                                                         To="1" Duration="0:0:0.150">
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonBorder"
+                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                            To="1"
+                                            Duration="0:0:0.150">
                                             <DoubleAnimation.EasingFunction>
-                                                <CubicEase EasingMode="EaseOut"/>
+                                                <CubicEase EasingMode="EaseOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetProperty="(UIElement.Opacity)" 
-                                                         Storyboard.TargetName="ButtonBorder"
-                                                         To="0.6" Duration="0:0:0.150">
+                                        <DoubleAnimation
+                                            Storyboard.TargetName="ButtonBorder"
+                                            Storyboard.TargetProperty="(UIElement.Opacity)"
+                                            To="0.6"
+                                            Duration="0:0:0.150">
                                             <DoubleAnimation.EasingFunction>
-                                                <ExponentialEase EasingMode="EaseOut"/>
+                                                <ExponentialEase EasingMode="EaseOut" />
                                             </DoubleAnimation.EasingFunction>
                                         </DoubleAnimation>
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
                         </VisualStateManager.VisualStateGroups>
-
-                        <Border x:Name="ButtonBorder" Background="{TemplateBinding Background}"/>
-                        <TextBlock x:Name="Icon"
-                                   FontSize="{TemplateBinding FontSize}" FontFamily="Segoe MDL2 Assets"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding Content}"/>
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>

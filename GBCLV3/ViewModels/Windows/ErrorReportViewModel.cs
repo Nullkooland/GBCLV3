@@ -51,6 +51,11 @@ namespace GBCLV3.ViewModels.Windows
 
         public void CopyMessage() => Clipboard.SetText(ErrorMessage, TextDataFormat.UnicodeText);
 
+        public void OnWindowLoaded(Window window, RoutedEventArgs _)
+        {
+            ThemeService.SetBackgroundEffect(window);
+        }
+
         #endregion
 
         #region Override Methods

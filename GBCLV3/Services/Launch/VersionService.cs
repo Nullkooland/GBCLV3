@@ -32,12 +32,11 @@ namespace GBCLV3.Services.Launch
 
         private readonly Dictionary<string, Version> _versions;
 
-        private readonly HttpClient _client;
-
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly LibraryService _libraryService;
+        private readonly HttpClient _client;
 
         #endregion
 
@@ -47,14 +46,15 @@ namespace GBCLV3.Services.Launch
         public VersionService(
             GamePathService gamePathService,
             DownloadUrlService urlService,
-            LibraryService libraryService)
+            LibraryService libraryService,
+            HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
             _libraryService = libraryService;
-            _versions = new Dictionary<string, Version>(8);
+            _client = client;
 
-            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(15) };
+            _versions = new Dictionary<string, Version>(8);
         }
 
         #endregion

@@ -1,7 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:behaviors="clr-namespace:GBCLV3.Behaviors"
-                    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:behaviors="clr-namespace:GBCLV3.Behaviors">
 
     <Style x:Key="UniversalWindowStyle" TargetType="Window">
 
@@ -11,10 +12,11 @@
 
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
-                <WindowChrome CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
-                              GlassFrameThickness="1"
-                              ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
-                              UseAeroCaptionButtons="False" />
+                <WindowChrome
+                    CaptionHeight="{x:Static SystemParameters.CaptionHeight}"
+                    GlassFrameThickness="1"
+                    ResizeBorderThickness="{x:Static SystemParameters.WindowResizeBorderThickness}"
+                    UseAeroCaptionButtons="False" />
             </Setter.Value>
         </Setter>
 
@@ -24,15 +26,15 @@
         <Setter Property="Background" Value="#80333333" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="BorderThickness" Value="0.75" />
-        <Setter Property="behaviors:WindowBehavior.IsBlurBehind" Value="True" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Window">
-                    <Border x:Name="WindowBorder"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            Background="{TemplateBinding Background}">
+                    <Border
+                        x:Name="WindowBorder"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
 
                         <Grid x:Name="RootGrid">
 
@@ -41,40 +43,59 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
 
-                            <Rectangle x:Name="WindowColorLayer"
-                                       Grid.RowSpan="2" Opacity="0.75">
+                            <Rectangle
+                                x:Name="WindowColorLayer"
+                                Grid.RowSpan="2"
+                                Opacity="0.75">
                                 <Rectangle.Fill>
                                     <SolidColorBrush Color="#FF1F1F1F" />
                                 </Rectangle.Fill>
                             </Rectangle>
 
-                            <Grid x:Name="CaptionPanel"
-                                  Grid.Row="0" VerticalAlignment="Top" Height="32">
+                            <Grid
+                                x:Name="CaptionPanel"
+                                Grid.Row="0"
+                                Height="32"
+                                VerticalAlignment="Top">
 
-                                <Rectangle x:Name="CaptionColorLayer" Opacity="0.8"
-                                           Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
+                                <Rectangle
+                                    x:Name="CaptionColorLayer"
+                                    Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
+                                    Opacity="0.8" />
 
-                                <TextBlock x:Name="TitleTextBlock" FontSize="12" Text="{TemplateBinding Title}"
-                                           Margin="12,0" VerticalAlignment="Center"
-                                           Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentForegroundBrush}}" />
+                                <TextBlock
+                                    x:Name="TitleTextBlock"
+                                    Margin="12,0"
+                                    VerticalAlignment="Center"
+                                    FontSize="12"
+                                    Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentForegroundBrush}}"
+                                    Text="{TemplateBinding Title}" />
 
                                 <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
 
-                                    <Button x:Name="MinimizeButton" Content="&#xE921;"
-                                            Style="{StaticResource GrayCaptionButtonStyle}"
-                                            behaviors:WindowBehavior.CaptionButtonState="Minimized" />
+                                    <Button
+                                        x:Name="MinimizeButton"
+                                        behaviors:WindowBehavior.CaptionButtonState="Minimized"
+                                        Content="&#xE921;"
+                                        Style="{StaticResource GrayCaptionButtonStyle}" />
 
-                                    <Button x:Name="MaximizeButton" Content="&#xE922;"
-                                            Style="{StaticResource GrayCaptionButtonStyle}"
-                                            behaviors:WindowBehavior.CaptionButtonState="Maximized" />
+                                    <Button
+                                        x:Name="MaximizeButton"
+                                        behaviors:WindowBehavior.CaptionButtonState="Maximized"
+                                        Content="&#xE922;"
+                                        Style="{StaticResource GrayCaptionButtonStyle}" />
 
-                                    <Button x:Name="RestoreButton" Content="&#xE923;"
-                                            Style="{StaticResource GrayCaptionButtonStyle}"
-                                            behaviors:WindowBehavior.CaptionButtonState="Normal" />
+                                    <Button
+                                        x:Name="RestoreButton"
+                                        behaviors:WindowBehavior.CaptionButtonState="Normal"
+                                        Content="&#xE923;"
+                                        Style="{StaticResource GrayCaptionButtonStyle}" />
 
-                                    <Button x:Name="CloseButton" Content="&#xE8BB;"
-                                            Style="{StaticResource RedCaptionButtonStyle}"
-                                            behaviors:WindowBehavior.IsCaptionCloseButton="True" />
+                                    <Button
+                                        x:Name="CloseButton"
+                                        behaviors:WindowBehavior.IsCaptionCloseButton="True"
+                                        Content="&#xE8BB;"
+                                        Style="{StaticResource RedCaptionButtonStyle}" />
                                 </StackPanel>
                             </Grid>
                             <AdornerDecorator Grid.Row="1">
@@ -91,10 +112,8 @@
 
                         <Trigger Property="WindowState" Value="Maximized">
                             <Setter TargetName="MaximizeButton" Property="Visibility" Value="Collapsed" />
-                            <Setter TargetName="WindowBorder" Property="MaxWidth"
-                                    Value="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}" />
-                            <Setter TargetName="WindowBorder" Property="MaxHeight"
-                                    Value="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" />
+                            <Setter TargetName="WindowBorder" Property="MaxWidth" Value="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Width}" />
+                            <Setter TargetName="WindowBorder" Property="MaxHeight" Value="{Binding Source={x:Static SystemParameters.WorkArea}, Path=Height}" />
                             <Setter TargetName="WindowBorder" Property="Border.BorderThickness" Value="0" />
                         </Trigger>
                         <Trigger Property="WindowState" Value="Normal">
@@ -114,27 +133,34 @@
                             <Setter TargetName="CaptionColorLayer" Property="Opacity" Value="1" />
                             <Setter TargetName="CaptionColorLayer" Property="Fill" Value="#FF2B2B2B" />
 
-                            <!-- Lost Focus Animation -->
+                            <!--  Lost Focus Animation  -->
                             <Trigger.EnterActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="WindowColorLayer"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         Duration="0:0:0.15" AccelerationRatio="0.3"
-                                                         DecelerationRatio="0.25" From="0.0" To="0.75" />
+                                        <DoubleAnimation
+                                            AccelerationRatio="0.3"
+                                            DecelerationRatio="0.25"
+                                            Storyboard.TargetName="WindowColorLayer"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0.0"
+                                            To="0.75"
+                                            Duration="0:0:0.15" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.EnterActions>
 
-                            <!-- Get Focus Animation -->
+                            <!--  Get Focus Animation  -->
                             <Trigger.ExitActions>
                                 <BeginStoryboard>
                                     <Storyboard>
-                                        <DoubleAnimation Storyboard.TargetName="WindowColorLayer"
-                                                         Storyboard.TargetProperty="Opacity"
-                                                         Duration="0:0:0.15" AccelerationRatio="0.3"
-                                                         DecelerationRatio="0.25"
-                                                         From="0.75" To="0.0" />
+                                        <DoubleAnimation
+                                            AccelerationRatio="0.3"
+                                            DecelerationRatio="0.25"
+                                            Storyboard.TargetName="WindowColorLayer"
+                                            Storyboard.TargetProperty="Opacity"
+                                            From="0.75"
+                                            To="0.0"
+                                            Duration="0:0:0.15" />
                                     </Storyboard>
                                 </BeginStoryboard>
                             </Trigger.ExitActions>

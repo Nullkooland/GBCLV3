@@ -1,25 +1,30 @@
-﻿<Window x:Class="GBCLV3.Views.Windows.ProfileSelectView"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:s="https://github.com/canton7/Stylet"
-        xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-        xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
-        xmlns:util="clr-namespace:GBCLV3.Utils"
-        xmlns:auth="clr-namespace:GBCLV3.Models.Authentication"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        ResizeMode="NoResize"
-        Topmost="True"
-        FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
-        FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
-        Style="{StaticResource UniversalWindowStyle}"
-        Title="{DynamicResource SelectProfile}"
-        SizeToContent="Width" Height="216">
+﻿<Window
+    x:Class="GBCLV3.Views.Windows.ProfileSelectView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:auth="clr-namespace:GBCLV3.Models.Authentication"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:s="https://github.com/canton7/Stylet"
+    xmlns:util="clr-namespace:GBCLV3.Utils"
+    Title="{DynamicResource SelectProfile}"
+    Height="216"
+    FontFamily="{Binding ThemeService.FontFamily, Mode=OneWay}"
+    FontWeight="{Binding ThemeService.FontWeight, Mode=OneWay}"
+    Loaded="{s:Action OnWindowLoaded}"
+    ResizeMode="NoResize"
+    SizeToContent="Width"
+    Style="{StaticResource UniversalWindowStyle}"
+    Topmost="True">
 
-    <ListBox ItemsSource="{Binding Profiles, Mode=OneTime}"
-             SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
-             SelectionChanged="{s:Action Selected}"
-             Cursor="Hand" Background="Transparent">
+    <ListBox
+        Background="Transparent"
+        Cursor="Hand"
+        ItemsSource="{Binding Profiles, Mode=OneTime}"
+        SelectedItem="{Binding SelectedProfile, Mode=TwoWay}"
+        SelectionChanged="{s:Action Selected}">
 
         <ListBox.ItemsPanel>
             <ItemsPanelTemplate>
@@ -36,49 +41,51 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <ContentControl Name="LoadingIcon" Grid.Row="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Width="72" Height="72"
-                                    SnapsToDevicePixels="False"
-                                    ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingCircle}}"
-                                    Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-                                    Visibility="{Binding IsLoading, Mode=OneWay,
-                                                 Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
+                    <ContentControl
+                        Name="LoadingIcon"
+                        Grid.Row="0"
+                        Width="72"
+                        Height="72"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        ContentTemplate="{DynamicResource {x:Static adonisUI:Templates.LoadingCircle}}"
+                        Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
+                        SnapsToDevicePixels="False"
+                        Visibility="{Binding IsLoading, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />
 
-                    <Image Name="Avatar" Grid.Row="0"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Width="108" Height="108"
-                           RenderOptions.BitmapScalingMode="NearestNeighbor"
-                           Source="{Binding Skin.Face}">
+                    <Image
+                        Name="Avatar"
+                        Grid.Row="0"
+                        Width="108"
+                        Height="108"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        RenderOptions.BitmapScalingMode="NearestNeighbor"
+                        Source="{Binding Skin.Face}">
                         <Image.Effect>
                             <DropShadowEffect BlurRadius="8" ShadowDepth="0" />
                         </Image.Effect>
                     </Image>
 
-                    <TextBlock Name="NameBox" Grid.Row="1"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Top"
-                               FontSize="16"
-                               MaxHeight="48"
-                               TextWrapping="Wrap"
-                               Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
-                               Text="{Binding Name, Mode=OneWay, ValidatesOnNotifyDataErrors=False}" />
+                    <TextBlock
+                        Name="NameBox"
+                        Grid.Row="1"
+                        MaxHeight="48"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        FontSize="16"
+                        Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}"
+                        Text="{Binding Name, Mode=OneWay, ValidatesOnNotifyDataErrors=False}"
+                        TextWrapping="Wrap" />
 
                 </Grid>
 
                 <DataTemplate.Triggers>
-                    <DataTrigger
-                        Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem},
-                                               Path=IsMouseOver}"
-                        Value="True">
-                        <!-- <Setter TargetName="Avatar" Property="Effect" -->
-                        <!--         Value="{StaticResource SelectedShadow}"/> -->
-                        <Setter TargetName="NameBox" Property="Foreground"
-                                Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
-                        <Setter TargetName="LoadingIcon" Property="Foreground"
-                                Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
+                    <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsMouseOver}" Value="True">
+                        <!--  <Setter TargetName="Avatar" Property="Effect"  -->
+                        <!--  Value="{StaticResource SelectedShadow}"/>  -->
+                        <Setter TargetName="NameBox" Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
+                        <Setter TargetName="LoadingIcon" Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
                     </DataTrigger>
                 </DataTemplate.Triggers>
             </DataTemplate>

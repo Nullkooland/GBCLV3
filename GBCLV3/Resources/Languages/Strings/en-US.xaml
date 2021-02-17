@@ -1,14 +1,21 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="clr-namespace:System;assembly=System.Runtime">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
-    <!-- MessageBox Button Labels -->
+    <!--  Translator  -->
+    <s:String x:Key="MultilingualTranslation">Multilingual Translation</s:String>
+    <s:String x:Key="TranslatorName">Goose Bomb</s:String>
+
+    <!--  MessageBox Button Labels  -->
     <s:String x:Key="OK">OK</s:String>
     <s:String x:Key="Cancel">Cancel</s:String>
     <s:String x:Key="Yes">Yes</s:String>
     <s:String x:Key="No">No</s:String>
+    <s:String x:Key="Enable">Enable</s:String>
+    <s:String x:Key="Disable">Disable</s:String>
 
-    <!-- ErrorReport -->
+    <!--  ErrorReport  -->
     <s:String x:Key="ErrorReport">Error Report</s:String>
     <s:String x:Key="ReportUnexpectedExit">Game exited unexpectedly</s:String>
     <s:String x:Key="ReportUnhandledException">Program has encountered unhandled exception</s:String>
@@ -16,7 +23,7 @@
     <s:String x:Key="ReportOnGithub">Report on Github</s:String>
     <s:String x:Key="CopyErrorMessage">Copy Error Message</s:String>
 
-    <!-- Launch Procedure -->
+    <!--  Launch Procedure  -->
     <s:String x:Key="Launch">Launch</s:String>
     <s:String x:Key="ProcessingDependencies">Processing game dependencies</s:String>
     <s:String x:Key="LoggingIn">Authenticating and logging in</s:String>
@@ -25,12 +32,12 @@
     <s:String x:Key="HappyGame">Happy gaming!</s:String>
     <s:String x:Key="UnexpectedExit">Unexpected Exit</s:String>
 
-    <!-- JRE Not Found Error -->
+    <!--  JRE Not Found Error  -->
     <s:String x:Key="JreNotFound">JRE not found!</s:String>
     <s:String x:Key="PleaseInstallJre">Please manually locate or install JRE</s:String>
     <s:String x:Key="DownloadJreInstaller">Download Jre installer</s:String>
 
-    <!-- Account Management -->
+    <!--  Account Management  -->
     <s:String x:Key="AccountManagement">Account Management</s:String>
     <s:String x:Key="AddAccount">Add Account</s:String>
     <s:String x:Key="EditAccount">Edit Account</s:String>
@@ -58,7 +65,7 @@
     <s:String x:Key="Authenticating">Authenticating</s:String>
     <s:String x:Key="AuthSuccessful">Authentication successful</s:String>
 
-    <!-- Authentication Errors -->
+    <!--  Authentication Errors  -->
     <s:String x:Key="AuthFailed">Authentication Failed</s:String>
     <s:String x:Key="AuthTimeout">Authentication timeout!</s:String>
     <s:String x:Key="NoInternetConnection">Please check your Internet connection!</s:String>
@@ -69,7 +76,7 @@
     <s:String x:Key="ErrorMessage">Error message:</s:String>
 
 
-    <!-- Integrity Check -->
+    <!--  Integrity Check  -->
     <s:String x:Key="IntegrityCheck">Integrity Check</s:String>
     <s:String x:Key="MainJarDamaged">Main jar missing or damaged</s:String>
     <s:String x:Key="ForgeJarDamaged">Forge jar missing or damaged, and unable to be fixed</s:String>
@@ -78,7 +85,7 @@
     <s:String x:Key="AssetsDamaged">Assets missing or damaged</s:String>
     <s:String x:Key="WhetherFixNow">Do you want to fix now?</s:String>
 
-    <!-- Settings -->
+    <!--  Settings  -->
     <s:String x:Key="Settings">Settings</s:String>
     <s:String x:Key="GameSettings">Game Settings</s:String>
     <s:String x:Key="AccountSettings">Account Settings</s:String>
@@ -87,7 +94,7 @@
     <s:String x:Key="FunctionSettings">Function Settings</s:String>
     <s:String x:Key="ThemeSettings">Theme Settings</s:String>
 
-    <!-- Game Settings -->
+    <!--  Game Settings  -->
     <s:String x:Key="JreDir">JRE Directory</s:String>
     <s:String x:Key="SelectJrePath">Select JRE path</s:String>
     <s:String x:Key="JavaMaxMem">Java Max Memory (MB)</s:String>
@@ -108,7 +115,7 @@
     <s:String x:Key="CustomJvmArgsDescription">This will override the default JVM arguments (e.g., GC configurations)</s:String>
     <s:String x:Key="ExtraMinecraftArgs">Extra Minecraft Args</s:String>
 
-    <!-- Launcher Settings -->
+    <!--  Launcher Settings  -->
     <s:String x:Key="Language">Language</s:String>
 
     <s:String x:Key="DownloadSource">Download Source</s:String>
@@ -121,16 +128,22 @@
     <s:String x:Key="Hide">Hide window</s:String>
     <s:String x:Key="KeepVisible">Keep visible</s:String>
 
-    <s:String x:Key="UseBackgroundImage">Use Background Image</s:String>
+    <s:String x:Key="BackgroundImage">Background Image</s:String>
     <s:String x:Key="SelectImagePath">Select image path</s:String>
-    <s:String x:Key="SelectRandomImage">Randomly select a image from .\bg directory</s:String>
+    <s:String x:Key="SelectRandomImage">Randomly select an image from .\bg directory</s:String>
 
-    <s:String x:Key="Font">Font Family</s:String>
+    <s:String x:Key="BackgroundEffect">Background Effect</s:String>
+    <s:String x:Key="BlurBehind">Regular blur behind</s:String>
+    <s:String x:Key="AcrylicMaterial">Acrylic material</s:String>
+    <s:String x:Key="SolidColor">Solid color</s:String>
+
+    <s:String x:Key="Font">Font</s:String>
+    <s:String x:Key="FontFamily">Font Family</s:String>
     <s:String x:Key="FontWeight">Font Weight</s:String>
 
-    <!-- Download -->
+    <!--  Download  -->
 
-    <!-- Download Types -->
+    <!--  Download Types  -->
     <s:String x:Key="AuthlibInjector">authlib-injector</s:String>
     <s:String x:Key="MainJar">Main Jar</s:String>
     <s:String x:Key="Libraries">Libraries</s:String>
@@ -139,7 +152,7 @@
     <s:String x:Key="InstallForge">Install Forge</s:String>
     <s:String x:Key="InstallFabric">Install Fabric</s:String>
 
-    <!-- Download Progress -->
+    <!--  Download Progress  -->
     <s:String x:Key="DownloadProgress">Progress</s:String>
     <s:String x:Key="CancelDownload">Cancel Download</s:String>
     <s:String x:Key="WhetherCancelDownload">Are you sure to cancel download?</s:String>
@@ -150,14 +163,14 @@
     <s:String x:Key="DownloadFailedCount">Failed</s:String>
     <s:String x:Key="DownloadSpeed">Speed</s:String>
 
-    <!-- Versions Management -->
+    <!--  Versions Management  -->
     <s:String x:Key="AvailableVersions">Available Versions</s:String>
     <s:String x:Key="SegregateVersions">Segregate Versions</s:String>
     <s:String x:Key="OpenJson">Open Json</s:String>
     <s:String x:Key="DeleteVersion">Delete Version</s:String>
     <s:String x:Key="WhetherDeleteVersion">Are you sure to delete the version</s:String>
 
-    <!-- Version Install -->
+    <!--  Version Install  -->
     <s:String x:Key="DownloadAndInstall">Download and install</s:String>
     <s:String x:Key="NoVersionFound">No version found</s:String>
     <s:String x:Key="WhetherInstallNewVersion">Whether install new game version?</s:String>
@@ -180,7 +193,7 @@
     <s:String x:Key="DownloadAssetsOnInstall">Download assets upon install</s:String>
     <s:String x:Key="VersionInstallSuccessful">Successfully install version</s:String>
 
-    <!-- Forge Install -->
+    <!--  Forge Install  -->
     <s:String x:Key="ForgeListLoading">Loading forge download list</s:String>
     <s:String x:Key="ForgeListLoadFailed">Failed to load forge download list</s:String>
     <s:String x:Key="NoAvailableForge">No available forge for this version!</s:String>
@@ -194,7 +207,7 @@
     <s:String x:Key="ForgeExtractFailed">Forge extract failed!</s:String>
     <s:String x:Key="ForgeInstallSuccessful">Successfully install forge</s:String>
 
-    <!-- Fabric Install -->
+    <!--  Fabric Install  -->
     <s:String x:Key="FabricListLoading">Loading fabric download list</s:String>
     <s:String x:Key="FabricListLoadFailed">Failed to load Fabric download list</s:String>
     <s:String x:Key="NoAvailableFabric">No available Fabric for this version!</s:String>
@@ -204,7 +217,7 @@
     <s:String x:Key="FabricInstallFailed">Fabric Install Failed</s:String>
     <s:String x:Key="FabricInstallSuccessful">Successfully install Fabric</s:String>
 
-    <!-- Mods Management -->
+    <!--  Mods Management  -->
     <s:String x:Key="AvailableMods">Available Mods</s:String>
     <s:String x:Key="SelectMods">Select Mods</s:String>
     <s:String x:Key="EnableSelected">Enable</s:String>
@@ -212,17 +225,17 @@
     <s:String x:Key="CopyMods">When adding new mods, copy instead of moving them from source directory</s:String>
 
 
-    <!-- Resourcepacks Management -->
+    <!--  Resourcepacks Management  -->
     <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
     <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
     <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
     <s:String x:Key="OpenPack">Open</s:String>
 
-    <!-- About -->
+    <!--  About  -->
     <s:String x:Key="Dependencies">Dependencies</s:String>
     <s:String x:Key="ThanksTo">Thanks to</s:String>
 
-    <!-- Update -->
+    <!--  Update  -->
     <s:String x:Key="Update">Update</s:String>
     <s:String x:Key="CheckUpdate">Check Update</s:String>
     <s:String x:Key="CheckingUpdate">Checking update</s:String>
@@ -239,7 +252,7 @@
     <s:String x:Key="SuccessfullyUpdatedTo">Successfully updated to</s:String>
     <s:String x:Key="UpdateSuccessful">Update Successful</s:String>
 
-    <!-- Common -->
+    <!--  Common  -->
     <s:String x:Key="AddNew">Add New</s:String>
     <s:String x:Key="Hello">Hello</s:String>
     <s:String x:Key="InstallNew">Install New</s:String>
@@ -263,8 +276,8 @@
     <s:String x:Key="Auxiliaries">Auxiliaries</s:String>
     <s:String x:Key="Auto">Auto</s:String>
 
-    <!-- Just some bad jokes, plz ignore them XD -->
-    <!-- Goose Bomb what are you doing! Goose Bomb!!! -->
+    <!--  Just some dumb jokes, plz ignore them XD  -->
+    <!--  Goose Bomb what are you doing! Goose Bomb!!!  -->
     <s:String x:Key="FlowerOfHope">Flower of Hope 🎵</s:String>
     <s:String x:Key="DontStop">DON'T YOU EVER STOP!</s:String>
 

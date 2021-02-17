@@ -1,6 +1,7 @@
 ﻿using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
+using GBCLV3.Models.Theme;
 using System.Collections.Generic;
 
 namespace GBCLV3.Models
@@ -57,6 +58,8 @@ namespace GBCLV3.Models
         public bool UseBackgroundImage { get; set; }
 
         public string BackgroundImagePath { get; set; }
+
+        public BackgroundEffect BackgroundEffect { get; set; }
 
         // public bool UseSystemColor { get; set; }
         //

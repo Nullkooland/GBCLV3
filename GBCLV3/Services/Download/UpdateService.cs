@@ -26,23 +26,21 @@ namespace GBCLV3.Services.Download
 
         private const string CHECK_UPDATE_URL = "https://api.github.com/repos/Goose-Bomb/GBCLV3/releases/latest";
 
-        private readonly HttpClient _client;
-
         private UpdateInfo _cachedInfo;
 
         // IoC
         private readonly Config _config;
+        private readonly HttpClient _client;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public UpdateService(ConfigService configService)
+        public UpdateService(ConfigService configService, HttpClient client)
         {
             _config = configService.Entries;
-
-            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(30) };
+            _client = client;
             _client.DefaultRequestHeaders.Add("User-Agent", "request");
         }
 
@@ -57,7 +55,6 @@ namespace GBCLV3.Services.Download
             try
             {
                 CheckStatusChanged?.Invoke(CheckUpdateStatus.Checking);
-
                 var json = await _client.GetByteArrayAsync(CHECK_UPDATE_URL);
                 var info = JsonSerializer.Deserialize<UpdateInfo>(json);
 

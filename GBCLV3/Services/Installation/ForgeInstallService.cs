@@ -33,12 +33,11 @@ namespace GBCLV3.Services.Installation
         private const string FORGE_INSTALL_BOOTSTRAPPER =
             "pack://application:,,,/Resources/Tools/forge-install-bootstrapper.jar";
 
-        private readonly HttpClient _client;
-
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
+        private readonly HttpClient _client;
 
         #endregion
 
@@ -48,13 +47,13 @@ namespace GBCLV3.Services.Installation
         public ForgeInstallService(
             GamePathService gamePathService,
             DownloadUrlService urlService,
-            VersionService versionService)
+            VersionService versionService,
+            HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
             _versionService = versionService;
-
-            _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(10) };
+            _client = client;
         }
 
         #endregion

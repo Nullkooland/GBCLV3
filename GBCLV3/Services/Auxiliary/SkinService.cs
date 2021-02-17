@@ -18,11 +18,10 @@ namespace GBCLV3.Services.Auxiliary
     {
         #region Private Fields
 
-        private readonly GamePathService _gamePathService;
-
         private const string MOJANG_PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile";
 
-        private static readonly HttpClient _client = new HttpClient() { Timeout = TimeSpan.FromSeconds(15) };
+        private readonly GamePathService _gamePathService;
+        private readonly HttpClient _client;
 
         private static readonly JsonSerializerOptions _jsonOptions
             = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -32,9 +31,10 @@ namespace GBCLV3.Services.Auxiliary
         #region Constructor
 
         [Inject]
-        public SkinService(GamePathService gamePathService)
+        public SkinService(GamePathService gamePathService, HttpClient client)
         {
             _gamePathService = gamePathService;
+            _client = client;
         }
 
         #endregion
@@ -110,7 +110,12 @@ namespace GBCLV3.Services.Auxiliary
 
             if (!File.Exists(path))
             {
-                await DownloadAsync(url, path);
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+
+                await using var httpStream = await _client.GetStreamAsync(url);
+                await using var fileStream = File.OpenWrite(path);
+                await httpStream.CopyToAsync(fileStream);
+                fileStream.Flush();
             }
 
             return LoadFromDisk(path);
@@ -128,16 +133,6 @@ namespace GBCLV3.Services.Auxiliary
             return img;
         }
 
-        private static async Task DownloadAsync(string url, string path)
-        {
-            Directory.CreateDirectory(Path.GetDirectoryName(path));
-
-            await using var httpStream = await _client.GetStreamAsync(url);
-            await using var fileStream = File.OpenWrite(path);
-            await httpStream.CopyToAsync(fileStream);
-            fileStream.Flush();
-        }
-
         private static BitmapSource GetFace(BitmapImage body)
         {
             if (body.PixelWidth % 8 != 0)
@@ -149,9 +144,9 @@ namespace GBCLV3.Services.Auxiliary
             int bytesPerPixel = PixelFormats.Bgra32.BitsPerPixel / 8;
             int stride = size * bytesPerPixel;
 
-            int bufferSize = size * size * bytesPerPixel;
-            var bufferMain = new byte[bufferSize];
-            var bufferOverlay = new byte[bufferSize];
+            int pixelCount = size * size * bytesPerPixel / 4;
+            var bufferMain = new uint[pixelCount];
+            var bufferOverlay = new uint[pixelCount];
 
             var faceMain = new CroppedBitmap(body, new Int32Rect(size, size, size, size));
             var faceOverlay = new CroppedBitmap(body, new Int32Rect(size * 5, size, size, size));
@@ -160,20 +155,20 @@ namespace GBCLV3.Services.Auxiliary
             faceOverlay.CopyPixels(bufferOverlay, stride, 0);
 
             // I can't believe I'm doing manual alpha blending
-            for (int i = 0; i < bufferSize; i += bytesPerPixel)
+            for (int i = 0; i < pixelCount; i++)
             {
-                byte alpha = bufferOverlay[i + 3];
-                if (alpha != 0x00)
+                uint pixel = bufferOverlay[i];
+
+                if ((pixel & 0xFF000000) != 0x0)
                 {
-                    bufferMain[i] = bufferOverlay[i];
-                    bufferMain[i + 1] = bufferOverlay[i + 1];
-                    bufferMain[i + 2] = bufferOverlay[i + 2];
+                    bufferMain[i] = pixel;
                 }
             }
 
             var faceCombined = BitmapSource.Create(size, size, 96, 96,
                 PixelFormats.Bgra32, null,
                 bufferMain, size * bytesPerPixel);
+
             faceCombined.Freeze();
             return faceCombined;
         }

@@ -3,6 +3,7 @@ using StyletIoC;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services.Authentication;
 using GBCLV3.ViewModels.Tabs;
+using GBCLV3.ViewModels.Windows;
 
 namespace GBCLV3.ViewModels
 {
@@ -11,15 +12,23 @@ namespace GBCLV3.ViewModels
         #region Private Fields
 
         private readonly AccountService _accountService;
+        private readonly AccountEditViewModel _accountEditVM;
+        private readonly IWindowManager _windowManager;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public GreetingViewModel(AccountService accountService)
+        public GreetingViewModel(
+            AccountService accountService,
+            AccountEditViewModel accountEditVM,
+            IWindowManager windowManager)
         {
             _accountService = accountService;
+            _accountEditVM = accountEditVM;
+            _windowManager = windowManager;
+
         }
 
         #endregion
@@ -28,9 +37,9 @@ namespace GBCLV3.ViewModels
 
         public bool IsShown { get; set; }
 
-        public Account SelectedAccount { get; private set; }
+        public Account CurrentAccount { get; private set; }
 
-        public bool IsOfflineMode => SelectedAccount?.AuthMode == AuthMode.Offline;
+        public bool IsOfflineMode => CurrentAccount?.AuthMode == AuthMode.Offline;
 
         #endregion
 
@@ -38,8 +47,16 @@ namespace GBCLV3.ViewModels
 
         public void NotifyAccountChanged()
         {
-            SelectedAccount = _accountService.GetSelected();
-            NotifyOfPropertyChange(nameof(SelectedAccount));
+            CurrentAccount = _accountService.GetSelected();
+            NotifyOfPropertyChange(nameof(CurrentAccount));
+        }
+
+        public void EditCurrentAccount()
+        {
+            _accountEditVM.Setup(AccountEditType.EditAccount, CurrentAccount);
+            _windowManager.ShowDialog(_accountEditVM);
+            NotifyOfPropertyChange(nameof(CurrentAccount));
+            NotifyOfPropertyChange(nameof(IsOfflineMode));
         }
 
         #endregion

@@ -17,7 +17,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models.Authentication;
-using GBCLV3.Services.Installation;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -184,6 +183,9 @@ namespace GBCLV3.ViewModels.Pages
 
                     account.Username = selectedProfile.Name;
                     account.UUID = selectedProfile.Id;
+
+                    await _accountService.LoadSkinAsync(account);
+                    GreetingVM.NotifyAccountChanged();
                 }
             }
 

@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using GBCLV3.Models.Authentication;
+using GBCLV3.Services;
 using GBCLV3.Services.Authentication;
 using GBCLV3.Services.Auxiliary;
 using Stylet;
@@ -16,15 +18,17 @@ namespace GBCLV3.ViewModels.Windows
         #region Private Fields
 
         private readonly SkinService _skinService;
+        private readonly ThemeService _themeService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public ProfileSelectViewModel(SkinService skinService)
+        public ProfileSelectViewModel(SkinService skinService, ThemeService themeService)
         {
             _skinService = skinService;
+            _themeService = themeService;
         }
 
         public void Setup(IEnumerable<AuthUserProfile> profiles, string profileServer)
@@ -44,6 +48,11 @@ namespace GBCLV3.ViewModels.Windows
         public bool IsLoading { get; private set; }
 
         public void Selected() => this.RequestClose(true);
+
+        public void OnWindowLoaded(Window window, RoutedEventArgs _)
+        {
+            _themeService.SetBackgroundEffect(window);
+        }
 
         #endregion
 

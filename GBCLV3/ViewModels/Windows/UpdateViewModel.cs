@@ -99,6 +99,11 @@ namespace GBCLV3.ViewModels.Windows
 
         public void Defer() => this.RequestClose();
 
+        public void OnWindowLoaded(Window window, RoutedEventArgs _)
+        {
+            ThemeService.SetBackgroundEffect(window);
+        }
+
         #endregion
 
         #region Private Methods

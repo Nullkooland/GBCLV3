@@ -1,4 +1,5 @@
 ﻿using GBCLV3.Models;
+using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
@@ -7,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -46,15 +48,18 @@ namespace GBCLV3.Services
         private static readonly Color REF_COLOR_STEGZ = Color.FromRgb(105, 175, 15);
 
         private readonly Config _config;
+        private readonly Logger _logger;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public ThemeService(ConfigService configService)
+        public ThemeService(ConfigService configService, Logger logger)
         {
+            _logger = logger;
             _config = configService.Entries;
+
             if (string.IsNullOrEmpty(_config.FontFamily))
             {
                 if (_config.Language.StartsWith("zh"))
@@ -93,7 +98,7 @@ namespace GBCLV3.Services
                 string imgSearchDir = Environment.CurrentDirectory + "/bg";
                 if (Directory.Exists(imgSearchDir))
                 {
-                    string[] imgExtensions = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff" };
+                    string[] imgExtensions = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff", ".webp" };
                     string[] imgFiles = Directory.EnumerateFiles(imgSearchDir)
                                                  .Where(file => imgExtensions.Any(file.ToLower().EndsWith))
                                                  .ToArray();
@@ -112,6 +117,12 @@ namespace GBCLV3.Services
             BackgroundImage.CacheOption = BitmapCacheOption.OnLoad;
             BackgroundImage.EndInit();
             BackgroundImage.Freeze();
+        }
+
+        public void SetBackgroundEffect(Window window)
+        {
+            var handle = new WindowInteropHelper(window).Handle;
+            NativeUtil.EnableBlur(handle, _config.BackgroundEffect);
         }
 
         public string[] GetSystemFontNames()
@@ -163,32 +174,31 @@ namespace GBCLV3.Services
                 }
             }
 
-#if DEBUG
-            float l2_norm_0 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE);
-            float l2_norm_1 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE);
-            float l2_norm_2 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE);
-            float l2_norm_3 = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
+            float l2NormSpike = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE);
+            float l2NormBullzeye = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE);
+            float l2NormTBone = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE);
+            float l2NormStegz = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
 
-            Debug.WriteLine("[REF COLOR L2 NORM]");
-            Debug.WriteLine(l2_norm_0);
-            Debug.WriteLine(l2_norm_1);
-            Debug.WriteLine(l2_norm_2);
-            Debug.WriteLine(l2_norm_3);
+#if DEBUG
+            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Triceratop: {l2NormSpike:F4}");
+            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Pteranodon: {l2NormBullzeye:F4}");
+            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Tyrannosaurus: {l2NormTBone:F4}");
+            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Stegosaurus: {l2NormStegz:F4}");
 #endif
 
-            if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_SPIKE) < 0.0075f)
+            if (l2NormSpike < 0.0075f)
             {
                 BackgroundIcon = iconsDict["Spike"] as StreamGeometry;
             }
-            else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_BULLZEYE) < 0.0005f)
+            else if (l2NormBullzeye < 0.0005f)
             {
                 BackgroundIcon = iconsDict["Bullzeye"] as StreamGeometry;
             }
-            else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_TBONE) < 0.0082f)
+            else if (l2NormTBone < 0.0082f)
             {
                 BackgroundIcon = iconsDict["T-Bone"] as StreamGeometry;
             }
-            else if (ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ) < 0.0090f)
+            else if (l2NormStegz < 0.0090f)
             {
                 BackgroundIcon = iconsDict["Stegz"] as StreamGeometry;
             }
