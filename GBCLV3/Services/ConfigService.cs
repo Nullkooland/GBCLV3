@@ -2,6 +2,7 @@
 using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
+using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,7 @@ namespace GBCLV3.Services
                     WindowHeight = 480,
                     AfterLaunch = AfterLaunchBehavior.Hide,
                     DownloadSource = DownloadSource.Official,
+                    BackgroundEffect = BackgroundEffect.BlurBehind,
                 };
             }
 
