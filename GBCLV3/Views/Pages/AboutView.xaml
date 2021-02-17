@@ -13,7 +13,6 @@
 
     <ContentControl.Resources>
         <Style TargetType="Button">
-            <Setter Property="Margin" Value="8,0" />
             <Setter Property="Padding" Value="0" />
             <Setter Property="Cursor" Value="Hand" />
             <Setter Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" />
@@ -36,7 +35,6 @@
         </Style>
 
         <Style TargetType="TextBlock">
-            <Setter Property="Margin" Value="8,0" />
             <Setter Property="FontSize" Value="14" />
         </Style>
     </ContentControl.Resources>
@@ -54,27 +52,28 @@
             VerticalScrollBarVisibility="Hidden">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="16" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="*" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
                 </Grid.RowDefinitions>
 
                 <TextBlock
-                    Grid.Row="1"
+                    Grid.Row="0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    FontSize="36"
+                    FontSize="28"
                     FontWeight="Bold"
-                    Text="GBCL" />
+                    Text="Goose Bomb's Minecraft Client Launcher"
+                    TextWrapping="Wrap" />
 
                 <StackPanel
-                    Grid.Row="2"
-                    Margin="0,0,0,8"
+                    Grid.Row="1"
+                    Margin="0,8"
                     Orientation="Vertical">
 
                     <TextBlock Text="{Binding VersionCode, Mode=OneTime}" />
@@ -84,84 +83,87 @@
                     <Button
                         Command="{s:Action OpenLink}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding GBCLV3Page, Mode=OneTime}" />
+                        Content="{Binding GBCLPage, Mode=OneTime}" />
                 </StackPanel>
 
+                <!--  Dependencies  -->
                 <TextBlock
-                    Grid.Row="3"
+                    Grid.Row="2"
+                    Margin="0,8,0,4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     FontSize="16"
                     FontWeight="SemiBold"
                     Text="{DynamicResource Dependencies}" />
 
-                <StackPanel
-                    Grid.Row="4"
-                    Margin="0,0,0,8"
-                    Orientation="Vertical">
+                <ItemsControl Grid.Row="3" ItemsSource="{Binding Dependencies}">
 
-                    <TextBlock Text="{Binding Stylet, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding StyletPage, Mode=OneTime}" />
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Key, Mode=OneTime}" />
+                                <Button
+                                    Command="{s:Action OpenLink}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                                    Content="{Binding Value, Mode=OneTime}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                    <TextBlock Text="{Binding FodyPropertyChanged, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding FodyPropertyChangedPage, Mode=OneTime}" />
-
-                    <TextBlock Text="{Binding AdonisUI, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding AdonisUIPage, Mode=OneTime}" />
-
-                    <TextBlock Text="{Binding OokiiDialogs, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding OokiiDialogsPage, Mode=OneTime}" />
-                </StackPanel>
-
+                <!--  Thanks to  -->
                 <TextBlock
-                    Grid.Row="5"
+                    Grid.Row="4"
+                    Margin="0,8,0,4"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     FontSize="16"
                     FontWeight="SemiBold"
                     Text="{DynamicResource ThanksTo}" />
 
-                <StackPanel
-                    Grid.Row="6"
+                <ItemsControl
+                    Grid.Row="5"
                     Margin="0,0,0,8"
-                    Orientation="Vertical">
+                    ItemsSource="{Binding Credits}">
 
-                    <TextBlock Text="{Binding BMCLAPI, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding BMCLAPIPage, Mode=OneTime}" />
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Text="{Binding Key, Mode=OneTime}" />
+                                <Button
+                                    Command="{s:Action OpenLink}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
+                                    Content="{Binding Value, Mode=OneTime}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-                    <TextBlock Text="{Binding MCBBS, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding MCBBSPage, Mode=OneTime}" />
+                <!--  Multilingual Translation  -->
+                <TextBlock
+                    Grid.Row="6"
+                    Margin="0,8,0,4"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    FontSize="16"
+                    FontWeight="SemiBold"
+                    Text="{DynamicResource MultilingualTranslation}" />
 
-                    <TextBlock Text="{Binding Fabric, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding FabricPage, Mode=OneTime}" />
+                <ItemsControl
+                    Grid.Row="7"
+                    Margin="0,0,0,8"
+                    ItemsSource="{Binding Translators}">
 
-                    <TextBlock Text="{Binding Forge, Mode=OneTime}" />
-                    <Button
-                        Command="{s:Action OpenLink}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=Content}"
-                        Content="{Binding ForgePage, Mode=OneTime}" />
-                </StackPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Key, Mode=OneTime}" />
+                                <TextBlock Text=": " />
+                                <TextBlock Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}" Text="{Binding Value, Mode=OneTime}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
             </Grid>
         </ScrollViewer>

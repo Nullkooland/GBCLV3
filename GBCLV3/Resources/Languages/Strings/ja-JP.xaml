@@ -5,7 +5,7 @@
 
     <!--  Translator  -->
     <s:String x:Key="MultilingualTranslation">多言語翻訳</s:String>
-    <s:String x:Key="TranslatorName">窨井</s:String>
+    <s:String x:Key="TranslatorName">ンガイン (窨井)</s:String>
 
     <!--  メッセージボックスボタンのラベル  -->
     <s:String x:Key="OK">決める</s:String>

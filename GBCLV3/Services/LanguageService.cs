@@ -14,7 +14,7 @@ namespace GBCLV3.Services
         #region Private Fields
 
         private const string AVAILABLE_LANGS_DICT_PATH = "/Resources/Languages/AvailableLanguages.xaml";
-        private const string TRANSLATOR_DICT_PATH = "/Resources/Languages/AvailableLanguages.xaml";
+        private const string TRANSLATOR_DICT_PATH = "/Resources/Languages/Translators.xaml";
         private const string STRINGS_DICTS_DIR = "/Resources/Languages/Strings";
 
         private readonly Config _config;
@@ -47,7 +47,7 @@ namespace GBCLV3.Services
                 );
 
             _translators = _availableLanguages.Keys
-                .ToDictionary(key => key, key => translatorsDict[key] as string);
+                .ToDictionary(key => _availableLanguages[key], key => translatorsDict[key] as string);
 
             if (string.IsNullOrEmpty(_config.Language))
             {

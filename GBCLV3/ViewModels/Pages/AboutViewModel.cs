@@ -2,6 +2,7 @@
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
+using System.Collections.Generic;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -11,7 +12,6 @@ namespace GBCLV3.ViewModels.Pages
 
         // IoC
         private readonly IWindowManager _windowManager;
-        private readonly LanguageService _languageService;
 
         #endregion
 
@@ -21,7 +21,24 @@ namespace GBCLV3.ViewModels.Pages
         public AboutViewModel(IWindowManager windowManager, LanguageService languageService)
         {
             _windowManager = windowManager;
-            _languageService = languageService;
+
+            Dependencies = new Dictionary<string, string>
+            {
+                { "Stylet MVVM Framework", "https://github.com/canton7/Stylet"},
+                { "AdonisUI", "https://github.com/benruehl/adonis-ui"},
+                { "Fody.PropertyChanged", "https://github.com/Fody/PropertyChanged"},
+                { "OokiiDialogs", "https://github.com/ookii-dialogs/ookii-dialogs-wpf"},
+            };
+
+            Credits = new Dictionary<string, string>
+            {
+                { "BMCLAPI", "https://bmclapidoc.bangbang93.com"},
+                { "MCBBS", "https://www.mcbbs.net"},
+                { "Fabric", "https://fabricmc.net"},
+                { "Forge", "http://files.minecraftforge.net/"},
+            };
+
+            Translators = languageService.GetTranslators();
         }
 
         #endregion
@@ -30,35 +47,17 @@ namespace GBCLV3.ViewModels.Pages
 
         public string VersionCode => AssemblyUtil.Version;
         public string Copyright => "MIT License, " + AssemblyUtil.Copyright;
-        public string GBCLV3Page => "https://github.com/Goose-Bomb/GBCLV3";
+        public string GBCLPage => "https://github.com/Goose-Bomb/GBCLV3";
 
-        public string Stylet => "Stylet MVVM Framework";
-        public string StyletPage => "https://github.com/canton7/Stylet";
+        public IReadOnlyDictionary<string, string> Dependencies { get; }
 
-        public string FodyPropertyChanged => "Fody.PropertyChanged";
-        public string FodyPropertyChangedPage => "https://github.com/Fody/PropertyChanged";
+        public IReadOnlyDictionary<string, string> Credits { get; }
 
-        public string AdonisUI => "Adonis UI Toolkit";
-        public string AdonisUIPage => "https://github.com/benruehl/adonis-ui";
-
-        public string OokiiDialogs => "Ookii Dialogs";
-        public string OokiiDialogsPage => "http://www.ookii.org/software/dialogs";
-
-        public string BMCLAPI => "BMCLAPI Download Mirror";
-        public string BMCLAPIPage => "https://bmclapidoc.bangbang93.com";
-
-        public string MCBBS => "MCBBS Download Mirror";
-        public string MCBBSPage => "https://www.mcbbs.net";
-
-        public string Fabric => "Support Minecraft Fabric";
-        public string FabricPage => "https://fabricmc.net";
-
-        public string Forge => "Support Minecraft Forge";
-        public string ForgePage => "https://www.patreon.com/LexManos";
+        public IReadOnlyDictionary<string, string> Translators { get; }
 
         public void OpenLink(string url) => SystemUtil.OpenLink(url);
 
-        public void DontStop() => _windowManager.ShowMessageBox("${DontStop}", "${FlowerOfHope}"); 
+        public void DontStop() => _windowManager.ShowMessageBox("${DontStop}", "${FlowerOfHope}");
 
         #endregion
 
