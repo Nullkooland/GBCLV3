@@ -1,8 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:s="https://github.com/canton7/Stylet"
-                    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
-                    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:adonisExtensions="clr-namespace:AdonisUI.Extensions;assembly=AdonisUI"
+    xmlns:adonisUI="clr-namespace:AdonisUI;assembly=AdonisUI"
+    xmlns:s="https://github.com/canton7/Stylet">
 
     <Style x:Key="NavigationButtonStyle" TargetType="ToggleButton">
         <Setter Property="IsTabStop" Value="False" />
@@ -10,10 +11,14 @@
             <Setter.Value>
                 <ControlTemplate TargetType="ToggleButton">
                     <Border x:Name="Border" Background="Transparent">
-                        <TextBlock Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="{TemplateBinding Foreground}"
-                                   FontFamily="Segoe MDL2 Assets" FontSize="20"
-                                   Text="{TemplateBinding Content}" />
+                        <TextBlock
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            FontFamily="Segoe MDL2 Assets"
+                            FontSize="20"
+                            Foreground="{TemplateBinding Foreground}"
+                            Text="{TemplateBinding Content}" />
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
@@ -35,7 +40,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListBox">
-                    <StackPanel Orientation="Vertical" Background="{TemplateBinding Background}">
+                    <StackPanel Background="{TemplateBinding Background}" Orientation="Vertical">
                         <Grid Height="48">
 
                             <Grid.ColumnDefinitions>
@@ -44,62 +49,79 @@
                                 <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
 
-                            <ToggleButton x:Name="NavigationButton" Grid.Column="0"
-                                          Foreground="White" Content="&#xE700;"
-                                          Style="{StaticResource NavigationButtonStyle}" />
+                            <ToggleButton
+                                x:Name="NavigationButton"
+                                Grid.Column="0"
+                                Content="&#xE700;"
+                                Foreground="White"
+                                Style="{StaticResource NavigationButtonStyle}" />
 
-                            <TextBlock x:Name="GreetingsText" Grid.Column="1"
-                                       Margin="8, 0"
-                                       HorizontalAlignment="Center" VerticalAlignment="Center"
-                                       Foreground="Gray" FontSize="16"
-                                       Text="{TemplateBinding Tag}" />
+                            <TextBlock
+                                x:Name="GreetingsText"
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                FontSize="16"
+                                Foreground="Gray"
+                                Text="{TemplateBinding Tag}" />
 
-                            <!-- <Path x:Name="Creeper" Grid.Column="2" -->
-                            <!--       Width="14" Height="14" -->
-                            <!--       HorizontalAlignment="Left" VerticalAlignment="Center" -->
-                            <!--       Fill="Gray" Stretch="Fill" -->
-                            <!--       Data="{StaticResource CreeperIcon}" -->
-                            <!--       Visibility="{TemplateBinding Tag, -->
-                            <!--                    Converter={x:Static s:BoolToVisibilityConverter.Instance}}" /> -->
+                            <!--  <Path x:Name="Creeper" Grid.Column="2"  -->
+                            <!--  Width="14" Height="14"  -->
+                            <!--  HorizontalAlignment="Left" VerticalAlignment="Center"  -->
+                            <!--  Fill="Gray" Stretch="Fill"  -->
+                            <!--  Data="{StaticResource CreeperIcon}"  -->
+                            <!--  Visibility="{TemplateBinding Tag,  -->
+                            <!--  Converter={x:Static s:BoolToVisibilityConverter.Instance}}" />  -->
 
                         </Grid>
                         <ItemsPresenter />
                     </StackPanel>
 
                     <ControlTemplate.Triggers>
-                        <EventTrigger SourceName="NavigationButton" RoutedEvent="ToggleButton.Checked">
+                        <EventTrigger RoutedEvent="ToggleButton.Checked" SourceName="NavigationButton">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                     Duration="0:0:0.18" AccelerationRatio="0.2"
-                                                     DecelerationRatio="0.8"
-                                                     From="48" To="196" />
-                                    <DoubleAnimation Storyboard.TargetName="GreetingsText"
-                                                     Storyboard.TargetProperty="Opacity"
-                                                     Duration="0:0:0.24"
-                                                     From="0" To="1" />
-                                    <!-- <DoubleAnimation Storyboard.TargetName="Creeper" -->
-                                    <!--                  Storyboard.TargetProperty="Opacity" -->
-                                    <!--                  Duration="0:0:0.24" -->
-                                    <!--                  From="0" To="1" /> -->
+                                    <DoubleAnimation
+                                        AccelerationRatio="0.2"
+                                        DecelerationRatio="0.8"
+                                        Storyboard.TargetProperty="Width"
+                                        From="48"
+                                        To="196"
+                                        Duration="0:0:0.18" />
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="GreetingsText"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="0"
+                                        To="1"
+                                        Duration="0:0:0.24" />
+                                    <!--  <DoubleAnimation Storyboard.TargetName="Creeper"  -->
+                                    <!--  Storyboard.TargetProperty="Opacity"  -->
+                                    <!--  Duration="0:0:0.24"  -->
+                                    <!--  From="0" To="1" />  -->
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
-                        <EventTrigger SourceName="NavigationButton" RoutedEvent="ToggleButton.Unchecked">
+                        <EventTrigger RoutedEvent="ToggleButton.Unchecked" SourceName="NavigationButton">
                             <BeginStoryboard>
                                 <Storyboard>
-                                    <DoubleAnimation Storyboard.TargetProperty="Width"
-                                                     Duration="0:0:0.18" AccelerationRatio="0.2"
-                                                     DecelerationRatio="0.8"
-                                                     From="196" To="48" />
-                                    <DoubleAnimation Storyboard.TargetName="GreetingsText"
-                                                     Storyboard.TargetProperty="Opacity"
-                                                     Duration="0:0:0.05"
-                                                     From="1" To="0" />
-                                    <!-- <DoubleAnimation Storyboard.TargetName="Creeper" -->
-                                    <!--                  Storyboard.TargetProperty="Opacity" -->
-                                    <!--                  Duration="0:0:0.24" -->
-                                    <!--                  From="1" To="0" /> -->
+                                    <DoubleAnimation
+                                        AccelerationRatio="0.2"
+                                        DecelerationRatio="0.8"
+                                        Storyboard.TargetProperty="Width"
+                                        From="196"
+                                        To="48"
+                                        Duration="0:0:0.18" />
+                                    <DoubleAnimation
+                                        Storyboard.TargetName="GreetingsText"
+                                        Storyboard.TargetProperty="Opacity"
+                                        From="1"
+                                        To="0"
+                                        Duration="0:0:0.05" />
+                                    <!--  <DoubleAnimation Storyboard.TargetName="Creeper"  -->
+                                    <!--  Storyboard.TargetProperty="Opacity"  -->
+                                    <!--  Duration="0:0:0.24"  -->
+                                    <!--  From="1" To="0" />  -->
                                 </Storyboard>
                             </BeginStoryboard>
                         </EventTrigger>
@@ -114,7 +136,7 @@
                     <Setter Property="IsTabStop" Value="False" />
                     <Setter Property="Height" Value="48" />
                     <Setter Property="Foreground" Value="White" />
-                    <Setter Property="Background" Value="Transparent"/>
+                    <Setter Property="Background" Value="Transparent" />
                     <Setter Property="UseLayoutRounding" Value="False" />
                     <Setter Property="Template">
                         <Setter.Value>
@@ -126,31 +148,44 @@
                                         <ColumnDefinition Width="148" />
                                     </Grid.ColumnDefinitions>
 
-                                    <Rectangle x:Name="Base"
-                                               Grid.ColumnSpan="2"
-                                               Fill="#E6E6E6" Opacity="0"
-                                               adonisExtensions:CursorSpotlightExtension.MouseEventSource="{Binding RelativeSource={RelativeSource Self}}" />
+                                    <Rectangle
+                                        x:Name="Base"
+                                        Grid.ColumnSpan="2"
+                                        adonisExtensions:CursorSpotlightExtension.MouseEventSource="{Binding RelativeSource={RelativeSource Self}}"
+                                        Fill="#E6E6E6"
+                                        Opacity="0" />
 
-                                    <TextBlock Grid.Column="0"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               IsHitTestVisible="False"
-                                               Foreground="{TemplateBinding Foreground}"
-                                               FontFamily="Segoe MDL2 Assets" FontSize="16"
-                                               Text="{TemplateBinding Content}" />
+                                    <TextBlock
+                                        Grid.Column="0"
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        FontFamily="Segoe MDL2 Assets"
+                                        FontSize="16"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        IsHitTestVisible="False"
+                                        Text="{TemplateBinding Content}" />
 
-                                    <TextBlock x:Name="TagBox" Grid.Column="1" Margin="8,0"
-                                               HorizontalAlignment="Left" VerticalAlignment="Center"
-                                               IsHitTestVisible="False"
-                                               Foreground="{TemplateBinding Foreground}"
-                                               FontSize="14"
-                                               Text="{TemplateBinding Tag}" />
+                                    <TextBlock
+                                        x:Name="TagBox"
+                                        Grid.Column="1"
+                                        Margin="8,0"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        FontSize="14"
+                                        Foreground="{TemplateBinding Foreground}"
+                                        IsHitTestVisible="False"
+                                        Text="{TemplateBinding Tag}" />
 
-                                    <Rectangle x:Name="Arrow"
-                                               Grid.Column="0" Width="8" Height="32"
-                                               HorizontalAlignment="Left" VerticalAlignment="Center"
-                                               IsHitTestVisible="False"
-                                               Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
-                                               Visibility="Collapsed" />
+                                    <Rectangle
+                                        x:Name="Arrow"
+                                        Grid.Column="0"
+                                        Width="8"
+                                        Height="32"
+                                        HorizontalAlignment="Left"
+                                        VerticalAlignment="Center"
+                                        Fill="{DynamicResource {x:Static adonisUI:Brushes.AccentBrush}}"
+                                        IsHitTestVisible="False"
+                                        Visibility="Collapsed" />
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
@@ -159,7 +194,7 @@
 
                                     <Trigger Property="IsSelected" Value="True">
                                         <Setter TargetName="Arrow" Property="Visibility" Value="Visible" />
-                                        <Setter TargetName="TagBox" Property="FontWeight" Value="Bold"/>
+                                        <Setter TargetName="TagBox" Property="FontWeight" Value="Bold" />
                                     </Trigger>
                                 </ControlTemplate.Triggers>
                             </ControlTemplate>
