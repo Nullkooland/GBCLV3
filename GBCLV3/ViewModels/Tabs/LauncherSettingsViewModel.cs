@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Windows;
 using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
@@ -86,7 +87,7 @@ namespace GBCLV3.ViewModels.Tabs
             set
             {
                 _config.BackgroundEffect = value;
-                _themeService.SetBackgroundEffect();
+                _themeService.SetBackgroundEffect(Application.Current.MainWindow);
             }
         }
 

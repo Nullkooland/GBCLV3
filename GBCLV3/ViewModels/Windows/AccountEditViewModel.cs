@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
@@ -230,6 +231,11 @@ namespace GBCLV3.ViewModels.Windows
         }
 
         public void Cancel() => RequestClose(false);
+
+        public void OnWindowLoaded(Window window, RoutedEventArgs _)
+        {
+            ThemeService.SetBackgroundEffect(window);
+        }
 
         #endregion
 

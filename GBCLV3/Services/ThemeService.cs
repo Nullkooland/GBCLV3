@@ -119,9 +119,9 @@ namespace GBCLV3.Services
             BackgroundImage.Freeze();
         }
 
-        public void SetBackgroundEffect()
+        public void SetBackgroundEffect(Window window)
         {
-            var handle = new WindowInteropHelper(Application.Current.MainWindow).Handle;
+            var handle = new WindowInteropHelper(window).Handle;
             NativeUtil.EnableBlur(handle, _config.BackgroundEffect);
         }
 
