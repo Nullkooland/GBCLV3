@@ -82,7 +82,7 @@ namespace GBCLV3.ViewModels.Tabs
                 return;
             }
 
-            bool isInstallerNeeded = GameVersion.CompatibilityVersion >= 21;
+            bool isInstallerNeeded = _forgeInstallService.IsInstallerNeeded(forge);
 
             Status = ForgeInstallStatus.DownloadingInstaller;
             var download = _forgeInstallService.GetDownload(forge, isInstallerNeeded);
