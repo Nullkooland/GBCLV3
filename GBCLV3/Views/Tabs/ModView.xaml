@@ -12,172 +12,178 @@
     mc:Ignorable="d">
 
     <ContentControl.Resources>
-        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-            <Setter Property="Margin" Value="8,8,0,0" />
-            <Setter Property="Padding" Value="16,0" />
-            <Setter Property="Height" Value="28" />
-            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}" />
-            <Setter Property="FontSize" Value="14" />
+        <Style BasedOn="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}" TargetType="Button">
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
         </Style>
     </ContentControl.Resources>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
+    <ContentControl.InputBindings>
+        <KeyBinding Key="F5" Command="{s:Action Reload}" />
+    </ContentControl.InputBindings>
 
-        <StackPanel
-            Grid.Row="0"
-            FlowDirection="RightToLeft"
-            Orientation="Horizontal">
+    <GroupBox
+        Grid.Row="1"
+        Grid.ColumnSpan="4"
+        Margin="8">
 
-            <Button Click="{s:Action AddNew}" Content="{DynamicResource AddNew}" />
+        <GroupBox.Header>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
 
-            <Button Click="{s:Action Reload}" Content="{DynamicResource Reload}" />
+                <TextBlock
+                    Grid.Column="0"
+                    VerticalAlignment="Center"
+                    Text="{DynamicResource AvailableMods}" />
 
-            <Button Click="{s:Action OpenDir}" Content="{DynamicResource OpenDir}" />
+                <Button
+                    Grid.Column="2"
+                    Click="{s:Action OpenDir}"
+                    Content="&#xED25;"
+                    ToolTip="{DynamicResource OpenDir}" />
 
-        </StackPanel>
+                <Button
+                    Grid.Column="3"
+                    Click="{s:Action Reload}"
+                    Content="&#xE72C;"
+                    ToolTip="{DynamicResource Reload}" />
 
-        <GroupBox
-            Grid.Row="1"
-            Grid.ColumnSpan="4"
-            Margin="8">
+                <Button
+                    Grid.Column="4"
+                    Click="{s:Action AddNew}"
+                    Content="&#xE710;"
+                    ToolTip="{DynamicResource AddNew}" />
 
-            <GroupBox.Header>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                <ToggleButton
+                    Grid.Column="5"
+                    Width="32"
+                    Height="32"
+                    HorizontalAlignment="Right"
+                    Content="&#xE8C8;"
+                    FontFamily="Segoe MDL2 Assets"
+                    FontSize="16"
+                    IsChecked="{Binding IsCopyMods, Mode=TwoWay}"
+                    Style="{StaticResource {x:Static adonisUI:Styles.ToolbarToggleButton}}"
+                    ToolTip="{DynamicResource CopyMods}"
+                    ToolTipService.HorizontalOffset="-240"
+                    ToolTipService.Placement="Relative"
+                    ToolTipService.VerticalOffset="32" />
+            </Grid>
+        </GroupBox.Header>
 
-                    <TextBlock
-                        Grid.Column="0"
-                        VerticalAlignment="Center"
-                        Text="{DynamicResource AvailableMods}" />
+        <ListBox
+            AllowDrop="True"
+            BorderThickness="1"
+            Drop="{s:Action OnDropMods}"
+            ItemsSource="{Binding Mods, Mode=OneWay}"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            SelectionChanged="{s:Action SelectionChanged}"
+            SelectionMode="Extended">
 
-                    <ToggleButton
-                        Grid.Column="1"
-                        Width="32"
-                        Height="32"
-                        HorizontalAlignment="Right"
-                        Content="&#xE8C8;"
-                        FontFamily="Segoe MDL2 Assets"
-                        FontSize="16"
-                        IsChecked="{Binding IsCopyMods, Mode=TwoWay}"
-                        Style="{StaticResource {x:Static adonisUI:Styles.ToolbarToggleButton}}"
-                        ToolTip="{DynamicResource CopyMods}"
-                        ToolTipService.HorizontalOffset="-240"
-                        ToolTipService.Placement="Relative"
-                        ToolTipService.VerticalOffset="32" />
-                </Grid>
-            </GroupBox.Header>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Grid
+                        Background="Transparent"
+                        ToolTip="{Binding DisplayName, Mode=OneWay}"
+                        ToolTipService.Placement="Bottom">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="18" />
+                            <RowDefinition Height="18" />
+                        </Grid.RowDefinitions>
 
-            <ListBox
-                AllowDrop="True"
-                BorderThickness="1"
-                Drop="{s:Action OnDropMods}"
-                ItemsSource="{Binding Mods, Mode=OneWay}"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                ScrollViewer.VerticalScrollBarVisibility="Auto"
-                SelectionChanged="{s:Action SelectionChanged}"
-                SelectionMode="Extended">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="48" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="32" />
+                        </Grid.ColumnDefinitions>
 
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Grid
-                            Background="Transparent"
-                            ToolTip="{Binding DisplayName, Mode=OneWay}"
-                            ToolTipService.Placement="Bottom">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="18" />
-                                <RowDefinition Height="18" />
-                            </Grid.RowDefinitions>
+                        <CheckBox
+                            Grid.RowSpan="2"
+                            Grid.Column="0"
+                            Margin="14,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Command="{s:Action ChangeExtension}"
+                            CommandParameter="{Binding}"
+                            IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
 
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="48" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="32" />
-                            </Grid.ColumnDefinitions>
+                        <TextBlock
+                            x:Name="NameBox"
+                            Grid.Row="0"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="14"
+                            Text="{Binding Name, Mode=OneWay}" />
 
-                            <CheckBox
-                                Grid.RowSpan="2"
-                                Grid.Column="0"
-                                Margin="14,0"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                Command="{s:Action ChangeExtension}"
-                                CommandParameter="{Binding}"
-                                IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
+                        <TextBlock
+                            x:Name="FileNameBox"
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            FontSize="12"
+                            Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
+                            Text="{Binding FileName, Mode=OneWay}"
+                            TextTrimming="CharacterEllipsis" />
+
+                        <Border
+                            Grid.RowSpan="2"
+                            Grid.Column="2"
+                            Width="24"
+                            Height="36"
+                            Cursor="Hand"
+                            ToolTip="{Binding Url, Mode=OneWay}"
+                            Visibility="{Binding Url, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
+                            <Border.InputBindings>
+                                <MouseBinding
+                                    Command="{s:Action OpenLink}"
+                                    CommandParameter="{Binding Url}"
+                                    MouseAction="LeftClick" />
+                            </Border.InputBindings>
 
                             <TextBlock
-                                x:Name="NameBox"
-                                Grid.Row="0"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
-                                FontSize="14"
-                                Text="{Binding Name, Mode=OneWay}" />
+                                FontFamily="Segoe MDL2 Assets"
+                                FontSize="20"
+                                Text="&#xE71B;" />
+                        </Border>
 
-                            <TextBlock
-                                x:Name="FileNameBox"
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                FontSize="12"
-                                Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
-                                Text="{Binding FileName, Mode=OneWay}"
-                                TextTrimming="CharacterEllipsis" />
+                    </Grid>
+                    <DataTemplate.Triggers>
+                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
+                            <Setter TargetName="FileNameBox" Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}" />
+                        </DataTrigger>
+                    </DataTemplate.Triggers>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
 
-                            <Border
-                                Grid.RowSpan="2"
-                                Grid.Column="2"
-                                Width="24"
-                                Height="36"
-                                Cursor="Hand"
-                                ToolTip="{Binding Url, Mode=OneWay}"
-                                Visibility="{Binding Url, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                                <Border.InputBindings>
-                                    <MouseBinding
-                                        Command="{s:Action OpenLink}"
-                                        CommandParameter="{Binding Url}"
-                                        MouseAction="LeftClick" />
-                                </Border.InputBindings>
+            <ListBox.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Command="{s:Action Enable}" Header="{DynamicResource EnableSelected}" />
 
-                                <TextBlock
-                                    VerticalAlignment="Center"
-                                    FontFamily="Segoe MDL2 Assets"
-                                    FontSize="20"
-                                    Text="&#xE71B;" />
-                            </Border>
+                    <MenuItem Command="{s:Action Disable}" Header="{DynamicResource DisableSelected}" />
 
-                        </Grid>
-                        <DataTemplate.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
-                                <Setter TargetName="FileNameBox" Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}" />
-                            </DataTrigger>
-                        </DataTemplate.Triggers>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
+                    <MenuItem Command="{s:Action Delete}" Header="{DynamicResource Delete}" />
+                </ContextMenu>
+            </ListBox.ContextMenu>
 
-                <ListBox.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Command="{s:Action Enable}" Header="{DynamicResource EnableSelected}" />
+            <ListBox.InputBindings>
+                <KeyBinding Key="F5" Command="{s:Action Reload}" />
+                <KeyBinding Key="Delete" Command="{s:Action Delete}" />
+            </ListBox.InputBindings>
+        </ListBox>
+    </GroupBox>
 
-                        <MenuItem Command="{s:Action Disable}" Header="{DynamicResource DisableSelected}" />
-
-                        <MenuItem Command="{s:Action Delete}" Header="{DynamicResource Delete}" />
-                    </ContextMenu>
-                </ListBox.ContextMenu>
-
-                <ListBox.InputBindings>
-                    <KeyBinding Key="F5" Command="{s:Action Reload}" />
-                    <KeyBinding Key="Delete" Command="{s:Action Delete}" />
-                </ListBox.InputBindings>
-            </ListBox>
-        </GroupBox>
-
-    </Grid>
 </ContentControl>

@@ -43,12 +43,13 @@
             </Style.Triggers>
         </Style>
 
-        <Style BasedOn="{StaticResource {x:Type Button}}" TargetType="Button">
-            <Setter Property="Margin" Value="8,8,0,0" />
-            <Setter Property="Padding" Value="16,0" />
-            <Setter Property="Height" Value="28" />
-            <Setter Property="Background" Value="{DynamicResource ControlTranslucentBrush}" />
-            <Setter Property="FontSize" Value="14" />
+
+        <Style BasedOn="{StaticResource {x:Static adonisUI:Styles.ToolbarButton}}" TargetType="Button">
+            <Setter Property="Height" Value="32" />
+            <Setter Property="Width" Value="32" />
+            <Setter Property="FontFamily" Value="Segoe MDL2 Assets" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Cursor" Value="Hand" />
         </Style>
     </ContentControl.Resources>
 
@@ -56,37 +57,15 @@
         <KeyBinding Key="F5" Command="{s:Action Reload}" />
     </ContentControl.InputBindings>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
+    <Grid Margin="8">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="8" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
 
-        <StackPanel
-            Grid.Row="0"
-            Grid.ColumnSpan="3"
-            FlowDirection="RightToLeft"
-            Orientation="Horizontal">
 
-            <Button Click="{s:Action AddNew}" Content="{DynamicResource AddNew}" />
-
-            <Button Click="{s:Action Reload}" Content="{DynamicResource Reload}" />
-
-            <Button Click="{s:Action OpenDir}" Content="{DynamicResource OpenDir}" />
-
-        </StackPanel>
-
-        <GroupBox
-            Grid.Row="1"
-            Grid.Column="0"
-            Margin="8,8,0,8"
-            Header="{DynamicResource DisabledPacks}">
+        <GroupBox Grid.Column="0" Header="{DynamicResource DisabledPacks}">
 
             <ListBox
                 AllowDrop="True"
@@ -191,11 +170,43 @@
             </ListBox>
         </GroupBox>
 
-        <GroupBox
-            Grid.Row="1"
-            Grid.Column="2"
-            Margin="0,8,8,8"
-            Header="{DynamicResource EnabledPacks}">
+        <GroupBox Grid.Column="2">
+
+            <GroupBox.Header>
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Grid.Column="0"
+                        VerticalAlignment="Center"
+                        Text="{DynamicResource EnabledPacks}" />
+
+                    <Button
+                        Grid.Column="2"
+                        Click="{s:Action OpenDir}"
+                        Content="&#xED25;"
+                        ToolTip="{DynamicResource OpenDir}" />
+
+                    <Button
+                        Grid.Column="3"
+                        Click="{s:Action Reload}"
+                        Content="&#xE72C;"
+                        ToolTip="{DynamicResource Reload}" />
+
+                    <Button
+                        Grid.Column="4"
+                        Click="{s:Action AddNew}"
+                        Content="&#xE710;"
+                        ToolTip="{DynamicResource AddNew}" />
+                </Grid>
+            </GroupBox.Header>
+
             <ListBox
                 AllowDrop="True"
                 BorderThickness="1"
