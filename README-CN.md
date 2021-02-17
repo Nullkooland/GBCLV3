@@ -67,12 +67,14 @@
   - [ ] 自定义主题色
 
 - [ ] 多语言
-  - [x] 英语
   - [x] 简体中文
-  - [x] 繁体中文
-  - [x] 俄语（感谢 @vanja-san 提供的翻译）
-  - [x] 德语（感谢 @Lolle2000la 提供的翻译）
-  - [ ] 日语
+  - [x] 繁體中文
+  - [x] 英语 - American English
+  - [x] 俄语 - Русский (感谢 [@vanja-san](https://github.com/vanja-san))
+  - [x] 德语 - Deutsch (感谢 [@Lolle2000la](https://github.com/Lolle2000la))
+  - [x] 匈牙利语 - Magyar (感谢 [@lolraceHun](https://github.com/lolraceHun))
+  - [x] 土耳其语 - Türkçe (感谢 [@TheGeyik](https://github.com/TheGeyik))
+  - [x] 日语 - 日本語  (感谢 [@窨井](https://twitter.com/NgainLupusdova))
 
 - [ ] 辅助功能
   - [x] 模组管理

@@ -11,8 +11,8 @@ using System.Windows;
 [assembly: AssemblyCopyright("Copyright © Goose Bomb 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyVersion("3.12.150")]
-[assembly: AssemblyFileVersion("3.12.150")]
+[assembly: AssemblyVersion("3.13.197")]
+[assembly: AssemblyFileVersion("3.13.197")]
 
 [assembly: ComVisible(false)]
 

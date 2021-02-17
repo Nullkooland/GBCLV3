@@ -72,9 +72,11 @@
   - [x] English
   - [x] Simplified Chinese - 简体中文
   - [x] Traditional Chinese - 繁體中文
-  - [x] Russian - Русский (translations provided by @vanja-san)
-  - [x] German - Deutsch (translations provided by @Lolle2000la)
-  - [ ] Japanese - 日本語
+  - [x] Russian - Русский (By [@vanja-san](https://github.com/vanja-san))
+  - [x] German - Deutsch (By [@Lolle2000la](https://github.com/Lolle2000la))
+  - [x] Hungarian - Magyar (By [@lolraceHun](https://github.com/lolraceHun))
+  - [x] Turkish - Türkçe (By [@TheGeyik](https://github.com/TheGeyik))
+  - [x] Japanese - 日本語  (By [@窨井](https://twitter.com/NgainLupusdova))
 
 - [ ] Auxiliary Functions
   - [x] Mods management
