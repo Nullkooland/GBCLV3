@@ -6,7 +6,7 @@
     Style="{StaticResource BlurInPageStyle}">
 
     <TabControl>
-        <TabItem Header="&#xEA86;" Tag="{DynamicResource Mods}">
+        <TabItem Header="&#xE964;" Tag="{DynamicResource Mods}">
             <ContentControl s:View.Model="{Binding ModVM}" />
         </TabItem>
 
