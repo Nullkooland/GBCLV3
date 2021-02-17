@@ -20,8 +20,7 @@ namespace GBCLV3.Services.Installation
         #region Private Fields
 
         private const string FABRIC_MAVEN_URL = "https://maven.fabricmc.net/";
-
-        private readonly HttpClient _client;
+ 
         private readonly JsonSerializerOptions _jsonOptions
             = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, IgnoreNullValues = true };
 
@@ -29,6 +28,7 @@ namespace GBCLV3.Services.Installation
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
+        private readonly HttpClient _client;
 
         #endregion
 
@@ -38,13 +38,13 @@ namespace GBCLV3.Services.Installation
         public FabricInstallService(
             GamePathService gamePathService,
             DownloadUrlService downloadUrlService,
-            VersionService versionService)
+            VersionService versionService,
+            HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = downloadUrlService;
             _versionService = versionService;
-
-            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+            _client = client;
         }
 
         #endregion

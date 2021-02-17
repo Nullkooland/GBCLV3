@@ -131,13 +131,15 @@ namespace GBCLV3.Services.Auxiliary
 
         private static Mod LoadFabricMods(Stream infoStream)
         {
-            using var memoryStream = new MemoryStream();
-            infoStream.CopyTo(memoryStream);
-            
+
+
             Mod mod = null;
 
             try
             {
+                using var memoryStream = new MemoryStream();
+                infoStream.CopyTo(memoryStream);
+
                 var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
                 var fabricMod = JsonSerializer.Deserialize<FabricMod>(infoJson);
                 var authorList = fabricMod?.authors.Select(element =>
@@ -167,13 +169,13 @@ namespace GBCLV3.Services.Auxiliary
 
         private static Mod LoadForgeMods(Stream infoStream)
         {
-            using var memoryStream = new MemoryStream();
-            infoStream.CopyTo(memoryStream);
-
             Mod mod = null;
 
             try
             {
+                using var memoryStream = new MemoryStream();
+                infoStream.CopyTo(memoryStream);
+
                 // This is utterly ugly...thanks to the capriciousness of modders
                 var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
                 var forgeMod = JsonSerializer.Deserialize<ForgeMod[]>(infoJson)[0];

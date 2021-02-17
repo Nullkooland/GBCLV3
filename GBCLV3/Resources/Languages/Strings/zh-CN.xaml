@@ -4,7 +4,7 @@
     xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
     <!--  Translator  -->
-    <s:String x:Key="MultilingualTranslation">多语种翻译</s:String>
+    <s:String x:Key="MultilingualTranslation">多国语言翻译</s:String>
     <s:String x:Key="TranslatorName">鹅弹 (Goose Bomb)</s:String>
 
     <!--  对话框按钮标签  -->

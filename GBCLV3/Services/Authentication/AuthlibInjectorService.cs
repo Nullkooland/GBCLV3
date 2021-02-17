@@ -32,11 +32,12 @@ namespace GBCLV3.Services.Authentication
         [Inject]
         public AuthlibInjectorService(
             GamePathService gamePathService,
-            DownloadUrlService downloadUrlService)
+            DownloadUrlService downloadUrlService,
+            HttpClient client)
         {
             _gamePathService = gamePathService;
             _downloadUrlService = downloadUrlService;
-            _client = new HttpClient { Timeout = TimeSpan.FromSeconds(10) };
+            _client = client;
         }
 
         #endregion

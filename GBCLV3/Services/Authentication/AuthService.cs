@@ -1,5 +1,6 @@
 ﻿using GBCLV3.Models.Authentication;
 using GBCLV3.Utils;
+using StyletIoC;
 using System;
 using System.Buffers.Text;
 using System.Diagnostics;
@@ -16,10 +17,20 @@ namespace GBCLV3.Services.Authentication
 
         private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com";
 
-        private static readonly HttpClient _client = new HttpClient() {Timeout = TimeSpan.FromSeconds(15)};
+        private readonly HttpClient _client;
 
         private static readonly JsonSerializerOptions _jsonOptions
             = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+
+        #endregion
+
+        #region Constructor
+
+        [Inject]
+        public AuthService(HttpClient client)
+        {
+            _client = client;
+        }
 
         #endregion
 
@@ -128,7 +139,7 @@ namespace GBCLV3.Services.Authentication
             };
         }
 
-        private static async ValueTask<AuthResult> RequestAsync(string requestJson, bool isRefresh, string authServer)
+        private async ValueTask<AuthResult> RequestAsync(string requestJson, bool isRefresh, string authServer)
         {
             var result = new AuthResult();
 
