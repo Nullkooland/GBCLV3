@@ -3,11 +3,11 @@
         "title": "Man, it's been a while but I'm still working on it!（＞人＜；）",
         "details": [
             "Fix bug relating to mods loading.",
-            "Add background effect options, now you can enable Win10's acrylic blur (although it could make the window laggy to drag, which is a common bug when using the system acrylic blur API and unfixable now).",
+            "Add background effect options, now you can enable Win10's acrylic blur (although it could make the window laggy to drag, which is a common bug when using this system API and unfixable now).",
             "Now you can open account edit window directly at home page by clicking the account avatar.",
             "Add Japanese translations, thanks to my dear friend Ngain.",
             "Some UI adjustments for better consistency.",
-            "Update versions of dependencies"
+            "Update versions of dependencies."
         ]
     },
     "zh-CN": {
