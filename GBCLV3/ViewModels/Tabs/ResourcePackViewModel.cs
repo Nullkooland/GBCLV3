@@ -57,18 +57,16 @@ namespace GBCLV3.ViewModels.Tabs
             await _resourcePackService.DeleteFromDiskAsync(pack);
         }
 
-        public async void Reload()
+        public Task Reload() => Task.Run(() =>
         {
-            await Task.Run(() =>
-            {
-                EnabledPacks.Clear();
-                DisabledPacks.Clear();
+            EnabledPacks.Clear();
+            DisabledPacks.Clear();
 
-                var (enabledPacks, disabledPacks) = _resourcePackService.LoadAll();
-                EnabledPacks.AddRange(enabledPacks);
-                DisabledPacks.AddRange(disabledPacks);
-            });
-        }
+            var (enabledPacks, disabledPacks) = _resourcePackService.LoadAll();
+            EnabledPacks.AddRange(enabledPacks);
+            DisabledPacks.AddRange(disabledPacks);
+        });
+
 
         public void Enable(ResourcePack pack)
         {

@@ -85,10 +85,8 @@ namespace GBCLV3.Services.Auxiliary
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
 
-            var packs = Directory.EnumerateFiles(_gamePathService.ResourcePacksDir, "*.zip")
-                .Select(path => LoadZip(path, enabledPackIDs))
-                .Concat(Directory.EnumerateDirectories(_gamePathService.ResourcePacksDir)
-                    .Select(dir => LoadDir(dir, enabledPackIDs)))
+            var packs = Directory.EnumerateFileSystemEntries(_gamePathService.ResourcePacksDir)
+                .Select(path => Load(path, enabledPackIDs))
                 .Where(pack => pack != null)
                 .ToLookup(pack => pack.IsEnabled);
 
@@ -150,7 +148,7 @@ namespace GBCLV3.Services.Auxiliary
                 string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                 if (File.Exists(dstPath)) return null;
 
-                var pack = LoadZip(path, null);
+                var pack = Load(path, null);
                 if (pack == null) return null;
 
                 try
@@ -179,79 +177,71 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Private Methods
 
-        private static ResourcePack LoadZip(string path, string[] enabledPackIDs)
+        private static ResourcePack Load(string path, string[] enabledPackIds)
         {
-            using var archive = ZipFile.OpenRead(path);
-            ZipArchiveEntry infoEntry;
-            if ((infoEntry = archive.GetEntry("pack.mcmeta")) == null)
+            bool isZip = path.EndsWith(".zip");
+
+            using var infoMemStream = new MemoryStream();
+            using var imgMemStream = new MemoryStream();
+
+            if (isZip)
             {
-                return null;
+                using var archive = ZipFile.OpenRead(path);
+
+                var infoEntry = archive.GetEntry("pack.mcmeta");
+                if (infoEntry == null)
+                {
+                    return null;
+                }
+
+                using var infoStream = infoEntry.Open();
+                infoStream.CopyTo(infoMemStream);
+
+                var imgEntry = archive.GetEntry("pack.png");
+                if (imgEntry != null)
+                {
+                    using var imgStream = imgEntry.Open();
+                    imgStream.CopyTo(imgMemStream);
+                }
+            }
+            else
+            {
+                string infoFile = path + "/pack.mcmeta";
+                if (!File.Exists(infoFile))
+                {
+                    return null;
+                }
+
+                using var infoStream = File.OpenRead(infoFile);
+                infoStream.CopyTo(infoMemStream);
+
+
+                string imgFile = path + "/pack.png";
+                if (File.Exists(imgFile))
+                {
+                    using var imgStream = File.OpenRead(imgFile);
+                    imgStream.CopyTo(imgMemStream);
+                }
             }
 
-            using var infoStream = infoEntry.Open();
-
-            var pack = ReadInfo(infoStream);
-            pack.Path = path;
-            pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
-            pack.IsExtracted = false;
-
-            // LoadSkinsAsync cover image (if exists)
-            ZipArchiveEntry imgEntry;
-            if ((imgEntry = archive.GetEntry("pack.png")) != null)
-            {
-                using var es = imgEntry.Open();
-                using var ms = new MemoryStream();
-                es.CopyTo(ms);
-                pack.Image = ReadImage(ms);
-            }
-
-            return pack;
-        }
-
-        private static ResourcePack LoadDir(string packDir, string[] enabledPackIDs)
-        {
-            string infoPath = packDir + "/pack.mcmeta";
-            string imgPath = packDir + "/pack.png";
-
-            if (!File.Exists(infoPath))
-            {
-                return null;
-            }
-
-            using var infoStream = File.OpenRead(infoPath);
-
-            var pack = ReadInfo(infoStream);
-            pack.Path = packDir;
-            pack.IsEnabled = enabledPackIDs?.Contains(pack.Name) ?? false;
-            pack.IsExtracted = true;
-
-            // LoadSkinsAsync cover image (if exists)
-            if (File.Exists(imgPath))
-            {
-                using var fs = File.OpenRead(imgPath);
-                pack.Image = ReadImage(fs);
-            }
-
-            return pack;
-        }
-
-        private static ResourcePack ReadInfo(Stream infoStream)
-        {
-            using var memoryStream = new MemoryStream();
-            infoStream.CopyTo(memoryStream);
-
-            var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+            var infoJson = SystemUtil.RemoveUtf8BOM(infoMemStream.ToArray());
             var info = JsonSerializer.Deserialize<JResourcePack>(infoJson);
 
             return new ResourcePack
             {
+                Path = path,
+                IsEnabled = enabledPackIds?.Contains(Path.GetFileName(path)) ?? false,
+                IsExtracted = !isZip,
                 Format = info.pack?.pack_format ?? -1,
                 Description = Regex.Replace(info.pack?.description ?? string.Empty, "§.", string.Empty),
+                Image = ReadImage(imgMemStream),
             };
         }
 
-        private static BitmapImage ReadImage(Stream imgStream)
+        private static BitmapImage ReadImage(MemoryStream imgStream)
         {
+            if (imgStream.Length == 0) return null;
+
             var img = new BitmapImage();
             img.BeginInit();
             img.StreamSource = imgStream;
@@ -263,7 +253,6 @@ namespace GBCLV3.Services.Auxiliary
 
             return img;
         }
-
 
         #endregion
     }

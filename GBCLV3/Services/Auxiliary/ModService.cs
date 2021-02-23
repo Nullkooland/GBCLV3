@@ -108,11 +108,11 @@ namespace GBCLV3.Services.Auxiliary
 
             if (fabricModInfo != null)
             {
-                mod = LoadFabricMods(fabricModInfo);
+                mod = LoadFabricMod(fabricModInfo);
             }
             else if (forgeModInfo != null)
             {
-                mod = LoadForgeMods(forgeModInfo);
+                mod = LoadForgeMod(forgeModInfo);
             }
 
             mod ??= new Mod();
@@ -129,10 +129,8 @@ namespace GBCLV3.Services.Auxiliary
             return mod;
         }
 
-        private static Mod LoadFabricMods(Stream infoStream)
+        private static Mod LoadFabricMod(Stream infoStream)
         {
-
-
             Mod mod = null;
 
             try
@@ -167,7 +165,7 @@ namespace GBCLV3.Services.Auxiliary
             return mod;
         }
 
-        private static Mod LoadForgeMods(Stream infoStream)
+        private static Mod LoadForgeMod(Stream infoStream)
         {
             Mod mod = null;
 
