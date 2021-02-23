@@ -25,6 +25,8 @@ namespace GBCLV3.Services.Launch
 
         public string ResourcePacksDir => WorkingDir + "/resourcepacks";
 
+        public string ShaderPacksDir => WorkingDir + "/shaderpacks";
+
         public string SavesDir => WorkingDir + "/saves";
 
         public string LogsDir => WorkingDir + "/logs";

@@ -224,12 +224,15 @@
     <s:String x:Key="DisableSelected">Disable</s:String>
     <s:String x:Key="CopyMods">When adding new mods, copy instead of moving them from source directory</s:String>
 
-
     <!--  Resourcepacks Management  -->
     <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
     <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
     <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
     <s:String x:Key="OpenPack">Open</s:String>
+
+    <!--  Shaderpacks Management  -->
+    <s:String x:Key="AvailableShaderpacks">Available Shaderpacks</s:String>
+    <s:String x:Key="SelectShaderpacks">Select Shaderpacks</s:String>
 
     <!--  About  -->
     <s:String x:Key="Dependencies">Dependencies</s:String>
@@ -270,6 +273,7 @@
     <s:String x:Key="FabricInstall">Fabric Install</s:String>
     <s:String x:Key="Mods">Mods</s:String>
     <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
+    <s:String x:Key="Shaderpacks">Shaderpacks</s:String>
     <s:String x:Key="Saves">Saves</s:String>
     <s:String x:Key="Skins">Skins</s:String>
     <s:String x:Key="About">About</s:String>

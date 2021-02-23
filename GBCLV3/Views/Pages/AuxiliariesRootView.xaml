@@ -14,6 +14,10 @@
             <ContentControl s:View.Model="{Binding ResourcePackVM}" />
         </TabItem>
 
+        <TabItem Header="&#xE793;" Tag="{DynamicResource Shaderpacks}">
+            <ContentControl s:View.Model="{Binding ShaderPackVM}" />
+        </TabItem>
+
         <!--<TabItem Header="&#xEA35;" Tag="{DynamicResource Saves}">
             <ContentControl s:View.Model="{Binding SaveVM}"/>
         </TabItem>-->
