@@ -12,6 +12,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Collections.Immutable;
 
 namespace GBCLV3.Services.Auxiliary
 {
@@ -36,25 +37,28 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public IEnumerable<Mod> LoadAll()
+        public Task<ImmutableArray<Mod>> LoadAllAsync()
         {
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.ModsDir);
 
-            return Directory.EnumerateFiles(_gamePathService.ModsDir)
+            var query = Directory.EnumerateFiles(_gamePathService.ModsDir)
                 .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"))
                 .Select(path => Load(path))
                 .OrderByDescending(mod => mod.IsEnabled);
+
+            return Task.FromResult(query.ToImmutableArray());
         }
 
-        public async ValueTask<Mod[]> MoveLoadAllAsync(IEnumerable<string> paths, bool isCopy)
+        public Task<ImmutableArray<Mod>> MoveLoadAllAsync(IEnumerable<string> paths, bool isCopy)
         {
-            Directory.CreateDirectory(_gamePathService.ModsDir);
-
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
                 if (File.Exists(dstPath)) return null;
+
+                var mod = Load(path);
+                if (mod == null) return null;
 
                 try
                 {
@@ -74,10 +78,12 @@ namespace GBCLV3.Services.Auxiliary
                     return null;
                 }
 
-                return Load(dstPath);
+                mod.Path = dstPath;
+
+                return mod;
             }).Where(mod => mod != null);
 
-            return await Task.FromResult(query.ToArray());
+            return Task.FromResult(query.ToImmutableArray());
         }
 
         public void ChangeExtension(Mod mod)

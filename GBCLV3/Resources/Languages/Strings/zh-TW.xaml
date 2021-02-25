@@ -76,8 +76,8 @@
 
     <!--  完整性檢查  -->
     <s:String x:Key="IntegrityCheck">遊戲完整性檢查</s:String>
-    <s:String x:Key="MainJarDamaged">主jar文件缺失或損壞</s:String>
-    <s:String x:Key="ForgeJarDamaged">Forge jar檔缺失或損壞，且無法自動修復</s:String>
+    <s:String x:Key="MainJarDamaged">主 jar 文件缺失或損壞</s:String>
+    <s:String x:Key="ForgeJarDamaged">Forge jar 檔缺失或損壞，且無法自動修復</s:String>
     <s:String x:Key="PleaseReinstallForge">請重新安裝Forge</s:String>
     <s:String x:Key="LibsDamaged">依賴庫缺失或損壞</s:String>
     <s:String x:Key="AssetsDamaged">資源檔缺失或損壞</s:String>
@@ -183,7 +183,7 @@
     <s:String x:Key="VersionListLoading">正在獲取版本列表</s:String>
     <s:String x:Key="VersionListLoaded">版本列表獲取成功</s:String>
     <s:String x:Key="VersionListLoadFailed">版本列表獲取失敗</s:String>
-    <s:String x:Key="VersionFetchingJson">正在獲取版本json檔</s:String>
+    <s:String x:Key="VersionFetchingJson">正在獲取版本 json 檔</s:String>
     <s:String x:Key="VersionDownloadingDependencies">正在下載依賴項</s:String>
 
     <s:String x:Key="VersionInstallFailed">安裝失敗</s:String>
@@ -220,16 +220,21 @@
 
     <!--  模組管理  -->
     <s:String x:Key="AvailableMods">可用模組</s:String>
-    <s:String x:Key="SelectMods">請選擇模組</s:String>
-    <s:String x:Key="EnableSelected">啟用選中</s:String>
-    <s:String x:Key="DisableSelected">禁用選中</s:String>
-    <s:String x:Key="CopyMods">在添加新模組時，僅進行複製而保留原位置的文件</s:String>
+    <s:String x:Key="SelectMods">請選擇要添加的模組</s:String>
+    <s:String x:Key="EnableSelectedMods">啟用選中模組</s:String>
+    <s:String x:Key="DisableSelectedMods">禁用選中模組</s:String>
 
     <!--  資源包管理  -->
-    <s:String x:Key="EnabledPacks">啟用的資源包</s:String>
-    <s:String x:Key="SelectResourcepacks">請選擇資源包</s:String>
-    <s:String x:Key="DisabledPacks">禁用的資源包</s:String>
-    <s:String x:Key="OpenPack">打開資源包</s:String>
+    <s:String x:Key="EnabledResourcePacks">啟用的資源包</s:String>
+    <s:String x:Key="DisabledResourcePacks">禁用的資源包</s:String>
+    <s:String x:Key="SelectResourcePacks">請選擇要添加的資源包</s:String>
+    <s:String x:Key="OpenResourcePack">打開資源包</s:String>
+
+    <!--  光影包管理  -->
+    <s:String x:Key="AvailableShaderPacks">可用光影包</s:String>
+    <s:String x:Key="SelectShaderPacks">請選擇要添加的光影包</s:String>
+    <s:String x:Key="EnableShaderPack">啟用光影包</s:String>
+    <s:String x:Key="OpenShaderPack">打開光影包</s:String>
 
     <!--  關於  -->
     <s:String x:Key="Dependencies">依賴</s:String>
@@ -255,6 +260,7 @@
     <!--  公共  -->
     <s:String x:Key="Hello">你好</s:String>
     <s:String x:Key="AddNew">添加</s:String>
+    <s:String x:Key="CopyFilesOnAdd">添加時，僅進行複製而保留原位置的文件</s:String>
     <s:String x:Key="InstallNew">安裝新版本</s:String>
     <s:String x:Key="Reload">重新載入</s:String>
     <s:String x:Key="OpenDir">打開目錄</s:String>
@@ -269,7 +275,8 @@
     <s:String x:Key="ForgeInstall">Forge 安裝</s:String>
     <s:String x:Key="FabricInstall">Fabric 安裝</s:String>
     <s:String x:Key="Mods">模組管理</s:String>
-    <s:String x:Key="Resourcepacks">資源包管理</s:String>
+    <s:String x:Key="ResourcePacks">資源包管理</s:String>
+    <s:String x:Key="ShaderPacks">光影包管理</s:String>
     <s:String x:Key="Saves">存檔管理</s:String>
     <s:String x:Key="Skins">皮膚管理</s:String>
     <s:String x:Key="About">關於</s:String>

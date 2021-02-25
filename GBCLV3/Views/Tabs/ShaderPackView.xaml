@@ -44,7 +44,7 @@
                 <TextBlock
                     Grid.Column="0"
                     VerticalAlignment="Center"
-                    Text="{DynamicResource AvailableShaderpacks}" />
+                    Text="{DynamicResource AvailableShaderPacks}" />
 
                 <Button
                     Grid.Column="2"
@@ -72,10 +72,9 @@
                     Content="&#xE8C8;"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="16"
-                    IsChecked="{Binding IsCopyMods, Mode=TwoWay}"
+                    IsChecked="{Binding IsCopy, Mode=TwoWay}"
                     Style="{StaticResource {x:Static adonisUI:Styles.ToolbarToggleButton}}"
-                    ToolTip="{DynamicResource CopyMods}"
-                    ToolTipService.HorizontalOffset="-240"
+                    ToolTip="{DynamicResource CopyFilesOnAdd}"
                     ToolTipService.Placement="Relative"
                     ToolTipService.VerticalOffset="32" />
             </Grid>
@@ -84,37 +83,25 @@
         <ListBox
             AllowDrop="True"
             BorderThickness="1"
-            Drop="{s:Action OnDropMods}"
-            ItemsSource="{Binding Mods, Mode=OneWay}"
+            Drop="{s:Action OnDrop}"
+            ItemsSource="{Binding Packs, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            ScrollViewer.VerticalScrollBarVisibility="Auto"
-            SelectionChanged="{s:Action SelectionChanged}"
-            SelectionMode="Extended">
+            ScrollViewer.VerticalScrollBarVisibility="Auto">
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid
+                    <StackPanel
+                        Height="28"
                         Background="Transparent"
-                        ToolTip="{Binding DisplayName, Mode=OneWay}"
-                        ToolTipService.Placement="Bottom">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="18" />
-                            <RowDefinition Height="18" />
-                        </Grid.RowDefinitions>
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="48" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="32" />
-                        </Grid.ColumnDefinitions>
+                        Orientation="Horizontal">
 
                         <CheckBox
                             Grid.RowSpan="2"
                             Grid.Column="0"
-                            Margin="14,0"
+                            Margin="8,0,0,0"
                             HorizontalAlignment="Center"
                             VerticalAlignment="Center"
-                            Command="{s:Action ChangeExtension}"
+                            Command="{s:Action OnEnableStatusChanged}"
                             CommandParameter="{Binding}"
                             IsChecked="{Binding IsEnabled, Mode=TwoWay}" />
 
@@ -125,64 +112,36 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="14"
-                            Text="{Binding Name, Mode=OneWay}" />
+                            Text="{Binding Id, Mode=OneWay}" />
 
-                        <TextBlock
-                            x:Name="FileNameBox"
-                            Grid.Row="1"
-                            Grid.Column="1"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            FontSize="12"
-                            Foreground="{DynamicResource {x:Static adonisUI:Brushes.AccentIntenseHighlightBrush}}"
-                            Text="{Binding FileName, Mode=OneWay}"
-                            TextTrimming="CharacterEllipsis" />
+                        <StackPanel.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem
+                                    Command="{s:Action Enable}"
+                                    CommandParameter="{Binding}"
+                                    Header="{DynamicResource EnableShaderPack}" />
 
-                        <Border
-                            Grid.RowSpan="2"
-                            Grid.Column="2"
-                            Width="24"
-                            Height="36"
-                            Cursor="Hand"
-                            ToolTip="{Binding Url, Mode=OneWay}"
-                            Visibility="{Binding Url, Mode=OneWay, Converter={x:Static s:BoolToVisibilityConverter.Instance}}">
-                            <Border.InputBindings>
-                                <MouseBinding
-                                    Command="{s:Action OpenLink}"
-                                    CommandParameter="{Binding Url}"
-                                    MouseAction="LeftClick" />
-                            </Border.InputBindings>
+                                <MenuItem
+                                    Command="{s:Action Open}"
+                                    CommandParameter="{Binding Path}"
+                                    Header="{DynamicResource OpenShaderPack}" />
+                                <MenuItem
+                                    Command="{s:Action Delete}"
+                                    CommandParameter="{Binding}"
+                                    Header="{DynamicResource Delete}" />
+                            </ContextMenu>
+                        </StackPanel.ContextMenu>
 
-                            <TextBlock
-                                VerticalAlignment="Center"
-                                FontFamily="Segoe MDL2 Assets"
-                                FontSize="20"
-                                Text="&#xE71B;" />
-                        </Border>
+                        <StackPanel.InputBindings>
+                            <MouseBinding
+                                Command="{s:Action Open}"
+                                CommandParameter="{Binding Path}"
+                                MouseAction="LeftDoubleClick" />
+                        </StackPanel.InputBindings>
 
-                    </Grid>
-                    <DataTemplate.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">
-                            <Setter TargetName="FileNameBox" Property="Foreground" Value="{DynamicResource {x:Static adonisUI:Brushes.AccentHighlightBrush}}" />
-                        </DataTrigger>
-                    </DataTemplate.Triggers>
+                    </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
-
-            <ListBox.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Command="{s:Action Enable}" Header="{DynamicResource EnableSelected}" />
-
-                    <MenuItem Command="{s:Action Disable}" Header="{DynamicResource DisableSelected}" />
-
-                    <MenuItem Command="{s:Action Delete}" Header="{DynamicResource Delete}" />
-                </ContextMenu>
-            </ListBox.ContextMenu>
-
-            <ListBox.InputBindings>
-                <KeyBinding Key="F5" Command="{s:Action Reload}" />
-                <KeyBinding Key="Delete" Command="{s:Action Delete}" />
-            </ListBox.InputBindings>
         </ListBox>
     </GroupBox>
 

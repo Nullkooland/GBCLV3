@@ -4,6 +4,7 @@ using GBCLV3.Utils;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -34,7 +35,7 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public IEnumerable<ShaderPack> LoadAll()
+        public Task<ImmutableArray<ShaderPack>> LoadAllAsync()
         {
             string opttionsFile = _gamePathService.RootDir + "/optionsshaders.txt";
             string enabledPackId = null;
@@ -48,7 +49,7 @@ namespace GBCLV3.Services.Auxiliary
                 {
                     if (line.StartsWith("shaderPack="))
                     {
-                        enabledPackId = line[..11];
+                        enabledPackId = line[11..];
                         break;
                     }
                 }
@@ -57,17 +58,55 @@ namespace GBCLV3.Services.Auxiliary
             // Make sure "gameroot/shaderpacks" dir exists
             Directory.CreateDirectory(_gamePathService.ShaderPacksDir);
 
-            return Directory.EnumerateFileSystemEntries(_gamePathService.ShaderPacksDir)
+            var query = Directory.EnumerateFileSystemEntries(_gamePathService.ShaderPacksDir)
                 .Select(path => Load(path, enabledPackId))
                 .Where(pack => pack != null);
+
+            return Task.FromResult(query.ToImmutableArray());
         }
 
-        public void WriteToOptions(string enabledPackId)
+        public Task<ImmutableArray<ShaderPack>> MoveLoadAllAsync(IEnumerable<string> paths, bool isCopy)
+        {
+            var query = paths.Select(path =>
+            {
+                string dstPath = $"{_gamePathService.ShaderPacksDir}/{Path.GetFileName(path)}";
+                if (File.Exists(dstPath)) return null;
+
+                var pack = Load(path);
+                if (pack == null) return null;
+
+                try
+                {
+                    if (isCopy)
+                    {
+                        File.Copy(path, dstPath);
+                    }
+                    else
+                    {
+                        File.Move(path, dstPath);
+                    }
+                }
+                catch (IOException ex)
+                {
+                    // Maybe the file is being accessed by another process
+                    return null;
+                }
+
+                pack.Path = dstPath;
+
+                return pack;
+            }).Where(pack => pack != null);
+
+            return Task.FromResult(query.ToImmutableArray());
+        }
+
+        public void WriteToOptions(ShaderPack enabledPack)
         {
             string opttionsFile = _gamePathService.RootDir + "/optionsshaders.txt";
             if (!File.Exists(opttionsFile)) return;
 
             string options = File.ReadAllText(opttionsFile, Encoding.Default);
+            string enabledPackId = enabledPack?.Id ?? "(internal)";
             options = Regex.Replace(options, "shaderPack=.*", $"shaderPack={enabledPackId}");
             File.WriteAllText(opttionsFile, options, Encoding.Default);
         }
@@ -83,19 +122,21 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Helper Methods
 
-        private static ShaderPack Load(string path, string enabledPackId)
+        private static ShaderPack Load(string path, string enabledPackId = null)
         {
             bool isZip = path.EndsWith(".zip");
 
             if (isZip)
             {
                 using var archive = ZipFile.OpenRead(path);
-                if (archive.GetEntry("shaders/composite.fsh") == null)
+                if (archive.GetEntry("shaders/composite.fsh") == null &&
+                    archive.GetEntry("shaders/world0/composite.fsh") == null)
                 {
                     return null;
                 }
             }
-            else if (!File.Exists(path + "/shaders/composite.fsh"))
+            else if (!File.Exists(path + "/shaders/composite.fsh") &&
+                     !File.Exists(path + "/shaders/world0/composite.fsh"))
             {
                 return null;
             }

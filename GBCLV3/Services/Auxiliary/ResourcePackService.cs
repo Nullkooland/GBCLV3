@@ -4,6 +4,7 @@ using GBCLV3.Utils;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -38,7 +39,7 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Public Methods
 
-        public (IEnumerable<ResourcePack> enabled, IEnumerable<ResourcePack> disabled) LoadAll()
+        public async Task<ImmutableArray<ResourcePack>> LoadAllAsync()
         {
             string optionsFile = _gamePathService.WorkingDir + "/options.txt";
             string[] enabledPackIDs = null;
@@ -77,6 +78,7 @@ namespace GBCLV3.Services.Auxiliary
                             })
                             .Where(id => id != null)
                             .ToArray();
+
                         break;
                     }
                 }
@@ -85,15 +87,16 @@ namespace GBCLV3.Services.Auxiliary
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
 
-            var packs = Directory.EnumerateFileSystemEntries(_gamePathService.ResourcePacksDir)
+            var query = Directory.EnumerateFileSystemEntries(_gamePathService.ResourcePacksDir)
                 .Select(path => Load(path, enabledPackIDs))
-                .Where(pack => pack != null)
-                .ToLookup(pack => pack.IsEnabled);
+                .Where(pack => pack != null);
 
-            // Enabled resourcepacks (followed the order in options)
-            return (packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name)),
-                // Disabled resourcepacks
-                packs[false].OrderBy(pack => pack.Name));
+            var packs = await Task.FromResult(query.ToLookup(pack => pack.IsEnabled));
+
+            var enabledPacks = packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name));
+            var disabledPacks = packs[false].OrderBy(pack => pack.Name);
+
+            return enabledPacks.Concat(disabledPacks).ToImmutableArray();
         }
 
         public bool WriteToOptions(IEnumerable<ResourcePack> enabledPacks)
@@ -139,22 +142,27 @@ namespace GBCLV3.Services.Auxiliary
                 : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
         }
 
-        public async ValueTask<ResourcePack[]> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled)
+        public Task<ImmutableArray<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled, bool isCopy)
         {
-            Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
-
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
                 if (File.Exists(dstPath)) return null;
 
-                var pack = Load(path, null);
+                var pack = Load(path);
                 if (pack == null) return null;
 
                 try
                 {
-                    // It is a valid resourcepack and has been successfully loaded, move it into target dir
-                    File.Move(path, dstPath);
+                    // It is a valid resourcepack and has been successfully loaded, move or copy it into target dir
+                    if (isCopy)
+                    {
+                        File.Copy(path, dstPath);
+                    }
+                    else
+                    {
+                        File.Move(path, dstPath);
+                    }
                 }
                 catch (IOException ex)
                 {
@@ -170,14 +178,14 @@ namespace GBCLV3.Services.Auxiliary
                 return pack;
             }).Where(pack => pack != null);
 
-            return await Task.FromResult(query.ToArray());
+            return Task.FromResult(query.ToImmutableArray());
         }
 
         #endregion
 
         #region Private Methods
 
-        private static ResourcePack Load(string path, string[] enabledPackIds)
+        private static ResourcePack Load(string path, string[] enabledPackIds = null)
         {
             bool isZip = path.EndsWith(".zip");
 

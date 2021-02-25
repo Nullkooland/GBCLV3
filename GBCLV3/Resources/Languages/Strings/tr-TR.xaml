@@ -220,16 +220,20 @@
     <!--  Mods Management  -->
     <s:String x:Key="AvailableMods">Kullanılabilir Modlar</s:String>
     <s:String x:Key="SelectMods">Mod Seç</s:String>
-    <s:String x:Key="EnableSelected">Aktif Et</s:String>
-    <s:String x:Key="DisableSelected">Devredışı Bırak</s:String>
-    <s:String x:Key="CopyMods">Yeni mod eklerken kaynak dizininden taşımak yerine kopyalayın</s:String>
+    <s:String x:Key="EnableSelectedMods">Aktif Et</s:String>
+    <s:String x:Key="DisableSelectedMods">Devredışı Bırak</s:String>
 
+    <!--  ResourcePacks Management  -->
+    <s:String x:Key="EnabledResourcePacks">Aktif Doku Paketleri</s:String>
+    <s:String x:Key="DisabledResourcePacks">Devre Dışı Doku Paketleri</s:String>
+    <s:String x:Key="SelectResourcePacks">Doku Paketi Seç</s:String>
+    <s:String x:Key="OpenResourcePack">Aç</s:String>
 
-    <!--  Resourcepacks Management  -->
-    <s:String x:Key="EnabledPacks">Aktif Doku Paketleri</s:String>
-    <s:String x:Key="SelectResourcepacks">Doku Paketi Seç</s:String>
-    <s:String x:Key="DisabledPacks">Devre Dışı Doku Paketleri</s:String>
-    <s:String x:Key="OpenPack">Aç</s:String>
+    <!--  Shaderpacks Management  -->
+    <s:String x:Key="AvailableShaderPacks">Kullanılabilir Gölgelendirme Paketleri</s:String>
+    <s:String x:Key="SelectShaderPacks">Gölgelendirme Paketi Seç</s:String>
+    <s:String x:Key="EnableShaderPack">Aktif Et</s:String>
+    <s:String x:Key="OpenShaderPack">Aç</s:String>
 
     <!--  About  -->
     <s:String x:Key="Dependencies">Gereksinimler</s:String>
@@ -253,8 +257,9 @@
     <s:String x:Key="UpdateSuccessful">Güncelleme başarılı</s:String>
 
     <!--  Common  -->
-    <s:String x:Key="AddNew">Yeni Ekle</s:String>
     <s:String x:Key="Hello">Merhaba</s:String>
+    <s:String x:Key="AddNew">Yeni Ekle</s:String>
+    <s:String x:Key="CopyFilesOnAdd">Yeni dosyaları eklerken kaynak dizininden taşımak yerine kopyalayın</s:String>
     <s:String x:Key="InstallNew">Yenisini Yükle</s:String>
     <s:String x:Key="Reload">Yenile</s:String>
     <s:String x:Key="OpenDir">Klasörü Aç</s:String>
@@ -269,7 +274,8 @@
     <s:String x:Key="ForgeInstall">Forge Yükle</s:String>
     <s:String x:Key="FabricInstall">Fabric Yükle</s:String>
     <s:String x:Key="Mods">Modlar</s:String>
-    <s:String x:Key="Resourcepacks">Doku Paketleri</s:String>
+    <s:String x:Key="ResourcePacks">Doku Paketleri</s:String>
+    <s:String x:Key="ShaderPacks">Gölgelendirme Paketleri</s:String>
     <s:String x:Key="Saves">Kayıtlar</s:String>
     <s:String x:Key="Skins">Skinler</s:String>
     <s:String x:Key="About">Hakkında</s:String>

@@ -65,12 +65,13 @@
         </Grid.ColumnDefinitions>
 
 
-        <GroupBox Grid.Column="0" Header="{DynamicResource DisabledPacks}">
+        <GroupBox Grid.Column="0" Header="{DynamicResource DisabledResourcePacks}">
 
             <ListBox
+                Name="DisbaledPacksListBox"
                 AllowDrop="True"
                 BorderThickness="1"
-                Drop="{s:Action OnDropDisabledPacks}"
+                Drop="{s:Action OnDrop}"
                 ItemsSource="{Binding DisabledPacks, Mode=OneWay}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -139,13 +140,13 @@
                             <Grid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem
+                                        Command="{s:Action Open}"
+                                        CommandParameter="{Binding Path}"
+                                        Header="{DynamicResource OpenResourcePack}" />
+                                    <MenuItem
                                         Command="{s:Action Delete}"
                                         CommandParameter="{Binding}"
                                         Header="{DynamicResource Delete}" />
-                                    <MenuItem
-                                        Command="{s:Action Open}"
-                                        CommandParameter="{Binding Path}"
-                                        Header="{DynamicResource OpenPack}" />
                                 </ContextMenu>
                             </Grid.ContextMenu>
 
@@ -180,12 +181,13 @@
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
                         <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
                     </Grid.ColumnDefinitions>
 
                     <TextBlock
                         Grid.Column="0"
                         VerticalAlignment="Center"
-                        Text="{DynamicResource EnabledPacks}" />
+                        Text="{DynamicResource EnabledResourcePacks}" />
 
                     <Button
                         Grid.Column="2"
@@ -204,13 +206,28 @@
                         Click="{s:Action AddNew}"
                         Content="&#xE710;"
                         ToolTip="{DynamicResource AddNew}" />
+
+                    <ToggleButton
+                        Grid.Column="5"
+                        Width="32"
+                        Height="32"
+                        HorizontalAlignment="Right"
+                        Content="&#xE8C8;"
+                        FontFamily="Segoe MDL2 Assets"
+                        FontSize="16"
+                        IsChecked="{Binding IsCopy, Mode=TwoWay}"
+                        Style="{StaticResource {x:Static adonisUI:Styles.ToolbarToggleButton}}"
+                        ToolTip="{DynamicResource CopyFilesOnAdd}"
+                        ToolTipService.Placement="Relative"
+                        ToolTipService.VerticalOffset="32" />
                 </Grid>
             </GroupBox.Header>
 
             <ListBox
+                Name="EnabledPacksListBox"
                 AllowDrop="True"
                 BorderThickness="1"
-                Drop="{s:Action OnDropEnabledPacks}"
+                Drop="{s:Action OnDrop}"
                 ItemsSource="{Binding EnabledPacks, Mode=OneWay}"
                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                 ScrollViewer.VerticalScrollBarVisibility="Auto">
@@ -304,13 +321,13 @@
                             <Grid.ContextMenu>
                                 <ContextMenu>
                                     <MenuItem
+                                        Command="{s:Action Open}"
+                                        CommandParameter="{Binding Path}"
+                                        Header="{DynamicResource OpenResourcePack}" />
+                                    <MenuItem
                                         Command="{s:Action Delete}"
                                         CommandParameter="{Binding}"
                                         Header="{DynamicResource Delete}" />
-                                    <MenuItem
-                                        Command="{s:Action Open}"
-                                        CommandParameter="{Binding Path}"
-                                        Header="{DynamicResource OpenPack}" />
                                 </ContextMenu>
                             </Grid.ContextMenu>
 

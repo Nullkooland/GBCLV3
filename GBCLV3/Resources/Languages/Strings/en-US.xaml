@@ -220,19 +220,20 @@
     <!--  Mods Management  -->
     <s:String x:Key="AvailableMods">Available Mods</s:String>
     <s:String x:Key="SelectMods">Select Mods</s:String>
-    <s:String x:Key="EnableSelected">Enable</s:String>
-    <s:String x:Key="DisableSelected">Disable</s:String>
-    <s:String x:Key="CopyMods">When adding new mods, copy instead of moving them from source directory</s:String>
+    <s:String x:Key="EnableSelectedMods">Enable</s:String>
+    <s:String x:Key="DisableSelectedMods">Disable</s:String>
 
-    <!--  Resourcepacks Management  -->
-    <s:String x:Key="EnabledPacks">Enabled Packs</s:String>
-    <s:String x:Key="SelectResourcepacks">Select Resourcepacks</s:String>
-    <s:String x:Key="DisabledPacks">Disabled Packs</s:String>
-    <s:String x:Key="OpenPack">Open</s:String>
+    <!--  ResourcePacks Management  -->
+    <s:String x:Key="EnabledResourcePacks">Enabled Resourcepacks</s:String>
+    <s:String x:Key="DisabledResourcePacks">Disabled Resourcepacks</s:String>
+    <s:String x:Key="SelectResourcePacks">Select Resourcepacks</s:String>
+    <s:String x:Key="OpenResourcePack">Open</s:String>
 
     <!--  Shaderpacks Management  -->
-    <s:String x:Key="AvailableShaderpacks">Available Shaderpacks</s:String>
-    <s:String x:Key="SelectShaderpacks">Select Shaderpacks</s:String>
+    <s:String x:Key="AvailableShaderPacks">Available Shaderpacks</s:String>
+    <s:String x:Key="SelectShaderPacks">Select Shaderpacks</s:String>
+    <s:String x:Key="EnableShaderPack">Enable</s:String>
+    <s:String x:Key="OpenShaderPack">Open</s:String>
 
     <!--  About  -->
     <s:String x:Key="Dependencies">Dependencies</s:String>
@@ -256,8 +257,9 @@
     <s:String x:Key="UpdateSuccessful">Update Successful</s:String>
 
     <!--  Common  -->
-    <s:String x:Key="AddNew">Add New</s:String>
     <s:String x:Key="Hello">Hello</s:String>
+    <s:String x:Key="AddNew">Add New</s:String>
+    <s:String x:Key="CopyFilesOnAdd">When adding new files, copy instead of moving them from source directory</s:String>
     <s:String x:Key="InstallNew">Install New</s:String>
     <s:String x:Key="Reload">Reload</s:String>
     <s:String x:Key="OpenDir">Open Directory</s:String>
@@ -272,8 +274,8 @@
     <s:String x:Key="ForgeInstall">Forge Install</s:String>
     <s:String x:Key="FabricInstall">Fabric Install</s:String>
     <s:String x:Key="Mods">Mods</s:String>
-    <s:String x:Key="Resourcepacks">Resourcepacks</s:String>
-    <s:String x:Key="Shaderpacks">Shaderpacks</s:String>
+    <s:String x:Key="ResourcePacks">Resourcepacks</s:String>
+    <s:String x:Key="ShaderPacks">Shaderpacks</s:String>
     <s:String x:Key="Saves">Saves</s:String>
     <s:String x:Key="Skins">Skins</s:String>
     <s:String x:Key="About">About</s:String>

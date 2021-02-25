@@ -220,16 +220,20 @@
     <!--  Управление модами  -->
     <s:String x:Key="AvailableMods">Доступные моды</s:String>
     <s:String x:Key="SelectMods">Выбор модов</s:String>
-    <s:String x:Key="EnableSelected">Включить</s:String>
-    <s:String x:Key="DisableSelected">Выключить</s:String>
-    <s:String x:Key="CopyMods">При добавлении новых модов копируйте их, а не перемещайте из исходного каталога</s:String>
-
+    <s:String x:Key="EnableSelectedMods">Включить</s:String>
+    <s:String x:Key="DisableSelectedMods">Выключить</s:String>
 
     <!--  Управление пакетами ресурсов  -->
-    <s:String x:Key="EnabledPacks">Включенные пакеты</s:String>
-    <s:String x:Key="SelectResourcepacks">Выбор пакетов ресурсов</s:String>
-    <s:String x:Key="DisabledPacks">Выключенные пакеты</s:String>
-    <s:String x:Key="OpenPack">Открыть</s:String>
+    <s:String x:Key="EnabledResourcePacks">Включенные пакеты</s:String>
+    <s:String x:Key="DisabledResourcePacks">Выключенные пакеты</s:String>
+    <s:String x:Key="SelectResourcePacks">Выбор пакетов ресурсов</s:String>
+    <s:String x:Key="OpenResourcePack">Открыть</s:String>
+
+    <!--  Управление пакетов шейдеров  -->
+    <s:String x:Key="AvailableShaderPacks">Доступные пакетов шейдеров</s:String>
+    <s:String x:Key="SelectShaderPacks">Выбор пакетов шейдеров</s:String>
+    <s:String x:Key="EnableShaderPack">Включить</s:String>
+    <s:String x:Key="OpenShaderPack">Открыть</s:String>
 
     <!--  О программе  -->
     <s:String x:Key="Dependencies">Зависимости:</s:String>
@@ -253,8 +257,9 @@
     <s:String x:Key="UpdateSuccessful">Обновление выполнено успешно!</s:String>
 
     <!--  Общие  -->
-    <s:String x:Key="AddNew">Добавить новый</s:String>
     <s:String x:Key="Hello">Привет</s:String>
+    <s:String x:Key="AddNew">Добавить новый</s:String>
+    <s:String x:Key="CopyFilesOnAdd">При добавлении новых файлы копируйте их, а не перемещайте из исходного каталога</s:String>
     <s:String x:Key="InstallNew">Добавить версию</s:String>
     <s:String x:Key="Reload">Перезагрузить</s:String>
     <s:String x:Key="OpenDir">Открыть каталог</s:String>
@@ -269,7 +274,8 @@
     <s:String x:Key="ForgeInstall">Установить Forge</s:String>
     <s:String x:Key="FabricInstall">Установить Fabric</s:String>
     <s:String x:Key="Mods">Моды</s:String>
-    <s:String x:Key="Resourcepacks">Пакеты ресурсов</s:String>
+    <s:String x:Key="ResourcePacks">Пакеты ресурсов</s:String>
+    <s:String x:Key="ShaderPacks">Пакетов шейдеров</s:String>
     <s:String x:Key="Saves">Сохранения</s:String>
     <s:String x:Key="Skins">Скины</s:String>
     <s:String x:Key="About">О программе</s:String>

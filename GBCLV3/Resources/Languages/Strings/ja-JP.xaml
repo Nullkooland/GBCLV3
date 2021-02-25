@@ -93,9 +93,9 @@
     <s:String x:Key="ThemeSettings">テーマ設定</s:String>
 
     <!--  ゲーム設定  -->
-    <s:String x:Key="JreDir">JREディレクトリ</s:String>
-    <s:String x:Key="SelectJrePath">JREパスを選択する</s:String>
-    <s:String x:Key="JavaMaxMem">Java最大メモリ（MB）</s:String>
+    <s:String x:Key="JreDir">JRE ディレクトリ</s:String>
+    <s:String x:Key="SelectJrePath">JRE パスを選択する</s:String>
+    <s:String x:Key="JavaMaxMem">Java 最大メモリ（MB）</s:String>
     <s:String x:Key="AvailableMem">利用可能な物理メモリ</s:String>
 
     <s:String x:Key="GameDir">ゲームディレクトリ</s:String>
@@ -106,14 +106,14 @@
 
     <!--  詳細設定  -->
     <s:String x:Key="ServerAddress">サーバーアドレス</s:String>
-    <s:String x:Key="JoinServerOnLaunch">ここにサーバーアドレスを入力すると、Minecraftは起動後に直接サーバーに参加します。</s:String>
+    <s:String x:Key="JoinServerOnLaunch">ここにサーバーアドレスを入力すると、Minecraft は起動後に直接サーバーに参加します。</s:String>
 
     <s:String x:Key="DebugMode">デバッグモード</s:String>
-    <s:String x:Key="DebugModeDescription">java.exeで起動する</s:String>
+    <s:String x:Key="DebugModeDescription">java.exe で起動する</s:String>
 
-    <s:String x:Key="CustomJvmArgs">カスタムJVM引数</s:String>
-    <s:String x:Key="CustomJvmArgsDescription">これにより、デフォルトのJVM引数（GC構成など）が上書きされます</s:String>
-    <s:String x:Key="ExtraMinecraftArgs">追加のMinecraft引数</s:String>
+    <s:String x:Key="CustomJvmArgs">カスタム JVM 引数</s:String>
+    <s:String x:Key="CustomJvmArgsDescription">これにより、デフォルトの JVM 引数（GC 構成など）が上書きされます</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">追加の Minecraft 引数</s:String>
 
     <!--  ランチャー設定  -->
     <s:String x:Key="Language">言語</s:String>
@@ -183,7 +183,7 @@
     <s:String x:Key="VersionListLoading">バージョンリストを読み込み中</s:String>
     <s:String x:Key="VersionListLoaded">バージョンリストがロードされました</s:String>
     <s:String x:Key="VersionListLoadFailed">バージョンリストを読み込めませんでした</s:String>
-    <s:String x:Key="VersionFetchingJson">バージョンjsonを取得中</s:String>
+    <s:String x:Key="VersionFetchingJson">バージョン json を取得中</s:String>
     <s:String x:Key="VersionDownloadingDependencies">バージョン依存をダウンロード中</s:String>
 
     <s:String x:Key="VersionInstallFailed">インストールに失敗しました</s:String>
@@ -194,42 +194,47 @@
     <s:String x:Key="DownloadAssetsOnInstall">インストール時にアセットをダウンロードする</s:String>
     <s:String x:Key="VersionInstallSuccessful">このバージョンのインストールに成功しました：</s:String>
 
-    <!--  Forgeインストール  -->
-    <s:String x:Key="ForgeListLoading">Forgeダウンロードリストを読み込み中</s:String>
-    <s:String x:Key="ForgeListLoadFailed">Forgeダウンロードリストを読み込めませんでした</s:String>
-    <s:String x:Key="NoAvailableForge">このバージョンで利用可能なForgeはありません！</s:String>
-    <s:String x:Key="SelectForgeVersion">インストールしようForgeのバージョンを選択してください</s:String>
-    <s:String x:Key="ForgeDownloadingInstaller">Forgeインストーラーをダウンロード中</s:String>
-    <s:String x:Key="ForgeInstalling">Forgeをインストール中</s:String>
-    <s:String x:Key="ForgeDownloadingLibraries">Forgeライブラリをダウンロード中</s:String>
+    <!--  Forge インストール  -->
+    <s:String x:Key="ForgeListLoading">Forge ダウンロードリストを読み込み中</s:String>
+    <s:String x:Key="ForgeListLoadFailed">Forge ダウンロードリストを読み込めませんでした</s:String>
+    <s:String x:Key="NoAvailableForge">このバージョンで利用可能な Forge はありません！</s:String>
+    <s:String x:Key="SelectForgeVersion">インストールしよう Forge のバージョンを選択してください</s:String>
+    <s:String x:Key="ForgeDownloadingInstaller">Forge インストーラーをダウンロード中</s:String>
+    <s:String x:Key="ForgeInstalling">Forge をインストール中</s:String>
+    <s:String x:Key="ForgeDownloadingLibraries">Forge ライブラリをダウンロード中</s:String>
 
-    <s:String x:Key="ForgeInstallFailed">Forgeのインストールに失敗しました</s:String>
-    <s:String x:Key="ForgeJarDownloadFailed">Forge jarのインストールに失敗しました！</s:String>
-    <s:String x:Key="ForgeExtractFailed">Forgeの抽出に失敗しました！</s:String>
-    <s:String x:Key="ForgeInstallSuccessful">Forgeのインストールに成功しました</s:String>
+    <s:String x:Key="ForgeInstallFailed">Forge のインストールに失敗しました</s:String>
+    <s:String x:Key="ForgeJarDownloadFailed">Forge jar のインストールに失敗しました！</s:String>
+    <s:String x:Key="ForgeExtractFailed">Forge の抽出に失敗しました！</s:String>
+    <s:String x:Key="ForgeInstallSuccessful">Forge のインストールに成功しました</s:String>
 
-    <!--  Fabricインストール  -->
-    <s:String x:Key="FabricListLoading">Fabricダウンロードリストを読み込み中</s:String>
-    <s:String x:Key="FabricListLoadFailed">Fabricダウンロードリストを読み込めませんでした</s:String>
-    <s:String x:Key="NoAvailableFabric">このバージョンで利用可能なFabricはありません！</s:String>
-    <s:String x:Key="SelectFabricVersion">インストールしようFabricのバージョンを選択してください</s:String>
-    <s:String x:Key="FabricDownloadingLibraries">Fabricライブラリをダウンロード中</s:String>
+    <!--  Fabric インストール  -->
+    <s:String x:Key="FabricListLoading">Fabric ダウンロードリストを読み込み中</s:String>
+    <s:String x:Key="FabricListLoadFailed">Fabric ダウンロードリストを読み込めませんでした</s:String>
+    <s:String x:Key="NoAvailableFabric">このバージョンで利用可能な Fabric はありません！</s:String>
+    <s:String x:Key="SelectFabricVersion">インストールしよう Fabric のバージョンを選択してください</s:String>
+    <s:String x:Key="FabricDownloadingLibraries">Fabric ライブラリをダウンロード中</s:String>
 
-    <s:String x:Key="FabricInstallFailed">Fabricのインストールに失敗しました</s:String>
-    <s:String x:Key="FabricInstallSuccessful">Fabricのインストールに成功しました</s:String>
+    <s:String x:Key="FabricInstallFailed">Fabric のインストールに失敗しました</s:String>
+    <s:String x:Key="FabricInstallSuccessful">Fabric のインストールに成功しました</s:String>
 
     <!--  モッド管理  -->
     <s:String x:Key="AvailableMods">利用可能なモッド</s:String>
     <s:String x:Key="SelectMods">モッドを選択してください</s:String>
-    <s:String x:Key="EnableSelected">有効にする</s:String>
-    <s:String x:Key="DisableSelected">無効にする</s:String>
-    <s:String x:Key="CopyMods">新しいモッドを追加するときは、ソースディレクトリから移動せずにコピーする</s:String>
+    <s:String x:Key="EnableSelectedMods">有効にする</s:String>
+    <s:String x:Key="DisableSelectedMods">無効にする</s:String>
 
     <!--  リソースパック管理  -->
-    <s:String x:Key="EnabledPacks">有効なパック</s:String>
-    <s:String x:Key="SelectResourcepacks">リソースパックを選択してください</s:String>
-    <s:String x:Key="DisabledPacks">無効なパック</s:String>
-    <s:String x:Key="OpenPack">パックを開く</s:String>
+    <s:String x:Key="EnabledResourcePacks">有効なパック</s:String>
+    <s:String x:Key="DisabledResourcePacks">無効なパック</s:String>
+    <s:String x:Key="SelectResourcePacks">リソースパックを選択してください</s:String>
+    <s:String x:Key="OpenResourcePack">パックを開く</s:String>
+
+    <!--  シェーダーパック管理  -->
+    <s:String x:Key="AvailableShaderPacks">利用可能なシェーダーパック</s:String>
+    <s:String x:Key="SelectShaderPacks">シェーダーパックを選択してください</s:String>
+    <s:String x:Key="EnableShaderPack">有効にする</s:String>
+    <s:String x:Key="OpenShaderPack">パックを開く</s:String>
 
     <!--  このアプリについて  -->
     <s:String x:Key="Dependencies">依存</s:String>
@@ -255,6 +260,7 @@
     <!--  一般  -->
     <s:String x:Key="Hello">ようこそ</s:String>
     <s:String x:Key="AddNew">追加する</s:String>
+    <s:String x:Key="CopyFilesOnAdd">新ファイルを追加するときは、ソースディレクトリから移動せずにコピーする</s:String>
     <s:String x:Key="InstallNew">新しいバージョンをインストールする</s:String>
     <s:String x:Key="Reload">リロードする</s:String>
     <s:String x:Key="OpenDir">ディレクトリを開く</s:String>
@@ -269,7 +275,8 @@
     <s:String x:Key="ForgeInstall">Forgeインストール</s:String>
     <s:String x:Key="FabricInstall">Fabricインストール</s:String>
     <s:String x:Key="Mods">モッド管理</s:String>
-    <s:String x:Key="Resourcepacks">リソースパック管理</s:String>
+    <s:String x:Key="ResourcePacks">リソースパック管理</s:String>
+    <s:String x:Key="ShaderPacks">シェーダーパック管理</s:String>
     <s:String x:Key="Saves">セーブ管理</s:String>
     <s:String x:Key="Skins">スキン管理</s:String>
     <s:String x:Key="About">このアプリについて</s:String>

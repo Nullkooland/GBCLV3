@@ -53,20 +53,16 @@ namespace GBCLV3.ViewModels.Tabs
 
         public BindableCollection<Mod> Mods { get; }
 
-        public bool IsCopyMods
-        {
-            get => _config.CopyMods;
-            set => _config.CopyMods = value;
-        }
+        public bool IsCopy { get; set; }
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public async void OnDropMods(ListBox _, DragEventArgs e)
+        public async void OnDrop(ListBox _, DragEventArgs e)
         {
             var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
                 .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
 
-            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles, IsCopyMods));
+            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles, IsCopy));
         }
 
         public async void AddNew()
@@ -80,21 +76,17 @@ namespace GBCLV3.ViewModels.Tabs
 
             if (dialog.ShowDialog() ?? false)
             {
-                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames, IsCopyMods));
+                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames, IsCopy));
             }
         }
 
-        public Task Reload() => Task.Run(() =>
+        public async void Reload()
         {
             Mods.Clear();
-            Mods.AddRange(_modService.LoadAll());
-        });
-
-        public void OpenDir()
-        {
-            Directory.CreateDirectory(_gamePathService.ModsDir);
-            SystemUtil.OpenLink(_gamePathService.ModsDir);
+            Mods.AddRange(await _modService.LoadAllAsync());
         }
+
+        public void OpenDir() => SystemUtil.OpenLink(_gamePathService.ModsDir);
 
         public void OpenLink(string url) => SystemUtil.OpenLink(url);
 

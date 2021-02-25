@@ -73,8 +73,6 @@ namespace GBCLV3.Models
 
         public bool DownloadAssetsOnInstall { get; set; }
 
-        public bool CopyMods { get; set; }
-
         #endregion
     }
 }

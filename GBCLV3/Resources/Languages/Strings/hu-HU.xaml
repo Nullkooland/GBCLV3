@@ -220,16 +220,21 @@
     <!--  Mods Management  -->
     <s:String x:Key="AvailableMods">Elérhető modok</s:String>
     <s:String x:Key="SelectMods">Válassza a Mods lehetőséget</s:String>
-    <s:String x:Key="EnableSelected">Engedélyezés</s:String>
-    <s:String x:Key="DisableSelected">Letiltás</s:String>
+    <s:String x:Key="EnableSelectedMods">Engedélyezés</s:String>
+    <s:String x:Key="DisableSelectedMods">Letiltás</s:String>
     <s:String x:Key="CopyMods">Új modok hozzáadásakor másolja ahelyett, hogy áthelyezné őket a forráskönyvtárba</s:String>
 
+    <!--  ResourcePacks Management  -->
+    <s:String x:Key="EnabledResourcePacks">Engedélyezve a csomagok</s:String>
+    <s:String x:Key="DisabledResourcePacks">Kikapcsolt csomagok</s:String>
+    <s:String x:Key="SelectResourcePacks">Válassza az erőforrás-csomagok lehetőséget</s:String>
+    <s:String x:Key="OpenResourcePack">Nyisd ki</s:String>
 
-    <!--  Resourcepacks Management  -->
-    <s:String x:Key="EnabledPacks">Engedélyezve a csomagok</s:String>
-    <s:String x:Key="SelectResourcepacks">Válassza az Erőforrás-csomagok lehetőséget</s:String>
-    <s:String x:Key="DisabledPacks">Kikapcsolt csomagok</s:String>
-    <s:String x:Key="OpenPack">Nyisd ki</s:String>
+    <!--  Shaderpacks Management  -->
+    <s:String x:Key="AvailableShaderPacks">Elérhető árnyékoló-csomagok</s:String>
+    <s:String x:Key="SelectShaderPacks">Válassza az árnyékoló-csomagok lehetőséget</s:String>
+    <s:String x:Key="EnableShaderPack">Engedélyezés</s:String>
+    <s:String x:Key="OpenShaderPack">Nyisd ki</s:String>
 
     <!--  About  -->
     <s:String x:Key="Dependencies">Függőségek</s:String>
@@ -269,7 +274,8 @@
     <s:String x:Key="ForgeInstall">Forge Telepítése</s:String>
     <s:String x:Key="FabricInstall">Fabric Telepítése</s:String>
     <s:String x:Key="Mods">Modok</s:String>
-    <s:String x:Key="Resourcepacks">Resourcepackok</s:String>
+    <s:String x:Key="ResourcePacks">Erőforrás-csomagok</s:String>
+    <s:String x:Key="ShaderPacks">Árnyékoló-csomagok</s:String>
     <s:String x:Key="Saves">Mentések</s:String>
     <s:String x:Key="Skins">Skinek</s:String>
     <s:String x:Key="About">About</s:String>
