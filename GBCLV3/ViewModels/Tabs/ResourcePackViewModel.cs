@@ -53,10 +53,10 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void Open(string path) => SystemUtil.OpenLink(path);
 
-        public async void Delete(ResourcePack pack)
+        public void Delete(ResourcePack pack)
         {
             bool _ = (pack.IsEnabled) ? EnabledPacks.Remove(pack) : DisabledPacks.Remove(pack);
-            await _resourcePackService.DeleteFromDiskAsync(pack);
+            _resourcePackService.DeleteFromDisk(pack);
         }
 
         public async void Reload()

@@ -92,12 +92,10 @@ namespace GBCLV3.Services.Auxiliary
             FileSystem.RenameFile(mod.Path + (mod.IsEnabled ? ".disabled" : null), newName);
         }
 
-        public async Task DeleteFromDiskAsync(IEnumerable<Mod> mods)
+        public void DeleteFromDiskAsync(IEnumerable<Mod> mods)
         {
-            foreach (var mod in mods)
-            {
-                await SystemUtil.SendFileToRecycleBinAsync(mod.Path + (mod.IsEnabled ? null : ".disabled"));
-            }
+            var paths = mods.Select(mod => mod.Path + (mod.IsEnabled ? null : ".disabled"));
+            NativeUtil.MoveToRecycleBin(paths);
         }
 
         #endregion

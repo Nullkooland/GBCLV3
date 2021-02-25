@@ -4,6 +4,7 @@ using GBCLV3.Utils;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -110,7 +111,7 @@ namespace GBCLV3.Services.Download
                 DownloadedBytes = 0,
             };
 
-            return new[] { item };
+            return new ImmutableArray<DownloadItem> { item };
         }
 
         public void Update()

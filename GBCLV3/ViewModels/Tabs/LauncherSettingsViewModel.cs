@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Windows;
 using GBCLV3.Models;
@@ -124,7 +125,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
         }
 
-        public string[] SystemFontNames => _themeService.GetSystemFontNames();
+        public IReadOnlyList<string> SystemFontNames => _themeService.GetSystemFontNames();
 
         public string SelectedFontFamily
         {
@@ -132,7 +133,7 @@ namespace GBCLV3.ViewModels.Tabs
             set => _themeService.FontFamily = value;
         }
 
-        public string[] FontWeights => _themeService.GetFontWeights();
+        public IReadOnlyList<string> FontWeights => _themeService.FontWeights;
 
         public string SelectedFontWeight
         {

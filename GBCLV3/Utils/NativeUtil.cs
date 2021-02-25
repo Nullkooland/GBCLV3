@@ -1,5 +1,6 @@
 ﻿using GBCLV3.Models.Theme;
 using System;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows.Media;
 
@@ -9,7 +10,7 @@ namespace GBCLV3.Utils
     {
         #region Window Blur
 
-        public static void EnableBlur(IntPtr hwnd, BackgroundEffect effect)
+        public static void EnableBlur(IntPtr windowHandle, BackgroundEffect effect)
         {
             var accent = new AccentPolicy();
             int accentStructSize = Marshal.SizeOf(accent);
@@ -36,13 +37,12 @@ namespace GBCLV3.Utils
                 Data = accentPtr
             };
 
-            SetWindowCompositionAttribute(hwnd, ref data);
-
+            SetWindowCompositionAttribute(windowHandle, ref data);
             Marshal.FreeHGlobal(accentPtr);
         }
 
-
-        private enum AccentState
+        [Flags]
+        private enum AccentState : uint
         {
             ACCENT_DISABLED = 0,
             ACCENT_ENABLE_GRADIENT = 1,
@@ -69,7 +69,8 @@ namespace GBCLV3.Utils
             public int SizeOfData;
         }
 
-        private enum WindowCompositionAttribute
+        [Flags]
+        private enum WindowCompositionAttribute : uint
         {
             WCA_ACCENT_POLICY = 19
         }
@@ -135,7 +136,110 @@ namespace GBCLV3.Utils
 
         [return: MarshalAs(UnmanagedType.Bool)]
         [DllImport("kernel32.dll")]
-        static extern bool GlobalMemoryStatusEx(ref MemoryStatusEx lpBuffer);
+        private static extern bool GlobalMemoryStatusEx(ref MemoryStatusEx lpBuffer);
+
+        #endregion
+
+        #region Move to Recycle Bin
+
+        public static bool MoveToRecycleBin(IEnumerable<string> paths)
+        {
+            var pathsMerged = string.Join('\0', paths);
+            try
+            {
+                var fs = new SHFileOptions
+                {
+                    wFunc = FileOperationType.FO_DELETE,
+                    pFrom = pathsMerged + "\0\0",
+                    fFlags = FileOperationFlags.FOF_ALLOWUNDO | FileOperationFlags.FOF_NOCONFIRMATION | FileOperationFlags.FOF_WANTNUKEWARNING
+                };
+
+                SHFileOperation(ref fs);
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        /// <summary>
+        /// Possible flags for the SHFileOperation method.
+        /// </summary>
+        [Flags]
+        public enum FileOperationFlags : ushort
+        {
+            /// <summary>
+            /// Do not show a dialog during the process
+            /// </summary>
+            FOF_SILENT = 0x0004,
+            /// <summary>
+            /// Do not ask the user to confirm selection
+            /// </summary>
+            FOF_NOCONFIRMATION = 0x0010,
+            /// <summary>
+            /// Delete the file to the recycle bin.  (Required flag to send a file to the bin
+            /// </summary>
+            FOF_ALLOWUNDO = 0x0040,
+            /// <summary>
+            /// Do not show the names of the files or folders that are being recycled.
+            /// </summary>
+            FOF_SIMPLEPROGRESS = 0x0100,
+            /// <summary>
+            /// Surpress errors, if any occur during the process.
+            /// </summary>
+            FOF_NOERRORUI = 0x0400,
+            /// <summary>
+            /// Warn if files are too big to fit in the recycle bin and will need
+            /// to be deleted completely.
+            /// </summary>
+            FOF_WANTNUKEWARNING = 0x4000,
+        }
+
+        /// <summary>
+        /// File Operation Function Type for SHFileOperation
+        /// </summary>
+        public enum FileOperationType : uint
+        {
+            /// <summary>
+            /// Move the objects
+            /// </summary>
+            FO_MOVE = 0x0001,
+            /// <summary>
+            /// Copy the objects
+            /// </summary>
+            FO_COPY = 0x0002,
+            /// <summary>
+            /// Delete (or recycle) the objects
+            /// </summary>
+            FO_DELETE = 0x0003,
+            /// <summary>
+            /// Rename the object(s)
+            /// </summary>
+            FO_RENAME = 0x0004,
+        }
+
+        /// <summary>
+        /// SHFILEOPSTRUCT for SHFileOperation from COM
+        /// </summary>
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Auto)]
+        private struct SHFileOptions
+        {
+
+            public IntPtr hwnd;
+            [MarshalAs(UnmanagedType.U4)]
+            public FileOperationType wFunc;
+            public string pFrom;
+            public string pTo;
+            public FileOperationFlags fFlags;
+            [MarshalAs(UnmanagedType.Bool)]
+            public bool fAnyOperationsAborted;
+            public IntPtr hNameMappings;
+            public string lpszProgressTitle;
+        }
+
+        [DllImport("shell32.dll", CharSet = CharSet.Auto)]
+        private static extern int SHFileOperation(ref SHFileOptions fileOp);
 
         #endregion
     }

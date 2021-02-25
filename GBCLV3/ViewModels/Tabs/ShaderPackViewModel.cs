@@ -117,7 +117,7 @@ namespace GBCLV3.ViewModels.Tabs
             NotifyOfPropertyChange(nameof(Packs));
         }
 
-        public async void Delete(ShaderPack pack)
+        public void Delete(ShaderPack pack)
         {
             if (_enabledPack == pack)
             {
@@ -125,7 +125,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
 
             Packs.Remove(pack);
-            await _shaderPackService.DeleteFromDiskAsync(pack);
+            _shaderPackService.DeleteFromDiskAsync(pack);
         }
 
         public void SaveToOptions() => _shaderPackService.WriteToOptions(_enabledPack);

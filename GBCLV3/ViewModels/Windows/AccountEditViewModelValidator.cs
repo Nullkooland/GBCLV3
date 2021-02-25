@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -49,14 +50,14 @@ namespace GBCLV3.ViewModels.Windows
                 case nameof(_subject.Username):
                     if (string.IsNullOrWhiteSpace(_subject.Username))
                     {
-                        return new[] {_languageService.GetEntry("EmptyUsername")};
+                        return new ImmutableArray<string> {_languageService.GetEntry("EmptyUsername")};
                     }
 
                     if (_subject.Type == AccountEditType.AddAccount &&
                         _subject.AuthMode == AuthMode.Offline &&
                         _accountService.HasOfflineAccount(_subject.Username))
                     {
-                        return new[] {_languageService.GetEntry("DuplicateAccount")};
+                        return new ImmutableArray<string> {_languageService.GetEntry("DuplicateAccount")};
                     }
 
                     return null;
@@ -64,13 +65,13 @@ namespace GBCLV3.ViewModels.Windows
                 case nameof(_subject.Email):
                     if (!IsValidEmailAddress(_subject.Email))
                     {
-                        return new[] {_languageService.GetEntry("InvalidEmail")};
+                        return new ImmutableArray<string> {_languageService.GetEntry("InvalidEmail")};
                     }
 
                     if (_subject.Type == AccountEditType.AddAccount &&
                         _accountService.HasOnlineAccount(_subject.AuthMode, _subject.Email))
                     {
-                        return new[] {_languageService.GetEntry("DuplicateAccount")};
+                        return new ImmutableArray<string> {_languageService.GetEntry("DuplicateAccount")};
                     }
 
                     return null;
@@ -78,7 +79,7 @@ namespace GBCLV3.ViewModels.Windows
                 case nameof(_subject.AuthServerBase):
                     if (!await _authService.IsValidAuthServer(_subject.AuthServerBase))
                     {
-                        return new[] {_languageService.GetEntry("InvalidAuthServer")};
+                        return new ImmutableArray<string> {_languageService.GetEntry("InvalidAuthServer")};
                     }
 
                     return null;

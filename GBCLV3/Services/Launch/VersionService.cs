@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -142,7 +143,7 @@ namespace GBCLV3.Services.Launch
                 Deleted?.Invoke(versionToDelete);
 
                 // Delete version directory
-                await SystemUtil.SendDirToRecycleBinAsync($"{_gamePathService.VersionsDir}/{id}");
+                NativeUtil.MoveToRecycleBin(Enumerable.Repeat($"{_gamePathService.VersionsDir}/{id}", 1));
 
                 // Delete unused libraries
                 if (isDeleteLibs)
@@ -157,19 +158,37 @@ namespace GBCLV3.Services.Launch
                         }
                     }
 
-                    foreach (var lib in libsToDelete)
+                    var paths = libsToDelete.Select(lib =>
                     {
                         string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
 
                         if (lib.Type == LibraryType.ForgeMain)
                         {
-                            await SystemUtil.SendDirToRecycleBinAsync(Path.GetDirectoryName(libPath));
+                            return Path.GetDirectoryName(libPath);
                         }
-                        else
+
+                        return libPath;
+                    });
+
+                    NativeUtil.MoveToRecycleBin(paths);
+
+                    // Clean up empty lib directories
+                    static void CleanEmptyDirs(string dir)
+                    {
+                        foreach (var subDir in Directory.EnumerateDirectories(dir))
                         {
-                            await SystemUtil.SendFileToRecycleBinAsync(libPath);
-                            SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+                            CleanEmptyDirs(subDir);
                         }
+
+                        if (!Directory.GetFileSystemEntries(dir).Any())
+                        {
+                            Directory.Delete(dir);
+                        }
+                    }
+
+                    if (Directory.Exists(_gamePathService.LibrariesDir))
+                    {
+                        CleanEmptyDirs(_gamePathService.LibrariesDir);
                     }
                 }
             }
@@ -242,7 +261,7 @@ namespace GBCLV3.Services.Launch
                 DownloadedBytes = 0
             };
 
-            return new[] { item };
+            return new ImmutableArray<DownloadItem> { item };
         }
 
         #endregion

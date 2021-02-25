@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
@@ -113,7 +114,7 @@ namespace GBCLV3.Services.Authentication
                 IsCompleted = false
             };
 
-            return new[] { item };
+            return new ImmutableArray<DownloadItem> { item };
         }
 
         #endregion

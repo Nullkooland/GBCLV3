@@ -8,6 +8,7 @@ using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
 using GBCLV3.Utils;
+using System.Collections.Immutable;
 
 namespace GBCLV3.Services.Launch
 {
@@ -105,31 +106,36 @@ namespace GBCLV3.Services.Launch
             }
         }
 
-        public void ExtractNatives(IEnumerable<Library> nativeLibraries)
+        public async Task ExtractNativesAsync(IEnumerable<Library> libraries)
         {
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.NativesDir);
 
-            foreach (var native in nativeLibraries)
+            foreach (var native in libraries.Where(lib => lib.Type == LibraryType.Native))
             {
                 using var archive = ZipFile.OpenRead($"{_gamePathService.LibrariesDir}/{native.Path}");
                 // You know what, the "Exclude" property is a joke...
                 foreach (var entry in archive.Entries.Where(e => !e.FullName.StartsWith("META-INF")))
                 {
-                    entry.ExtractToFile($"{_gamePathService.NativesDir}/{entry.FullName}", true);
+                    using var entryStream = entry.Open();
+                    using var fileStream = File.OpenWrite($"{_gamePathService.NativesDir}/{entry.FullName}");
+                    await entryStream.CopyToAsync(fileStream);
+                    await fileStream.FlushAsync();
                 }
             }
         }
 
-        public Task<Library[]> CheckIntegrityAsync(IEnumerable<Library> libraries)
+        public Task<ImmutableArray<Library>> CheckIntegrityAsync(IEnumerable<Library> libraries)
         {
-            var query = libraries.Where(lib =>
-            {
-                string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
-                return !File.Exists(libPath) || (lib.SHA1 != null && !CryptUtil.ValidateFileSHA1(libPath, lib.SHA1));
-            });
+            var query = libraries
+                .AsParallel()
+                .Where(lib =>
+                {
+                    string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
+                    return !File.Exists(libPath) || (lib.SHA1 != null && !CryptUtil.ValidateFileSHA1(libPath, lib.SHA1));
+                });
 
-            return Task.FromResult(query.ToArray());
+            return Task.FromResult(query.ToImmutableArray());
         }
 
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)

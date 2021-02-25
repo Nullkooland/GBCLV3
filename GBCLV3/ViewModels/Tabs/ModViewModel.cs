@@ -122,9 +122,9 @@ namespace GBCLV3.ViewModels.Tabs
             }
         }
 
-        public async void Delete()
+        public void Delete()
         {
-            await _modService.DeleteFromDiskAsync(_selectedMods);
+            _modService.DeleteFromDiskAsync(_selectedMods);
             Mods.RemoveRange(_selectedMods);
         }
 

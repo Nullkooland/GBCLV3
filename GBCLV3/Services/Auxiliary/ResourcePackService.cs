@@ -135,11 +135,9 @@ namespace GBCLV3.Services.Auxiliary
             return true;
         }
 
-        public ValueTask DeleteFromDiskAsync(ResourcePack pack)
+        public void DeleteFromDisk(ResourcePack pack)
         {
-            return pack.IsExtracted
-                ? SystemUtil.SendDirToRecycleBinAsync(pack.Path)
-                : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
+            NativeUtil.MoveToRecycleBin(Enumerable.Repeat(pack.Path, 1));
         }
 
         public Task<ImmutableArray<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled, bool isCopy)

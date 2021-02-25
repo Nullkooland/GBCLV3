@@ -264,7 +264,7 @@ namespace GBCLV3.ViewModels.Pages
             }
 
             // Extract native libraries
-            _libraryService.ExtractNatives(launchVersion.Libraries.Where(lib => lib.Type == LibraryType.Native));
+            await _libraryService.ExtractNativesAsync(launchVersion.Libraries);
 
             // Try loading assets
             if (!_assetService.LoadAllObjects(launchVersion.AssetsInfo))
@@ -281,7 +281,7 @@ namespace GBCLV3.ViewModels.Pages
 
             // Check assets and fix possible damage on user's discretion
             var damagedAssets = await _assetService.CheckIntegrityAsync(launchVersion.AssetsInfo);
-            if ((damagedAssets?.Any() ?? false) &&
+            if (damagedAssets.Any() &&
                 _windowManager.ShowMessageBox("${AssetsDamaged}\n${WhetherFixNow}", "${IntegrityCheck}",
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {

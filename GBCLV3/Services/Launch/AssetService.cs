@@ -12,6 +12,7 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GBCLV3.Utils;
+using System.Collections.Immutable;
 
 namespace GBCLV3.Services.Launch
 {
@@ -31,7 +32,7 @@ namespace GBCLV3.Services.Launch
 
         [Inject]
         public AssetService(
-            GamePathService gamePathService, 
+            GamePathService gamePathService,
             DownloadUrlService urlService,
             HttpClient client)
         {
@@ -59,19 +60,18 @@ namespace GBCLV3.Services.Launch
             return true;
         }
 
-        public Task<AssetObject[]> CheckIntegrityAsync(AssetsInfo info)
+        public Task<ImmutableArray<AssetObject>> CheckIntegrityAsync(AssetsInfo info)
         {
-            var query =
-                info.Objects?
-                    .Select(pair => pair.Value)
-                    .AsParallel()
-                    .Where(obj =>
-                    {
-                        string objPath = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
-                        return !(File.Exists(objPath) && CryptUtil.ValidateFileSHA1(objPath, obj.Hash));
-                    });
+            var query = info.Objects?
+                .AsParallel()
+                .Select(pair => pair.Value)
+                .Where(obj =>
+                {
+                    string objPath = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
+                    return !(File.Exists(objPath) && CryptUtil.ValidateFileSHA1(objPath, obj.Hash));
+                });
 
-            return Task.FromResult(query?.ToArray());
+            return Task.FromResult(query?.ToImmutableArray() ?? ImmutableArray<AssetObject>.Empty);
         }
 
         public Task CopyToVirtualAsync(AssetsInfo info)

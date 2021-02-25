@@ -4,6 +4,7 @@ using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
 using System;
+using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -37,9 +38,11 @@ namespace GBCLV3.Services
             set => _config.FontWeight = value;
         }
 
+        public string[] FontWeights { get; } = { "Light", "Normal", "Medium", "SemiBold", "Bold" };
+
         #endregion
 
-        #region Private Fields
+            #region Private Fields
 
         private const string ICONS_SOURCE = "/GBCL;component/Resources/Styles/Icons.xaml";
         private const string DEFAULT_BACKGROUND_IMAGE = "pack://application:,,,/Resources/Images/default_background.png";
@@ -126,41 +129,29 @@ namespace GBCLV3.Services
             NativeUtil.EnableBlur(handle, _config.BackgroundEffect);
         }
 
-        public string[] GetSystemFontNames()
+        public ImmutableArray<string> GetSystemFontNames()
         {
-            return Fonts.SystemFontFamilies.Select(fontFamily =>
-            {
-                var nameDict = fontFamily.FamilyNames;
-
-                if (nameDict.TryGetValue(XmlLanguage.GetLanguage(_config.Language), out string fontName))
+            return Fonts.SystemFontFamilies
+                .AsParallel()
+                .Select(fontFamily =>
                 {
-                    return fontName;
-                }
+                    var nameDict = fontFamily.FamilyNames;
 
-                if (nameDict.TryGetValue(XmlLanguage.GetLanguage("en-us"), out fontName))
-                {
-                    return fontName;
-                }
+                    if (nameDict.TryGetValue(XmlLanguage.GetLanguage(_config.Language), out string fontName))
+                    {
+                        return fontName;
+                    }
 
-                return null;
-            })
-            .Where(fontName => !string.IsNullOrEmpty(fontName))
-            .OrderBy(fontName => fontName)
-            .ToArray();
-        }
+                    if (nameDict.TryGetValue(XmlLanguage.GetLanguage("en-US"), out fontName))
+                    {
+                        return fontName;
+                    }
 
-        public string[] GetFontWeights()
-        {
-            var fontWeights = new[]
-            {
-                FontWeights.Light,
-                FontWeights.Normal,
-                FontWeights.Medium,
-                FontWeights.SemiBold,
-                FontWeights.Bold,
-            };
-
-            return fontWeights.Select(weight => weight.ToString()).ToArray();
+                    return null;
+                })
+                .Where(fontName => !string.IsNullOrEmpty(fontName))
+                .OrderBy(fontName => fontName)
+                .ToImmutableArray();
         }
 
         public void LoadBackgroundIcon(Color accentColor)

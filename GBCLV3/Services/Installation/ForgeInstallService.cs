@@ -17,6 +17,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models.Launch;
 using Version = GBCLV3.Models.Launch.Version;
+using GBCLV3.Utils;
+using System.Collections.Immutable;
 
 namespace GBCLV3.Services.Installation
 {
@@ -114,7 +116,7 @@ namespace GBCLV3.Services.Installation
                 DownloadedBytes = 0,
             };
 
-            return new[] { item };
+            return new ImmutableArray<DownloadItem> { item };
         }
 
         public IEnumerable<JLibrary> GetJLibraries(Forge forge)
@@ -223,7 +225,7 @@ namespace GBCLV3.Services.Installation
                 };
 
                 process.BeginOutputReadLine();
-                await Task.Run(() => process.WaitForExit());
+                await process.WaitForExitAsync();
 
                 string jsonPath = $"{_gamePathService.VersionsDir}/{forge.ID}/{forge.ID}.json";
 

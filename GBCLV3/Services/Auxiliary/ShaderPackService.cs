@@ -111,11 +111,9 @@ namespace GBCLV3.Services.Auxiliary
             File.WriteAllText(opttionsFile, options, Encoding.Default);
         }
 
-        public ValueTask DeleteFromDiskAsync(ShaderPack pack)
+        public void DeleteFromDiskAsync(ShaderPack pack)
         {
-            return pack.IsExtracted
-                ? SystemUtil.SendDirToRecycleBinAsync(pack.Path)
-                : SystemUtil.SendFileToRecycleBinAsync(pack.Path);
+            NativeUtil.MoveToRecycleBin(Enumerable.Repeat(pack.Path, 1));
         }
 
         #endregion

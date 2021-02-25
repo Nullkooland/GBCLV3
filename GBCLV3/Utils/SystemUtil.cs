@@ -1,10 +1,6 @@
-﻿using Microsoft.VisualBasic.FileIO;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace GBCLV3.Utils
 {
@@ -46,43 +42,6 @@ namespace GBCLV3.Utils
                 FileName = url,
                 UseShellExecute = true,
             });
-        }
-
-        public static async ValueTask SendDirToRecycleBinAsync(string path)
-        {
-            if (!Directory.Exists(path))
-            {
-                return;
-            }
-
-            await Task.Run(() =>
-            {
-                FileSystem.DeleteDirectory(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-            });
-        }
-
-        public static async ValueTask SendFileToRecycleBinAsync(string path)
-        {
-            if (!File.Exists(path))
-            {
-                return;
-            }
-
-            await Task.Run(() =>
-            {
-                FileSystem.DeleteFile(path, UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
-            });
-        }
-
-        public static void DeleteEmptyDirs(string dir)
-        {
-            if (!Directory.Exists(dir)) return;
-
-            while (!Directory.EnumerateFileSystemEntries(dir).Any())
-            {
-                Directory.Delete(dir);
-                dir = Path.GetDirectoryName(dir);
-            }
         }
     }
 }
