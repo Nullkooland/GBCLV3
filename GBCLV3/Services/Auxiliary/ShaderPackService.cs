@@ -1,8 +1,7 @@
 ﻿using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services.Launch;
-using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
 using StyletIoC;
-using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
@@ -113,7 +112,7 @@ namespace GBCLV3.Services.Auxiliary
 
         public void DeleteFromDiskAsync(ShaderPack pack)
         {
-            NativeUtil.MoveToRecycleBin(Enumerable.Repeat(pack.Path, 1));
+            RecycleBinUtil.Send(Enumerable.Repeat(pack.Path, 1));
         }
 
         #endregion

@@ -2,6 +2,7 @@
 using GBCLV3.Services;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
 using Stylet;
 using StyletIoC;
 using System.IO;
@@ -55,9 +56,9 @@ namespace GBCLV3.ViewModels.Tabs
             get => _config.JavaMaxMem;
             set
             {
-                if (value > NativeUtil.GetAvailablePhysicalMemory())
+                if (value > MemoryStatusUtil.GetAvailablePhysicalMemoryMB())
                 {
-                    _config.JavaMaxMem = NativeUtil.GetRecommendedMemory();
+                    _config.JavaMaxMem = MemoryStatusUtil.GetRecommendedMemoryMB();
                     NotifyOfPropertyChange(nameof(JavaMaxMemory));
                 }
                 else
@@ -102,30 +103,6 @@ namespace GBCLV3.ViewModels.Tabs
             get => _config.FullScreen;
             set => _config.FullScreen = value;
         }
-
-        //public AuthMode AuthMode
-        //{
-        //    get => _config.AuthMode;
-        //    set => _config.AuthMode = value;
-        //}
-
-        //public bool IsOffline => AuthMode == AuthMode.Offline;
-
-        //public bool IsExternalAuth => AuthMode == AuthMode.AuthLibInjector;
-
-        //public string Username
-        //{
-        //    get => (AuthMode == AuthMode.Offline) ? _config.Username : _config.Email;
-        //    set
-        //    {
-        //        if (AuthMode == AuthMode.Offline)
-        //        {
-        //            _config.Username = value;
-        //            _eventAggregator.Publish(new UsernameChangedEvent());
-        //        }
-        //        else _config.Email = value;
-        //    }
-        //}
 
         public string ServerAddress
         {
@@ -181,7 +158,7 @@ namespace GBCLV3.ViewModels.Tabs
         public void UpdateAvailableMemoryDisplay()
         {
             AvailableMemory =
-                _languageService.GetEntry("AvailableMem") + $" {NativeUtil.GetAvailablePhysicalMemory()} MB";
+                _languageService.GetEntry("AvailableMem") + $" {MemoryStatusUtil.GetAvailablePhysicalMemoryMB()} MB";
         }
 
         #endregion

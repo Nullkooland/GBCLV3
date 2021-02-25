@@ -9,7 +9,7 @@
     xmlns:launch="clr-namespace:GBCLV3.Models.Launch"
     xmlns:s="https://github.com/canton7/Stylet"
     xmlns:theme="clr-namespace:GBCLV3.Models.Theme"
-    xmlns:util="clr-namespace:GBCLV3.Utils"
+    xmlns:util="clr-namespace:GBCLV3.Utils.Binding"
     ScrollViewer.VerticalScrollBarVisibility="Auto"
     Style="{StaticResource TabPageStyle}">
 

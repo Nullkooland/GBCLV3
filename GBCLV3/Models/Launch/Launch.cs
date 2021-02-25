@@ -1,8 +1,8 @@
-﻿using GBCLV3.Utils;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json;
 using GBCLV3.Models.Authentication;
+using GBCLV3.Utils.Binding;
 
 namespace GBCLV3.Models.Launch
 {

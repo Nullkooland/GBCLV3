@@ -1,4 +1,4 @@
-﻿using GBCLV3.Utils;
+﻿using GBCLV3.Utils.Binding;
 using System.ComponentModel;
 
 namespace GBCLV3.Models

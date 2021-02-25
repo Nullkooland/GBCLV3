@@ -1,11 +1,10 @@
 ﻿using GBCLV3.Models;
-using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
 using Stylet;
 using StyletIoC;
 using System;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -126,7 +125,7 @@ namespace GBCLV3.Services
         public void SetBackgroundEffect(Window window)
         {
             var handle = new WindowInteropHelper(window).Handle;
-            NativeUtil.EnableBlur(handle, _config.BackgroundEffect);
+            WindowEffectUtil.Apply(handle, _config.BackgroundEffect);
         }
 
         public ImmutableArray<string> GetSystemFontNames()

@@ -4,13 +4,11 @@ using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.Json;
 
 namespace GBCLV3.Services
@@ -36,7 +34,7 @@ namespace GBCLV3.Services
             try
             {
                 var jsonData = File.ReadAllBytes(CONFIG_FILENAME);
-                var json = SystemUtil.RemoveUtf8BOM(jsonData);
+                var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 Entries = JsonSerializer.Deserialize<Config>(json);
             }
             catch
@@ -44,7 +42,7 @@ namespace GBCLV3.Services
                 // Default configurations
                 Entries = new Config
                 {
-                    JavaMaxMem = NativeUtil.GetRecommendedMemory(),
+                    JavaMaxMem = MemoryStatusUtil.GetRecommendedMemoryMB(),
                     WindowWidth = 854,
                     WindowHeight = 480,
                     AfterLaunch = AfterLaunchBehavior.Hide,
@@ -62,7 +60,7 @@ namespace GBCLV3.Services
 
             if (!File.Exists(Entries.JreDir + "\\javaw.exe"))
             {
-                Entries.JreDir = SystemUtil.GetJavaDir();
+                Entries.JreDir = LocateJRE();
             }
 
             if (Entries.JavaMaxMem == 0)
@@ -80,9 +78,31 @@ namespace GBCLV3.Services
 
         public void Save()
         {
-            var json = JsonSerializer.SerializeToUtf8Bytes(Entries, 
+            var json = JsonSerializer.SerializeToUtf8Bytes(Entries,
                 new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
             File.WriteAllBytes(CONFIG_FILENAME, json);
+        }
+
+        #endregion
+
+        #region Helper Methods
+
+        private static string LocateJRE()
+        {
+            try
+            {
+                using var localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
+                using var javaKey = localMachineKey.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment\");
+
+                string currentVersion = javaKey.GetValue("CurrentVersion").ToString();
+                using var subkey = javaKey.OpenSubKey(currentVersion);
+                return subkey.GetValue("JavaHome").ToString() + @"\bin";
+            }
+            catch (Exception ex)
+            {
+                //Debug.WriteLine(ex.ToString());
+                return null;
+            }
         }
 
         #endregion

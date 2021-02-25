@@ -5,13 +5,13 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services.Download;
 using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
 using StyletIoC;
 using Version = GBCLV3.Models.Launch.Version;
 
@@ -143,7 +143,7 @@ namespace GBCLV3.Services.Launch
                 Deleted?.Invoke(versionToDelete);
 
                 // Delete version directory
-                NativeUtil.MoveToRecycleBin(Enumerable.Repeat($"{_gamePathService.VersionsDir}/{id}", 1));
+                RecycleBinUtil.Send(Enumerable.Repeat($"{_gamePathService.VersionsDir}/{id}", 1));
 
                 // Delete unused libraries
                 if (isDeleteLibs)
@@ -170,7 +170,7 @@ namespace GBCLV3.Services.Launch
                         return libPath;
                     });
 
-                    NativeUtil.MoveToRecycleBin(paths);
+                    RecycleBinUtil.Send(paths);
 
                     // Clean up empty lib directories
                     static void CleanEmptyDirs(string dir)
@@ -246,7 +246,7 @@ namespace GBCLV3.Services.Launch
         public bool CheckIntegrity(Version version)
         {
             string jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
-            return File.Exists(jarPath) && CryptUtil.ValidateFileSHA1(jarPath, version.SHA1);
+            return File.Exists(jarPath) && CryptoUtil.ValidateFileSHA1(jarPath, version.SHA1);
         }
 
         public IEnumerable<DownloadItem> GetDownload(Version version)
@@ -274,7 +274,7 @@ namespace GBCLV3.Services.Launch
             try
             {
                 var jsonData = File.ReadAllBytes(jsonPath);
-                var json = SystemUtil.RemoveUtf8BOM(jsonData);
+                var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 jver = JsonSerializer.Deserialize<JVersion>(json);
             }
             catch

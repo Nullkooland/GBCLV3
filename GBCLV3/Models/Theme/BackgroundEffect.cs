@@ -1,8 +1,5 @@
-﻿using GBCLV3.Utils;
-using System;
-using System.Collections.Generic;
+﻿using GBCLV3.Utils.Binding;
 using System.ComponentModel;
-using System.Text;
 
 namespace GBCLV3.Models.Theme
 {

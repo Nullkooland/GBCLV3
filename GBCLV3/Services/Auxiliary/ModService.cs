@@ -9,10 +9,10 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using System.Collections.Immutable;
+using GBCLV3.Utils.Native;
 
 namespace GBCLV3.Services.Auxiliary
 {
@@ -95,7 +95,7 @@ namespace GBCLV3.Services.Auxiliary
         public void DeleteFromDiskAsync(IEnumerable<Mod> mods)
         {
             var paths = mods.Select(mod => mod.Path + (mod.IsEnabled ? null : ".disabled"));
-            NativeUtil.MoveToRecycleBin(paths);
+            RecycleBinUtil.Send(paths);
         }
 
         #endregion
@@ -142,7 +142,7 @@ namespace GBCLV3.Services.Auxiliary
                 using var memoryStream = new MemoryStream();
                 infoStream.CopyTo(memoryStream);
 
-                var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+                var infoJson = CryptoUtil.RemoveUtf8BOM(memoryStream.ToArray());
                 var fabricMod = JsonSerializer.Deserialize<FabricMod>(infoJson);
                 var authorList = fabricMod?.authors.Select(element =>
                 {
@@ -179,7 +179,7 @@ namespace GBCLV3.Services.Auxiliary
                 infoStream.CopyTo(memoryStream);
 
                 // This is utterly ugly...thanks to the capriciousness of modders
-                var infoJson = SystemUtil.RemoveUtf8BOM(memoryStream.ToArray());
+                var infoJson = CryptoUtil.RemoveUtf8BOM(memoryStream.ToArray());
                 var forgeMod = JsonSerializer.Deserialize<ForgeMod[]>(infoJson)[0];
 
                 if (forgeMod?.modList != null)

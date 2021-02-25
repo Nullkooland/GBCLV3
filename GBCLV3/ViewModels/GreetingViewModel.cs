@@ -2,7 +2,6 @@
 using StyletIoC;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services.Authentication;
-using GBCLV3.ViewModels.Tabs;
 using GBCLV3.ViewModels.Windows;
 
 namespace GBCLV3.ViewModels

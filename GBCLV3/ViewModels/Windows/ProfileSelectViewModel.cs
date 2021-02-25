@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Services;
-using GBCLV3.Services.Authentication;
 using GBCLV3.Services.Auxiliary;
 using Stylet;
 using StyletIoC;

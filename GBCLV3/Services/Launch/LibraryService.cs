@@ -132,7 +132,7 @@ namespace GBCLV3.Services.Launch
                 .Where(lib =>
                 {
                     string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
-                    return !File.Exists(libPath) || (lib.SHA1 != null && !CryptUtil.ValidateFileSHA1(libPath, lib.SHA1));
+                    return !File.Exists(libPath) || (lib.SHA1 != null && !CryptoUtil.ValidateFileSHA1(libPath, lib.SHA1));
                 });
 
             return Task.FromResult(query.ToImmutableArray());

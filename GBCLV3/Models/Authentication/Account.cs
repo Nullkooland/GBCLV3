@@ -1,9 +1,7 @@
 ﻿using GBCLV3.Models.Auxiliary;
 using System;
-using System.ComponentModel;
 using System.Text.Json.Serialization;
 using System.Windows.Media.Imaging;
-using GBCLV3.Utils;
 
 namespace GBCLV3.Models.Authentication
 {

@@ -74,7 +74,7 @@ namespace GBCLV3.Services.Authentication
         public bool CheckIntegrity(string sha256)
         {
             string path = $"{_gamePathService.RootDir}/authlib-injector.jar";
-            return !string.IsNullOrEmpty(sha256) && File.Exists(path) && CryptUtil.ValidateFileSHA256(path, sha256);
+            return !string.IsNullOrEmpty(sha256) && File.Exists(path) && CryptoUtil.ValidateFileSHA256(path, sha256);
         }
 
         public int GetLocalBuild()

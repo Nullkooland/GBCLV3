@@ -1,6 +1,7 @@
 ﻿using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
@@ -137,7 +138,7 @@ namespace GBCLV3.Services.Auxiliary
 
         public void DeleteFromDisk(ResourcePack pack)
         {
-            NativeUtil.MoveToRecycleBin(Enumerable.Repeat(pack.Path, 1));
+            RecycleBinUtil.Send(Enumerable.Repeat(pack.Path, 1));
         }
 
         public Task<ImmutableArray<ResourcePack>> MoveLoadAllAsync(IEnumerable<string> paths, bool isEnabled, bool isCopy)
@@ -230,7 +231,7 @@ namespace GBCLV3.Services.Auxiliary
                 }
             }
 
-            var infoJson = SystemUtil.RemoveUtf8BOM(infoMemStream.ToArray());
+            var infoJson = CryptoUtil.RemoveUtf8BOM(infoMemStream.ToArray());
             var info = JsonSerializer.Deserialize<JResourcePack>(infoJson);
 
             return new ResourcePack

@@ -68,7 +68,7 @@ namespace GBCLV3.Services.Launch
                 .Where(obj =>
                 {
                     string objPath = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
-                    return !(File.Exists(objPath) && CryptUtil.ValidateFileSHA1(objPath, obj.Hash));
+                    return !(File.Exists(objPath) && CryptoUtil.ValidateFileSHA1(objPath, obj.Hash));
                 });
 
             return Task.FromResult(query?.ToImmutableArray() ?? ImmutableArray<AssetObject>.Empty);

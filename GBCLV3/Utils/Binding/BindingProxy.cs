@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GBCLV3.Utils
+namespace GBCLV3.Utils.Binding
 {
     internal class BindingProxy : Freezable
     {

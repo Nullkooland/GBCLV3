@@ -2,7 +2,6 @@
 using GBCLV3.Utils;
 using StyletIoC;
 using System;
-using System.Buffers.Text;
 using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
@@ -65,7 +64,7 @@ namespace GBCLV3.Services.Authentication
             {
                 Username = email,
                 Password = password,
-                ClientToken = CryptUtil.Guid,
+                ClientToken = Guid.NewGuid().ToString("N"),
                 RequestUser = false,
             };
 
@@ -130,10 +129,10 @@ namespace GBCLV3.Services.Authentication
             return new AuthResult
             {
                 SelectedProfile
-                    = new AuthUserProfile {Name = username, Id = CryptUtil.GetStringMD5(username)},
+                    = new AuthUserProfile {Name = username, Id = CryptoUtil.GetStringMD5(username)},
 
-                ClientToken = CryptUtil.Guid,
-                AccessToken = CryptUtil.Guid,
+                ClientToken = Guid.NewGuid().ToString("N"),
+                AccessToken = Guid.NewGuid().ToString("N"),
                 UserType = "mojang",
                 IsSuccessful = true,
             };

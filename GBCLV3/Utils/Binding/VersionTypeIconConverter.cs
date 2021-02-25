@@ -3,7 +3,7 @@ using System;
 using System.Globalization;
 using System.Windows.Data;
 
-namespace GBCLV3.Utils
+namespace GBCLV3.Utils.Binding
 {
     [ValueConversion(typeof(VersionType), typeof(string))]
     internal class VersionTypeIconConverter : IValueConverter

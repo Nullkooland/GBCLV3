@@ -1,7 +1,5 @@
-﻿using GBCLV3.Utils;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Interop;
 
 namespace GBCLV3.Behaviors
 {

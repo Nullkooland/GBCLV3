@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Markup;
 
-namespace GBCLV3.Utils
+namespace GBCLV3.Utils.Binding
 {
     public class EnumBindingSourceExtension : MarkupExtension
     {

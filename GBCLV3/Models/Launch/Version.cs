@@ -1,5 +1,5 @@
 ﻿using GBCLV3.Models.Download;
-using GBCLV3.Utils;
+using GBCLV3.Utils.Binding;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
