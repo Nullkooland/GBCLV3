@@ -19,7 +19,7 @@ namespace GBCLV3.Services.Authentication
         private readonly HttpClient _client;
 
         private static readonly JsonSerializerOptions _jsonOptions
-            = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+            = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         #endregion
 
@@ -129,7 +129,7 @@ namespace GBCLV3.Services.Authentication
             return new AuthResult
             {
                 SelectedProfile
-                    = new AuthUserProfile {Name = username, Id = CryptoUtil.GetStringMD5(username)},
+                    = new AuthUserProfile { Name = username, Id = CryptoUtil.GetStringMD5(username) },
 
                 ClientToken = Guid.NewGuid().ToString("N"),
                 AccessToken = Guid.NewGuid().ToString("N"),

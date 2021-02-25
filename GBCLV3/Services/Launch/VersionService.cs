@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -261,7 +260,7 @@ namespace GBCLV3.Services.Launch
                 DownloadedBytes = 0
             };
 
-            return new ImmutableArray<DownloadItem> { item };
+            return Enumerable.Repeat(item, 1);
         }
 
         #endregion

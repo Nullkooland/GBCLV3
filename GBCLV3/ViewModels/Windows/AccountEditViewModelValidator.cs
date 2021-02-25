@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using GBCLV3.Models.Authentication;
@@ -50,14 +50,14 @@ namespace GBCLV3.ViewModels.Windows
                 case nameof(_subject.Username):
                     if (string.IsNullOrWhiteSpace(_subject.Username))
                     {
-                        return new ImmutableArray<string> {_languageService.GetEntry("EmptyUsername")};
+                        return Enumerable.Repeat(_languageService.GetEntry("EmptyUsername"), 1);
                     }
 
                     if (_subject.Type == AccountEditType.AddAccount &&
                         _subject.AuthMode == AuthMode.Offline &&
                         _accountService.HasOfflineAccount(_subject.Username))
                     {
-                        return new ImmutableArray<string> {_languageService.GetEntry("DuplicateAccount")};
+                        return Enumerable.Repeat(_languageService.GetEntry("DuplicateAccount"), 1);
                     }
 
                     return null;
@@ -65,13 +65,13 @@ namespace GBCLV3.ViewModels.Windows
                 case nameof(_subject.Email):
                     if (!IsValidEmailAddress(_subject.Email))
                     {
-                        return new ImmutableArray<string> {_languageService.GetEntry("InvalidEmail")};
+                        return Enumerable.Repeat(_languageService.GetEntry("InvalidEmail"), 1);
                     }
 
                     if (_subject.Type == AccountEditType.AddAccount &&
                         _accountService.HasOnlineAccount(_subject.AuthMode, _subject.Email))
                     {
-                        return new ImmutableArray<string> {_languageService.GetEntry("DuplicateAccount")};
+                        return Enumerable.Repeat(_languageService.GetEntry("DuplicateAccount"), 1);
                     }
 
                     return null;
@@ -79,7 +79,7 @@ namespace GBCLV3.ViewModels.Windows
                 case nameof(_subject.AuthServerBase):
                     if (!await _authService.IsValidAuthServer(_subject.AuthServerBase))
                     {
-                        return new ImmutableArray<string> {_languageService.GetEntry("InvalidAuthServer")};
+                        return Enumerable.Repeat(_languageService.GetEntry("InvalidAuthServer"), 1);
                     }
 
                     return null;
@@ -89,9 +89,9 @@ namespace GBCLV3.ViewModels.Windows
         }
 
         [SuppressMessage("Await.Warning", "CS1998")]
-        public async Task<Dictionary<string, IEnumerable<string>>> ValidateAllPropertiesAsync()
+        public Task<Dictionary<string, IEnumerable<string>>> ValidateAllPropertiesAsync()
         {
-            throw new System.NotImplementedException();
+            return null;
         }
 
         private static bool IsValidEmailAddress(string emailAddress)

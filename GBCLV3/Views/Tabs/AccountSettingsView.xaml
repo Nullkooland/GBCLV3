@@ -68,7 +68,8 @@
 
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <Grid Margin="0">
+                    <Grid Margin="0"
+                          Background="Transparent">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="32" />
                             <RowDefinition Height="32" />
@@ -141,6 +142,13 @@
                             CommandParameter="{Binding}"
                             Content="&#xE74D;"
                             ToolTip="{DynamicResource Delete}" />
+
+                        <Grid.InputBindings>
+                            <MouseBinding
+                                Command="{s:Action Edit}"
+                                CommandParameter="{Binding}"
+                                MouseAction="LeftDoubleClick" />
+                        </Grid.InputBindings>
                     </Grid>
                     <DataTemplate.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource AncestorType=ListBoxItem}, Path=IsSelected}" Value="True">

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -107,14 +107,14 @@ namespace GBCLV3.Services.Authentication
 
         public IEnumerable<DownloadItem> GetDownload(AuthlibInjector authlibInjector)
         {
-            var item=  new DownloadItem
+            var item = new DownloadItem
             {
                 Path = $"{_gamePathService.RootDir}/authlib-injector.jar",
                 Url = authlibInjector.Url,
                 IsCompleted = false
             };
 
-            return new ImmutableArray<DownloadItem> { item };
+            return Enumerable.Repeat(item, 1);
         }
 
         #endregion

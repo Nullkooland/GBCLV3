@@ -157,7 +157,7 @@ namespace GBCLV3.ViewModels.Tabs
         public void SelectBackgoundImagePath()
         {
             var sb = new StringBuilder("Images |");
-            foreach(var extenstion in ThemeService.ImageExtenstions)
+            foreach (var extenstion in ThemeService.ImageExtenstions)
             {
                 sb.Append($"*{extenstion};");
             }

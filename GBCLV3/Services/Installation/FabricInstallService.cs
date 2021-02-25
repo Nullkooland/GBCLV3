@@ -20,7 +20,7 @@ namespace GBCLV3.Services.Installation
         #region Private Fields
 
         private const string FABRIC_MAVEN_URL = "https://maven.fabricmc.net/";
- 
+
         private readonly JsonSerializerOptions _jsonOptions
             = new JsonSerializerOptions { PropertyNameCaseInsensitive = true, IgnoreNullValues = true };
 

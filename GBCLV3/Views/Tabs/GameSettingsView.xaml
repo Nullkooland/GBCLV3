@@ -224,7 +224,6 @@
                     Grid.Row="2"
                     Grid.Column="1"
                     Text="{Binding ExtraMinecraftArgs, Mode=TwoWay}" />
-
             </Grid>
         </GroupBox>
 

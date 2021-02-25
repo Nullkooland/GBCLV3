@@ -232,6 +232,13 @@
                                             Header="{DynamicResource Delete}" />
                                     </ContextMenu>
                                 </Grid.ContextMenu>
+
+                                <Grid.InputBindings>
+                                    <MouseBinding
+                                        Command="{s:Action OpenDir}"
+                                        CommandParameter="{Binding ID}"
+                                        MouseAction="LeftDoubleClick" />
+                                </Grid.InputBindings>
                             </Grid>
 
                             <DataTemplate.Triggers>

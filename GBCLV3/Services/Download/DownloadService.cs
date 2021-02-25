@@ -93,7 +93,7 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<bool> StartAsync()
         {
-            for (;;)
+            for (; ; )
             {
                 _timer.Start();
 
@@ -218,7 +218,7 @@ namespace GBCLV3.Services.Download
 
                 if (item.Size == 0)
                 {
-                    item.Size = (int) (response.Content.Headers.ContentLength ?? 0);
+                    item.Size = (int)(response.Content.Headers.ContentLength ?? 0);
                     Interlocked.Add(ref _totalBytes, item.Size);
                 }
 

@@ -18,7 +18,6 @@ using System.Windows;
 using GBCLV3.Models.Launch;
 using Version = GBCLV3.Models.Launch.Version;
 using GBCLV3.Utils;
-using System.Collections.Immutable;
 
 namespace GBCLV3.Services.Installation
 {
@@ -116,7 +115,7 @@ namespace GBCLV3.Services.Installation
                 DownloadedBytes = 0,
             };
 
-            return new ImmutableArray<DownloadItem> { item };
+            return Enumerable.Repeat(item, 1);
         }
 
         public IEnumerable<JLibrary> GetJLibraries(Forge forge)
@@ -181,7 +180,7 @@ namespace GBCLV3.Services.Installation
 
             // Extract forge-install-bootstrapper to disk
             // See https://github.com/bangbang93/forge-install-bootstrapper
-            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar"; 
+            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar";
             var embeddedStream = Application.GetResourceStream(new Uri(FORGE_INSTALL_BOOTSTRAPPER)).Stream;
             var extractFileStream = File.OpenWrite(bootstrapperPath);
 

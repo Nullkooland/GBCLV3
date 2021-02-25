@@ -121,7 +121,7 @@ namespace GBCLV3.ViewModels.Tabs
         public void InstallForge(Version version) => NavigateInstallView?.Invoke(version, InstallType.Forge);
 
         public void InstallFabric(Version version) => NavigateInstallView?.Invoke(version, InstallType.Fabric);
-        
+
 
         //public void InstallOptiFine()
         //{

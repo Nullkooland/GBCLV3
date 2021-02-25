@@ -24,7 +24,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         [Inject]
         public AccountSettingsViewModel(
-            AccountService accountService, 
+            AccountService accountService,
             IWindowManager windowManager,
             AccountEditViewModel accountEditVM,
             GreetingViewModel greetingVM)
@@ -81,7 +81,7 @@ namespace GBCLV3.ViewModels.Tabs
         }
 
         public void OnSelectedAccountChanged() => _greetingVM.NotifyAccountChanged();
-        
+
 
         #endregion
     }
