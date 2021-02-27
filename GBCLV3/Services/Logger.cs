@@ -4,6 +4,7 @@ using GBCLV3.Models;
 using System.Threading.Tasks.Dataflow;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace GBCLV3.Services
 {
@@ -11,9 +12,9 @@ namespace GBCLV3.Services
     {
         //private const int MAX_MESSAGE_COUNT = 4096;
 
-        private readonly ActionBlock<LogMessage> _outJobs;
+        private readonly ActionBlock<LogMessage> _outputJobs;
 
-        private readonly string _logFile;
+        private const string LOG_FILE = "GBCL.log";
 
         private readonly StreamWriter _writer;
 
@@ -21,13 +22,12 @@ namespace GBCLV3.Services
 
         public Logger()
         {
-            _outJobs = new ActionBlock<LogMessage>(logMessage =>
+            _outputJobs = new ActionBlock<LogMessage>(async logMessage =>
             {
-                ProcessOutMessages(logMessage);
+                await WriteLogAsync(logMessage);
             });
 
-            _logFile = "GBCL_logs_" + DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss") + ".log";
-            _writer = new StreamWriter(File.OpenWrite(_logFile));
+            _writer = new StreamWriter(LOG_FILE, true);
         }
 
         #endregion
@@ -36,65 +36,69 @@ namespace GBCLV3.Services
 
         public void Info(string tag, string message)
         {
-            _outJobs.Post(new LogMessage { Type = LogType.Info, Tag = tag, Message = message, Timestamp = DateTime.Now });
+            _outputJobs.Post(new LogMessage { Level = LogLevel.Info, Tag = tag, Message = message, Timestamp = DateTime.Now });
         }
 
         public void Debug(string tag, string message)
         {
-            _outJobs.Post(new LogMessage { Type = LogType.Debug, Tag = tag, Message = message, Timestamp = DateTime.Now });
+            _outputJobs.Post(new LogMessage { Level = LogLevel.Debug, Tag = tag, Message = message, Timestamp = DateTime.Now });
         }
 
         public void Warn(string tag, string message)
         {
-            _outJobs.Post(new LogMessage { Type = LogType.Warn, Tag = tag, Message = message, Timestamp = DateTime.Now });
+            _outputJobs.Post(new LogMessage { Level = LogLevel.Warn, Tag = tag, Message = message, Timestamp = DateTime.Now });
         }
 
         public void Error(string tag, string message)
         {
-            _outJobs.Post(new LogMessage { Type = LogType.Error, Tag = tag, Message = message, Timestamp = DateTime.Now });
+            _outputJobs.Post(new LogMessage { Level = LogLevel.Error, Tag = tag, Message = message, Timestamp = DateTime.Now });
         }
 
-        public void Error(string tag, Exception exception)
+        public void Fatal(string tag, string message)
         {
-            _outJobs.Post(new LogMessage { Type = LogType.Error, Tag = tag, Message = exception.Message, Timestamp = DateTime.Now });
+            _outputJobs.Post(new LogMessage { Level = LogLevel.Fatal, Tag = tag, Message = message, Timestamp = DateTime.Now });
         }
 
-        public void Crash(string tag, string message)
+        public void Minecraft(string message)
         {
-            _outJobs.Post(new LogMessage { Type = LogType.Crash, Tag = tag, Message = message, Timestamp = DateTime.Now });
+            _outputJobs.Post(new LogMessage { Level = LogLevel.Minecraft, Message = message });
         }
 
         public void Finish()
         {
+            _outputJobs.Complete();
+            _outputJobs.Completion.Wait();
             _writer.Flush();
             _writer.Dispose();
         }
 
         public void ClearLogs()
         {
-            var logFiles = Directory.EnumerateFiles(Environment.CurrentDirectory)
-                                    .Where(file => Path.GetFileName(file).StartsWith("GBCL_logs_"));
-
-            foreach (var file in logFiles)
-            {
-                File.Delete(file);
-            }
+            File.Delete(LOG_FILE);
         }
 
         #endregion
 
         #region Private Methods
 
-        private void ProcessOutMessages(LogMessage logMessage)
+        private async ValueTask WriteLogAsync(LogMessage logMessage)
         {
+            if (logMessage.Level == LogLevel.Minecraft)
+            {
+                await _writer.WriteLineAsync(logMessage.Message);
+                return;
+            }
+
             var builder = new StringBuilder(1024);
-            builder.Append($"[{logMessage.Timestamp}] ");
-            builder.Append($"[{logMessage.Type.ToString().ToUpper()}] ");
+            builder.Append($"[{logMessage.Timestamp:HH:mm:ss}] ");
+            builder.Append($"[{logMessage.Level.ToString().ToUpper()}] ");
             builder.Append($"[{logMessage.Tag}] ");
             builder.Append(logMessage.Message);
-            builder.AppendLine();
 
-            _writer.Write(builder.ToString());
+            await _writer.WriteLineAsync(builder.ToString());
+#if DEBUG
+            System.Diagnostics.Debug.WriteLine(builder.ToString());
+#endif
         }
 
         #endregion

@@ -29,15 +29,17 @@ namespace GBCLV3.Services.Launch
 
         // IoC
         private readonly GamePathService _gamePathService;
+        private readonly Logger _logger;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public LaunchService(GamePathService gamePathService)
+        public LaunchService(GamePathService gamePathService, Logger logger)
         {
             _gamePathService = gamePathService;
+            _logger = logger;
         }
 
         #endregion
@@ -59,14 +61,14 @@ namespace GBCLV3.Services.Launch
             _gameProcess = Process.Start(startInfo);
 
             _gameProcess.EnableRaisingEvents = true;
-            _gameProcess.Exited += (s, e) => Exited?.Invoke(_gameProcess.ExitCode);
+            _gameProcess.Exited += OnExited;
 
             if (!profile.IsDebugMode)
             {
-                _gameProcess.ErrorDataReceived += (s, e) => ErrorReceived?.Invoke(e.Data);
-                _gameProcess.BeginErrorReadLine();
+                _gameProcess.OutputDataReceived += OnOutputDataReceived;
+                _gameProcess.ErrorDataReceived += OnErrorDaraReceived;
 
-                _gameProcess.OutputDataReceived += (s, e) => LogReceived?.Invoke(e.Data);
+                _gameProcess.BeginErrorReadLine();
                 _gameProcess.BeginOutputReadLine();
 
                 if (!_gameProcess.HasExited)
@@ -78,9 +80,34 @@ namespace GBCLV3.Services.Launch
             return !_gameProcess.HasExited;
         }
 
+        private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            _logger.Minecraft(e.Data);
+            LogReceived?.Invoke(e.Data);
+        }
+
+        private void OnErrorDaraReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(e.Data)) return;
+
+            _logger.Error(nameof(LaunchService), "Game error occurred.");
+            _logger.Minecraft(e.Data);
+            ErrorReceived?.Invoke(e.Data);
+        }
+
+        private void OnExited(object sender, EventArgs e)
+        {
+            _gameProcess.Exited -= OnExited;
+            _gameProcess.OutputDataReceived -= OnOutputDataReceived;
+            _gameProcess.ErrorDataReceived -= OnErrorDaraReceived;
+
+            Exited?.Invoke(_gameProcess.ExitCode);
+        }
+
         #endregion
 
         #region Private Methods
+
 
         private string BuildArguments(LaunchProfile profile, Version version)
         {
@@ -204,10 +231,12 @@ namespace GBCLV3.Services.Launch
                 builder.Append(' ').Append(profile.ExtraArgs);
             }
 
-            Debug.WriteLine(builder.ToString());
-
             // Build Complete
-            return builder.ToString();
+            string launchArgs = builder.ToString();
+
+            _logger.Info(nameof(LaunchService), $"Launch arguments:\n{launchArgs}");
+
+            return launchArgs;
         }
 
         #endregion

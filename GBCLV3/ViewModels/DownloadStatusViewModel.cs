@@ -57,15 +57,7 @@ namespace GBCLV3.ViewModels
         public void Setup(DownloadType type, DownloadService downloadService)
         {
             _downloadService = downloadService;
-            _downloadService.ProgressChanged += progress =>
-            {
-                FailedCount = progress.FailedCount;
-                CountProgress = $"{progress.CompletedCount} / {progress.TotalCount} items";
-                BytesProgress = GetBytesProgressText(progress.DownloadedBytes, progress.TotalBytes);
-                Percentage = GetPercentage(progress.DownloadedBytes, progress.TotalBytes);
-
-                Speed = GetSpeedText(progress.Speed);
-            };
+            _downloadService.ProgressChanged += OnProgressChanged;
             _downloadService.Completed += OnCompleted;
 
             // Reset
@@ -111,10 +103,24 @@ namespace GBCLV3.ViewModels
             return "0";
         }
 
+        private void OnProgressChanged(DownloadProgress progress)
+        {
+            FailedCount = progress.FailedCount;
+            CountProgress = $"{progress.CompletedCount} / {progress.TotalCount} items";
+            BytesProgress = GetBytesProgressText(progress.DownloadedBytes, progress.TotalBytes);
+            Percentage = GetPercentage(progress.DownloadedBytes, progress.TotalBytes);
+
+            Speed = GetSpeedText(progress.Speed);
+        }
+
         private void OnCompleted(DownloadResult result)
         {
             if (result == DownloadResult.Succeeded || result == DownloadResult.Canceled)
             {
+                // Unregister event handlers
+                _downloadService.Completed -= OnCompleted;
+                _downloadService.ProgressChanged -= OnProgressChanged;
+
                 this.RequestClose();
                 return;
             }

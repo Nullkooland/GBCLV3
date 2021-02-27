@@ -6,6 +6,7 @@ using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
 using GBCLV3.Utils.Native;
 using Microsoft.Win32;
+using StyletIoC;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -24,6 +25,17 @@ namespace GBCLV3.Services
         #region Private Fields
 
         private const string CONFIG_FILENAME = "GBCL.json";
+        private readonly Logger _logger;
+
+        #endregion
+
+        #region Constructor
+
+        [Inject]
+        public ConfigService(Logger logger)
+        {
+            _logger = logger;
+        }
 
         #endregion
 
@@ -31,14 +43,18 @@ namespace GBCLV3.Services
 
         public void Load()
         {
+            _logger.Info(nameof(ConfigService), "Loading config json.");
+
             try
             {
                 var jsonData = File.ReadAllBytes(CONFIG_FILENAME);
                 var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 Entries = JsonSerializer.Deserialize<Config>(json);
             }
-            catch
+            catch (Exception ex)
             {
+                _logger.Error(nameof(ConfigService), $"Failed to load config json.\n{ex.Message}");
+
                 // Default configurations
                 Entries = new Config
                 {
@@ -58,15 +74,21 @@ namespace GBCLV3.Services
                 Entries.GameDir = Environment.CurrentDirectory + "\\.minecraft";
             }
 
+            _logger.Info(nameof(ConfigService), $"Minecraft root dir: \"{Entries.GameDir}\"");
+
             if (!File.Exists(Entries.JreDir + "\\javaw.exe"))
             {
                 Entries.JreDir = LocateJRE();
             }
 
+            _logger.Info(nameof(ConfigService), $"JRE path: \"{Entries.JreDir}\"");
+
             if (Entries.JavaMaxMem == 0)
             {
-                Entries.JavaMaxMem = 2048;
+                Entries.JavaMaxMem = MemoryStatusUtil.GetRecommendedMemoryMB();
             }
+
+            _logger.Info(nameof(ConfigService), $"JRE max memeory (MB): {Entries.JavaMaxMem}");
 
             if (Entries.Build < 104)
             {
@@ -78,17 +100,29 @@ namespace GBCLV3.Services
 
         public void Save()
         {
+            _logger.Info(nameof(ConfigService), "Saving config json.");
+
             var json = JsonSerializer.SerializeToUtf8Bytes(Entries,
                 new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
-            File.WriteAllBytes(CONFIG_FILENAME, json);
+
+            try
+            {
+                File.WriteAllBytes(CONFIG_FILENAME, json);
+            }
+            catch(Exception ex)
+            {
+                _logger.Error(nameof(ConfigService), $"Failed to save config json.\n{ex.Message}");
+            }
         }
 
         #endregion
 
         #region Helper Methods
 
-        private static string LocateJRE()
+        private string LocateJRE()
         {
+            _logger.Info(nameof(ConfigService), "Trying to located JRE from registry.");
+
             try
             {
                 using var localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
@@ -100,7 +134,7 @@ namespace GBCLV3.Services
             }
             catch (Exception ex)
             {
-                //Debug.WriteLine(ex.ToString());
+                _logger.Error(nameof(ConfigService), $"Failed to located JRE from registry.\n{ex.Message}");
                 return null;
             }
         }

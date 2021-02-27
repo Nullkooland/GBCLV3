@@ -44,6 +44,7 @@ namespace GBCLV3.ViewModels.Pages
         private readonly AuthService _authService;
         private readonly AuthlibInjectorService _authlibInjectorService;
         private readonly LaunchService _launchService;
+        private readonly DownloadService _downloadService;
 
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadStatusViewModel _downloadStatusVM;
@@ -67,6 +68,8 @@ namespace GBCLV3.ViewModels.Pages
             AuthService authService,
             AuthlibInjectorService authlibInjectorService,
             LaunchService launchService,
+            DownloadService downloadService,
+
             IWindowManager windowManager,
             GreetingViewModel greetingVM,
             VersionsManagementViewModel versionsVM,
@@ -86,6 +89,7 @@ namespace GBCLV3.ViewModels.Pages
             _authService = authService;
             _authlibInjectorService = authlibInjectorService;
             _launchService = launchService;
+            _downloadService = downloadService;
 
             _statusVM = statusVM;
             _accountEditVM = accountEditVM;
@@ -336,11 +340,11 @@ namespace GBCLV3.ViewModels.Pages
         {
             _statusVM.Status = LaunchStatus.Downloading;
 
-            using var downloadService = new DownloadService(items);
-            _downloadStatusVM.Setup(type, downloadService);
+            _downloadService.Setup(items);
+            _downloadStatusVM.Setup(type, _downloadService);
             this.ActivateItem(_downloadStatusVM);
 
-            bool isSuccessful = await downloadService.StartAsync();
+            bool isSuccessful = await _downloadService.StartAsync();
 
             this.ActivateItem(_statusVM);
             _statusVM.Status = LaunchStatus.ProcessingDependencies;

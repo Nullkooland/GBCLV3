@@ -21,6 +21,7 @@ namespace GBCLV3.ViewModels.Tabs
         private readonly ForgeInstallService _forgeInstallService;
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
+        private readonly DownloadService _downloadService;
 
         private readonly DownloadStatusViewModel _downloadStatusVM;
 
@@ -35,19 +36,23 @@ namespace GBCLV3.ViewModels.Tabs
             ForgeInstallService forgeInstallService,
             VersionService versionService,
             LibraryService libraryService,
-            DownloadStatusViewModel downloadStatusVM,
-            IWindowManager windowManager)
+            DownloadService downloadService,
+
+            IWindowManager windowManager,
+            DownloadStatusViewModel downloadStatusVM
+            )
         {
             _forgeInstallService = forgeInstallService;
             _versionService = versionService;
             _libraryService = libraryService;
-
-            Forges = new BindableCollection<Forge>();
+            _downloadService = downloadService;
 
             _windowManager = windowManager;
             _downloadStatusVM = downloadStatusVM;
 
             _forgeInstallService.InstallProgressChanged += progress => InstallProgress = progress;
+
+            Forges = new BindableCollection<Forge>();
         }
 
         #endregion
@@ -175,11 +180,11 @@ namespace GBCLV3.ViewModels.Tabs
 
         private async ValueTask<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
-            using var downloadService = new DownloadService(items);
-            _downloadStatusVM.Setup(type, downloadService);
+            _downloadService.Setup(items);
+            _downloadStatusVM.Setup(type, _downloadService);
             this.ActivateItem(_downloadStatusVM);
 
-            return await downloadService.StartAsync();
+            return await _downloadService.StartAsync();
         }
 
         protected override async void OnActivate()

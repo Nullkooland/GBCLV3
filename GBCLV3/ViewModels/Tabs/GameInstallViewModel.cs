@@ -31,6 +31,7 @@ namespace GBCLV3.ViewModels.Tabs
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
+        private readonly DownloadService _downloadService;
 
         private readonly DownloadStatusViewModel _downloadStatusVM;
 
@@ -47,15 +48,17 @@ namespace GBCLV3.ViewModels.Tabs
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
+            DownloadService downloadService,
 
-            DownloadStatusViewModel downloadVM,
-            IWindowManager windowManager)
+            IWindowManager windowManager,
+            DownloadStatusViewModel downloadVM)
         {
             _config = configService.Entries;
             _gamePathService = gamePathService;
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
+            _downloadService = downloadService;
 
             _versionDownloads = new BindableCollection<VersionDownload>();
             VersionDownloads = CollectionViewSource.GetDefaultView(_versionDownloads);
@@ -171,11 +174,11 @@ namespace GBCLV3.ViewModels.Tabs
 
         private async ValueTask<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
-            using var downloadService = new DownloadService(items);
-            _downloadStatusVM.Setup(type, downloadService);
+            _downloadService.Setup(items);
+            _downloadStatusVM.Setup(type, _downloadService);
             this.ActivateItem(_downloadStatusVM);
 
-            return await downloadService.StartAsync();
+            return await _downloadService.StartAsync();
         }
 
         protected override async void OnActivate()

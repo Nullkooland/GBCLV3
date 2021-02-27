@@ -12,10 +12,9 @@ namespace GBCLV3.ViewModels.Windows
     {
         #region Private Fields
 
-        private DownloadService _downloadService;
-
         // IoC
         private readonly UpdateService _updateService;
+        private DownloadService _downloadService;
 
         private readonly IWindowManager _windowManager;
 
@@ -27,9 +26,11 @@ namespace GBCLV3.ViewModels.Windows
         public UpdateViewModel(
             ThemeService themeService,
             UpdateService updateService,
+            DownloadService downloadService,
             IWindowManager windowManager)
         {
             _updateService = updateService;
+            _downloadService = downloadService;
             _windowManager = windowManager;
 
             ThemeService = themeService;
@@ -42,22 +43,9 @@ namespace GBCLV3.ViewModels.Windows
         public void Setup(UpdateInfo info)
         {
             var download = _updateService.GetDownload(info);
-
-            _downloadService = new DownloadService(download);
-
-            _downloadService.ProgressChanged += progress =>
-            {
-                DownloadProgress = (double)progress.DownloadedBytes / progress.TotalBytes;
-                Percentage = (DownloadProgress * 100.0).ToString("0.0") + '%';
-            };
-
-            _downloadService.Completed += result =>
-            {
-                if (result == DownloadResult.Incomplete) _downloadService.Cancel();
-            };
-
+            _downloadService.Setup(download);
+ 
             IsDownloading = false;
-
             DisplayUpdateInfo(info);
         }
 
@@ -108,6 +96,20 @@ namespace GBCLV3.ViewModels.Windows
 
         #region Private Methods
 
+        public void OnDownloadCompleted(DownloadResult result)
+        {
+            if (result == DownloadResult.Incomplete) _downloadService.Cancel();
+
+            _downloadService.Completed -= OnDownloadCompleted;
+            _downloadService.ProgressChanged -= OnDownloadProgressChanged;
+        }
+
+        public void OnDownloadProgressChanged(DownloadProgress progress)
+        {
+            DownloadProgress = (double)progress.DownloadedBytes / progress.TotalBytes;
+            Percentage = (DownloadProgress * 100.0).ToString("0.0") + '%';
+        }
+
         private async void DisplayUpdateInfo(UpdateInfo info)
         {
             Version = $"{info.Name} - {info.ReleaseTime:yyyy/MM/dd}";
@@ -119,7 +121,7 @@ namespace GBCLV3.ViewModels.Windows
             var builder = new StringBuilder(1024);
             foreach (string line in changelog.Details)
             {
-                builder.Append("> ").Append(line).AppendLine();
+                builder.Append("❯ ").Append(line).AppendLine();
             }
 
             ChangelogTitle = changelog.Title;
