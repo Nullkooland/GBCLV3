@@ -80,7 +80,6 @@ namespace GBCLV3.Services.Launch
 
         private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _logService.Minecraft(e.Data);
             LogReceived?.Invoke(e.Data);
         }
 
@@ -91,7 +90,6 @@ namespace GBCLV3.Services.Launch
                 return;
             }
 
-            _logService.Error(nameof(LaunchService), "Game error occurred");
             _logService.Minecraft(e.Data);
         }
 
