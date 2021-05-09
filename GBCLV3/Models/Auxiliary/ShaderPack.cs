@@ -1,12 +1,13 @@
 ﻿using PropertyChanged;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace GBCLV3.Models.Auxiliary
 {
     public class ShaderPack : INotifyPropertyChanged
     {
         [DoNotNotify]
-        public string Id => System.IO.Path.GetFileName(Path);
+        public string Id { get; set; }
 
         [DoNotNotify]
         public string Path { get; set; }

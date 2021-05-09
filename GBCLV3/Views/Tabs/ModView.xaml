@@ -120,7 +120,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="14"
-                            Text="{Binding Name, Mode=OneWay}" />
+                            Text="{Binding Id, Mode=OneWay}" />
 
                         <TextBlock
                             x:Name="FileNameBox"

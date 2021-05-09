@@ -18,7 +18,7 @@ namespace GBCLV3.Services
         private const string STRINGS_DICTS_DIR = "/Resources/Languages/Strings";
 
         private readonly Config _config;
-        private readonly Logger _logger;
+        private readonly LogService _logService;
 
         private readonly Dictionary<string, string> _availableLanguages;
         private readonly Dictionary<string, string> _translators;
@@ -29,12 +29,12 @@ namespace GBCLV3.Services
         #region Constructor
 
         [Inject]
-        public LanguageService(ConfigService configService, Logger logger)
+        public LanguageService(ConfigService configService, LogService logService)
         {
             _config = configService.Entries;
-            _logger = logger;
+            _logService = logService;
 
-            logger.Info(nameof(LanguageService), "Loading languages.");
+            logService.Info(nameof(LanguageService), "Loading languages");
 
             var availableLangsDict =
                 Application.LoadComponent(new Uri(AVAILABLE_LANGS_DICT_PATH, UriKind.Relative)) as
@@ -63,7 +63,7 @@ namespace GBCLV3.Services
                 _config.Language = _availableLanguages.First().Key;
             }
 
-            _logger.Info(nameof(LanguageService), $"Current language: \"{_config.Language}\".");
+            _logService.Info(nameof(LanguageService), $"Current language: \"{_config.Language}\"");
 
             _currentLangDict =
                 Application.LoadComponent(new Uri($"{STRINGS_DICTS_DIR}/{_config.Language}.xaml", UriKind.Relative)) as
@@ -78,7 +78,7 @@ namespace GBCLV3.Services
 
         public void Change(string langTag)
         {
-            _logger.Info(nameof(LanguageService), $"Chaning language from \"{_config.Language}\" to \"{langTag}\".");
+            _logService.Info(nameof(LanguageService), $"Chaning language from \"{_config.Language}\" to \"{langTag}\"");
 
             var replaceLangDict =
                 Application.LoadComponent(new Uri($"{STRINGS_DICTS_DIR}/{langTag}.xaml", UriKind.Relative)) as

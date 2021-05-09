@@ -123,7 +123,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="14"
-                                Text="{Binding Name}" />
+                                Text="{Binding Id}" />
 
                             <TextBlock
                                 x:Name="DescriptionBox"
@@ -304,7 +304,7 @@
                                 HorizontalAlignment="Left"
                                 VerticalAlignment="Center"
                                 FontSize="14"
-                                Text="{Binding Name}" />
+                                Text="{Binding Id}" />
 
                             <TextBlock
                                 x:Name="DescriptionBox"

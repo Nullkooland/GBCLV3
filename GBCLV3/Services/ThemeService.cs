@@ -52,16 +52,16 @@ namespace GBCLV3.Services
         private static readonly Color REF_COLOR_STEGZ = Color.FromRgb(105, 175, 15);
 
         private readonly Config _config;
-        private readonly Logger _logger;
+        private readonly LogService _logService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public ThemeService(ConfigService configService, Logger logger)
+        public ThemeService(ConfigService configService, LogService logService)
         {
-            _logger = logger;
+            _logService = logService;
             _config = configService.Entries;
 
             if (string.IsNullOrEmpty(_config.FontFamily))
@@ -114,6 +114,8 @@ namespace GBCLV3.Services
                 }
             }
 
+            _logService.Info(nameof(ThemeService), $"Changing background image: \"{imgPath ?? "DEFAULT"}\"");
+
             BackgroundImage = new BitmapImage();
             BackgroundImage.BeginInit();
             BackgroundImage.UriSource = new Uri(imgPath ?? DEFAULT_BACKGROUND_IMAGE);
@@ -124,6 +126,8 @@ namespace GBCLV3.Services
 
         public void SetBackgroundEffect(Window window)
         {
+            _logService.Info(nameof(ThemeService), $"Changing background effect: \"{_config.BackgroundEffect}\"");
+
             var handle = new WindowInteropHelper(window).Handle;
             WindowEffectUtil.Apply(handle, _config.BackgroundEffect);
         }
@@ -171,10 +175,10 @@ namespace GBCLV3.Services
             float l2NormStegz = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
 
 #if DEBUG
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Triceratop: {l2NormSpike:F4}");
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Pteranodon: {l2NormBullzeye:F4}");
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Tyrannosaurus: {l2NormTBone:F4}");
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Stegosaurus: {l2NormStegz:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Triceratop: {l2NormSpike:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Pteranodon: {l2NormBullzeye:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Tyrannosaurus: {l2NormTBone:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Stegosaurus: {l2NormStegz:F4}");
 #endif
 
             if (l2NormSpike < 0.0075f)

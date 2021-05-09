@@ -107,12 +107,12 @@ namespace GBCLV3.ViewModels.Tabs
             if (File.Exists(jsonPath)) SystemUtil.OpenLink(jsonPath);
         }
 
-        public async void Delete(string id)
+        public void Delete(string id)
         {
             if (_windowManager.ShowMessageBox("${WhetherDeleteVersion} " + id + " ?", "${DeleteVersion}",
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-                await _versionService.DeleteFromDiskAsync(id, true);
+                _versionService.DeleteFromDisk(id, true);
             }
         }
 

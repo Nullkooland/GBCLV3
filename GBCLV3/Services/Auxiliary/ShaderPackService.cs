@@ -19,15 +19,17 @@ namespace GBCLV3.Services.Auxiliary
 
         // IoC
         private readonly GamePathService _gamePathService;
+        private readonly LogService _logService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public ShaderPackService(GamePathService gamePathService)
+        public ShaderPackService(GamePathService gamePathService, LogService logService)
         {
             _gamePathService = gamePathService;
+            _logService = logService;
         }
 
         #endregion
@@ -84,10 +86,13 @@ namespace GBCLV3.Services.Auxiliary
                     {
                         File.Move(path, dstPath);
                     }
+
+                    _logService.Info(nameof(ShaderPackService), $"Succeeded to {(isCopy ? "copy" : "move")} shaderpack from \"{path}\"");
                 }
                 catch (IOException ex)
                 {
                     // Maybe the file is being accessed by another process
+                    _logService.Error(nameof(ShaderPackService), $"Failed to {(isCopy ? "copy" : "move")} shaderpack from \"{path}\"\n{ex.Message}");
                     return null;
                 }
 
@@ -107,11 +112,18 @@ namespace GBCLV3.Services.Auxiliary
             string options = File.ReadAllText(opttionsFile, Encoding.Default);
             string enabledPackId = enabledPack?.Id ?? "(internal)";
             options = Regex.Replace(options, "shaderPack=.*", $"shaderPack={enabledPackId}");
+
+            _logService.Info(nameof(ShaderPackService), $"Enabled shaderpack: \"{enabledPackId}\"");
+
             File.WriteAllText(opttionsFile, options, Encoding.Default);
+
+            _logService.Info(nameof(ShaderPackService), $"Wrote user selection into optionsshaders.txt");
         }
 
-        public void DeleteFromDiskAsync(ShaderPack pack)
+        public void DeleteFromDisk(ShaderPack pack)
         {
+            _logService.Info(nameof(ShaderPackService), $"Pack \"{pack.Id}\" deleted");
+
             RecycleBinUtil.Send(Enumerable.Repeat(pack.Path, 1));
         }
 
@@ -121,6 +133,7 @@ namespace GBCLV3.Services.Auxiliary
 
         private static ShaderPack Load(string path, string enabledPackId = null)
         {
+            var id = Path.GetFileName(path);
             bool isZip = path.EndsWith(".zip");
 
             if (isZip)
@@ -138,10 +151,12 @@ namespace GBCLV3.Services.Auxiliary
                 return null;
             }
 
+
             return new ShaderPack
             {
+                Id = id,
                 Path = path,
-                IsEnabled = (Path.GetFileName(path) == enabledPackId),
+                IsEnabled = (id == enabledPackId),
                 IsExtracted = !isZip
             };
         }

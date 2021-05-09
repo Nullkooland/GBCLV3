@@ -4,7 +4,7 @@ namespace GBCLV3.Models.Auxiliary
 {
     public class Mod
     {
-        public string Name { get; set; }
+        public string Id { get; set; }
 
         public string FileName { get; set; }
 

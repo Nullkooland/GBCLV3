@@ -24,6 +24,8 @@ namespace GBCLV3.Services.Auxiliary
 
         // IoC
         private readonly GamePathService _gamePathService;
+        private readonly LogService _logService;
+
         private bool _isNewOptionsFormat = false;
 
         #endregion
@@ -31,9 +33,10 @@ namespace GBCLV3.Services.Auxiliary
         #region Constructor
 
         [Inject]
-        public ResourcePackService(GamePathService gamePathService)
+        public ResourcePackService(GamePathService gamePathService, LogService logService)
         {
             _gamePathService = gamePathService;
+            _logService = logService;
         }
 
         #endregion
@@ -43,7 +46,7 @@ namespace GBCLV3.Services.Auxiliary
         public async Task<ImmutableArray<ResourcePack>> LoadAllAsync()
         {
             string optionsFile = _gamePathService.WorkingDir + "/options.txt";
-            string[] enabledPackIDs = null;
+            string[] enabledPacksIds = null;
 
             if (File.Exists(optionsFile))
             {
@@ -54,7 +57,7 @@ namespace GBCLV3.Services.Auxiliary
                     if (line.StartsWith("resourcePacks"))
                     {
                         // Extract “resourcePacks:[${enabledPackIDs}]”
-                        enabledPackIDs = line[15..^1]
+                        enabledPacksIds = line[15..^1]
                             .Split(',')
                             .Select(id =>
                             {
@@ -89,13 +92,13 @@ namespace GBCLV3.Services.Auxiliary
             Directory.CreateDirectory(_gamePathService.ResourcePacksDir);
 
             var query = Directory.EnumerateFileSystemEntries(_gamePathService.ResourcePacksDir)
-                .Select(path => Load(path, enabledPackIDs))
+                .Select(path => Load(path, enabledPacksIds))
                 .Where(pack => pack != null);
 
             var packs = await Task.FromResult(query.ToLookup(pack => pack.IsEnabled));
 
-            var enabledPacks = packs[true].OrderByDescending(pack => Array.IndexOf(enabledPackIDs, pack.Name));
-            var disabledPacks = packs[false].OrderBy(pack => pack.Name);
+            var enabledPacks = packs[true].OrderByDescending(pack => Array.IndexOf(enabledPacksIds, pack.Id));
+            var disabledPacks = packs[false].OrderBy(pack => pack.Id);
 
             return enabledPacks.Concat(disabledPacks).ToImmutableArray();
         }
@@ -117,9 +120,9 @@ namespace GBCLV3.Services.Auxiliary
             string enabledPackIDs =
                 string.Join(",", enabledPacks.Reverse().Select(pack =>
                 {
-                    if (!_isNewOptionsFormat) return $"\"{pack.Name}\"";
+                    if (!_isNewOptionsFormat) return $"\"{pack.Id}\"";
                     //if (pack.Name == "vanilla" || pack.Name == "programmer_art") return pack.Name;
-                    return $"\"file/{pack.Name}\"";
+                    return $"\"file/{pack.Id}\"";
                 }));
 
 
@@ -132,12 +135,19 @@ namespace GBCLV3.Services.Auxiliary
                 options += $"resourcePacks:[{enabledPackIDs}]\r\n";
             }
 
+            _logService.Info(nameof(ResourcePackService), $"Selected resourcepacks:\n{enabledPackIDs}");
+
             File.WriteAllText(optionsPath, options, Encoding.Default);
+
+            _logService.Info(nameof(ResourcePackService), $"Wrote user selections into options.txt");
+
             return true;
         }
 
         public void DeleteFromDisk(ResourcePack pack)
         {
+            _logService.Info(nameof(ResourcePackService), $"Pack \"{pack.Id}\" deleted");
+
             RecycleBinUtil.Send(Enumerable.Repeat(pack.Path, 1));
         }
 
@@ -162,11 +172,13 @@ namespace GBCLV3.Services.Auxiliary
                     {
                         File.Move(path, dstPath);
                     }
+
+                    _logService.Info(nameof(ResourcePackService), $"Succeeded to {(isCopy ? "copy" : "move")} resourcepack from \"{path}\"");
                 }
                 catch (IOException ex)
                 {
                     // Maybe the file is being accessed by another process
-                    Debug.WriteLine(ex);
+                    _logService.Error(nameof(ResourcePackService), $"Failed to {(isCopy ? "copy" : "move")} resourcepack from \"{path}\"\n{ex.Message}");
                     return null;
                 }
 
@@ -184,8 +196,9 @@ namespace GBCLV3.Services.Auxiliary
 
         #region Private Methods
 
-        private static ResourcePack Load(string path, string[] enabledPackIds = null)
+        private ResourcePack Load(string path, string[] enabledPacksIds = null)
         {
+            var id = Path.GetFileName(path);
             bool isZip = path.EndsWith(".zip");
 
             using var infoMemStream = new MemoryStream();
@@ -231,18 +244,30 @@ namespace GBCLV3.Services.Auxiliary
                 }
             }
 
-            var infoJson = CryptoUtil.RemoveUtf8BOM(infoMemStream.ToArray());
-            var info = JsonSerializer.Deserialize<JResourcePack>(infoJson);
-
-            return new ResourcePack
+            try
             {
-                Path = path,
-                IsEnabled = enabledPackIds?.Contains(Path.GetFileName(path)) ?? false,
-                IsExtracted = !isZip,
-                Format = info.pack?.pack_format ?? -1,
-                Description = Regex.Replace(info.pack?.description ?? string.Empty, "§.", string.Empty),
-                Image = ReadImage(imgMemStream),
-            };
+                var infoJson = CryptoUtil.RemoveUtf8BOM(infoMemStream.ToArray());
+                var info = JsonSerializer.Deserialize<JResourcePack>(infoJson);
+
+                _logService.Info(nameof(ResourcePackService), $"Pack \"{id}\" loaded");
+
+                return new ResourcePack
+                {
+                    Id = id,
+                    Path = path,
+                    IsEnabled = enabledPacksIds?.Contains(id) ?? false,
+                    IsExtracted = !isZip,
+                    Format = info.pack?.pack_format ?? -1,
+                    Description = Regex.Replace(info.pack?.description ?? string.Empty, "§.", string.Empty),
+                    Image = ReadImage(imgMemStream),
+                };
+            }
+            catch (JsonException ex)
+            {
+                _logService.Error(nameof(ResourcePackService), $"Failed to read info in pack \"{id}\"\n{ex.Message}");
+            }
+
+            return null;
         }
 
         private static BitmapImage ReadImage(MemoryStream imgStream)

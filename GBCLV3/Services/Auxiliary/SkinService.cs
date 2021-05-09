@@ -17,9 +17,8 @@ namespace GBCLV3.Services.Auxiliary
     {
         #region Private Fields
 
-        private const string MOJANG_PROFILE_SERVER = "https://sessionserver.mojang.com/session/minecraft/profile";
-
         private readonly GamePathService _gamePathService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         private static readonly JsonSerializerOptions _jsonOptions
@@ -30,44 +29,22 @@ namespace GBCLV3.Services.Auxiliary
         #region Constructor
 
         [Inject]
-        public SkinService(GamePathService gamePathService, HttpClient client)
+        public SkinService(
+            GamePathService gamePathService,
+            LogService logService,
+            HttpClient client)
         {
             _gamePathService = gamePathService;
+            _logService = logService;
             _client = client;
         }
 
         #endregion
 
-        public async ValueTask<string> GetProfileAsync(string uuid, string profileServer = null)
+        public async ValueTask<Skin> GetAsync(string profile)
         {
-            try
-            {
-                var profileJson = await _client.GetByteArrayAsync($"{profileServer ?? MOJANG_PROFILE_SERVER}/{uuid}");
-                using var profile = JsonDocument.Parse(profileJson);
+            if (profile == null) return null;
 
-                return profile.RootElement
-                    .GetProperty("properties")[0]
-                    .GetProperty("value")
-                    .GetString();
-            }
-            catch (HttpRequestException ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-            catch (OperationCanceledException)
-            {
-                Debug.WriteLine("[ERROR] Index json download time out");
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.ToString());
-            }
-
-            return null;
-        }
-
-        public async ValueTask<Skin> GetSkinAsync(string profile)
-        {
             try
             {
                 var skinJson = Convert.FromBase64String(profile);
@@ -80,13 +57,13 @@ namespace GBCLV3.Services.Auxiliary
                 {
                     skin.IsSlim = body.TryGetProperty("metadata", out _);
                     string url = body.GetProperty("url").GetString();
-                    skin.Body = await LoadSkin(url);
+                    skin.Body = await LoadAsync(url);
                 }
 
                 if (textures.TryGetProperty("CAPE", out var cape))
                 {
                     string url = body.GetProperty("url").GetString();
-                    skin.Body = await LoadSkin(url);
+                    skin.Body = await LoadAsync(url);
                 }
 
                 skin.Face = GetFace(skin.Body);
@@ -94,14 +71,14 @@ namespace GBCLV3.Services.Auxiliary
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(SkinService), $"Failed to get skin\n{ex.Message}");
                 return null;
             }
         }
 
         #region Private Methods
 
-        private async ValueTask<BitmapImage> LoadSkin(string url)
+        private async ValueTask<BitmapImage> LoadAsync(string url)
         {
             int pos = url.LastIndexOf('/') + 1;
             string hash = url[pos..];
@@ -114,14 +91,9 @@ namespace GBCLV3.Services.Auxiliary
                 await using var httpStream = await _client.GetStreamAsync(url);
                 await using var fileStream = File.OpenWrite(path);
                 await httpStream.CopyToAsync(fileStream);
-                fileStream.Flush();
+                await fileStream.FlushAsync();
             }
 
-            return LoadFromDisk(path);
-        }
-
-        private static BitmapImage LoadFromDisk(string path)
-        {
             var img = new BitmapImage();
             img.BeginInit();
             img.UriSource = new Uri(path, UriKind.Absolute);

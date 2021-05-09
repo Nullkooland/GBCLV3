@@ -103,6 +103,7 @@ namespace GBCLV3.ViewModels
             return "0";
         }
 
+        [PropertyChanged.SuppressPropertyChangedWarnings]
         private void OnProgressChanged(DownloadProgress progress)
         {
             FailedCount = progress.FailedCount;

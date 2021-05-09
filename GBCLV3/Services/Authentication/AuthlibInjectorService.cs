@@ -22,6 +22,7 @@ namespace GBCLV3.Services.Authentication
 
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _downloadUrlService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         private AuthlibInjector _cached;
@@ -34,10 +35,12 @@ namespace GBCLV3.Services.Authentication
         public AuthlibInjectorService(
             GamePathService gamePathService,
             DownloadUrlService downloadUrlService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _downloadUrlService = downloadUrlService;
+            _logService = logService;
             _client = client;
         }
 
@@ -48,6 +51,8 @@ namespace GBCLV3.Services.Authentication
         public async ValueTask<AuthlibInjector> GetLatest()
         {
             if (_cached != null) return _cached;
+
+            _logService.Info(nameof(AuthlibInjectorService), "Fetching latest download info");
 
             try
             {
@@ -62,11 +67,13 @@ namespace GBCLV3.Services.Authentication
                     SHA256 = info.GetProperty("checksums").GetProperty("sha256").GetString(),
                 };
 
+                _logService.Info(nameof(AuthlibInjectorService), $"Download info fetched. Version: {_cached.Version} Build: {_cached.Build}");
+
                 return _cached;
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logService.Error(nameof(AuthlibInjectorService), $"Failed to fetch download info\n{ex.Message}");
                 return null;
             }
         }
@@ -80,6 +87,9 @@ namespace GBCLV3.Services.Authentication
         public int GetLocalBuild()
         {
             string path = $"{_gamePathService.RootDir}/authlib-injector.jar";
+
+            _logService.Info(nameof(AuthlibInjectorService), "Checking local authlib-injector");
+
             try
             {
                 using var archive = ZipFile.OpenRead(path);
@@ -93,13 +103,17 @@ namespace GBCLV3.Services.Authentication
                 {
                     if (line.StartsWith("Build-Number:"))
                     {
-                        return int.Parse(line[14..]);
+                        int build = int.Parse(line[14..]);
+
+                        _logService.Info(nameof(AuthlibInjectorService), $"Local authlib-injector checked. Build: {build}");
+
+                        return build;
                     }
                 }
             }
-            catch
+            catch (Exception ex)
             {
-                Debug.WriteLine("Failed to get local authlib-injector");
+                _logService.Error(nameof(AuthlibInjectorService), $"Failed to check local authlib-injector\n{ex.Message}");
             }
 
             return -1;

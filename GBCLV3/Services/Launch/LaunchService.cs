@@ -17,8 +17,6 @@ namespace GBCLV3.Services.Launch
 
         public event Action<string> LogReceived;
 
-        public event Action<string> ErrorReceived;
-
         public event Action<int> Exited;
 
         #endregion
@@ -29,17 +27,17 @@ namespace GBCLV3.Services.Launch
 
         // IoC
         private readonly GamePathService _gamePathService;
-        private readonly Logger _logger;
+        private readonly LogService _logService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public LaunchService(GamePathService gamePathService, Logger logger)
+        public LaunchService(GamePathService gamePathService, LogService logService)
         {
             _gamePathService = gamePathService;
-            _logger = logger;
+            _logService = logService;
         }
 
         #endregion
@@ -82,17 +80,16 @@ namespace GBCLV3.Services.Launch
 
         private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
         {
-            _logger.Minecraft(e.Data);
+            _logService.Minecraft(e.Data);
             LogReceived?.Invoke(e.Data);
         }
 
         private void OnErrorDaraReceived(object sender, DataReceivedEventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(e.Data)) return;
+            if (string.IsNullOrEmpty(e.Data)) return;
 
-            _logger.Error(nameof(LaunchService), "Game error occurred.");
-            _logger.Minecraft(e.Data);
-            ErrorReceived?.Invoke(e.Data);
+            _logService.Error(nameof(LaunchService), "Game error occurred");
+            _logService.Minecraft(e.Data);
         }
 
         private void OnExited(object sender, EventArgs e)
@@ -101,6 +98,7 @@ namespace GBCLV3.Services.Launch
             _gameProcess.OutputDataReceived -= OnOutputDataReceived;
             _gameProcess.ErrorDataReceived -= OnErrorDaraReceived;
 
+            _logService.Info(nameof(LaunchService), $"Game exited with {_gameProcess.ExitCode}");
             Exited?.Invoke(_gameProcess.ExitCode);
         }
 
@@ -234,7 +232,7 @@ namespace GBCLV3.Services.Launch
             // Build Complete
             string launchArgs = builder.ToString();
 
-            _logger.Info(nameof(LaunchService), $"Launch arguments:\n{launchArgs}");
+            _logService.Info(nameof(LaunchService), $"Launch arguments:\n{launchArgs}");
 
             return launchArgs;
         }

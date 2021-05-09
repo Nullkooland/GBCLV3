@@ -2,7 +2,6 @@
 using GBCLV3.Utils;
 using StyletIoC;
 using System;
-using System.Diagnostics;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -17,6 +16,7 @@ namespace GBCLV3.Services.Authentication
         private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com";
 
         private readonly HttpClient _client;
+        private readonly LogService _logService;
 
         private static readonly JsonSerializerOptions _jsonOptions
             = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
@@ -26,9 +26,10 @@ namespace GBCLV3.Services.Authentication
         #region Constructor
 
         [Inject]
-        public AuthService(HttpClient client)
+        public AuthService(HttpClient client, LogService logService)
         {
             _client = client;
+            _logService = logService;
         }
 
         #endregion
@@ -93,9 +94,9 @@ namespace GBCLV3.Services.Authentication
                 var responseJson = await _client.GetByteArrayAsync(authServer);
                 return Convert.ToBase64String(responseJson);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                Debug.Write(ex.ToString());
+                _logService.Error(nameof(AuthService), $"Failed to prefetch external authserver info\n{ex.Message}");
                 return null;
             }
         }
@@ -109,7 +110,7 @@ namespace GBCLV3.Services.Authentication
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.ToString());
+                _logService.Error(nameof(AuthService), $"Failed to get external authserver info\n{ex.Message}");
                 return null;
             }
         }
@@ -164,11 +165,15 @@ namespace GBCLV3.Services.Authentication
                 else
                 {
                     var error = JsonSerializer.Deserialize<AuthErrorResponse>(responseJson, _jsonOptions);
-                    if (error.ErrorMessage.ToLower().Contains("token"))
+
+                    _logService.Warn(nameof(AuthService), $"Auth failed. Error: \"{error.Error}\" Message:\"{error.ErrorMessage}\"");
+
+
+                    if (error.ErrorMessage?.ToLower().Contains("token") ?? false)
                     {
                         result.ErrorType = AuthErrorType.InvalidToken;
                     }
-                    else if (error.ErrorMessage.ToLower().Contains("credentials"))
+                    else if (error.ErrorMessage?.ToLower().Contains("credentials") ?? false)
                     {
                         result.ErrorType = AuthErrorType.InvalidCredentials;
                     }
@@ -186,17 +191,23 @@ namespace GBCLV3.Services.Authentication
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.NoInternetConnection;
                 result.ErrorMessage = ex.Message;
+
+                _logService.Error(nameof(AuthService), $"Failed to send auth request: HTTP error\n{ex.Message}");
             }
             catch (OperationCanceledException)
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.AuthTimeout;
+
+                _logService.Error(nameof(AuthService), "Failed to send auth request: Timeout");
             }
             catch (Exception ex)
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.Unknown;
                 result.ErrorMessage = ex.Message;
+
+                _logService.Error(nameof(AuthService), $"Failed to send auth request: Unkown error\n{ex.Message}");
             }
 
             return result;

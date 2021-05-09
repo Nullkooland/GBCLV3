@@ -30,7 +30,7 @@ namespace GBCLV3.Services.Download
         // IoC
         private readonly ConfigService _configService;
         private readonly HttpClient _client;
-        private readonly Logger _logger;
+        private readonly LogService _logService;
 
         #endregion
 
@@ -40,12 +40,12 @@ namespace GBCLV3.Services.Download
         public UpdateService(
             ConfigService configService, 
             HttpClient client,
-            Logger logger)
+            LogService logService)
         {
             _configService = configService;
             _client = client;
             _client.DefaultRequestHeaders.Add("User-Agent", "request");
-            _logger = logger;
+            _logService = logService;
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace GBCLV3.Services.Download
         {
             if (_cachedInfo != null) return _cachedInfo;
 
-            _logger.Info(nameof(UpdateService), "Checking launcher update.");
+            _logService.Info(nameof(UpdateService), "Checking launcher update");
 
             try
             {
@@ -66,7 +66,7 @@ namespace GBCLV3.Services.Download
 
                 if (HasNewVersion(info.Version))
                 {
-                    _logger.Info(nameof(UpdateService), $"New update available. Version: {info.Version}");
+                    _logService.Info(nameof(UpdateService), $"New update available. Version: {info.Version}");
 
                     CheckStatusChanged?.Invoke(CheckUpdateStatus.UpdateAvailable);
                     _cachedInfo = info;
@@ -75,13 +75,13 @@ namespace GBCLV3.Services.Download
             }
             catch (Exception ex)
             {
-                _logger.Error(nameof(UpdateService), $"Failed to check update.\n{ex.Message}");
+                _logService.Error(nameof(UpdateService), $"Failed to check update.\n{ex.Message}");
 
                 CheckStatusChanged?.Invoke(CheckUpdateStatus.CheckFailed);
                 return null;
             }
 
-            _logger.Info(nameof(UpdateService), "Launcher is up to date.");
+            _logService.Info(nameof(UpdateService), "Launcher is up to date");
 
             CheckStatusChanged?.Invoke(CheckUpdateStatus.UpToDate);
             return null;
@@ -89,7 +89,7 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<UpdateChangelog> GetChangelogAsync(UpdateInfo info)
         {
-            _logger.Info(nameof(UpdateService), "Fetching changelog.");
+            _logService.Info(nameof(UpdateService), "Fetching changelog");
 
             var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
             try
@@ -100,19 +100,19 @@ namespace GBCLV3.Services.Download
 
                 if (changelogByLang.TryGetValue(langTag, out var changelog))
                 {
-                    _logger.Info(nameof(UpdateService), $"Got changelog in {langTag}.");
+                    _logService.Info(nameof(UpdateService), $"Got changelog in {langTag}");
 
                     return changelog;
                 }
 
                 // Fallback to en-US changelog
-                _logger.Info(nameof(UpdateService), $"Got fallback changelog in en-US.");
+                _logService.Info(nameof(UpdateService), $"Got fallback changelog in en-US");
 
                 return changelogByLang["en-US"];
             }
             catch (Exception ex)
             {
-                _logger.Error(nameof(UpdateService), $"Failed to fetch changelog.\n{ex.Message}");
+                _logService.Error(nameof(UpdateService), $"Failed to fetch changelog.\n{ex.Message}");
                 return null;
             }
         }
@@ -135,14 +135,14 @@ namespace GBCLV3.Services.Download
 
         public void Update()
         {
-            _logger.Info(nameof(UpdateService), "Self-updating using PowerShell script.");
+            _logService.Info(nameof(UpdateService), "Self-updating using PowerShell script");
 
             int currentPID = Process.GetCurrentProcess().Id;
 
-            _logger.Info(nameof(UpdateService), $"Current PID: {currentPID}.");
+            _logService.Info(nameof(UpdateService), $"Current PID: {currentPID}");
 
             // Remember to save log and config file before update.
-            _logger.Finish();
+            _logService.Finish();
             _configService.Save();
 
             string psCommand =
@@ -166,7 +166,7 @@ namespace GBCLV3.Services.Download
             }
             catch (Exception ex)
             {
-                _logger.Error(nameof(UpdateService), $"Faile to execute update script.\n{ex.Message}");
+                _logService.Error(nameof(UpdateService), $"Faile to execute update script.\n{ex.Message}");
             }
         }
 

@@ -24,6 +24,7 @@ namespace GBCLV3.Services.Launch
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         #endregion
@@ -34,10 +35,12 @@ namespace GBCLV3.Services.Launch
         public AssetService(
             GamePathService gamePathService,
             DownloadUrlService urlService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
+            _logService = logService;
             _client = client;
         }
 
@@ -96,6 +99,8 @@ namespace GBCLV3.Services.Launch
 
         public async ValueTask<bool> DownloadIndexJsonAsync(AssetsInfo info)
         {
+            _logService.Info(nameof(AssetService), $"Fetching download list for version \"{info.ID}\"");
+
             try
             {
                 var json = await _client.GetByteArrayAsync(info.IndexUrl);
@@ -108,12 +113,13 @@ namespace GBCLV3.Services.Launch
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(AssetService), $"Failed to fetch download list: HTTP error\n{ex.Message}");
                 return false;
             }
             catch (OperationCanceledException)
             {
-                Debug.WriteLine("[ERROR] Index json download time out");
+                // Timeout
+                _logService.Error(nameof(AssetService), $"Failed to fetch download list: Timeout");
                 return false;
             }
         }

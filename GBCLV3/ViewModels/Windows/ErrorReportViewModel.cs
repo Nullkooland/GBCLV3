@@ -12,16 +12,18 @@ namespace GBCLV3.ViewModels.Windows
     {
         #region Private Fields
 
+        private readonly LogService _logService;
+
         private const string ISSUES_URL = "https://github.com/Goose-Bomb/GBCLV3/issues";
-        private string _errorMessage;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public ErrorReportViewModel(ThemeService themeService)
+        public ErrorReportViewModel(LogService logService, ThemeService themeService)
         {
+            _logService = logService;
             ThemeService = themeService;
         }
 
@@ -31,19 +33,20 @@ namespace GBCLV3.ViewModels.Windows
 
         public ThemeService ThemeService { get; }
 
-        public ErrorReportType Type { get; set; }
-
-        public string ErrorMessage
-        {
-            get => _errorMessage;
-            set
-            {
-                MessageFontSize = (value.Length < 512) ? 16 : 12;
-                _errorMessage = $"{value}\n[Launcher Version: {AssemblyUtil.Version}]";
-            }
-        }
+        public ErrorReportType Type { get; private set; }
 
         public int MessageFontSize { get; private set; }
+
+        public string ErrorMessage { get; private set; }
+
+        public void Setup(ErrorReportType type)
+        {
+            string logs = _logService.ReadLogs();
+
+            Type = type;
+            MessageFontSize = (logs.Length < 512) ? 16 : 12;
+            ErrorMessage = $"{logs}\n[Launcher Version: {AssemblyUtil.Version}]";
+        }
 
         public void Close() => this.RequestClose();
 
@@ -54,6 +57,7 @@ namespace GBCLV3.ViewModels.Windows
         public void OnWindowLoaded(Window window, RoutedEventArgs _)
         {
             ThemeService.SetBackgroundEffect(window);
+            window.Activate();
         }
 
         #endregion

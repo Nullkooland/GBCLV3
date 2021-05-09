@@ -37,7 +37,7 @@ namespace GBCLV3.Services.Download
         private readonly ExecutionDataflowBlockOptions _parallelOptions;
         private readonly DispatcherTimer _timer;
         private readonly AutoResetEvent _autoResetEvent;
-        private readonly Logger _logger;
+        private readonly LogService _logService;
 
         private CancellationTokenSource _userCts;
         private ImmutableList<DownloadItem> _downloadItems;
@@ -54,7 +54,7 @@ namespace GBCLV3.Services.Download
 
         #region Constructor
 
-        public DownloadService(Logger logger)
+        public DownloadService(LogService logService)
         {
             _client = new HttpClient();
             _client.DefaultRequestHeaders.Connection.Add("keep-alive");
@@ -78,7 +78,7 @@ namespace GBCLV3.Services.Download
             // Update download progress and raise events
             _timer.Tick += (sender, e) => UpdateDownloadProgress();
 
-            _logger = logger;
+            _logService = logService;
         }
 
         #endregion
@@ -87,8 +87,6 @@ namespace GBCLV3.Services.Download
 
         public void Setup(IEnumerable<DownloadItem> downloadItems)
         {
-            _logger.Info(nameof(DownloadService), "Adding download items.");
-
             // Initialize states
             _downloadItems = downloadItems.ToImmutableList();
             _totalBytes = _downloadItems.Sum(item => item.Size);
@@ -108,15 +106,14 @@ namespace GBCLV3.Services.Download
 
             _autoResetEvent.Reset();
 
-            _logger.Info(nameof(DownloadService), $"Items count: {_totalCount}.");
-            _logger.Info(nameof(DownloadService), $"Items size (Bytes): {_totalBytes}.");
+            _logService.Info(nameof(DownloadService), $"New downloads added. Count: {_totalCount} Size: {_totalBytes} bytes");
         }
 
         public async ValueTask<bool> StartAsync()
         {
             while (true)
             {
-                _logger.Info(nameof(DownloadService), "Starting downloads.");
+                _logService.Info(nameof(DownloadService), "Starting all downloads");
                 _timer.Start();
 
                 try
@@ -125,7 +122,7 @@ namespace GBCLV3.Services.Download
                     {
                         for (int i = 0; i < MAX_RETRY_COUNT && !_userCts.IsCancellationRequested; i++)
                         {
-                            if (await DownloadTask(item, i)) break;
+                            if (await DownloadItemAsync(item, i)) break;
                         }
                     }, _parallelOptions);
 
@@ -139,7 +136,7 @@ namespace GBCLV3.Services.Download
                 }
                 catch (OperationCanceledException)
                 {
-                    //_logger.Info(nameof(DownloadService), "Download canceled.");
+                    //_logService.Info(nameof(DownloadService), "Download canceled");
                 }
 
                 _timer.Stop();
@@ -149,7 +146,7 @@ namespace GBCLV3.Services.Download
                 // Succeeded
                 if (_completedCount == _totalCount)
                 {
-                    _logger.Info(nameof(DownloadService), "Downloads all succeeded.");
+                    _logService.Info(nameof(DownloadService), "All downloads successful");
 
                     Completed?.Invoke(DownloadResult.Succeeded);
                     return true;
@@ -167,7 +164,7 @@ namespace GBCLV3.Services.Download
 
                 if (_failedCount > 0 && !_userCts.IsCancellationRequested)
                 {
-                    _logger.Info(nameof(DownloadService), "Downloads incomplete.");
+                    _logService.Info(nameof(DownloadService), "Downloads incomplete");
 
                     Completed?.Invoke(DownloadResult.Incomplete);
                 }
@@ -178,7 +175,7 @@ namespace GBCLV3.Services.Download
                 // Canceled
                 if (_userCts.IsCancellationRequested)
                 {
-                    _logger.Info(nameof(DownloadService), "Downloads canceled.");
+                    _logService.Info(nameof(DownloadService), "Downloads canceled");
 
                     Completed?.Invoke(DownloadResult.Canceled);
                     return false;
@@ -191,7 +188,7 @@ namespace GBCLV3.Services.Download
         /// </summary>
         public void Retry()
         {
-            _logger.Info(nameof(DownloadService), "Retrying incomplete downloads.");
+            _logService.Info(nameof(DownloadService), "Retrying incomplete downloads");
 
             _downloadItems = _downloadItems.Where(item => !item.IsCompleted).ToImmutableList();
             _failedCount = 0;
@@ -199,8 +196,8 @@ namespace GBCLV3.Services.Download
 #if DEBUG
             int remainingCount = _totalCount - _completedCount;
             int remainingBytes = _downloadItems.Sum(item => item.Size);
-            _logger.Debug(nameof(DownloadService), $"Remaining items count: {remainingCount}.");
-            _logger.Debug(nameof(DownloadService), $"Remaining items size (Bytes): {remainingBytes}.");
+            _logService.Debug(nameof(DownloadService), $"Remaining items count: {remainingCount}.");
+            _logService.Debug(nameof(DownloadService), $"Remaining items size (Bytes): {remainingBytes}.");
 #endif
             _autoResetEvent.Set();
         }
@@ -210,7 +207,7 @@ namespace GBCLV3.Services.Download
         /// </summary>
         public void Cancel()
         {
-            _logger.Info(nameof(DownloadService), "Canceling downloads.");
+            _logService.Info(nameof(DownloadService), "Canceling downloads");
 
             _userCts.Cancel();
             _timer.Stop();
@@ -220,7 +217,7 @@ namespace GBCLV3.Services.Download
         public void Dispose()
         {
 #if DEBUG
-            _logger.Debug(nameof(DownloadService), "Disposed.");
+            _logService.Debug(nameof(DownloadService), "Disposed");
 #endif
             _client.Dispose();
             _userCts.Dispose();
@@ -231,13 +228,13 @@ namespace GBCLV3.Services.Download
 
         #region Private Methods
 
-        private async ValueTask<bool> DownloadTask(DownloadItem item, int retryTimes)
+        private async ValueTask<bool> DownloadItemAsync(DownloadItem item, int retryTimes)
         {
             if (_userCts.IsCancellationRequested) return true;
 
             if (retryTimes > 0)
             {
-                _logger.Warn(nameof(DownloadService), $"{item.Url}: Retrying {retryTimes} times.");
+                _logService.Warn(nameof(DownloadService), $"{item.Url}: Retrying {retryTimes} times");
             }
 
             // Make sure directory exists
@@ -297,16 +294,16 @@ namespace GBCLV3.Services.Download
             {
                 if (!_userCts.IsCancellationRequested)
                 {
-                    _logger.Error(nameof(DownloadService), $"{item.Url}: Timeout.");
+                    _logService.Error(nameof(DownloadService), $"{item.Url}: Timeout");
                 }
             }
             catch (HttpRequestException ex)
             {
-                _logger.Error(nameof(DownloadService), $"{item.Url}: HTTP error occurred.\n{ex.Message}");
+                _logService.Error(nameof(DownloadService), $"{item.Url}: HTTP error occurred.\n{ex.Message}");
             }
             catch (Exception ex)
             {
-                _logger.Error(nameof(DownloadService), $"{item.Url}: Unkown error occurred.\n{ex.Message}");
+                _logService.Error(nameof(DownloadService), $"{item.Url}: Unkown error occurred.\n{ex.Message}");
             }
             finally
             {

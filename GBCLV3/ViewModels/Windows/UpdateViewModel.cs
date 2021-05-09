@@ -96,6 +96,7 @@ namespace GBCLV3.ViewModels.Windows
 
         #region Private Methods
 
+        [PropertyChanged.SuppressPropertyChangedWarnings]
         public void OnDownloadCompleted(DownloadResult result)
         {
             if (result == DownloadResult.Incomplete) _downloadService.Cancel();
@@ -104,12 +105,14 @@ namespace GBCLV3.ViewModels.Windows
             _downloadService.ProgressChanged -= OnDownloadProgressChanged;
         }
 
+        [PropertyChanged.SuppressPropertyChangedWarnings]
         public void OnDownloadProgressChanged(DownloadProgress progress)
         {
             DownloadProgress = (double)progress.DownloadedBytes / progress.TotalBytes;
             Percentage = (DownloadProgress * 100.0).ToString("0.0") + '%';
         }
 
+        [PropertyChanged.SuppressPropertyChangedWarnings]
         private async void DisplayUpdateInfo(UpdateInfo info)
         {
             Version = $"{info.Name} - {info.ReleaseTime:yyyy/MM/dd}";

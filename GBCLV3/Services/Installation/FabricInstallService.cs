@@ -5,7 +5,6 @@ using GBCLV3.Services.Launch;
 using StyletIoC;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -28,6 +27,7 @@ namespace GBCLV3.Services.Installation
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         #endregion
@@ -39,11 +39,13 @@ namespace GBCLV3.Services.Installation
             GamePathService gamePathService,
             DownloadUrlService downloadUrlService,
             VersionService versionService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = downloadUrlService;
             _versionService = versionService;
+            _logService = logService;
             _client = client;
         }
 
@@ -53,6 +55,8 @@ namespace GBCLV3.Services.Installation
 
         public async ValueTask<IEnumerable<Fabric>> GetDownloadListAsync(string jarID)
         {
+            _logService.Info(nameof(FabricInstallService), $"Fetching download list for version \"{jarID}\"");
+
             try
             {
                 var json = await _client.GetByteArrayAsync(_urlService.Base.Fabric + jarID);
@@ -60,13 +64,13 @@ namespace GBCLV3.Services.Installation
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(FabricInstallService), $"Failed to fetch download list: HTTP error\n{ex.Message}");
                 return null;
             }
             catch (OperationCanceledException)
             {
-                // AuthTimeout
-                Debug.WriteLine("[ERROR] Get fabric download list timeout");
+                // Timeout
+                _logService.Error(nameof(FabricInstallService), $"Failed to fetch download list: Timeout");
                 return null;
             }
 
@@ -74,6 +78,8 @@ namespace GBCLV3.Services.Installation
 
         public Version Install(Fabric fabric)
         {
+            _logService.Info(nameof(FabricInstallService), $"Installing fabric for \"{fabric.Intermediary.Version}\". Version: {fabric.Loader.Version} Build: {fabric.Loader.Build}");
+
             var jver = new JVersion
             {
                 id = $"{fabric.Intermediary.Version}-fabric-{fabric.Loader.Version}",

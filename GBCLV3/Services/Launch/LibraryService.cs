@@ -119,8 +119,8 @@ namespace GBCLV3.Services.Launch
                 {
                     using var entryStream = entry.Open();
                     using var fileStream = File.OpenWrite($"{_gamePathService.NativesDir}/{entry.FullName}");
-                    await entryStream.CopyToAsync(fileStream);
-                    await fileStream.FlushAsync();
+                    await entryStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                    await fileStream.FlushAsync().ConfigureAwait(false);
                 }
             }
         }

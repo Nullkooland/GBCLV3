@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Services
 {
-    public class Logger
+    public class LogService
     {
         //private const int MAX_MESSAGE_COUNT = 4096;
 
@@ -20,14 +20,14 @@ namespace GBCLV3.Services
 
         #region Constructor
 
-        public Logger()
+        public LogService()
         {
             _outputJobs = new ActionBlock<LogMessage>(async logMessage =>
             {
                 await WriteLogAsync(logMessage);
             });
 
-            _writer = new StreamWriter(LOG_FILE, true);
+            _writer = new StreamWriter(LOG_FILE);
         }
 
         #endregion
@@ -70,6 +70,15 @@ namespace GBCLV3.Services
             _outputJobs.Completion.Wait();
             _writer.Flush();
             _writer.Dispose();
+        }
+
+        public string ReadLogs()
+        {
+            _writer.Flush();
+
+            using var fs = File.Open(LOG_FILE, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var reader = new StreamReader(fs);
+            return reader.ReadToEnd();
         }
 
         public void ClearLogs()

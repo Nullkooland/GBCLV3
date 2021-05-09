@@ -36,6 +36,7 @@ namespace GBCLV3.Services.Launch
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly LibraryService _libraryService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         #endregion
@@ -47,12 +48,14 @@ namespace GBCLV3.Services.Launch
             GamePathService gamePathService,
             DownloadUrlService urlService,
             LibraryService libraryService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
             _libraryService = libraryService;
             _client = client;
+            _logService = logService;
 
             _versions = new Dictionary<string, Version>(8);
         }
@@ -63,10 +66,10 @@ namespace GBCLV3.Services.Launch
 
         public bool LoadAll()
         {
-            _versions.Clear();
-
             if (!Directory.Exists(_gamePathService.VersionsDir))
             {
+                _logService.Warn(nameof(VersionService), "Cannot find game versions directory");
+
                 Loaded?.Invoke(false);
                 return false;
             }
@@ -80,6 +83,7 @@ namespace GBCLV3.Services.Launch
 
             var inheritVersions = new List<Version>(8);
 
+            _versions.Clear();
             foreach (var version in availableVersions)
             {
                 _versions.Add(version.ID, version);
@@ -89,11 +93,6 @@ namespace GBCLV3.Services.Launch
             foreach (var version in inheritVersions) InheritParentProperties(version);
 
             Loaded?.Invoke(_versions.Any());
-            return _versions.Any();
-        }
-
-        public bool Any()
-        {
             return _versions.Any();
         }
 
@@ -116,6 +115,8 @@ namespace GBCLV3.Services.Launch
 
         public Version AddNew(string jsonPath)
         {
+            _logService.Info(nameof(VersionService), "Adding new version");
+
             var newVersion = Load(jsonPath);
 
             if (newVersion != null)
@@ -134,8 +135,10 @@ namespace GBCLV3.Services.Launch
             return newVersion;
         }
 
-        public async Task DeleteFromDiskAsync(string id, bool isDeleteLibs)
+        public void DeleteFromDisk(string id, bool isDeleteLibs)
         {
+            _logService.Info(nameof(VersionService), $"Deleting version {id}");
+
             if (_versions.TryGetValue(id, out var versionToDelete))
             {
                 _versions.Remove(id);
@@ -147,6 +150,8 @@ namespace GBCLV3.Services.Launch
                 // Delete unused libraries
                 if (isDeleteLibs)
                 {
+                    _logService.Info(nameof(VersionService), $"Deleting version {id} libraries");
+
                     var libsToDelete = versionToDelete.Libraries as IEnumerable<Library>;
 
                     if (_versions.Any())
@@ -187,6 +192,8 @@ namespace GBCLV3.Services.Launch
 
                     if (Directory.Exists(_gamePathService.LibrariesDir))
                     {
+                        _logService.Info(nameof(VersionService), $"Cleaning up empty lib directories");
+
                         CleanEmptyDirs(_gamePathService.LibrariesDir);
                     }
                 }
@@ -195,6 +202,8 @@ namespace GBCLV3.Services.Launch
 
         public async ValueTask<IEnumerable<VersionDownload>> GetDownloadListAsync()
         {
+            _logService.Info(nameof(VersionService), "Fetching version downloads list");
+
             try
             {
                 var json = await _client.GetByteArrayAsync(_urlService.Base.VersionList);
@@ -211,19 +220,22 @@ namespace GBCLV3.Services.Launch
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(VersionService), $"Failed to fetch version downloads list: HTTP error\n{ex.Message}");
+
                 return null;
             }
             catch (OperationCanceledException)
             {
-                // AuthTimeout
-                Debug.WriteLine("[ERROR] Get version download list timeout");
+                _logService.Error(nameof(VersionService), "Failed to fetch version downloads list: Timeout");
+
                 return null;
             }
         }
 
         public async ValueTask<byte[]> GetJsonAsync(VersionDownload download)
         {
+            _logService.Info(nameof(VersionService), $"Fetching json for version: \"{download.ID}\"");
+
             try
             {
                 return await _client.GetByteArrayAsync(_urlService.Base.Json + download.Url)
@@ -231,13 +243,14 @@ namespace GBCLV3.Services.Launch
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(VersionService), $"Failed to fetch version json: HTTP error\n{ex.Message}");
+
                 return null;
             }
             catch (OperationCanceledException)
             {
-                // AuthTimeout
-                Debug.WriteLine("[ERROR] Get version download list timeout");
+                _logService.Error(nameof(VersionService), "Failed to fetch version json: Timeout");
+
                 return null;
             }
         }
@@ -276,12 +289,18 @@ namespace GBCLV3.Services.Launch
                 var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 jver = JsonSerializer.Deserialize<JVersion>(json);
             }
-            catch
+            catch(JsonException ex)
             {
+                _logService.Error(nameof(VersionService), $"Load aborted: Failed to read version json.\n{ex.Message}");
+
                 return null;
             }
 
-            if (!IsValidVersion(jver)) return null;
+            if (!IsValidVersion(jver))
+            {
+                _logService.Warn(nameof(VersionService), "Load aborted: Not a valid version");
+                return null;
+            }
 
             var version = new Version
             {
@@ -339,6 +358,8 @@ namespace GBCLV3.Services.Launch
                 };
             }
 
+            _logService.Info(nameof(VersionService), $"Version: \"{version.ID}\" loaded. Type: \"{version.Type}\"");
+
             return version;
         }
 
@@ -370,9 +391,12 @@ namespace GBCLV3.Services.Launch
                 version.SHA1 = parent.SHA1;
                 version.Url = parent.Url;
                 version.CompatibilityVersion = parent.CompatibilityVersion;
+
+                _logService.Info(nameof(VersionService), $"Version: \"{version.ID}\" inherited properties from parent: \"{parent.ID}\"");
             }
             else
             {
+                _logService.Warn(nameof(VersionService), $"Version: \"{version.ID}\" cannot find parent: \"{version.InheritsFrom}\"");
                 _versions.Remove(version.ID);
             }
         }

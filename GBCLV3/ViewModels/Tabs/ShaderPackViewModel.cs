@@ -92,6 +92,7 @@ namespace GBCLV3.ViewModels.Tabs
             OnEnableStatusChanged(pack);
         }
 
+        [PropertyChanged.SuppressPropertyChangedWarnings]
         public void OnEnableStatusChanged(ShaderPack pack)
         {
             if (pack.IsEnabled)
@@ -119,7 +120,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
 
             Packs.Remove(pack);
-            _shaderPackService.DeleteFromDiskAsync(pack);
+            _shaderPackService.DeleteFromDisk(pack);
         }
 
         public void SaveToOptions() => _shaderPackService.WriteToOptions(_enabledPack);
