@@ -1,8 +1,8 @@
-﻿using GBCLV3.Services;
+﻿using System.Collections.Generic;
+using GBCLV3.Services;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
 
 namespace GBCLV3.ViewModels.Pages
 {

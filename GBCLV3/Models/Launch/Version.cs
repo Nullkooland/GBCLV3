@@ -1,8 +1,8 @@
-﻿using GBCLV3.Models.Download;
-using GBCLV3.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using GBCLV3.Models.Download;
+using GBCLV3.Utils.Binding;
 
 namespace GBCLV3.Models.Launch
 {

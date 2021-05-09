@@ -21,10 +21,6 @@
         </Style>
     </ContentControl.Resources>
 
-    <ContentControl.InputBindings>
-        <KeyBinding Key="F5" Command="{s:Action Reload}" />
-    </ContentControl.InputBindings>
-
     <GroupBox
         Grid.Row="1"
         Grid.ColumnSpan="4"
@@ -72,10 +68,9 @@
                     Content="&#xE8C8;"
                     FontFamily="Segoe MDL2 Assets"
                     FontSize="16"
-                    IsChecked="{Binding IsCopyMods, Mode=TwoWay}"
+                    IsChecked="{Binding IsCopy, Mode=TwoWay}"
                     Style="{StaticResource {x:Static adonisUI:Styles.ToolbarToggleButton}}"
-                    ToolTip="{DynamicResource CopyMods}"
-                    ToolTipService.HorizontalOffset="-240"
+                    ToolTip="{DynamicResource CopyFilesOnAdd}"
                     ToolTipService.Placement="Relative"
                     ToolTipService.VerticalOffset="32" />
             </Grid>
@@ -84,7 +79,7 @@
         <ListBox
             AllowDrop="True"
             BorderThickness="1"
-            Drop="{s:Action OnDropMods}"
+            Drop="{s:Action OnDrop}"
             ItemsSource="{Binding Mods, Mode=OneWay}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled"
             ScrollViewer.VerticalScrollBarVisibility="Auto"
@@ -125,7 +120,7 @@
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             FontSize="14"
-                            Text="{Binding Name, Mode=OneWay}" />
+                            Text="{Binding Id, Mode=OneWay}" />
 
                         <TextBlock
                             x:Name="FileNameBox"
@@ -171,9 +166,9 @@
 
             <ListBox.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Command="{s:Action Enable}" Header="{DynamicResource EnableSelected}" />
+                    <MenuItem Command="{s:Action Enable}" Header="{DynamicResource EnableSelectedMods}" />
 
-                    <MenuItem Command="{s:Action Disable}" Header="{DynamicResource DisableSelected}" />
+                    <MenuItem Command="{s:Action Disable}" Header="{DynamicResource DisableSelectedMods}" />
 
                     <MenuItem Command="{s:Action Delete}" Header="{DynamicResource Delete}" />
                 </ContextMenu>

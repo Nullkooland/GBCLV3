@@ -1,8 +1,4 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Models.Download;
-using GBCLV3.Utils;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,7 +6,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Windows;
+using GBCLV3.Models.Download;
+using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services.Download
 {
@@ -29,19 +27,24 @@ namespace GBCLV3.Services.Download
         private UpdateInfo _cachedInfo;
 
         // IoC
-        private readonly Config _config;
+        private readonly ConfigService _configService;
         private readonly HttpClient _client;
+        private readonly LogService _logService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public UpdateService(ConfigService configService, HttpClient client)
+        public UpdateService(
+            ConfigService configService, 
+            HttpClient client,
+            LogService logService)
         {
-            _config = configService.Entries;
+            _configService = configService;
             _client = client;
             _client.DefaultRequestHeaders.Add("User-Agent", "request");
+            _logService = logService;
         }
 
         #endregion
@@ -50,16 +53,23 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<UpdateInfo> CheckAsync()
         {
-            if (_cachedInfo != null) return _cachedInfo;
+            if (_cachedInfo != null)
+            {
+                return _cachedInfo;
+            }
+
+            _logService.Info(nameof(UpdateService), "Checking launcher update");
 
             try
             {
                 CheckStatusChanged?.Invoke(CheckUpdateStatus.Checking);
-                var json = await _client.GetByteArrayAsync(CHECK_UPDATE_URL);
+                byte[] json = await _client.GetByteArrayAsync(CHECK_UPDATE_URL);
                 var info = JsonSerializer.Deserialize<UpdateInfo>(json);
 
                 if (HasNewVersion(info.Version))
                 {
+                    _logService.Info(nameof(UpdateService), $"New update available. Version: {info.Version}");
+
                     CheckStatusChanged?.Invoke(CheckUpdateStatus.UpdateAvailable);
                     _cachedInfo = info;
                     return info;
@@ -67,10 +77,13 @@ namespace GBCLV3.Services.Download
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(UpdateService), $"Failed to check update.\n{ex.Message}");
+
                 CheckStatusChanged?.Invoke(CheckUpdateStatus.CheckFailed);
                 return null;
             }
+
+            _logService.Info(nameof(UpdateService), "Launcher is up to date");
 
             CheckStatusChanged?.Invoke(CheckUpdateStatus.UpToDate);
             return null;
@@ -78,20 +91,30 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<UpdateChangelog> GetChangelogAsync(UpdateInfo info)
         {
-            var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
+            _logService.Info(nameof(UpdateService), "Fetching changelog");
 
+            var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
             try
             {
-                var json = await _client.GetByteArrayAsync(changelogAsset.Url);
+                byte[] json = await _client.GetByteArrayAsync(changelogAsset.Url);
                 var changelogByLang = JsonSerializer.Deserialize<Dictionary<string, UpdateChangelog>>(json);
+                string langTag = _configService.Entries.Language;
 
-                return changelogByLang.ContainsKey(_config.Language)
-                    ? changelogByLang[_config.Language]
-                    : changelogByLang["en-US"];
+                if (changelogByLang.TryGetValue(langTag, out var changelog))
+                {
+                    _logService.Info(nameof(UpdateService), $"Got changelog in {langTag}");
+
+                    return changelog;
+                }
+
+                // Fallback to en-US changelog
+                _logService.Info(nameof(UpdateService), $"Got fallback changelog in en-US");
+
+                return changelogByLang["en-US"];
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(UpdateService), $"Failed to fetch changelog.\n{ex.Message}");
                 return null;
             }
         }
@@ -107,15 +130,23 @@ namespace GBCLV3.Services.Download
                 Url = executableAsset.Url,
                 Size = executableAsset.Size,
                 IsCompleted = false,
-                DownloadedBytes = 0,
             };
 
-            return new[] { item };
+            return Enumerable.Repeat(item, 1);
         }
 
         public void Update()
         {
+            _logService.Info(nameof(UpdateService), "Self-updating using PowerShell script");
+
             int currentPID = Process.GetCurrentProcess().Id;
+
+            _logService.Info(nameof(UpdateService), $"Current PID: {currentPID}");
+
+            // Remember to save log and config file before update.
+            _logService.Finish();
+            _configService.Save();
+
             string psCommand =
                 $"Stop-Process -Id {currentPID} -Force;" +
                 $"Wait-Process -Id {currentPID} -ErrorAction SilentlyContinue;" +
@@ -137,7 +168,7 @@ namespace GBCLV3.Services.Download
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex);
+                _logService.Error(nameof(UpdateService), $"Faile to execute update script.\n{ex.Message}");
             }
         }
 

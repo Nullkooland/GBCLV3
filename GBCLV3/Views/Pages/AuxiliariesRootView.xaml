@@ -10,8 +10,12 @@
             <ContentControl s:View.Model="{Binding ModVM}" />
         </TabItem>
 
-        <TabItem Header="&#xE7B8;" Tag="{DynamicResource Resourcepacks}">
+        <TabItem Header="&#xE7B8;" Tag="{DynamicResource ResourcePacks}">
             <ContentControl s:View.Model="{Binding ResourcePackVM}" />
+        </TabItem>
+
+        <TabItem Header="&#xE793;" Tag="{DynamicResource ShaderPacks}">
+            <ContentControl s:View.Model="{Binding ShaderPackVM}" />
         </TabItem>
 
         <!--<TabItem Header="&#xEA35;" Tag="{DynamicResource Saves}">

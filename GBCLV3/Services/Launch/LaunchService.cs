@@ -1,12 +1,12 @@
-﻿using GBCLV3.Models.Launch;
-using GBCLV3.Utils;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Launch;
+using GBCLV3.Utils;
+using StyletIoC;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Launch
@@ -16,8 +16,6 @@ namespace GBCLV3.Services.Launch
         #region Events
 
         public event Action<string> LogReceived;
-
-        public event Action<string> ErrorReceived;
 
         public event Action<int> Exited;
 
@@ -29,15 +27,17 @@ namespace GBCLV3.Services.Launch
 
         // IoC
         private readonly GamePathService _gamePathService;
+        private readonly LogService _logService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public LaunchService(GamePathService gamePathService)
+        public LaunchService(GamePathService gamePathService, LogService logService)
         {
             _gamePathService = gamePathService;
+            _logService = logService;
         }
 
         #endregion
@@ -59,14 +59,14 @@ namespace GBCLV3.Services.Launch
             _gameProcess = Process.Start(startInfo);
 
             _gameProcess.EnableRaisingEvents = true;
-            _gameProcess.Exited += (s, e) => Exited?.Invoke(_gameProcess.ExitCode);
+            _gameProcess.Exited += OnExited;
 
             if (!profile.IsDebugMode)
             {
-                _gameProcess.ErrorDataReceived += (s, e) => ErrorReceived?.Invoke(e.Data);
-                _gameProcess.BeginErrorReadLine();
+                _gameProcess.OutputDataReceived += OnOutputDataReceived;
+                _gameProcess.ErrorDataReceived += OnErrorDaraReceived;
 
-                _gameProcess.OutputDataReceived += (s, e) => LogReceived?.Invoke(e.Data);
+                _gameProcess.BeginErrorReadLine();
                 _gameProcess.BeginOutputReadLine();
 
                 if (!_gameProcess.HasExited)
@@ -78,9 +78,35 @@ namespace GBCLV3.Services.Launch
             return !_gameProcess.HasExited;
         }
 
+        private void OnOutputDataReceived(object sender, DataReceivedEventArgs e)
+        {
+            LogReceived?.Invoke(e.Data);
+        }
+
+        private void OnErrorDaraReceived(object sender, DataReceivedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(e.Data))
+            {
+                return;
+            }
+
+            _logService.Minecraft(e.Data);
+        }
+
+        private void OnExited(object sender, EventArgs e)
+        {
+            _gameProcess.Exited -= OnExited;
+            _gameProcess.OutputDataReceived -= OnOutputDataReceived;
+            _gameProcess.ErrorDataReceived -= OnErrorDaraReceived;
+
+            _logService.Info(nameof(LaunchService), $"Game exited with {_gameProcess.ExitCode}");
+            Exited?.Invoke(_gameProcess.ExitCode);
+        }
+
         #endregion
 
         #region Private Methods
+
 
         private string BuildArguments(LaunchProfile profile, Version version)
         {
@@ -126,7 +152,11 @@ namespace GBCLV3.Services.Launch
             builder.Append("-cp \"");
             foreach (var lib in version.Libraries)
             {
-                if (lib.Type == LibraryType.Native) continue;
+                if (lib.Type == LibraryType.Native)
+                {
+                    continue;
+                }
+
                 builder.Append($"{_gamePathService.LibrariesDir}/{lib.Path};");
             }
 
@@ -164,12 +194,35 @@ namespace GBCLV3.Services.Launch
                 argsDict["--assetIndex"] = version.AssetsInfo.ID;
             }
 
-            if (argsDict.ContainsKey("--uuid")) argsDict["--uuid"] = profile.Account.UUID;
-            if (argsDict.ContainsKey("--accessToken")) argsDict["--accessToken"] = profile.Account.AccessToken;
-            if (argsDict.ContainsKey("--session")) argsDict["--session"] = profile.Account.AccessToken;
-            if (argsDict.ContainsKey("--userType")) argsDict["--userType"] = "mojang";
-            if (argsDict.ContainsKey("--versionType")) argsDict["--versionType"] = profile.VersionType;
-            if (argsDict.ContainsKey("--userProperties")) argsDict["--userProperties"] = "{}";
+            if (argsDict.ContainsKey("--uuid"))
+            {
+                argsDict["--uuid"] = profile.Account.UUID;
+            }
+
+            if (argsDict.ContainsKey("--accessToken"))
+            {
+                argsDict["--accessToken"] = profile.Account.AccessToken;
+            }
+
+            if (argsDict.ContainsKey("--session"))
+            {
+                argsDict["--session"] = profile.Account.AccessToken;
+            }
+
+            if (argsDict.ContainsKey("--userType"))
+            {
+                argsDict["--userType"] = "mojang";
+            }
+
+            if (argsDict.ContainsKey("--versionType"))
+            {
+                argsDict["--versionType"] = profile.VersionType;
+            }
+
+            if (argsDict.ContainsKey("--userProperties"))
+            {
+                argsDict["--userProperties"] = "{}";
+            }
 
             string args = string.Join(" ", argsDict.Select(pair => pair.Key + ' ' + pair.Value));
             builder.Append(args).Append(' ');
@@ -204,10 +257,12 @@ namespace GBCLV3.Services.Launch
                 builder.Append(' ').Append(profile.ExtraArgs);
             }
 
-            Debug.WriteLine(builder.ToString());
-
             // Build Complete
-            return builder.ToString();
+            string launchArgs = builder.ToString();
+
+            _logService.Info(nameof(LaunchService), $"Launch arguments:\n{launchArgs}");
+
+            return launchArgs;
         }
 
         #endregion

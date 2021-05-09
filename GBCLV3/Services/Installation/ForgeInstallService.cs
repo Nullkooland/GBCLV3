@@ -1,9 +1,4 @@
-﻿using GBCLV3.Models.Download;
-using GBCLV3.Models.Installation;
-using GBCLV3.Services.Download;
-using GBCLV3.Services.Launch;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -15,7 +10,13 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
+using GBCLV3.Utils;
+using StyletIoC;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
@@ -37,6 +38,7 @@ namespace GBCLV3.Services.Installation
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly VersionService _versionService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         #endregion
@@ -48,11 +50,13 @@ namespace GBCLV3.Services.Installation
             GamePathService gamePathService,
             DownloadUrlService urlService,
             VersionService versionService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
             _versionService = versionService;
+            _logService = logService;
             _client = client;
         }
 
@@ -67,9 +71,11 @@ namespace GBCLV3.Services.Installation
 
         public async ValueTask<IEnumerable<Forge>> GetDownloadListAsync(string jarID)
         {
+            _logService.Info(nameof(ForgeInstallService), $"Fetching download list for version \"{jarID}\"");
+
             try
             {
-                var json = await _client.GetByteArrayAsync(_urlService.Base.ForgeList + jarID);
+                byte[] json = await _client.GetByteArrayAsync(_urlService.Base.ForgeList + jarID);
                 var forgeList = JsonSerializer.Deserialize<List<JForgeVersion>>(json);
 
                 return forgeList.Select(jforge =>
@@ -86,13 +92,13 @@ namespace GBCLV3.Services.Installation
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(ForgeInstallService), $"Failed to fetch download list: HTTP error\n{ex.Message}");
                 return null;
             }
             catch (OperationCanceledException)
             {
-                // AuthTimeout
-                Debug.WriteLine("[ERROR] Get forge download list timeout");
+                // Timeout
+                _logService.Error(nameof(ForgeInstallService), $"Failed to fetch download list: Timeout");
                 return null;
             }
         }
@@ -114,7 +120,7 @@ namespace GBCLV3.Services.Installation
                 DownloadedBytes = 0,
             };
 
-            return new[] { item };
+            return Enumerable.Repeat(item, 1);
         }
 
         public IEnumerable<JLibrary> GetJLibraries(Forge forge)
@@ -148,11 +154,15 @@ namespace GBCLV3.Services.Installation
 
         public Version InstallOld(Forge forge)
         {
+            _logService.Info(nameof(ForgeInstallService), $"Installing old forge. Version: {forge.ID} Build: {forge.Build}");
+
             string jsonPath = $"{_gamePathService.VersionsDir}/{forge.ID}/{forge.ID}.json";
             string jarPath = $"{_gamePathService.ForgeLibDir}/{forge.FullName}/forge-{forge.FullName}.jar";
 
             if (!File.Exists(jarPath))
             {
+                _logService.Warn(nameof(ForgeInstallService), $"Cannot find forge jar, installation aborted");
+
                 return null;
             }
 
@@ -173,13 +183,18 @@ namespace GBCLV3.Services.Installation
 
         public async ValueTask<Version> InstallAsync(Forge forge)
         {
+            _logService.Info(nameof(ForgeInstallService), $"Installing forge. Version: {forge.ID} Build: {forge.Build}");
+
             // Just a dummy json...but required by forge installer
             string profilePath = $"{_gamePathService.RootDir}/launcher_profiles.json";
-            if (!File.Exists(profilePath)) File.WriteAllText(profilePath, "{}");
+            if (!File.Exists(profilePath))
+            {
+                File.WriteAllText(profilePath, "{}");
+            }
 
             // Extract forge-install-bootstrapper to disk
             // See https://github.com/bangbang93/forge-install-bootstrapper
-            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar"; 
+            string bootstrapperPath = $"{_gamePathService.RootDir}/forge-install-bootstrapper.jar";
             var embeddedStream = Application.GetResourceStream(new Uri(FORGE_INSTALL_BOOTSTRAPPER)).Stream;
             var extractFileStream = File.OpenWrite(bootstrapperPath);
 
@@ -187,13 +202,15 @@ namespace GBCLV3.Services.Installation
             embeddedStream.Dispose();
             extractFileStream.Dispose();
 
+            _logService.Info(nameof(ForgeInstallService), "Install bootstrapper extracted");
+
             // Prepare arguments for bootstrapper
             string installerPath = $"{_gamePathService.RootDir}/{forge.FullName}-installer.jar";
 
-            var args = $"-cp \"{bootstrapperPath};{installerPath}\" " +
+            string args = $"-cp \"{bootstrapperPath};{installerPath}\" " +
                        "com.bangbang93.ForgeInstaller .";
 
-            Debug.WriteLine(args);
+            _logService.Debug(nameof(ForgeInstallService), $"Launching install bootstrapper, args:\n{args}");
 
             var startInfo = new ProcessStartInfo
             {
@@ -215,15 +232,17 @@ namespace GBCLV3.Services.Installation
                 process.OutputDataReceived += (_, e) =>
                 {
                     string message = e.Data;
-                    InstallProgressChanged?.Invoke(message);
+
                     if (message == "true")
                     {
                         isSuccessful = true;
                     }
+
+                    InstallProgressChanged?.Invoke(message);
                 };
 
                 process.BeginOutputReadLine();
-                await Task.Run(() => process.WaitForExit());
+                await process.WaitForExitAsync();
 
                 string jsonPath = $"{_gamePathService.VersionsDir}/{forge.ID}/{forge.ID}.json";
 
@@ -231,6 +250,9 @@ namespace GBCLV3.Services.Installation
                 {
                     // Cleanup remaining json
                     Directory.Delete(jsonPath);
+
+                    _logService.Warn(nameof(ForgeInstallService), "Installation failed");
+
                     return null;
                 }
 
@@ -239,7 +261,8 @@ namespace GBCLV3.Services.Installation
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Warn(nameof(ForgeInstallService), $"Installation failed\n{ex.Message}");
+
                 return null;
             }
             finally

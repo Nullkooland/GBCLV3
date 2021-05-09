@@ -1,4 +1,11 @@
-﻿using GBCLV3.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
+using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launch;
@@ -7,13 +14,6 @@ using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -31,6 +31,7 @@ namespace GBCLV3.ViewModels.Tabs
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
         private readonly AssetService _assetService;
+        private readonly DownloadService _downloadService;
 
         private readonly DownloadStatusViewModel _downloadStatusVM;
 
@@ -47,21 +48,27 @@ namespace GBCLV3.ViewModels.Tabs
             VersionService versionService,
             LibraryService libraryService,
             AssetService assetService,
+            DownloadService downloadService,
 
-            DownloadStatusViewModel downloadVM,
-            IWindowManager windowManager)
+            IWindowManager windowManager,
+            DownloadStatusViewModel downloadVM)
         {
             _config = configService.Entries;
             _gamePathService = gamePathService;
             _versionService = versionService;
             _libraryService = libraryService;
             _assetService = assetService;
+            _downloadService = downloadService;
 
             _versionDownloads = new BindableCollection<VersionDownload>();
             VersionDownloads = CollectionViewSource.GetDefaultView(_versionDownloads);
             VersionDownloads.Filter = obj =>
             {
-                if (_isReleaseOnly) return (obj as VersionDownload).Type == VersionType.Release;
+                if (_isReleaseOnly)
+                {
+                    return (obj as VersionDownload).Type == VersionType.Release;
+                }
+
                 return true;
             };
 
@@ -114,7 +121,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
 
             Status = VersionInstallStatus.FetchingJson;
-            var json = await _versionService.GetJsonAsync(download);
+            byte[] json = await _versionService.GetJsonAsync(download);
 
             if (json == null)
             {
@@ -171,11 +178,11 @@ namespace GBCLV3.ViewModels.Tabs
 
         private async ValueTask<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
-            using var downloadService = new DownloadService(items);
-            _downloadStatusVM.Setup(type, downloadService);
+            _downloadService.Setup(items);
+            _downloadStatusVM.Setup(type, _downloadService);
             this.ActivateItem(_downloadStatusVM);
 
-            return await downloadService.StartAsync();
+            return await _downloadService.StartAsync();
         }
 
         protected override async void OnActivate()

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows;
 using GBCLV3.Models;
 using GBCLV3.Models.Download;
@@ -123,7 +125,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
         }
 
-        public string[] SystemFontNames => _themeService.GetSystemFontNames();
+        public IReadOnlyList<string> SystemFontNames => _themeService.GetSystemFontNames();
 
         public string SelectedFontFamily
         {
@@ -131,7 +133,7 @@ namespace GBCLV3.ViewModels.Tabs
             set => _themeService.FontFamily = value;
         }
 
-        public string[] FontWeights => _themeService.GetFontWeights();
+        public IReadOnlyList<string> FontWeights => _themeService.FontWeights;
 
         public string SelectedFontWeight
         {
@@ -141,7 +143,10 @@ namespace GBCLV3.ViewModels.Tabs
 
         public async void CheckUpdate()
         {
-            if (CheckStatus == CheckUpdateStatus.UpToDate) return;
+            if (CheckStatus == CheckUpdateStatus.UpToDate)
+            {
+                return;
+            }
 
             var info = await _updateService.CheckAsync();
 
@@ -154,10 +159,16 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void SelectBackgoundImagePath()
         {
+            var sb = new StringBuilder("Images |");
+            foreach (string extenstion in ThemeService.ImageExtenstions)
+            {
+                sb.Append($"*{extenstion};");
+            }
+
             var dialog = new Microsoft.Win32.OpenFileDialog()
             {
                 Title = _languageService.GetEntry("SelectImagePath"),
-                Filter = "Images | *.jpg; *.jpeg; *.jfif; *.bmp; *.png; *.tif; *.tiff; *.webp;",
+                Filter = sb.ToString(),
             };
 
             if (dialog.ShowDialog() ?? false)
@@ -172,7 +183,10 @@ namespace GBCLV3.ViewModels.Tabs
 
         protected override void OnViewLoaded()
         {
-            if (CheckStatus == CheckUpdateStatus.CheckFailed) CheckStatus = CheckUpdateStatus.Unknown;
+            if (CheckStatus == CheckUpdateStatus.CheckFailed)
+            {
+                CheckStatus = CheckUpdateStatus.Unknown;
+            }
         }
 
         #endregion

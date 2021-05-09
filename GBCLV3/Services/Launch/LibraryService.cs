@@ -1,13 +1,14 @@
-﻿using GBCLV3.Models.Download;
-using GBCLV3.Models.Launch;
-using GBCLV3.Services.Download;
-using StyletIoC;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
 using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services.Launch
 {
@@ -42,10 +43,16 @@ namespace GBCLV3.Services.Launch
                 // Ironically, these libs only appear in 1.7.10 - 1.8.9, not found in latter versions' json :D
                 // Also can cause troubles latter (and I don't wanna deal with that particular scenario)
                 // Might as well just ignore them! (Yes, I'm slacking off, LOL)
-                if (jlib.name.StartsWith("tv.twitch")) continue;
+                if (jlib.name.StartsWith("tv.twitch"))
+                {
+                    continue;
+                }
 
-                var names = jlib.name.Split(':');
-                if (names.Length != 3 || !IsLibAllowed(jlib.rules)) continue;
+                string[] names = jlib.name.Split(':');
+                if (names.Length != 3 || !IsLibAllowed(jlib.rules))
+                {
+                    continue;
+                }
 
                 if (jlib.natives == null)
                 {
@@ -86,7 +93,10 @@ namespace GBCLV3.Services.Launch
                 else
                 {
                     string suffix = jlib.natives["windows"];
-                    if (suffix.EndsWith("${arch}")) suffix = suffix.Replace("${arch}", "64");
+                    if (suffix.EndsWith("${arch}"))
+                    {
+                        suffix = suffix.Replace("${arch}", "64");
+                    }
 
                     var nativeLibInfo = jlib.downloads?.classifiers[suffix];
 
@@ -105,31 +115,36 @@ namespace GBCLV3.Services.Launch
             }
         }
 
-        public void ExtractNatives(IEnumerable<Library> nativeLibraries)
+        public async Task ExtractNativesAsync(IEnumerable<Library> libraries)
         {
             // Make sure directory exists
             Directory.CreateDirectory(_gamePathService.NativesDir);
 
-            foreach (var native in nativeLibraries)
+            foreach (var native in libraries.Where(lib => lib.Type == LibraryType.Native))
             {
                 using var archive = ZipFile.OpenRead($"{_gamePathService.LibrariesDir}/{native.Path}");
                 // You know what, the "Exclude" property is a joke...
                 foreach (var entry in archive.Entries.Where(e => !e.FullName.StartsWith("META-INF")))
                 {
-                    entry.ExtractToFile($"{_gamePathService.NativesDir}/{entry.FullName}", true);
+                    using var entryStream = entry.Open();
+                    using var fileStream = File.OpenWrite($"{_gamePathService.NativesDir}/{entry.FullName}");
+                    await entryStream.CopyToAsync(fileStream).ConfigureAwait(false);
+                    await fileStream.FlushAsync().ConfigureAwait(false);
                 }
             }
         }
 
-        public Task<Library[]> CheckIntegrityAsync(IEnumerable<Library> libraries)
+        public Task<ImmutableArray<Library>> CheckIntegrityAsync(IEnumerable<Library> libraries)
         {
-            var query = libraries.Where(lib =>
-            {
-                string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
-                return !File.Exists(libPath) || (lib.SHA1 != null && !CryptUtil.ValidateFileSHA1(libPath, lib.SHA1));
-            });
+            var query = libraries
+                .AsParallel()
+                .Where(lib =>
+                {
+                    string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
+                    return !File.Exists(libPath) || (lib.SHA1 != null && !CryptoUtil.ValidateFileSHA1(libPath, lib.SHA1));
+                });
 
-            return Task.FromResult(query.ToArray());
+            return Task.FromResult(query.ToImmutableArray());
         }
 
         public IEnumerable<DownloadItem> GetDownloads(IEnumerable<Library> libraries)
@@ -169,9 +184,12 @@ namespace GBCLV3.Services.Launch
 
         private static bool IsLibAllowed(List<JRule> rules)
         {
-            if (rules == null) return true;
+            if (rules == null)
+            {
+                return true;
+            }
 
-            var isAllowed = false;
+            bool isAllowed = false;
             foreach (var rule in rules)
             {
                 if (rule.os == null)
@@ -180,7 +198,10 @@ namespace GBCLV3.Services.Launch
                     continue;
                 }
 
-                if (rule.os.name == "windows") isAllowed = rule.action == "allow";
+                if (rule.os.name == "windows")
+                {
+                    isAllowed = rule.action == "allow";
+                }
             }
 
             return isAllowed;

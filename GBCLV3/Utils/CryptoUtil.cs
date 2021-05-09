@@ -5,12 +5,27 @@ using System.Text;
 
 namespace GBCLV3.Utils
 {
-    public static class CryptUtil
+    public static class CryptoUtil
     {
-        public static string Guid => System.Guid.NewGuid().ToString("N");
+        #region Private Constants
 
         private static readonly char[] _hexTable =
             { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f' };
+
+        #endregion Region
+
+        #region Public Methods
+
+        public static ReadOnlySpan<byte> RemoveUtf8BOM(ReadOnlySpan<byte> data)
+        {
+            // Read past the UTF-8 BOM bytes if a BOM exists.
+            if (data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF)
+            {
+                return data[3..];
+            }
+
+            return data;
+        }
 
         public static string GetStringMD5(string str)
         {
@@ -30,7 +45,7 @@ namespace GBCLV3.Utils
         {
             using var sha1Provider = new SHA1CryptoServiceProvider();
             using var fileStream = File.OpenRead(path);
-            var sha1Bytes = sha1Provider.ComputeHash(fileStream);
+            byte[] sha1Bytes = sha1Provider.ComputeHash(fileStream);
 
             for (int i = 0; i < sha1Bytes.Length; i++)
             {
@@ -50,7 +65,7 @@ namespace GBCLV3.Utils
         {
             using var sha1Provider = new SHA256CryptoServiceProvider();
             using var fileStream = File.OpenRead(path);
-            var sha256Bytes = sha1Provider.ComputeHash(fileStream);
+            byte[] sha256Bytes = sha1Provider.ComputeHash(fileStream);
 
             for (int i = 0; i < sha256Bytes.Length; i++)
             {
@@ -65,5 +80,7 @@ namespace GBCLV3.Utils
 
             return true;
         }
+
+        #endregion
     }
 }

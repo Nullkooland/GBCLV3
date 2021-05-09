@@ -1,22 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace GBCLV3.Models
 {
-    enum LogType
+    internal enum LogLevel
     {
         Info,
         Debug,
         Warn,
         Error,
-        Crash,
+        Fatal,
         Minecraft,
     }
 
-    class LogMessage
+    internal class LogMessage
     {
-        public LogType Type { get; set; }
+        public LogLevel Level { get; set; }
 
         public DateTime Timestamp { get; set; }
 

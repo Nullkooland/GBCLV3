@@ -1,9 +1,9 @@
-﻿using GBCLV3.Models.Launch;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using GBCLV3.Models.Launch;
 
-namespace GBCLV3.Utils
+namespace GBCLV3.Utils.Binding
 {
     [ValueConversion(typeof(VersionType), typeof(string))]
     internal class VersionTypeIconConverter : IValueConverter

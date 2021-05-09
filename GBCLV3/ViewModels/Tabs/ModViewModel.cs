@@ -1,17 +1,15 @@
-﻿using GBCLV3.Models.Auxiliary;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using GBCLV3.Models;
+using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services;
 using GBCLV3.Services.Auxiliary;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using GBCLV3.Models;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -53,20 +51,16 @@ namespace GBCLV3.ViewModels.Tabs
 
         public BindableCollection<Mod> Mods { get; }
 
-        public bool IsCopyMods
-        {
-            get => _config.CopyMods;
-            set => _config.CopyMods = value;
-        }
+        public bool IsCopy { get; set; }
 
         public void ChangeExtension(Mod mod) => _modService.ChangeExtension(mod);
 
-        public async void OnDropMods(ListBox _, DragEventArgs e)
+        public async void OnDrop(ListBox _, DragEventArgs e)
         {
             var modFiles = (e.Data.GetData(DataFormats.FileDrop) as string[])
                 .Where(file => file.EndsWith(".jar") || file.EndsWith(".jar.disabled"));
 
-            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles, IsCopyMods));
+            Mods.AddRange(await _modService.MoveLoadAllAsync(modFiles, IsCopy));
         }
 
         public async void AddNew()
@@ -80,29 +74,31 @@ namespace GBCLV3.ViewModels.Tabs
 
             if (dialog.ShowDialog() ?? false)
             {
-                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames, IsCopyMods));
+                Mods.AddRange(await _modService.MoveLoadAllAsync(dialog.FileNames, IsCopy));
             }
         }
 
         public async void Reload()
         {
             Mods.Clear();
-            var availableMods = await Task.Run(() => _modService.LoadAll().ToList());
-            Mods.AddRange(availableMods);
+            Mods.AddRange(await _modService.LoadAllAsync());
         }
 
-        public void OpenDir()
-        {
-            Directory.CreateDirectory(_gamePathService.ModsDir);
-            SystemUtil.OpenLink(_gamePathService.ModsDir);
-        }
+        public void OpenDir() => SystemUtil.OpenLink(_gamePathService.ModsDir);
 
         public void OpenLink(string url) => SystemUtil.OpenLink(url);
 
         public void SelectionChanged(ListBox _, SelectionChangedEventArgs e)
         {
-            foreach (object item in e.AddedItems) _selectedMods.Add(item as Mod);
-            foreach (object item in e.RemovedItems) _selectedMods.Remove(item as Mod);
+            foreach (object item in e.AddedItems)
+            {
+                _selectedMods.Add(item as Mod);
+            }
+
+            foreach (object item in e.RemovedItems)
+            {
+                _selectedMods.Remove(item as Mod);
+            }
         }
 
         public void Enable()
@@ -131,9 +127,9 @@ namespace GBCLV3.ViewModels.Tabs
             }
         }
 
-        public async void Delete()
+        public void Delete()
         {
-            await _modService.DeleteFromDiskAsync(_selectedMods);
+            _modService.DeleteFromDisk(_selectedMods);
             Mods.RemoveRange(_selectedMods);
         }
 

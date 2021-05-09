@@ -1,8 +1,8 @@
-﻿using GBCLV3.Utils;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
+using GBCLV3.Utils.Binding;
 
 namespace GBCLV3.Models.Download
 {

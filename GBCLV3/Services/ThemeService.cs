@@ -1,10 +1,5 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Models.Theme;
-using GBCLV3.Utils;
-using Stylet;
-using StyletIoC;
-using System;
-using System.Diagnostics;
+﻿using System;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Windows;
@@ -12,12 +7,19 @@ using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using GBCLV3.Models;
+using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
+using Stylet;
+using StyletIoC;
 
 namespace GBCLV3.Services
 {
     public class ThemeService : PropertyChangedBase
     {
         #region Binding Properties
+
+        public static string[] ImageExtenstions { get; } = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff", ".webp", ".heif", ".heic", ".avif" };
 
         public BitmapImage BackgroundImage { get; private set; }
 
@@ -35,6 +37,8 @@ namespace GBCLV3.Services
             set => _config.FontWeight = value;
         }
 
+        public string[] FontWeights { get; } = { "Light", "Normal", "Medium", "SemiBold", "Bold" };
+
         #endregion
 
         #region Private Fields
@@ -48,16 +52,16 @@ namespace GBCLV3.Services
         private static readonly Color REF_COLOR_STEGZ = Color.FromRgb(105, 175, 15);
 
         private readonly Config _config;
-        private readonly Logger _logger;
+        private readonly LogService _logService;
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public ThemeService(ConfigService configService, Logger logger)
+        public ThemeService(ConfigService configService, LogService logService)
         {
-            _logger = logger;
+            _logService = logService;
             _config = configService.Entries;
 
             if (string.IsNullOrEmpty(_config.FontFamily))
@@ -98,9 +102,8 @@ namespace GBCLV3.Services
                 string imgSearchDir = Environment.CurrentDirectory + "/bg";
                 if (Directory.Exists(imgSearchDir))
                 {
-                    string[] imgExtensions = { ".png", ".jpg", ".jpeg", ".jfif", ".bmp", ".tif", ".tiff", ".webp" };
                     string[] imgFiles = Directory.EnumerateFiles(imgSearchDir)
-                                                 .Where(file => imgExtensions.Any(file.ToLower().EndsWith))
+                                                 .Where(file => ImageExtenstions.Any(file.ToLower().EndsWith))
                                                  .ToArray();
 
                     if (imgFiles.Any())
@@ -110,6 +113,8 @@ namespace GBCLV3.Services
                     }
                 }
             }
+
+            _logService.Info(nameof(ThemeService), $"Changing background image: \"{imgPath ?? "DEFAULT"}\"");
 
             BackgroundImage = new BitmapImage();
             BackgroundImage.BeginInit();
@@ -121,45 +126,35 @@ namespace GBCLV3.Services
 
         public void SetBackgroundEffect(Window window)
         {
+            _logService.Info(nameof(ThemeService), $"Changing background effect: \"{_config.BackgroundEffect}\"");
+
             var handle = new WindowInteropHelper(window).Handle;
-            NativeUtil.EnableBlur(handle, _config.BackgroundEffect);
+            WindowEffectUtil.Apply(handle, _config.BackgroundEffect);
         }
 
-        public string[] GetSystemFontNames()
+        public ImmutableArray<string> GetSystemFontNames()
         {
-            return Fonts.SystemFontFamilies.Select(fontFamily =>
-            {
-                var nameDict = fontFamily.FamilyNames;
-
-                if (nameDict.TryGetValue(XmlLanguage.GetLanguage(_config.Language), out string fontName))
+            return Fonts.SystemFontFamilies
+                .AsParallel()
+                .Select(fontFamily =>
                 {
-                    return fontName;
-                }
+                    var nameDict = fontFamily.FamilyNames;
 
-                if (nameDict.TryGetValue(XmlLanguage.GetLanguage("en-us"), out fontName))
-                {
-                    return fontName;
-                }
+                    if (nameDict.TryGetValue(XmlLanguage.GetLanguage(_config.Language), out string fontName))
+                    {
+                        return fontName;
+                    }
 
-                return null;
-            })
-            .Where(fontName => !string.IsNullOrEmpty(fontName))
-            .OrderBy(fontName => fontName)
-            .ToArray();
-        }
+                    if (nameDict.TryGetValue(XmlLanguage.GetLanguage("en-US"), out fontName))
+                    {
+                        return fontName;
+                    }
 
-        public string[] GetFontWeights()
-        {
-            var fontWeights = new[]
-            {
-                FontWeights.Light,
-                FontWeights.Normal,
-                FontWeights.Medium,
-                FontWeights.SemiBold,
-                FontWeights.Bold,
-            };
-
-            return fontWeights.Select(weight => weight.ToString()).ToArray();
+                    return null;
+                })
+                .Where(fontName => !string.IsNullOrEmpty(fontName))
+                .OrderBy(fontName => fontName)
+                .ToImmutableArray();
         }
 
         public void LoadBackgroundIcon(Color accentColor)
@@ -180,10 +175,10 @@ namespace GBCLV3.Services
             float l2NormStegz = ColorUtil.CalcL2Norm(accentColor, REF_COLOR_STEGZ);
 
 #if DEBUG
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Triceratop: {l2NormSpike:F4}");
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Pteranodon: {l2NormBullzeye:F4}");
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Tyrannosaurus: {l2NormTBone:F4}");
-            _logger.Debug(nameof(ThemeService), $"Theme color L2 norm to the Stegosaurus: {l2NormStegz:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Triceratop: {l2NormSpike:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Pteranodon: {l2NormBullzeye:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Tyrannosaurus: {l2NormTBone:F4}");
+            _logService.Debug(nameof(ThemeService), $"Theme color L2 norm to the Stegosaurus: {l2NormStegz:F4}");
 #endif
 
             if (l2NormSpike < 0.0075f)

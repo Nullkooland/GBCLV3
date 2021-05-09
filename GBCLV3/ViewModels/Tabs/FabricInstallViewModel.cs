@@ -1,4 +1,8 @@
-﻿using GBCLV3.Models.Download;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using GBCLV3.Models.Download;
 using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services.Download;
@@ -6,10 +10,6 @@ using GBCLV3.Services.Installation;
 using GBCLV3.Services.Launch;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -21,6 +21,7 @@ namespace GBCLV3.ViewModels.Tabs
         private readonly FabricInstallService _fabricInstallService;
         private readonly VersionService _versionService;
         private readonly LibraryService _libraryService;
+        private readonly DownloadService _downloadService;
 
         private readonly IWindowManager _windowManager;
 
@@ -35,6 +36,7 @@ namespace GBCLV3.ViewModels.Tabs
             FabricInstallService fabricInstallService,
             VersionService versionService,
             LibraryService libraryService,
+            DownloadService downloadService,
 
             IWindowManager windowManager,
             DownloadStatusViewModel downloadVM)
@@ -42,6 +44,7 @@ namespace GBCLV3.ViewModels.Tabs
             _fabricInstallService = fabricInstallService;
             _versionService = versionService;
             _libraryService = libraryService;
+            _downloadService = downloadService;
 
             Fabrics = new BindableCollection<Fabric>();
 
@@ -101,11 +104,11 @@ namespace GBCLV3.ViewModels.Tabs
 
         private async ValueTask<bool> StartDownloadAsync(DownloadType type, IEnumerable<DownloadItem> items)
         {
-            using var downloadService = new DownloadService(items);
-            _downloadStatusVM.Setup(type, downloadService);
+            _downloadService.Setup(items);
+            _downloadStatusVM.Setup(type, _downloadService);
             this.ActivateItem(_downloadStatusVM);
 
-            return await downloadService.StartAsync();
+            return await _downloadService.StartAsync();
         }
 
         protected override async void OnActivate()
@@ -118,7 +121,10 @@ namespace GBCLV3.ViewModels.Tabs
                 var fabrics = await _fabricInstallService.GetDownloadListAsync(GameVersion.JarID);
 
                 // まっそんなのもう関係ないですけどね！
-                if (!this.IsActive) return;
+                if (!this.IsActive)
+                {
+                    return;
+                }
 
                 if (fabrics == null)
                 {

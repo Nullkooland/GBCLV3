@@ -1,13 +1,11 @@
-﻿using GBCLV3.Models.Authentication;
-using GBCLV3.Utils;
-using StyletIoC;
-using System;
-using System.Buffers.Text;
-using System.Diagnostics;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services.Authentication
 {
@@ -18,18 +16,20 @@ namespace GBCLV3.Services.Authentication
         private const string MOJANG_AUTH_SERVER = "https://authserver.mojang.com";
 
         private readonly HttpClient _client;
+        private readonly LogService _logService;
 
         private static readonly JsonSerializerOptions _jsonOptions
-            = new JsonSerializerOptions {PropertyNamingPolicy = JsonNamingPolicy.CamelCase};
+            = new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase };
 
         #endregion
 
         #region Constructor
 
         [Inject]
-        public AuthService(HttpClient client)
+        public AuthService(HttpClient client, LogService logService)
         {
             _client = client;
+            _logService = logService;
         }
 
         #endregion
@@ -65,7 +65,7 @@ namespace GBCLV3.Services.Authentication
             {
                 Username = email,
                 Password = password,
-                ClientToken = CryptUtil.Guid,
+                ClientToken = Guid.NewGuid().ToString("N"),
                 RequestUser = false,
             };
 
@@ -83,7 +83,7 @@ namespace GBCLV3.Services.Authentication
                 SelectedProfile = selectedProfile,
             };
 
-            var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
+            string requestJson = JsonSerializer.Serialize(request, _jsonOptions);
             return RequestAsync(requestJson, true, authServer ?? MOJANG_AUTH_SERVER);
         }
 
@@ -91,12 +91,12 @@ namespace GBCLV3.Services.Authentication
         {
             try
             {
-                var responseJson = await _client.GetByteArrayAsync(authServer);
+                byte[] responseJson = await _client.GetByteArrayAsync(authServer);
                 return Convert.ToBase64String(responseJson);
             }
-            catch (Exception ex)
+            catch (HttpRequestException ex)
             {
-                Debug.Write(ex.ToString());
+                _logService.Error(nameof(AuthService), $"Failed to prefetch external authserver info\n{ex.Message}");
                 return null;
             }
         }
@@ -105,12 +105,12 @@ namespace GBCLV3.Services.Authentication
         {
             try
             {
-                var responseJson = await _client.GetByteArrayAsync(authServer);
+                byte[] responseJson = await _client.GetByteArrayAsync(authServer);
                 return JsonSerializer.Deserialize<AuthServerInfo>(responseJson, _jsonOptions);
             }
             catch (Exception ex)
             {
-                Debug.Write(ex.ToString());
+                _logService.Error(nameof(AuthService), $"Failed to get external authserver info\n{ex.Message}");
                 return null;
             }
         }
@@ -130,10 +130,10 @@ namespace GBCLV3.Services.Authentication
             return new AuthResult
             {
                 SelectedProfile
-                    = new AuthUserProfile {Name = username, Id = CryptUtil.GetStringMD5(username)},
+                    = new AuthUserProfile { Name = username, Id = CryptoUtil.GetStringMD5(username) },
 
-                ClientToken = CryptUtil.Guid,
-                AccessToken = CryptUtil.Guid,
+                ClientToken = Guid.NewGuid().ToString("N"),
+                AccessToken = Guid.NewGuid().ToString("N"),
                 UserType = "mojang",
                 IsSuccessful = true,
             };
@@ -149,7 +149,7 @@ namespace GBCLV3.Services.Authentication
                 using var msg = await _client.PostAsync(
                     authServer + (isRefresh ? "/refresh" : "/authenticate"), content);
 
-                var responseJson = await msg.Content.ReadAsByteArrayAsync();
+                byte[] responseJson = await msg.Content.ReadAsByteArrayAsync();
 
                 if (msg.IsSuccessStatusCode)
                 {
@@ -165,11 +165,15 @@ namespace GBCLV3.Services.Authentication
                 else
                 {
                     var error = JsonSerializer.Deserialize<AuthErrorResponse>(responseJson, _jsonOptions);
-                    if (error.ErrorMessage.ToLower().Contains("token"))
+
+                    _logService.Warn(nameof(AuthService), $"Auth failed. Error: \"{error.Error}\" Message:\"{error.ErrorMessage}\"");
+
+
+                    if (error.ErrorMessage?.ToLower().Contains("token") ?? false)
                     {
                         result.ErrorType = AuthErrorType.InvalidToken;
                     }
-                    else if (error.ErrorMessage.ToLower().Contains("credentials"))
+                    else if (error.ErrorMessage?.ToLower().Contains("credentials") ?? false)
                     {
                         result.ErrorType = AuthErrorType.InvalidCredentials;
                     }
@@ -187,17 +191,23 @@ namespace GBCLV3.Services.Authentication
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.NoInternetConnection;
                 result.ErrorMessage = ex.Message;
+
+                _logService.Error(nameof(AuthService), $"Failed to send auth request: HTTP error\n{ex.Message}");
             }
             catch (OperationCanceledException)
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.AuthTimeout;
+
+                _logService.Error(nameof(AuthService), "Failed to send auth request: Timeout");
             }
             catch (Exception ex)
             {
                 result.IsSuccessful = false;
                 result.ErrorType = AuthErrorType.Unknown;
                 result.ErrorMessage = ex.Message;
+
+                _logService.Error(nameof(AuthService), $"Failed to send auth request: Unkown error\n{ex.Message}");
             }
 
             return result;

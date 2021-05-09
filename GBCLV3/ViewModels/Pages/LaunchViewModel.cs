@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services;
@@ -10,13 +15,6 @@ using GBCLV3.Utils;
 using GBCLV3.ViewModels.Tabs;
 using GBCLV3.ViewModels.Windows;
 using Stylet;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.ViewModels.Pages
 {
@@ -33,7 +31,6 @@ namespace GBCLV3.ViewModels.Pages
         #region Private Fields
 
         private const string XD = "_(:3」∠)_";
-        private readonly StringBuilder _logger = new StringBuilder(4096);
 
         // IoC
         private readonly Config _config;
@@ -44,6 +41,8 @@ namespace GBCLV3.ViewModels.Pages
         private readonly AuthService _authService;
         private readonly AuthlibInjectorService _authlibInjectorService;
         private readonly LaunchService _launchService;
+        private readonly DownloadService _downloadService;
+        private readonly LogService _logService;
 
         private readonly LaunchStatusViewModel _statusVM;
         private readonly DownloadStatusViewModel _downloadStatusVM;
@@ -67,6 +66,9 @@ namespace GBCLV3.ViewModels.Pages
             AuthService authService,
             AuthlibInjectorService authlibInjectorService,
             LaunchService launchService,
+            DownloadService downloadService,
+            LogService logService,
+
             IWindowManager windowManager,
             GreetingViewModel greetingVM,
             VersionsManagementViewModel versionsVM,
@@ -86,6 +88,8 @@ namespace GBCLV3.ViewModels.Pages
             _authService = authService;
             _authlibInjectorService = authlibInjectorService;
             _launchService = launchService;
+            _downloadService = downloadService;
+            _logService = logService;
 
             _statusVM = statusVM;
             _accountEditVM = accountEditVM;
@@ -93,7 +97,6 @@ namespace GBCLV3.ViewModels.Pages
             _downloadStatusVM = downloadVM;
             _errorReportVM = errorReportVM;
 
-            _launchService.ErrorReceived += errorMessage => _logger.Append(errorMessage);
             _launchService.Exited += OnGameExited;
 
             _versionService.Loaded += hasAny => HasVersion = hasAny;
@@ -124,6 +127,8 @@ namespace GBCLV3.ViewModels.Pages
 
         public async void Launch()
         {
+            _logService.Info(nameof(LaunchViewModel), "Launch procedure started");
+
             IsLaunching = true;
             GreetingVM.IsShown = false;
             LaunchProcessStarted?.Invoke();
@@ -135,6 +140,8 @@ namespace GBCLV3.ViewModels.Pages
                     MessageBoxButton.OK, MessageBoxImage.Error);
 
                 _statusVM.Status = LaunchStatus.Failed;
+                _logService.Warn(nameof(LaunchViewModel), "Launch aborted: JRE not found");
+
                 return;
             }
 
@@ -152,6 +159,8 @@ namespace GBCLV3.ViewModels.Pages
                 if (_windowManager.ShowDialog(_accountEditVM) != true)
                 {
                     _statusVM.Status = LaunchStatus.Failed;
+                    _logService.Warn(nameof(LaunchViewModel), "Launch aborted: No account");
+
                     return;
                 }
 
@@ -163,11 +172,15 @@ namespace GBCLV3.ViewModels.Pages
                 var authResult = await _authService.LoginAsync(account);
                 if (!authResult.IsSuccessful)
                 {
+                    _logService.Info(nameof(LaunchViewModel), "Re-authenticating");
+
                     _accountEditVM.Setup(AccountEditType.ReAuth, account);
 
                     if (_windowManager.ShowDialog(_accountEditVM) != true)
                     {
                         _statusVM.Status = LaunchStatus.Failed;
+                        _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Re-auth failed");
+
                         return;
                     }
                 }
@@ -192,6 +205,8 @@ namespace GBCLV3.ViewModels.Pages
             // Check authlib-injector if selected account is using external authentication
             if (account.AuthMode == AuthMode.AuthLibInjector)
             {
+                _logService.Info(nameof(LaunchViewModel), "Using authlib-injector");
+
                 if (!_authlibInjectorService.CheckIntegrity(account.AuthlibInjectorSHA256))
                 {
                     // Authlib-Injector is missing or damaged
@@ -199,6 +214,8 @@ namespace GBCLV3.ViewModels.Pages
                     if (latest == null)
                     {
                         _statusVM.Status = LaunchStatus.Failed;
+                        _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Failed to fetch latest authlib-injector");
+
                         return;
                     }
 
@@ -206,6 +223,8 @@ namespace GBCLV3.ViewModels.Pages
                     if (!await StartDownloadAsync(DownloadType.AuthlibInjector, download))
                     {
                         _statusVM.Status = LaunchStatus.Failed;
+                        _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Failed to download authlib-injector");
+
                         return;
                     }
 
@@ -218,6 +237,8 @@ namespace GBCLV3.ViewModels.Pages
                 if (account.PrefetchedAuthServerInfo == null)
                 {
                     _statusVM.Status = LaunchStatus.Failed;
+                    _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Failed to fetch external auth server info");
+
                     return;
                 }
             }
@@ -228,10 +249,14 @@ namespace GBCLV3.ViewModels.Pages
             // Check main jar and fix possible damage
             if (!_versionService.CheckIntegrity(launchVersion))
             {
+                _logService.Info(nameof(LaunchViewModel), "Trying to restore damaged main jar");
+
                 var download = _versionService.GetDownload(launchVersion);
                 if (!await StartDownloadAsync(DownloadType.MainJar, download))
                 {
                     _statusVM.Status = LaunchStatus.Failed;
+                    _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Failed to restore main jar");
+
                     return;
                 }
             }
@@ -240,6 +265,8 @@ namespace GBCLV3.ViewModels.Pages
             var damagedLibs = await _libraryService.CheckIntegrityAsync(launchVersion.Libraries);
             if (damagedLibs.Any())
             {
+                _logService.Info(nameof(LaunchViewModel), "Trying to restore damaged libs");
+
                 // For 1.13.2+ forge versions, there is no way to fix damaged forge jar unless reinstall
                 if (launchVersion.Type == VersionType.NewForge && damagedLibs.Any(
                         lib => lib.Type == LibraryType.ForgeMain
@@ -249,9 +276,11 @@ namespace GBCLV3.ViewModels.Pages
                         MessageBoxButton.OK, MessageBoxImage.Error);
                     // Delete the damaged forge version (but retain the libraries)
                     // force user to reinstall it
-                    await _versionService.DeleteFromDiskAsync(launchVersion.ID, false);
+                    _versionService.DeleteFromDisk(launchVersion.ID, false);
 
                     _statusVM.Status = LaunchStatus.Failed;
+                    _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Cannot restore damaged forge libs");
+
                     return;
                 }
 
@@ -259,21 +288,27 @@ namespace GBCLV3.ViewModels.Pages
                 if (!await StartDownloadAsync(DownloadType.Libraries, downloads))
                 {
                     _statusVM.Status = LaunchStatus.Failed;
+                    _logService.Warn(nameof(LaunchViewModel), "Launch aborted: Failed to restore damaged libs");
+
                     return;
                 }
             }
 
             // Extract native libraries
-            _libraryService.ExtractNatives(launchVersion.Libraries.Where(lib => lib.Type == LibraryType.Native));
+            await _libraryService.ExtractNativesAsync(launchVersion.Libraries);
 
             // Try loading assets
             if (!_assetService.LoadAllObjects(launchVersion.AssetsInfo))
             {
+                _logService.Info(nameof(LaunchViewModel), "Trying to restore damaged assets index");
+
                 if (await _assetService.DownloadIndexJsonAsync(launchVersion.AssetsInfo))
                 {
                     // Successfully downloaded the missing index json, load assets
                     _assetService.LoadAllObjects(launchVersion.AssetsInfo);
                 }
+
+                _logService.Warn(nameof(LaunchViewModel), "Failed to restore assets index");
 
                 // if index json download failed (what are the odds!), not gonna retry
                 // Prepare for enjoying a silent game XD
@@ -281,17 +316,24 @@ namespace GBCLV3.ViewModels.Pages
 
             // Check assets and fix possible damage on user's discretion
             var damagedAssets = await _assetService.CheckIntegrityAsync(launchVersion.AssetsInfo);
-            if ((damagedAssets?.Any() ?? false) &&
+            if (damagedAssets.Any() &&
                 _windowManager.ShowMessageBox("${AssetsDamaged}\n${WhetherFixNow}", "${IntegrityCheck}",
                     MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
+                _logService.Info(nameof(LaunchViewModel), "Trying to restore damaged asset objtects");
+
                 var downloads = _assetService.GetDownloads(damagedAssets);
-                await StartDownloadAsync(DownloadType.Assets, downloads);
+
+                if(!await StartDownloadAsync(DownloadType.Assets, downloads))
+                {
+                    _logService.Warn(nameof(LaunchViewModel), "Failed to restore all damaged asset objects");
+                }
             }
 
             // For legacy versions (1.7.2 or earlier), copy hashed asset objects to virtual files
             if (launchVersion.AssetsInfo.IsLegacy)
             {
+                _logService.Info(nameof(LaunchViewModel), "Copying hashed asset objects to virtual");
                 await _assetService.CopyToVirtualAsync(launchVersion.AssetsInfo);
             }
 
@@ -317,12 +359,16 @@ namespace GBCLV3.ViewModels.Pages
 
             if (!await _launchService.LaunchGameAsync(profile, launchVersion))
             {
-                _statusVM.Status = LaunchStatus.Failed;
                 _launchService.LogReceived -= UpdateLogDisplay;
+
+                _statusVM.Status = LaunchStatus.Failed;
+                _logService.Warn(nameof(LaunchViewModel), "Launch failed");
+
                 return;
             }
 
             _statusVM.Status = LaunchStatus.Running;
+            _logService.Info(nameof(LaunchViewModel), "Launch successful");
 
             _launchService.LogReceived -= UpdateLogDisplay;
             _statusVM.GameOutputLog = XD;
@@ -336,11 +382,11 @@ namespace GBCLV3.ViewModels.Pages
         {
             _statusVM.Status = LaunchStatus.Downloading;
 
-            using var downloadService = new DownloadService(items);
-            _downloadStatusVM.Setup(type, downloadService);
+            _downloadService.Setup(items);
+            _downloadStatusVM.Setup(type, _downloadService);
             this.ActivateItem(_downloadStatusVM);
 
-            bool isSuccessful = await downloadService.StartAsync();
+            bool isSuccessful = await _downloadService.StartAsync();
 
             this.ActivateItem(_statusVM);
             _statusVM.Status = LaunchStatus.ProcessingDependencies;
@@ -367,6 +413,8 @@ namespace GBCLV3.ViewModels.Pages
 
                 if (_config.AfterLaunch == AfterLaunchBehavior.Hide)
                 {
+                    _logService.Info(nameof(LaunchViewModel), "Hiding window");
+
                     Application.Current.MainWindow.Hide();
                 }
             }
@@ -381,20 +429,16 @@ namespace GBCLV3.ViewModels.Pages
             {
                 GreetingVM.IsShown = true;
 
-                if (_config.AfterLaunch != AfterLaunchBehavior.Exit && exitCode != 0 && _logger.Length > 0)
+                if (_config.AfterLaunch != AfterLaunchBehavior.Exit && exitCode != 0)
                 {
-                    _errorReportVM.ErrorMessage = $"Exit Code: {exitCode}\n" + _logger.ToString();
-                    _errorReportVM.Type = ErrorReportType.UnexpectedExit;
-
+                    _errorReportVM.Setup(ErrorReportType.UnexpectedExit);
                     _windowManager.ShowDialog(_errorReportVM);
-
-                    Debug.WriteLine("[Game exited with errors]");
-                    Debug.WriteLine(_logger.ToString());
-                    _logger.Clear();
                 }
 
                 if (_config.AfterLaunch == AfterLaunchBehavior.Hide)
                 {
+                    _logService.Info(nameof(LaunchViewModel), "Restoring window");
+
                     Application.Current.MainWindow.Show();
                     Application.Current.MainWindow.Activate();
                 }
@@ -408,7 +452,7 @@ namespace GBCLV3.ViewModels.Pages
                 return;
             }
 
-            await _accountService.LoadSkinsAsync();
+            await _accountService.LoadSkinsForAllAsync();
             GreetingVM.NotifyAccountChanged();
             GreetingVM.IsShown = true;
         }

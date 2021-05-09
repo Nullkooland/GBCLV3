@@ -1,5 +1,5 @@
-﻿using GBCLV3.Utils;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using GBCLV3.Utils.Binding;
 
 namespace GBCLV3.Models.Authentication
 {

@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace GBCLV3.Utils
+namespace GBCLV3.Utils.Binding
 {
     internal class BindingProxy : Freezable
     {
@@ -12,7 +12,7 @@ namespace GBCLV3.Utils
 
         public object Data
         {
-            get { return (object)GetValue(DataProperty); }
+            get { return GetValue(DataProperty); }
             set { SetValue(DataProperty, value); }
         }
 

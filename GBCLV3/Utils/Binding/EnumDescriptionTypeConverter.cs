@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 
-namespace GBCLV3.Utils
+namespace GBCLV3.Utils.Binding
 {
     public class EnumDescriptionTypeConverter : EnumConverter
     {

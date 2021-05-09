@@ -1,10 +1,10 @@
-﻿using GBCLV3.Models.Authentication;
+﻿using System.Linq;
+using System.Windows;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Services.Authentication;
 using GBCLV3.ViewModels.Windows;
 using Stylet;
 using StyletIoC;
-using System.Linq;
-using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -24,7 +24,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         [Inject]
         public AccountSettingsViewModel(
-            AccountService accountService, 
+            AccountService accountService,
             IWindowManager windowManager,
             AccountEditViewModel accountEditVM,
             GreetingViewModel greetingVM)
@@ -81,7 +81,7 @@ namespace GBCLV3.ViewModels.Tabs
         }
 
         public void OnSelectedAccountChanged() => _greetingVM.NotifyAccountChanged();
-        
+
 
         #endregion
     }

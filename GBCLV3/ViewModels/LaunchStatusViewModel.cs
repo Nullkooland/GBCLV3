@@ -24,7 +24,10 @@ namespace GBCLV3.ViewModels
 
         public void OnAnimationCompleted()
         {
-            if (this.IsActive) this.RequestClose();
+            if (this.IsActive)
+            {
+                this.RequestClose();
+            }
         }
 
         #endregion

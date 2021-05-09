@@ -19,7 +19,7 @@ namespace GBCLV3.Tests.Services.Authentication
         {
             var configService = new ConfigService();
             configService.Load();
-            
+
             var builder = new StyletIoCBuilder();
             builder.Bind<ConfigService>().ToInstance(configService);
             builder.Bind<GamePathService>().ToSelf().InSingletonScope();
@@ -35,7 +35,7 @@ namespace GBCLV3.Tests.Services.Authentication
         [DataRow(DownloadSource.MCBBS)]
         public void GetLatestTest(DownloadSource downloadSource)
         {
-            var config= _ioc.Get<ConfigService>().Entries;
+            var config = _ioc.Get<ConfigService>().Entries;
             config.DownloadSource = downloadSource;
 
             var authlibInjectorInstallService = _ioc.Get<AuthlibInjectorService>();

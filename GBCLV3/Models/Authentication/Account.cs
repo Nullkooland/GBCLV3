@@ -1,9 +1,7 @@
-﻿using GBCLV3.Models.Auxiliary;
-using System;
-using System.ComponentModel;
+﻿using System;
 using System.Text.Json.Serialization;
 using System.Windows.Media.Imaging;
-using GBCLV3.Utils;
+using GBCLV3.Models.Auxiliary;
 
 namespace GBCLV3.Models.Authentication
 {
@@ -27,14 +25,14 @@ namespace GBCLV3.Models.Authentication
 
         public string AuthlibInjectorSHA256 { get; set; } // Very ugly...
 
-        [JsonIgnore] 
+        [JsonIgnore]
         public string AuthServer => AuthServerBase != null ? $"{AuthServerBase}/authserver" : null;
 
         [JsonIgnore]
         public string ProfileServer =>
             AuthServerBase != null ? $"{AuthServerBase}/sessionserver/session/minecraft/profile" : null;
 
-        [JsonIgnore] 
+        [JsonIgnore]
         public string PrefetchedAuthServerInfo { get; set; }
 
 

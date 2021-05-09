@@ -1,17 +1,17 @@
-﻿using GBCLV3.Models.Download;
-using GBCLV3.Models.Launch;
-using GBCLV3.Services.Download;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
 using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services.Launch
 {
@@ -23,6 +23,7 @@ namespace GBCLV3.Services.Launch
         // IoC
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         #endregion
@@ -31,12 +32,14 @@ namespace GBCLV3.Services.Launch
 
         [Inject]
         public AssetService(
-            GamePathService gamePathService, 
+            GamePathService gamePathService,
             DownloadUrlService urlService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
+            _logService = logService;
             _client = client;
         }
 
@@ -47,9 +50,15 @@ namespace GBCLV3.Services.Launch
         public bool LoadAllObjects(AssetsInfo info)
         {
             string jsonPath = $"{_gamePathService.AssetsDir}/indexes/{info.ID}.json";
-            if (!File.Exists(jsonPath)) return false;
+            if (!File.Exists(jsonPath))
+            {
+                return false;
+            }
 
-            if (info.Objects != null) return true;
+            if (info.Objects != null)
+            {
+                return true;
+            }
 
             using var reader = new StreamReader(jsonPath, Encoding.UTF8);
             var opetions = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
@@ -59,19 +68,18 @@ namespace GBCLV3.Services.Launch
             return true;
         }
 
-        public Task<AssetObject[]> CheckIntegrityAsync(AssetsInfo info)
+        public Task<ImmutableArray<AssetObject>> CheckIntegrityAsync(AssetsInfo info)
         {
-            var query =
-                info.Objects?
-                    .Select(pair => pair.Value)
-                    .AsParallel()
-                    .Where(obj =>
-                    {
-                        string objPath = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
-                        return !(File.Exists(objPath) && CryptUtil.ValidateFileSHA1(objPath, obj.Hash));
-                    });
+            var query = info.Objects?
+                .AsParallel()
+                .Select(pair => pair.Value)
+                .Where(obj =>
+                {
+                    string objPath = $"{_gamePathService.AssetsDir}/objects/{obj.Path}";
+                    return !(File.Exists(objPath) && CryptoUtil.ValidateFileSHA1(objPath, obj.Hash));
+                });
 
-            return Task.FromResult(query?.ToArray());
+            return Task.FromResult(query?.ToImmutableArray() ?? ImmutableArray<AssetObject>.Empty);
         }
 
         public Task CopyToVirtualAsync(AssetsInfo info)
@@ -85,7 +93,10 @@ namespace GBCLV3.Services.Launch
                         string virtualPath = $"{_gamePathService.AssetsDir}/virtual/legacy/{pair.Key}";
                         string virtualDir = Path.GetDirectoryName(virtualPath);
 
-                        if (!File.Exists(objectPath) || File.Exists(virtualPath)) return;
+                        if (!File.Exists(objectPath) || File.Exists(virtualPath))
+                        {
+                            return;
+                        }
 
                         // Make sure directory exists
                         Directory.CreateDirectory(virtualDir);
@@ -96,9 +107,11 @@ namespace GBCLV3.Services.Launch
 
         public async ValueTask<bool> DownloadIndexJsonAsync(AssetsInfo info)
         {
+            _logService.Info(nameof(AssetService), $"Fetching download list for version \"{info.ID}\"");
+
             try
             {
-                var json = await _client.GetByteArrayAsync(info.IndexUrl);
+                byte[] json = await _client.GetByteArrayAsync(info.IndexUrl);
                 string indexDir = $"{_gamePathService.AssetsDir}/indexes";
 
                 //Make sure directory exists
@@ -108,12 +121,13 @@ namespace GBCLV3.Services.Launch
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(AssetService), $"Failed to fetch download list: HTTP error\n{ex.Message}");
                 return false;
             }
             catch (OperationCanceledException)
             {
-                Debug.WriteLine("[ERROR] Index json download time out");
+                // Timeout
+                _logService.Error(nameof(AssetService), $"Failed to fetch download list: Timeout");
                 return false;
             }
         }

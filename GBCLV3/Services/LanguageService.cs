@@ -18,6 +18,7 @@ namespace GBCLV3.Services
         private const string STRINGS_DICTS_DIR = "/Resources/Languages/Strings";
 
         private readonly Config _config;
+        private readonly LogService _logService;
 
         private readonly Dictionary<string, string> _availableLanguages;
         private readonly Dictionary<string, string> _translators;
@@ -28,9 +29,12 @@ namespace GBCLV3.Services
         #region Constructor
 
         [Inject]
-        public LanguageService(ConfigService configService)
+        public LanguageService(ConfigService configService, LogService logService)
         {
             _config = configService.Entries;
+            _logService = logService;
+
+            logService.Info(nameof(LanguageService), "Loading languages");
 
             var availableLangsDict =
                 Application.LoadComponent(new Uri(AVAILABLE_LANGS_DICT_PATH, UriKind.Relative)) as
@@ -59,6 +63,8 @@ namespace GBCLV3.Services
                 _config.Language = _availableLanguages.First().Key;
             }
 
+            _logService.Info(nameof(LanguageService), $"Current language: \"{_config.Language}\"");
+
             _currentLangDict =
                 Application.LoadComponent(new Uri($"{STRINGS_DICTS_DIR}/{_config.Language}.xaml", UriKind.Relative)) as
                     ResourceDictionary;
@@ -72,6 +78,8 @@ namespace GBCLV3.Services
 
         public void Change(string langTag)
         {
+            _logService.Info(nameof(LanguageService), $"Chaning language from \"{_config.Language}\" to \"{langTag}\"");
+
             var replaceLangDict =
                 Application.LoadComponent(new Uri($"{STRINGS_DICTS_DIR}/{langTag}.xaml", UriKind.Relative)) as
                     ResourceDictionary;
@@ -87,19 +95,10 @@ namespace GBCLV3.Services
 
         public Dictionary<string, string> GetTranslators() => _translators;
 
-        public string GetEntry(string key)
-        {
-            return !string.IsNullOrEmpty(key) ? _currentLangDict[key] as string : null;
-        }
+        public string GetEntry(string key) => !string.IsNullOrEmpty(key) ? _currentLangDict[key] as string : null;
 
-        public string ReplaceKeyToEntry(string src)
-        {
-            return Regex.Replace(src ?? string.Empty, "\\${.*?}", match =>
-            {
-                string key = match.Value[2..^1];
-                return GetEntry(key);
-            });
-        }
+        public string ReplaceKeyToEntry(string src) => 
+            Regex.Replace(src ?? string.Empty, "\\${.*?}", match => GetEntry(match.Value[2..^1]));
 
         #endregion
     }

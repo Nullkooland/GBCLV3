@@ -12,11 +12,11 @@ namespace GBCLV3.ViewModels
         public AuxiliariesRootViewModel(
             ModViewModel modVM,
             ResourcePackViewModel resourcePackVM,
-            SkinViewModel skinVM)
+            ShaderPackViewModel shaderPackVM)
         {
             ModVM = modVM;
             ResourcePackVM = resourcePackVM;
-            SkinVM = skinVM;
+            ShaderPackVM = shaderPackVM;
         }
 
         #endregion
@@ -27,7 +27,7 @@ namespace GBCLV3.ViewModels
 
         public ResourcePackViewModel ResourcePackVM { get; set; }
 
-        public SkinViewModel SkinVM { get; set; }
+        public ShaderPackViewModel ShaderPackVM { get; set; }
 
         #endregion
 
@@ -37,9 +37,14 @@ namespace GBCLV3.ViewModels
         {
             ModVM.Reload();
             ResourcePackVM.Reload();
+            ShaderPackVM.Reload();
         }
 
-        protected override void OnDeactivate() => ResourcePackVM.SaveToOptions();
+        protected override void OnDeactivate()
+        {
+            ResourcePackVM.SaveToOptions();
+            ShaderPackVM.SaveToOptions();
+        }
 
         #endregion
     }

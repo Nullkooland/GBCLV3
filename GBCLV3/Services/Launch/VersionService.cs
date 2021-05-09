@@ -1,16 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services.Download;
 using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
 using StyletIoC;
 using Version = GBCLV3.Models.Launch.Version;
 
@@ -36,6 +35,7 @@ namespace GBCLV3.Services.Launch
         private readonly GamePathService _gamePathService;
         private readonly DownloadUrlService _urlService;
         private readonly LibraryService _libraryService;
+        private readonly LogService _logService;
         private readonly HttpClient _client;
 
         #endregion
@@ -47,12 +47,14 @@ namespace GBCLV3.Services.Launch
             GamePathService gamePathService,
             DownloadUrlService urlService,
             LibraryService libraryService,
+            LogService logService,
             HttpClient client)
         {
             _gamePathService = gamePathService;
             _urlService = urlService;
             _libraryService = libraryService;
             _client = client;
+            _logService = logService;
 
             _versions = new Dictionary<string, Version>(8);
         }
@@ -63,10 +65,10 @@ namespace GBCLV3.Services.Launch
 
         public bool LoadAll()
         {
-            _versions.Clear();
-
             if (!Directory.Exists(_gamePathService.VersionsDir))
             {
+                _logService.Warn(nameof(VersionService), "Cannot find game versions directory");
+
                 Loaded?.Invoke(false);
                 return false;
             }
@@ -80,20 +82,22 @@ namespace GBCLV3.Services.Launch
 
             var inheritVersions = new List<Version>(8);
 
+            _versions.Clear();
             foreach (var version in availableVersions)
             {
                 _versions.Add(version.ID, version);
-                if (version.InheritsFrom != null) inheritVersions.Add(version);
+                if (version.InheritsFrom != null)
+                {
+                    inheritVersions.Add(version);
+                }
             }
 
-            foreach (var version in inheritVersions) InheritParentProperties(version);
+            foreach (var version in inheritVersions)
+            {
+                InheritParentProperties(version);
+            }
 
             Loaded?.Invoke(_versions.Any());
-            return _versions.Any();
-        }
-
-        public bool Any()
-        {
             return _versions.Any();
         }
 
@@ -109,18 +113,27 @@ namespace GBCLV3.Services.Launch
 
         public Version GetByID(string id)
         {
-            if (id != null && _versions.TryGetValue(id, out var version)) return version;
+            if (id != null && _versions.TryGetValue(id, out var version))
+            {
+                return version;
+            }
 
             return null;
         }
 
         public Version AddNew(string jsonPath)
         {
+            _logService.Info(nameof(VersionService), "Adding new version");
+
             var newVersion = Load(jsonPath);
 
             if (newVersion != null)
             {
-                if (newVersion.InheritsFrom != null) InheritParentProperties(newVersion);
+                if (newVersion.InheritsFrom != null)
+                {
+                    InheritParentProperties(newVersion);
+                }
+
                 _versions.Add(newVersion.ID, newVersion);
                 Created?.Invoke(newVersion);
             }
@@ -134,19 +147,23 @@ namespace GBCLV3.Services.Launch
             return newVersion;
         }
 
-        public async Task DeleteFromDiskAsync(string id, bool isDeleteLibs)
+        public void DeleteFromDisk(string id, bool isDeleteLibs)
         {
+            _logService.Info(nameof(VersionService), $"Deleting version {id}");
+
             if (_versions.TryGetValue(id, out var versionToDelete))
             {
                 _versions.Remove(id);
                 Deleted?.Invoke(versionToDelete);
 
                 // Delete version directory
-                await SystemUtil.SendDirToRecycleBinAsync($"{_gamePathService.VersionsDir}/{id}");
+                RecycleBinUtil.Send(Enumerable.Repeat($"{_gamePathService.VersionsDir}/{id}", 1));
 
                 // Delete unused libraries
                 if (isDeleteLibs)
                 {
+                    _logService.Info(nameof(VersionService), $"Deleting version {id} libraries");
+
                     var libsToDelete = versionToDelete.Libraries as IEnumerable<Library>;
 
                     if (_versions.Any())
@@ -157,19 +174,39 @@ namespace GBCLV3.Services.Launch
                         }
                     }
 
-                    foreach (var lib in libsToDelete)
+                    var paths = libsToDelete.Select(lib =>
                     {
                         string libPath = $"{_gamePathService.LibrariesDir}/{lib.Path}";
 
                         if (lib.Type == LibraryType.ForgeMain)
                         {
-                            await SystemUtil.SendDirToRecycleBinAsync(Path.GetDirectoryName(libPath));
+                            return Path.GetDirectoryName(libPath);
                         }
-                        else
+
+                        return libPath;
+                    });
+
+                    RecycleBinUtil.Send(paths);
+
+                    // Clean up empty lib directories
+                    static void CleanEmptyDirs(string dir)
+                    {
+                        foreach (string subDir in Directory.EnumerateDirectories(dir))
                         {
-                            await SystemUtil.SendFileToRecycleBinAsync(libPath);
-                            SystemUtil.DeleteEmptyDirs(Path.GetDirectoryName(libPath));
+                            CleanEmptyDirs(subDir);
                         }
+
+                        if (!Directory.GetFileSystemEntries(dir).Any())
+                        {
+                            Directory.Delete(dir);
+                        }
+                    }
+
+                    if (Directory.Exists(_gamePathService.LibrariesDir))
+                    {
+                        _logService.Info(nameof(VersionService), $"Cleaning up empty lib directories");
+
+                        CleanEmptyDirs(_gamePathService.LibrariesDir);
                     }
                 }
             }
@@ -177,9 +214,11 @@ namespace GBCLV3.Services.Launch
 
         public async ValueTask<IEnumerable<VersionDownload>> GetDownloadListAsync()
         {
+            _logService.Info(nameof(VersionService), "Fetching version downloads list");
+
             try
             {
-                var json = await _client.GetByteArrayAsync(_urlService.Base.VersionList);
+                byte[] json = await _client.GetByteArrayAsync(_urlService.Base.VersionList);
                 var versionList = JsonSerializer.Deserialize<JVersionList>(json);
 
                 return versionList.versions.Select(download =>
@@ -193,19 +232,22 @@ namespace GBCLV3.Services.Launch
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(VersionService), $"Failed to fetch version downloads list: HTTP error\n{ex.Message}");
+
                 return null;
             }
             catch (OperationCanceledException)
             {
-                // AuthTimeout
-                Debug.WriteLine("[ERROR] Get version download list timeout");
+                _logService.Error(nameof(VersionService), "Failed to fetch version downloads list: Timeout");
+
                 return null;
             }
         }
 
         public async ValueTask<byte[]> GetJsonAsync(VersionDownload download)
         {
+            _logService.Info(nameof(VersionService), $"Fetching json for version: \"{download.ID}\"");
+
             try
             {
                 return await _client.GetByteArrayAsync(_urlService.Base.Json + download.Url)
@@ -213,13 +255,14 @@ namespace GBCLV3.Services.Launch
             }
             catch (HttpRequestException ex)
             {
-                Debug.WriteLine(ex.ToString());
+                _logService.Error(nameof(VersionService), $"Failed to fetch version json: HTTP error\n{ex.Message}");
+
                 return null;
             }
             catch (OperationCanceledException)
             {
-                // AuthTimeout
-                Debug.WriteLine("[ERROR] Get version download list timeout");
+                _logService.Error(nameof(VersionService), "Failed to fetch version json: Timeout");
+
                 return null;
             }
         }
@@ -227,7 +270,7 @@ namespace GBCLV3.Services.Launch
         public bool CheckIntegrity(Version version)
         {
             string jarPath = $"{_gamePathService.VersionsDir}/{version.JarID}/{version.JarID}.jar";
-            return File.Exists(jarPath) && CryptUtil.ValidateFileSHA1(jarPath, version.SHA1);
+            return File.Exists(jarPath) && CryptoUtil.ValidateFileSHA1(jarPath, version.SHA1);
         }
 
         public IEnumerable<DownloadItem> GetDownload(Version version)
@@ -242,7 +285,7 @@ namespace GBCLV3.Services.Launch
                 DownloadedBytes = 0
             };
 
-            return new[] { item };
+            return Enumerable.Repeat(item, 1);
         }
 
         #endregion
@@ -254,16 +297,22 @@ namespace GBCLV3.Services.Launch
             JVersion jver;
             try
             {
-                var jsonData = File.ReadAllBytes(jsonPath);
-                var json = SystemUtil.RemoveUtf8BOM(jsonData);
+                byte[] jsonData = File.ReadAllBytes(jsonPath);
+                var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 jver = JsonSerializer.Deserialize<JVersion>(json);
             }
-            catch
+            catch(JsonException ex)
             {
+                _logService.Error(nameof(VersionService), $"Load aborted: Failed to read version json.\n{ex.Message}");
+
                 return null;
             }
 
-            if (!IsValidVersion(jver)) return null;
+            if (!IsValidVersion(jver))
+            {
+                _logService.Warn(nameof(VersionService), "Load aborted: Not a valid version");
+                return null;
+            }
 
             var version = new Version
             {
@@ -279,7 +328,7 @@ namespace GBCLV3.Services.Launch
             };
 
             // Process launch arguments
-            var args = jver.arguments?.game // post-1.12.2 versions
+            string[] args = jver.arguments?.game // post-1.12.2 versions
                            .Where(element => element.ValueKind == JsonValueKind.String)
                            .Select(element => element.GetString())
                            .ToArray() ?? jver.minecraftArguments.Split(' '); // pre-1.12.2 versions
@@ -297,12 +346,21 @@ namespace GBCLV3.Services.Launch
                     version.Type = VersionType.Forge;
                 }
 
-                if (tweakClass == "optifine.OptiFineTweaker") version.Type = VersionType.OptiFine;
+                if (tweakClass == "optifine.OptiFineTweaker")
+                {
+                    version.Type = VersionType.OptiFine;
+                }
             }
 
-            if (version.MainClass == "cpw.mods.modlauncher.Launcher") version.Type = VersionType.NewForge;
+            if (version.MainClass == "cpw.mods.modlauncher.Launcher")
+            {
+                version.Type = VersionType.NewForge;
+            }
 
-            if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient") version.Type = VersionType.Fabric;
+            if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient")
+            {
+                version.Type = VersionType.Fabric;
+            }
 
             // Process libraries
             version.Libraries = _libraryService.Process(jver.libraries).ToList();
@@ -320,6 +378,8 @@ namespace GBCLV3.Services.Launch
                     IsLegacy = jver.assetIndex.id == "legacy",
                 };
             }
+
+            _logService.Info(nameof(VersionService), $"Version: \"{version.ID}\" loaded. Type: \"{version.Type}\"");
 
             return version;
         }
@@ -352,9 +412,12 @@ namespace GBCLV3.Services.Launch
                 version.SHA1 = parent.SHA1;
                 version.Url = parent.Url;
                 version.CompatibilityVersion = parent.CompatibilityVersion;
+
+                _logService.Info(nameof(VersionService), $"Version: \"{version.ID}\" inherited properties from parent: \"{parent.ID}\"");
             }
             else
             {
+                _logService.Warn(nameof(VersionService), $"Version: \"{version.ID}\" cannot find parent: \"{version.InheritsFrom}\"");
                 _versions.Remove(version.ID);
             }
         }

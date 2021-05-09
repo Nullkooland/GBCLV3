@@ -4,7 +4,7 @@ namespace GBCLV3.Models.Auxiliary
 {
     public class ResourcePack
     {
-        public string Name => System.IO.Path.GetFileName(Path);
+        public string Id { get; set; }
 
         public int Format { get; set; }
 

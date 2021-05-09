@@ -1,8 +1,8 @@
-﻿using GBCLV3.Models.Authentication;
+﻿using System.Collections.Generic;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Models.Theme;
-using System.Collections.Generic;
 
 namespace GBCLV3.Models
 {
@@ -72,8 +72,6 @@ namespace GBCLV3.Models
         #region Misc
 
         public bool DownloadAssetsOnInstall { get; set; }
-
-        public bool CopyMods { get; set; }
 
         #endregion
     }

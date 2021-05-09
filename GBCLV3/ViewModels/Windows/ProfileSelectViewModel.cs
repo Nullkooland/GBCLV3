@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Windows;
 using GBCLV3.Models.Authentication;
@@ -17,6 +14,7 @@ namespace GBCLV3.ViewModels.Windows
     {
         #region Private Fields
 
+        private readonly AccountService _accountService;
         private readonly SkinService _skinService;
         private readonly ThemeService _themeService;
 
@@ -25,8 +23,12 @@ namespace GBCLV3.ViewModels.Windows
         #region Constructor
 
         [Inject]
-        public ProfileSelectViewModel(SkinService skinService, ThemeService themeService)
+        public ProfileSelectViewModel(
+            AccountService accountService,
+            SkinService skinService,
+            ThemeService themeService)
         {
+            _accountService = accountService;
             _skinService = skinService;
             _themeService = themeService;
         }
@@ -64,8 +66,8 @@ namespace GBCLV3.ViewModels.Windows
 
             for (int i = 0; i < Profiles.Count; i++)
             {
-                Profiles[i].Base64Profile = await _skinService.GetProfileAsync(Profiles[i].Id, profileServer);
-                Profiles[i].Skin = await _skinService.GetSkinAsync(Profiles[i].Base64Profile);
+                Profiles[i].Base64Profile = await _accountService.GetProfileAsync(Profiles[i].Id, profileServer);
+                Profiles[i].Skin = await _skinService.GetAsync(Profiles[i].Base64Profile);
             }
 
             Profiles.Refresh();
