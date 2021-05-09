@@ -45,14 +45,14 @@ namespace GBCLV3.ViewModels.Windows
 
             Type = type;
             MessageFontSize = (logs.Length < 512) ? 16 : 12;
-            ErrorMessage = $"{logs}\n[Launcher Version: {AssemblyUtil.Version}]";
+            ErrorMessage = logs;
         }
 
         public void Close() => this.RequestClose();
 
         public void Report() => SystemUtil.OpenLink(ISSUES_URL);
 
-        public void CopyMessage() => Clipboard.SetText(ErrorMessage, TextDataFormat.UnicodeText);
+        public void CopyMessage() => Clipboard.SetText($"```ini\n{ErrorMessage}```", TextDataFormat.UnicodeText);
 
         public void OnWindowLoaded(Window window, RoutedEventArgs _)
         {
