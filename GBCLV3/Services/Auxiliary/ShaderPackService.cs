@@ -38,7 +38,7 @@ namespace GBCLV3.Services.Auxiliary
 
         public Task<ImmutableArray<ShaderPack>> LoadAllAsync()
         {
-            string opttionsFile = _gamePathService.RootDir + "/optionsshaders.txt";
+            string opttionsFile = _gamePathService.WorkingDir + "/optionsshaders.txt";
             string enabledPackId = null;
 
             if (File.Exists(opttionsFile))
@@ -112,7 +112,7 @@ namespace GBCLV3.Services.Auxiliary
 
         public void WriteToOptions(ShaderPack enabledPack)
         {
-            string opttionsFile = _gamePathService.RootDir + "/optionsshaders.txt";
+            string opttionsFile = _gamePathService.WorkingDir + "/optionsshaders.txt";
             if (!File.Exists(opttionsFile))
             {
                 return;
