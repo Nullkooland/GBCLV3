@@ -1,17 +1,17 @@
 ﻿using System;
-using GBCLV3.Models.Auxiliary;
-using GBCLV3.Services.Launch;
-using GBCLV3.Utils;
-using Microsoft.VisualBasic.FileIO;
-using StyletIoC;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using System.Collections.Immutable;
+using GBCLV3.Models.Auxiliary;
+using GBCLV3.Services.Launch;
+using GBCLV3.Utils;
 using GBCLV3.Utils.Native;
+using Microsoft.VisualBasic.FileIO;
+using StyletIoC;
 
 namespace GBCLV3.Services.Auxiliary
 {
@@ -56,10 +56,16 @@ namespace GBCLV3.Services.Auxiliary
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ModsDir}/{Path.GetFileName(path)}";
-                if (File.Exists(dstPath)) return null;
+                if (File.Exists(dstPath))
+                {
+                    return null;
+                }
 
                 var mod = Load(path);
-                if (mod == null) return null;
+                if (mod == null)
+                {
+                    return null;
+                }
 
                 try
                 {
@@ -159,7 +165,11 @@ namespace GBCLV3.Services.Auxiliary
             var fabricMod = JsonSerializer.Deserialize<FabricMod>(infoJson);
             var authorList = fabricMod?.authors.Select(element =>
             {
-                if (element.ValueKind == JsonValueKind.String) return element.GetString();
+                if (element.ValueKind == JsonValueKind.String)
+                {
+                    return element.GetString();
+                }
+
                 return element.TryGetProperty("name", out element) ? element.GetString() : null;
             });
 
@@ -190,7 +200,7 @@ namespace GBCLV3.Services.Auxiliary
                 forgeMod = forgeMod.modList[0];
             }
 
-            var authorList = forgeMod?.authorList ?? forgeMod?.authors;
+            string[] authorList = forgeMod?.authorList ?? forgeMod?.authors;
             string authors = authorList != null ? string.Join(", ", authorList) : null;
 
             return new Mod

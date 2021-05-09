@@ -1,5 +1,5 @@
-﻿using GBCLV3.Services;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using GBCLV3.Services;
 
 namespace GBCLV3.Utils.Binding
 {

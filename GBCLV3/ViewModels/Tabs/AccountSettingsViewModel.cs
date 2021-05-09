@@ -1,10 +1,10 @@
-﻿using GBCLV3.Models.Authentication;
+﻿using System.Linq;
+using System.Windows;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Services.Authentication;
 using GBCLV3.ViewModels.Windows;
 using Stylet;
 using StyletIoC;
-using System.Linq;
-using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {

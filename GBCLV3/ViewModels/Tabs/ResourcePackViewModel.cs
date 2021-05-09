@@ -1,12 +1,12 @@
-﻿using GBCLV3.Models.Auxiliary;
+﻿using System.Windows;
+using System.Windows.Controls;
+using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services;
 using GBCLV3.Services.Auxiliary;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -111,7 +111,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public async void OnDrop(ListBox listBox, DragEventArgs e)
         {
-            var paths = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] paths = e.Data.GetData(DataFormats.FileDrop) as string[];
 
             if (listBox.Name.StartsWith("Enabled"))
             {

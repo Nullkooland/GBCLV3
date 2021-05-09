@@ -1,12 +1,12 @@
-﻿using GBCLV3.Models.Launch;
-using GBCLV3.Utils;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using GBCLV3.Models.Authentication;
+using GBCLV3.Models.Launch;
+using GBCLV3.Utils;
+using StyletIoC;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Launch
@@ -86,7 +86,10 @@ namespace GBCLV3.Services.Launch
 
         private void OnErrorDaraReceived(object sender, DataReceivedEventArgs e)
         {
-            if (string.IsNullOrEmpty(e.Data)) return;
+            if (string.IsNullOrEmpty(e.Data))
+            {
+                return;
+            }
 
             _logService.Error(nameof(LaunchService), "Game error occurred");
             _logService.Minecraft(e.Data);
@@ -151,7 +154,11 @@ namespace GBCLV3.Services.Launch
             builder.Append("-cp \"");
             foreach (var lib in version.Libraries)
             {
-                if (lib.Type == LibraryType.Native) continue;
+                if (lib.Type == LibraryType.Native)
+                {
+                    continue;
+                }
+
                 builder.Append($"{_gamePathService.LibrariesDir}/{lib.Path};");
             }
 
@@ -189,12 +196,35 @@ namespace GBCLV3.Services.Launch
                 argsDict["--assetIndex"] = version.AssetsInfo.ID;
             }
 
-            if (argsDict.ContainsKey("--uuid")) argsDict["--uuid"] = profile.Account.UUID;
-            if (argsDict.ContainsKey("--accessToken")) argsDict["--accessToken"] = profile.Account.AccessToken;
-            if (argsDict.ContainsKey("--session")) argsDict["--session"] = profile.Account.AccessToken;
-            if (argsDict.ContainsKey("--userType")) argsDict["--userType"] = "mojang";
-            if (argsDict.ContainsKey("--versionType")) argsDict["--versionType"] = profile.VersionType;
-            if (argsDict.ContainsKey("--userProperties")) argsDict["--userProperties"] = "{}";
+            if (argsDict.ContainsKey("--uuid"))
+            {
+                argsDict["--uuid"] = profile.Account.UUID;
+            }
+
+            if (argsDict.ContainsKey("--accessToken"))
+            {
+                argsDict["--accessToken"] = profile.Account.AccessToken;
+            }
+
+            if (argsDict.ContainsKey("--session"))
+            {
+                argsDict["--session"] = profile.Account.AccessToken;
+            }
+
+            if (argsDict.ContainsKey("--userType"))
+            {
+                argsDict["--userType"] = "mojang";
+            }
+
+            if (argsDict.ContainsKey("--versionType"))
+            {
+                argsDict["--versionType"] = profile.VersionType;
+            }
+
+            if (argsDict.ContainsKey("--userProperties"))
+            {
+                argsDict["--userProperties"] = "{}";
+            }
 
             string args = string.Join(" ", argsDict.Select(pair => pair.Key + ' ' + pair.Value));
             builder.Append(args).Append(' ');

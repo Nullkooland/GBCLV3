@@ -10,7 +10,7 @@ namespace GBCLV3.Utils.Native
 
         public static bool Send(IEnumerable<string> paths)
         {
-            var pathsMerged = string.Join('\0', paths);
+            string pathsMerged = string.Join('\0', paths);
             try
             {
                 var fs = new SHFileOpStruct

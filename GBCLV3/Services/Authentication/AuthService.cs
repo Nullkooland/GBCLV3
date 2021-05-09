@@ -1,11 +1,11 @@
-﻿using GBCLV3.Models.Authentication;
-using GBCLV3.Utils;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services.Authentication
 {
@@ -83,7 +83,7 @@ namespace GBCLV3.Services.Authentication
                 SelectedProfile = selectedProfile,
             };
 
-            var requestJson = JsonSerializer.Serialize(request, _jsonOptions);
+            string requestJson = JsonSerializer.Serialize(request, _jsonOptions);
             return RequestAsync(requestJson, true, authServer ?? MOJANG_AUTH_SERVER);
         }
 
@@ -91,7 +91,7 @@ namespace GBCLV3.Services.Authentication
         {
             try
             {
-                var responseJson = await _client.GetByteArrayAsync(authServer);
+                byte[] responseJson = await _client.GetByteArrayAsync(authServer);
                 return Convert.ToBase64String(responseJson);
             }
             catch (HttpRequestException ex)
@@ -105,7 +105,7 @@ namespace GBCLV3.Services.Authentication
         {
             try
             {
-                var responseJson = await _client.GetByteArrayAsync(authServer);
+                byte[] responseJson = await _client.GetByteArrayAsync(authServer);
                 return JsonSerializer.Deserialize<AuthServerInfo>(responseJson, _jsonOptions);
             }
             catch (Exception ex)
@@ -149,7 +149,7 @@ namespace GBCLV3.Services.Authentication
                 using var msg = await _client.PostAsync(
                     authServer + (isRefresh ? "/refresh" : "/authenticate"), content);
 
-                var responseJson = await msg.Content.ReadAsByteArrayAsync();
+                byte[] responseJson = await msg.Content.ReadAsByteArrayAsync();
 
                 if (msg.IsSuccessStatusCode)
                 {

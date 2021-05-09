@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
@@ -87,10 +86,16 @@ namespace GBCLV3.Services.Launch
             foreach (var version in availableVersions)
             {
                 _versions.Add(version.ID, version);
-                if (version.InheritsFrom != null) inheritVersions.Add(version);
+                if (version.InheritsFrom != null)
+                {
+                    inheritVersions.Add(version);
+                }
             }
 
-            foreach (var version in inheritVersions) InheritParentProperties(version);
+            foreach (var version in inheritVersions)
+            {
+                InheritParentProperties(version);
+            }
 
             Loaded?.Invoke(_versions.Any());
             return _versions.Any();
@@ -108,7 +113,10 @@ namespace GBCLV3.Services.Launch
 
         public Version GetByID(string id)
         {
-            if (id != null && _versions.TryGetValue(id, out var version)) return version;
+            if (id != null && _versions.TryGetValue(id, out var version))
+            {
+                return version;
+            }
 
             return null;
         }
@@ -121,7 +129,11 @@ namespace GBCLV3.Services.Launch
 
             if (newVersion != null)
             {
-                if (newVersion.InheritsFrom != null) InheritParentProperties(newVersion);
+                if (newVersion.InheritsFrom != null)
+                {
+                    InheritParentProperties(newVersion);
+                }
+
                 _versions.Add(newVersion.ID, newVersion);
                 Created?.Invoke(newVersion);
             }
@@ -179,7 +191,7 @@ namespace GBCLV3.Services.Launch
                     // Clean up empty lib directories
                     static void CleanEmptyDirs(string dir)
                     {
-                        foreach (var subDir in Directory.EnumerateDirectories(dir))
+                        foreach (string subDir in Directory.EnumerateDirectories(dir))
                         {
                             CleanEmptyDirs(subDir);
                         }
@@ -206,7 +218,7 @@ namespace GBCLV3.Services.Launch
 
             try
             {
-                var json = await _client.GetByteArrayAsync(_urlService.Base.VersionList);
+                byte[] json = await _client.GetByteArrayAsync(_urlService.Base.VersionList);
                 var versionList = JsonSerializer.Deserialize<JVersionList>(json);
 
                 return versionList.versions.Select(download =>
@@ -285,7 +297,7 @@ namespace GBCLV3.Services.Launch
             JVersion jver;
             try
             {
-                var jsonData = File.ReadAllBytes(jsonPath);
+                byte[] jsonData = File.ReadAllBytes(jsonPath);
                 var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 jver = JsonSerializer.Deserialize<JVersion>(json);
             }
@@ -316,7 +328,7 @@ namespace GBCLV3.Services.Launch
             };
 
             // Process launch arguments
-            var args = jver.arguments?.game // post-1.12.2 versions
+            string[] args = jver.arguments?.game // post-1.12.2 versions
                            .Where(element => element.ValueKind == JsonValueKind.String)
                            .Select(element => element.GetString())
                            .ToArray() ?? jver.minecraftArguments.Split(' '); // pre-1.12.2 versions
@@ -334,12 +346,21 @@ namespace GBCLV3.Services.Launch
                     version.Type = VersionType.Forge;
                 }
 
-                if (tweakClass == "optifine.OptiFineTweaker") version.Type = VersionType.OptiFine;
+                if (tweakClass == "optifine.OptiFineTweaker")
+                {
+                    version.Type = VersionType.OptiFine;
+                }
             }
 
-            if (version.MainClass == "cpw.mods.modlauncher.Launcher") version.Type = VersionType.NewForge;
+            if (version.MainClass == "cpw.mods.modlauncher.Launcher")
+            {
+                version.Type = VersionType.NewForge;
+            }
 
-            if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient") version.Type = VersionType.Fabric;
+            if (version.MainClass == "net.fabricmc.loader.launch.knot.KnotClient")
+            {
+                version.Type = VersionType.Fabric;
+            }
 
             // Process libraries
             version.Libraries = _libraryService.Process(jver.libraries).ToList();

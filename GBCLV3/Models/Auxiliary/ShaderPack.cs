@@ -1,6 +1,5 @@
-﻿using PropertyChanged;
-using System.ComponentModel;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.ComponentModel;
+using PropertyChanged;
 
 namespace GBCLV3.Models.Auxiliary
 {

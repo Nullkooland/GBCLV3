@@ -1,9 +1,7 @@
-﻿using GBCLV3.Models.Download;
-using System;
+﻿using System;
 using System.Buffers;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -12,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Threading.Tasks.Dataflow;
 using System.Windows.Threading;
+using GBCLV3.Models.Download;
 
 namespace GBCLV3.Services.Download
 {
@@ -122,7 +121,10 @@ namespace GBCLV3.Services.Download
                     {
                         for (int i = 0; i < MAX_RETRY_COUNT && !_userCts.IsCancellationRequested; i++)
                         {
-                            if (await DownloadItemAsync(item, i)) break;
+                            if (await DownloadItemAsync(item, i))
+                            {
+                                break;
+                            }
                         }
                     }, _parallelOptions);
 
@@ -230,7 +232,10 @@ namespace GBCLV3.Services.Download
 
         private async ValueTask<bool> DownloadItemAsync(DownloadItem item, int retryTimes)
         {
-            if (_userCts.IsCancellationRequested) return true;
+            if (_userCts.IsCancellationRequested)
+            {
+                return true;
+            }
 
             if (retryTimes > 0)
             {
@@ -243,7 +248,7 @@ namespace GBCLV3.Services.Download
                 Directory.CreateDirectory(Path.GetDirectoryName(item.Path));
             }
 
-            var buffer = _bufferPool.Rent(BUFFER_SIZE);
+            byte[] buffer = _bufferPool.Rent(BUFFER_SIZE);
 
             try
             {

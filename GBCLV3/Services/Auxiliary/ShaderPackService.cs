@@ -1,8 +1,4 @@
-﻿using GBCLV3.Models.Auxiliary;
-using GBCLV3.Services.Launch;
-using GBCLV3.Utils.Native;
-using StyletIoC;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
@@ -10,6 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using GBCLV3.Models.Auxiliary;
+using GBCLV3.Services.Launch;
+using GBCLV3.Utils.Native;
+using StyletIoC;
 
 namespace GBCLV3.Services.Auxiliary
 {
@@ -71,10 +71,16 @@ namespace GBCLV3.Services.Auxiliary
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ShaderPacksDir}/{Path.GetFileName(path)}";
-                if (File.Exists(dstPath)) return null;
+                if (File.Exists(dstPath))
+                {
+                    return null;
+                }
 
                 var pack = Load(path);
-                if (pack == null) return null;
+                if (pack == null)
+                {
+                    return null;
+                }
 
                 try
                 {
@@ -107,7 +113,10 @@ namespace GBCLV3.Services.Auxiliary
         public void WriteToOptions(ShaderPack enabledPack)
         {
             string opttionsFile = _gamePathService.RootDir + "/optionsshaders.txt";
-            if (!File.Exists(opttionsFile)) return;
+            if (!File.Exists(opttionsFile))
+            {
+                return;
+            }
 
             string options = File.ReadAllText(opttionsFile, Encoding.Default);
             string enabledPackId = enabledPack?.Id ?? "(internal)";
@@ -133,7 +142,7 @@ namespace GBCLV3.Services.Auxiliary
 
         private static ShaderPack Load(string path, string enabledPackId = null)
         {
-            var id = Path.GetFileName(path);
+            string id = Path.GetFileName(path);
             bool isZip = path.EndsWith(".zip");
 
             if (isZip)

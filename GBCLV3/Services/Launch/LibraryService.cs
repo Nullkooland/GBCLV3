@@ -1,14 +1,14 @@
-﻿using GBCLV3.Models.Download;
-using GBCLV3.Models.Launch;
-using GBCLV3.Services.Download;
-using StyletIoC;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Threading.Tasks;
+using GBCLV3.Models.Download;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
 using GBCLV3.Utils;
-using System.Collections.Immutable;
+using StyletIoC;
 
 namespace GBCLV3.Services.Launch
 {
@@ -43,10 +43,16 @@ namespace GBCLV3.Services.Launch
                 // Ironically, these libs only appear in 1.7.10 - 1.8.9, not found in latter versions' json :D
                 // Also can cause troubles latter (and I don't wanna deal with that particular scenario)
                 // Might as well just ignore them! (Yes, I'm slacking off, LOL)
-                if (jlib.name.StartsWith("tv.twitch")) continue;
+                if (jlib.name.StartsWith("tv.twitch"))
+                {
+                    continue;
+                }
 
-                var names = jlib.name.Split(':');
-                if (names.Length != 3 || !IsLibAllowed(jlib.rules)) continue;
+                string[] names = jlib.name.Split(':');
+                if (names.Length != 3 || !IsLibAllowed(jlib.rules))
+                {
+                    continue;
+                }
 
                 if (jlib.natives == null)
                 {
@@ -87,7 +93,10 @@ namespace GBCLV3.Services.Launch
                 else
                 {
                     string suffix = jlib.natives["windows"];
-                    if (suffix.EndsWith("${arch}")) suffix = suffix.Replace("${arch}", "64");
+                    if (suffix.EndsWith("${arch}"))
+                    {
+                        suffix = suffix.Replace("${arch}", "64");
+                    }
 
                     var nativeLibInfo = jlib.downloads?.classifiers[suffix];
 
@@ -175,9 +184,12 @@ namespace GBCLV3.Services.Launch
 
         private static bool IsLibAllowed(List<JRule> rules)
         {
-            if (rules == null) return true;
+            if (rules == null)
+            {
+                return true;
+            }
 
-            var isAllowed = false;
+            bool isAllowed = false;
             foreach (var rule in rules)
             {
                 if (rule.os == null)
@@ -186,7 +198,10 @@ namespace GBCLV3.Services.Launch
                     continue;
                 }
 
-                if (rule.os.name == "windows") isAllowed = rule.action == "allow";
+                if (rule.os.name == "windows")
+                {
+                    isAllowed = rule.action == "allow";
+                }
             }
 
             return isAllowed;

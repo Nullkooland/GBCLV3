@@ -1,4 +1,8 @@
-﻿using GBCLV3.Models;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text.Json;
+using GBCLV3.Models;
 using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
@@ -7,10 +11,6 @@ using GBCLV3.Utils;
 using GBCLV3.Utils.Native;
 using Microsoft.Win32;
 using StyletIoC;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
 
 namespace GBCLV3.Services
 {
@@ -47,7 +47,7 @@ namespace GBCLV3.Services
 
             try
             {
-                var jsonData = File.ReadAllBytes(CONFIG_FILENAME);
+                byte[] jsonData = File.ReadAllBytes(CONFIG_FILENAME);
                 var json = CryptoUtil.RemoveUtf8BOM(jsonData);
                 Entries = JsonSerializer.Deserialize<Config>(json);
             }
@@ -102,7 +102,7 @@ namespace GBCLV3.Services
         {
             _logService.Info(nameof(ConfigService), "Saving config json");
 
-            var json = JsonSerializer.SerializeToUtf8Bytes(Entries,
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(Entries,
                 new JsonSerializerOptions { WriteIndented = true, IgnoreNullValues = true });
 
             try

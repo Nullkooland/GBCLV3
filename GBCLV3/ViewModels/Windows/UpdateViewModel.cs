@@ -1,10 +1,10 @@
-﻿using GBCLV3.Models.Download;
+﻿using System.Text;
+using System.Windows;
+using GBCLV3.Models.Download;
 using GBCLV3.Services;
 using GBCLV3.Services.Download;
 using Stylet;
 using StyletIoC;
-using System.Text;
-using System.Windows;
 
 namespace GBCLV3.ViewModels.Windows
 {
@@ -14,7 +14,7 @@ namespace GBCLV3.ViewModels.Windows
 
         // IoC
         private readonly UpdateService _updateService;
-        private DownloadService _downloadService;
+        private readonly DownloadService _downloadService;
 
         private readonly IWindowManager _windowManager;
 
@@ -99,7 +99,10 @@ namespace GBCLV3.ViewModels.Windows
         [PropertyChanged.SuppressPropertyChangedWarnings]
         public void OnDownloadCompleted(DownloadResult result)
         {
-            if (result == DownloadResult.Incomplete) _downloadService.Cancel();
+            if (result == DownloadResult.Incomplete)
+            {
+                _downloadService.Cancel();
+            }
 
             _downloadService.Completed -= OnDownloadCompleted;
             _downloadService.ProgressChanged -= OnDownloadProgressChanged;
@@ -119,7 +122,10 @@ namespace GBCLV3.ViewModels.Windows
 
             // Download and display changelog
             var changelog = await _updateService.GetChangelogAsync(info);
-            if (changelog == null) return;
+            if (changelog == null)
+            {
+                return;
+            }
 
             var builder = new StringBuilder(1024);
             foreach (string line in changelog.Details)

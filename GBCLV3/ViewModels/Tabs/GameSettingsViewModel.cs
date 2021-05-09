@@ -1,11 +1,11 @@
-﻿using GBCLV3.Models;
+﻿using System.IO;
+using GBCLV3.Models;
 using GBCLV3.Services;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using GBCLV3.Utils.Native;
 using Stylet;
 using StyletIoC;
-using System.IO;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -13,7 +13,7 @@ namespace GBCLV3.ViewModels.Tabs
     {
         #region Private Fields
 
-        const string JRE_DOWNLOAD_URL = "https://bmclapi.bangbang93.com/java/jre_x64.exe";
+        private const string JRE_DOWNLOAD_URL = "https://bmclapi.bangbang93.com/java/jre_x64.exe";
 
         // IoC
         private readonly Config _config;

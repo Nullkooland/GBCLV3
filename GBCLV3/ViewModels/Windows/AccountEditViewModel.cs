@@ -124,12 +124,19 @@ namespace GBCLV3.ViewModels.Windows
             get => _authServerBase;
             set
             {
-                if (value == null) return;
+                if (value == null)
+                {
+                    return;
+                }
 
                 if (value.StartsWith("http"))
+                {
                     _authServerBase = value.Replace("http://", "https://");
+                }
                 else
+                {
                     _authServerBase = "https://" + value;
+                }
             }
         }
 

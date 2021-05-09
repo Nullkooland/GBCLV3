@@ -45,7 +45,7 @@ namespace GBCLV3.Utils
         {
             using var sha1Provider = new SHA1CryptoServiceProvider();
             using var fileStream = File.OpenRead(path);
-            var sha1Bytes = sha1Provider.ComputeHash(fileStream);
+            byte[] sha1Bytes = sha1Provider.ComputeHash(fileStream);
 
             for (int i = 0; i < sha1Bytes.Length; i++)
             {
@@ -65,7 +65,7 @@ namespace GBCLV3.Utils
         {
             using var sha1Provider = new SHA256CryptoServiceProvider();
             using var fileStream = File.OpenRead(path);
-            var sha256Bytes = sha1Provider.ComputeHash(fileStream);
+            byte[] sha256Bytes = sha1Provider.ComputeHash(fileStream);
 
             for (int i = 0; i < sha256Bytes.Length; i++)
             {

@@ -1,7 +1,7 @@
-﻿using GBCLV3.Models.Launch;
-using System;
+﻿using System;
 using System.Globalization;
 using System.Windows.Data;
+using GBCLV3.Models.Launch;
 
 namespace GBCLV3.Utils.Binding
 {

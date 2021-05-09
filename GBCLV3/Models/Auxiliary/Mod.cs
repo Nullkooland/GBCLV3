@@ -46,14 +46,14 @@ namespace GBCLV3.Models.Auxiliary
         public string url { get; set; }
     }
 
-    class FabricModContact
+    internal class FabricModContact
     {
         public string homepage { get; set; }
 
         public string sources { get; set; }
     }
 
-    class FabricMod
+    internal class FabricMod
     {
         public int schemaVersion { get; set; }
 

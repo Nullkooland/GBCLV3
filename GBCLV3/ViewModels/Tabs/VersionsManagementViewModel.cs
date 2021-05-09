@@ -1,14 +1,14 @@
-﻿using GBCLV3.Models;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Windows;
+using GBCLV3.Models;
 using GBCLV3.Models.Installation;
 using GBCLV3.Services;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System;
-using System.IO;
-using System.Linq;
-using System.Windows;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.ViewModels.Tabs
@@ -98,13 +98,19 @@ namespace GBCLV3.ViewModels.Tabs
         public void OpenDir(string id)
         {
             string versionsDir = $"{_gamePathService.VersionsDir}/{id}";
-            if (Directory.Exists(versionsDir)) SystemUtil.OpenLink(versionsDir);
+            if (Directory.Exists(versionsDir))
+            {
+                SystemUtil.OpenLink(versionsDir);
+            }
         }
 
         public void OpenJson(string id)
         {
             string jsonPath = $"{_gamePathService.VersionsDir}/{id}/{id}.json";
-            if (File.Exists(jsonPath)) SystemUtil.OpenLink(jsonPath);
+            if (File.Exists(jsonPath))
+            {
+                SystemUtil.OpenLink(jsonPath);
+            }
         }
 
         public void Delete(string id)

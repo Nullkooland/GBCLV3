@@ -1,12 +1,12 @@
-﻿using GBCLV3.Services;
-using Stylet;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Media;
 using System.Windows;
+using GBCLV3.Services;
+using Stylet;
+using StyletIoC;
 
 namespace GBCLV3.Views.Windows
 {
@@ -98,8 +98,8 @@ namespace GBCLV3.Views.Windows
         /// <summary>
         /// Setup the MessageBoxViewModel with the information it needs
         /// </summary>
-        /// <param name="messageBoxText">A <see cref="System.String"/> that specifies the text to display.</param>
-        /// <param name="caption">A <see cref="System.String"/> that specifies the title bar caption to display.</param>
+        /// <param name="messageBoxText">A <see cref="string"/> that specifies the text to display.</param>
+        /// <param name="caption">A <see cref="string"/> that specifies the title bar caption to display.</param>
         /// <param name="buttons">A <see cref="System.Windows.MessageBoxButton"/> value that specifies which button or buttons to display.</param>
         /// <param name="icon">A <see cref="System.Windows.MessageBoxImage"/> value that specifies the icon to display.</param>
         /// <param name="defaultResult">A <see cref="System.Windows.MessageBoxResult"/> value that specifies the default result of the message box.</param>
@@ -127,29 +127,43 @@ namespace GBCLV3.Views.Windows
             foreach (var val in ButtonToResults[buttons])
             {
                 if (buttonLabels == null || !buttonLabels.TryGetValue(val, out string label))
+                {
                     label = ButtonLabels[val];
+                }
 
                 var lbv = new LabelledValue<MessageBoxResult>(label, val);
                 buttonList.Add(lbv);
                 if (val == defaultResult)
+                {
                     this.DefaultButton = lbv;
+                }
                 else if (val == cancelResult)
+                {
                     this.CancelButton = lbv;
+                }
             }
             // If they didn't specify a button which we showed, then pick a default, if we can
             if (this.DefaultButton == null)
             {
                 if (defaultResult == MessageBoxResult.None && this.ButtonList.Any())
+                {
                     this.DefaultButton = buttonList[0];
+                }
                 else
+                {
                     throw new ArgumentException("DefaultButton set to a button which doesn't appear in Buttons");
+                }
             }
             if (this.CancelButton == null)
             {
                 if (cancelResult == MessageBoxResult.None && this.ButtonList.Any())
+                {
                     this.CancelButton = buttonList.Last();
+                }
                 else
+                {
                     throw new ArgumentException("CancelButton set to a button which doesn't appear in Buttons");
+                }
             }
 
             this.FlowDirection = flowDirection ?? DefaultFlowDirection;
@@ -224,7 +238,10 @@ namespace GBCLV3.Views.Windows
         {
             // There might not be a sound, or it might be null
             SoundMapping.TryGetValue(this.Icon, out var sound);
-            if (sound != null) sound.Play();
+            if (sound != null)
+            {
+                sound.Play();
+            }
         }
 
         /// <summary>

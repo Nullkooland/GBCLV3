@@ -1,15 +1,15 @@
-﻿using GBCLV3.Models.Auxiliary;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Controls;
+using GBCLV3.Models;
+using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services;
 using GBCLV3.Services.Auxiliary;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using GBCLV3.Models;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -90,8 +90,15 @@ namespace GBCLV3.ViewModels.Tabs
 
         public void SelectionChanged(ListBox _, SelectionChangedEventArgs e)
         {
-            foreach (object item in e.AddedItems) _selectedMods.Add(item as Mod);
-            foreach (object item in e.RemovedItems) _selectedMods.Remove(item as Mod);
+            foreach (object item in e.AddedItems)
+            {
+                _selectedMods.Add(item as Mod);
+            }
+
+            foreach (object item in e.RemovedItems)
+            {
+                _selectedMods.Remove(item as Mod);
+            }
         }
 
         public void Enable()

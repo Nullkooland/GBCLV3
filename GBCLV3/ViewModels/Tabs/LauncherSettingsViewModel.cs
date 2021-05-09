@@ -143,7 +143,10 @@ namespace GBCLV3.ViewModels.Tabs
 
         public async void CheckUpdate()
         {
-            if (CheckStatus == CheckUpdateStatus.UpToDate) return;
+            if (CheckStatus == CheckUpdateStatus.UpToDate)
+            {
+                return;
+            }
 
             var info = await _updateService.CheckAsync();
 
@@ -157,7 +160,7 @@ namespace GBCLV3.ViewModels.Tabs
         public void SelectBackgoundImagePath()
         {
             var sb = new StringBuilder("Images |");
-            foreach (var extenstion in ThemeService.ImageExtenstions)
+            foreach (string extenstion in ThemeService.ImageExtenstions)
             {
                 sb.Append($"*{extenstion};");
             }
@@ -180,7 +183,10 @@ namespace GBCLV3.ViewModels.Tabs
 
         protected override void OnViewLoaded()
         {
-            if (CheckStatus == CheckUpdateStatus.CheckFailed) CheckStatus = CheckUpdateStatus.Unknown;
+            if (CheckStatus == CheckUpdateStatus.CheckFailed)
+            {
+                CheckStatus = CheckUpdateStatus.Unknown;
+            }
         }
 
         #endregion

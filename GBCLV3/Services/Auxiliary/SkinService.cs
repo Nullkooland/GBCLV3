@@ -1,8 +1,4 @@
-﻿using GBCLV3.Models.Auxiliary;
-using GBCLV3.Services.Launch;
-using StyletIoC;
-using System;
-using System.Diagnostics;
+﻿using System;
 using System.IO;
 using System.Net.Http;
 using System.Text.Json;
@@ -10,6 +6,9 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using GBCLV3.Models.Auxiliary;
+using GBCLV3.Services.Launch;
+using StyletIoC;
 
 namespace GBCLV3.Services.Auxiliary
 {
@@ -43,11 +42,14 @@ namespace GBCLV3.Services.Auxiliary
 
         public async ValueTask<Skin> GetAsync(string profile)
         {
-            if (profile == null) return null;
+            if (profile == null)
+            {
+                return null;
+            }
 
             try
             {
-                var skinJson = Convert.FromBase64String(profile);
+                byte[] skinJson = Convert.FromBase64String(profile);
                 using var skinDoc = JsonDocument.Parse(skinJson);
                 var textures = skinDoc.RootElement.GetProperty("textures");
 
@@ -116,8 +118,8 @@ namespace GBCLV3.Services.Auxiliary
             int stride = size * bytesPerPixel;
 
             int pixelCount = size * size * bytesPerPixel / 4;
-            var bufferMain = new uint[pixelCount];
-            var bufferOverlay = new uint[pixelCount];
+            uint[] bufferMain = new uint[pixelCount];
+            uint[] bufferOverlay = new uint[pixelCount];
 
             var faceMain = new CroppedBitmap(body, new Int32Rect(size, size, size, size));
             var faceOverlay = new CroppedBitmap(body, new Int32Rect(size * 5, size, size, size));

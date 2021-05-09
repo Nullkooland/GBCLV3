@@ -1,8 +1,4 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Models.Download;
-using GBCLV3.Utils;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -10,6 +6,9 @@ using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GBCLV3.Models.Download;
+using GBCLV3.Utils;
+using StyletIoC;
 
 namespace GBCLV3.Services.Download
 {
@@ -54,14 +53,17 @@ namespace GBCLV3.Services.Download
 
         public async ValueTask<UpdateInfo> CheckAsync()
         {
-            if (_cachedInfo != null) return _cachedInfo;
+            if (_cachedInfo != null)
+            {
+                return _cachedInfo;
+            }
 
             _logService.Info(nameof(UpdateService), "Checking launcher update");
 
             try
             {
                 CheckStatusChanged?.Invoke(CheckUpdateStatus.Checking);
-                var json = await _client.GetByteArrayAsync(CHECK_UPDATE_URL);
+                byte[] json = await _client.GetByteArrayAsync(CHECK_UPDATE_URL);
                 var info = JsonSerializer.Deserialize<UpdateInfo>(json);
 
                 if (HasNewVersion(info.Version))
@@ -94,7 +96,7 @@ namespace GBCLV3.Services.Download
             var changelogAsset = info.Assets.Find(asset => asset.Name == "changelog.json");
             try
             {
-                var json = await _client.GetByteArrayAsync(changelogAsset.Url);
+                byte[] json = await _client.GetByteArrayAsync(changelogAsset.Url);
                 var changelogByLang = JsonSerializer.Deserialize<Dictionary<string, UpdateChangelog>>(json);
                 string langTag = _configService.Entries.Language;
 

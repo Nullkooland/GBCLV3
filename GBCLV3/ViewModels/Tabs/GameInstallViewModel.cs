@@ -1,4 +1,11 @@
-﻿using GBCLV3.Models;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
+using GBCLV3.Models;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launch;
@@ -7,13 +14,6 @@ using GBCLV3.Services.Download;
 using GBCLV3.Services.Launch;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Data;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -64,7 +64,11 @@ namespace GBCLV3.ViewModels.Tabs
             VersionDownloads = CollectionViewSource.GetDefaultView(_versionDownloads);
             VersionDownloads.Filter = obj =>
             {
-                if (_isReleaseOnly) return (obj as VersionDownload).Type == VersionType.Release;
+                if (_isReleaseOnly)
+                {
+                    return (obj as VersionDownload).Type == VersionType.Release;
+                }
+
                 return true;
             };
 
@@ -117,7 +121,7 @@ namespace GBCLV3.ViewModels.Tabs
             }
 
             Status = VersionInstallStatus.FetchingJson;
-            var json = await _versionService.GetJsonAsync(download);
+            byte[] json = await _versionService.GetJsonAsync(download);
 
             if (json == null)
             {

@@ -2,7 +2,7 @@
 
 namespace GBCLV3.Models
 {
-    enum LogLevel
+    internal enum LogLevel
     {
         Info,
         Debug,
@@ -12,7 +12,7 @@ namespace GBCLV3.Models
         Minecraft,
     }
 
-    class LogMessage
+    internal class LogMessage
     {
         public LogLevel Level { get; set; }
 

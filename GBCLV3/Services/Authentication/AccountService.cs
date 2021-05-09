@@ -1,13 +1,13 @@
-﻿using GBCLV3.Models;
-using GBCLV3.Models.Authentication;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using StyletIoC;
-using GBCLV3.Services.Auxiliary;
-using System.Threading.Tasks;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
+using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
+using GBCLV3.Services.Auxiliary;
+using StyletIoC;
 
 namespace GBCLV3.Services.Authentication
 {
@@ -84,7 +84,10 @@ namespace GBCLV3.Services.Authentication
                 Username = username,
             };
 
-            if (!_accounts.Any()) account.IsSelected = true;
+            if (!_accounts.Any())
+            {
+                account.IsSelected = true;
+            }
 
             _accounts.Add(account);
             Created?.Invoke(account);
@@ -100,7 +103,10 @@ namespace GBCLV3.Services.Authentication
             var account = new Account();
             await UpdateAccountAsync(account, null, authMode, email, authResult, authServer);
 
-            if (!_accounts.Any()) account.IsSelected = true;
+            if (!_accounts.Any())
+            {
+                account.IsSelected = true;
+            }
 
             _accounts.Add(account);
             Created?.Invoke(account);
@@ -145,7 +151,7 @@ namespace GBCLV3.Services.Authentication
 
             try
             {
-                var profileJson = await _client.GetByteArrayAsync(profileUrl);
+                byte[] profileJson = await _client.GetByteArrayAsync(profileUrl);
                 using var profile = JsonDocument.Parse(profileJson);
 
                 return profile.RootElement
@@ -171,7 +177,10 @@ namespace GBCLV3.Services.Authentication
 
         public async ValueTask LoadSkinAsync(Account account)
         {
-            if (account.AuthMode == AuthMode.Offline) return;
+            if (account.AuthMode == AuthMode.Offline)
+            {
+                return;
+            }
 
             _logService.Info(nameof(AccountService), $"Loading skin for {account.AuthMode} account \"{account.Username}\"");
 
@@ -188,7 +197,7 @@ namespace GBCLV3.Services.Authentication
 
         public async ValueTask RefreshSkinAsync(Account account)
         {
-            var latestProfile = await GetProfileAsync(account.UUID, account.ProfileServer);
+            string latestProfile = await GetProfileAsync(account.UUID, account.ProfileServer);
             account.Profile = latestProfile ?? account.Profile;
             account.Skin = await _skinService.GetAsync(account.Profile);
         }

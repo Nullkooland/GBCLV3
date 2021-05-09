@@ -1,11 +1,11 @@
-﻿using GBCLV3.Models.Auxiliary;
+﻿using System.Windows;
+using GBCLV3.Models.Auxiliary;
 using GBCLV3.Services;
 using GBCLV3.Services.Auxiliary;
 using GBCLV3.Services.Launch;
 using GBCLV3.Utils;
 using Stylet;
 using StyletIoC;
-using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -63,7 +63,7 @@ namespace GBCLV3.ViewModels.Tabs
 
         public async void OnDrop(object _, DragEventArgs e)
         {
-            var paths = e.Data.GetData(DataFormats.FileDrop) as string[];
+            string[] paths = e.Data.GetData(DataFormats.FileDrop) as string[];
             Packs.AddRange(await _shaderPackService.MoveLoadAllAsync(paths, IsCopy));
         }
 

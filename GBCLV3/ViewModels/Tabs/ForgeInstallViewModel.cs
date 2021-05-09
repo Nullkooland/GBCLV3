@@ -1,4 +1,8 @@
-﻿using GBCLV3.Models.Download;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using GBCLV3.Models.Download;
 using GBCLV3.Models.Installation;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services.Download;
@@ -6,10 +10,6 @@ using GBCLV3.Services.Installation;
 using GBCLV3.Services.Launch;
 using Stylet;
 using StyletIoC;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GBCLV3.ViewModels.Tabs
 {
@@ -201,7 +201,10 @@ namespace GBCLV3.ViewModels.Tabs
                 // Since the user has clicked the return button
                 // Nobody cares about the fetching result!
                 // まっそんなのもう関係ないですけどね！
-                if (!this.IsActive) return;
+                if (!this.IsActive)
+                {
+                    return;
+                }
 
                 if (forges == null)
                 {

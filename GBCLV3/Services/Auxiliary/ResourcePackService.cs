@@ -1,12 +1,6 @@
-﻿using GBCLV3.Models.Auxiliary;
-using GBCLV3.Services.Launch;
-using GBCLV3.Utils;
-using GBCLV3.Utils.Native;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -15,6 +9,11 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Media.Imaging;
+using GBCLV3.Models.Auxiliary;
+using GBCLV3.Services.Launch;
+using GBCLV3.Utils;
+using GBCLV3.Utils.Native;
+using StyletIoC;
 
 namespace GBCLV3.Services.Auxiliary
 {
@@ -120,7 +119,10 @@ namespace GBCLV3.Services.Auxiliary
             string enabledPackIDs =
                 string.Join(",", enabledPacks.Reverse().Select(pack =>
                 {
-                    if (!_isNewOptionsFormat) return $"\"{pack.Id}\"";
+                    if (!_isNewOptionsFormat)
+                    {
+                        return $"\"{pack.Id}\"";
+                    }
                     //if (pack.Name == "vanilla" || pack.Name == "programmer_art") return pack.Name;
                     return $"\"file/{pack.Id}\"";
                 }));
@@ -156,10 +158,16 @@ namespace GBCLV3.Services.Auxiliary
             var query = paths.Select(path =>
             {
                 string dstPath = $"{_gamePathService.ResourcePacksDir}/{Path.GetFileName(path)}";
-                if (File.Exists(dstPath)) return null;
+                if (File.Exists(dstPath))
+                {
+                    return null;
+                }
 
                 var pack = Load(path);
-                if (pack == null) return null;
+                if (pack == null)
+                {
+                    return null;
+                }
 
                 try
                 {
@@ -198,7 +206,7 @@ namespace GBCLV3.Services.Auxiliary
 
         private ResourcePack Load(string path, string[] enabledPacksIds = null)
         {
-            var id = Path.GetFileName(path);
+            string id = Path.GetFileName(path);
             bool isZip = path.EndsWith(".zip");
 
             using var infoMemStream = new MemoryStream();
@@ -272,7 +280,10 @@ namespace GBCLV3.Services.Auxiliary
 
         private static BitmapImage ReadImage(MemoryStream imgStream)
         {
-            if (imgStream.Length == 0) return null;
+            if (imgStream.Length == 0)
+            {
+                return null;
+            }
 
             var img = new BitmapImage();
             img.BeginInit();

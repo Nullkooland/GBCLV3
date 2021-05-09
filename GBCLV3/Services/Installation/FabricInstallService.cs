@@ -1,15 +1,15 @@
-﻿using GBCLV3.Models.Installation;
-using GBCLV3.Models.Launch;
-using GBCLV3.Services.Download;
-using GBCLV3.Services.Launch;
-using StyletIoC;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
+using GBCLV3.Models.Installation;
+using GBCLV3.Models.Launch;
+using GBCLV3.Services.Download;
+using GBCLV3.Services.Launch;
+using StyletIoC;
 using Version = GBCLV3.Models.Launch.Version;
 
 namespace GBCLV3.Services.Installation
@@ -59,7 +59,7 @@ namespace GBCLV3.Services.Installation
 
             try
             {
-                var json = await _client.GetByteArrayAsync(_urlService.Base.Fabric + jarID);
+                byte[] json = await _client.GetByteArrayAsync(_urlService.Base.Fabric + jarID);
                 return JsonSerializer.Deserialize<List<Fabric>>(json, _jsonOptions);
             }
             catch (HttpRequestException ex)
@@ -97,7 +97,7 @@ namespace GBCLV3.Services.Installation
             jver.arguments.game = new List<JsonElement>(0);
 
             string jsonPath = $"{_gamePathService.VersionsDir}/{jver.id}/{jver.id}.json";
-            var json = JsonSerializer.SerializeToUtf8Bytes(jver, _jsonOptions);
+            byte[] json = JsonSerializer.SerializeToUtf8Bytes(jver, _jsonOptions);
 
             Directory.CreateDirectory(Path.GetDirectoryName(jsonPath));
             File.WriteAllBytes(jsonPath, json);

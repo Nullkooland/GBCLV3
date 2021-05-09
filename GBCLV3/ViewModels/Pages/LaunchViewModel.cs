@@ -1,5 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using GBCLV3.Models;
+using GBCLV3.Models.Authentication;
 using GBCLV3.Models.Download;
 using GBCLV3.Models.Launch;
 using GBCLV3.Services;
@@ -10,13 +15,6 @@ using GBCLV3.Utils;
 using GBCLV3.ViewModels.Tabs;
 using GBCLV3.ViewModels.Windows;
 using Stylet;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using GBCLV3.Models.Authentication;
 
 namespace GBCLV3.ViewModels.Pages
 {

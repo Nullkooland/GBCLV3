@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
@@ -50,13 +49,16 @@ namespace GBCLV3.Services.Authentication
 
         public async ValueTask<AuthlibInjector> GetLatest()
         {
-            if (_cached != null) return _cached;
+            if (_cached != null)
+            {
+                return _cached;
+            }
 
             _logService.Info(nameof(AuthlibInjectorService), "Fetching latest download info");
 
             try
             {
-                var json = await _client.GetByteArrayAsync(_downloadUrlService.Base.AuthlibInjector);
+                byte[] json = await _client.GetByteArrayAsync(_downloadUrlService.Base.AuthlibInjector);
                 var info = JsonDocument.Parse(json).RootElement;
 
                 _cached = new AuthlibInjector

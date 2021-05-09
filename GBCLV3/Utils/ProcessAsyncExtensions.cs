@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace GBCLV3.Utils
 {
-    static class ProcessAsyncExtensions
+    internal static class ProcessAsyncExtensions
     {
         public static async ValueTask<int> WaitForExitAsync(this Process process, CancellationToken cancellationToken = default)
         {
