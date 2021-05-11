@@ -4,7 +4,7 @@
     xmlns:s="clr-namespace:System;assembly=System.Runtime">
 
     <!--  Translator  -->
-    <s:String x:Key="MultilingualTranslation">Многоязычный перевод</s:String>
+    <s:String x:Key="MultilingualTranslation">Переводчики</s:String>
     <s:String x:Key="TranslatorName">The_BadUser (vanja-san)</s:String>
 
     <!--  MessageBox Button Labels  -->
@@ -95,14 +95,14 @@
     <s:String x:Key="ThemeSettings">Настройки темы</s:String>
 
     <!--  Настройки игры  -->
-    <s:String x:Key="JreDir">Каталог JRE</s:String>
-    <s:String x:Key="SelectJrePath">Выбрать путь JRE</s:String>
+    <s:String x:Key="JreDir">Расположение JRE</s:String>
+    <s:String x:Key="SelectJrePath">Выбрать расположение JRE</s:String>
     <s:String x:Key="JavaMaxMem">Макс. память Java (МБ)</s:String>
     <s:String x:Key="AvailableMem">Доступная физическая память</s:String>
 
-    <s:String x:Key="GameDir">Каталог игры</s:String>
-    <s:String x:Key="SelectGameDir">Выбрать каталог игры</s:String>
-    <s:String x:Key="WindowResolution">Разрешение окна</s:String>
+    <s:String x:Key="GameDir">Расположение игры</s:String>
+    <s:String x:Key="SelectGameDir">Выбрать расположение игры</s:String>
+    <s:String x:Key="WindowResolution">Размер окна</s:String>
     <s:String x:Key="FullScreen">На весь экран</s:String>
 
     <s:String x:Key="ServerAddress">Адрес сервера</s:String>
@@ -111,9 +111,9 @@
     <s:String x:Key="DebugMode">Режим отладки</s:String>
     <s:String x:Key="DebugModeDescription">Используется для запуска java.exe</s:String>
 
-    <s:String x:Key="CustomJvmArgs">Польз. арг. JVM</s:String>
+    <s:String x:Key="CustomJvmArgs">Пользовательские аргументы JVM</s:String>
     <s:String x:Key="CustomJvmArgsDescription">Это переопределит аргументы JVM по умолчанию (например, конфигурации GC)</s:String>
-    <s:String x:Key="ExtraMinecraftArgs">Доп. арг. Minecraft</s:String>
+    <s:String x:Key="ExtraMinecraftArgs">Дополнительные аргументы Minecraft</s:String>
 
     <!--  Настройки лаунчера  -->
     <s:String x:Key="Language">Язык</s:String>
@@ -130,7 +130,7 @@
 
     <s:String x:Key="BackgroundImage">фоновое изображение</s:String>
     <s:String x:Key="SelectImagePath">Выбрать путь к изображению</s:String>
-    <s:String x:Key="SelectRandomImage">Случайный выбор изображения из каталога .\bg</s:String>
+    <s:String x:Key="SelectRandomImage">Случайный выбор изображения из каталога.\bg</s:String>
 
     <s:String x:Key="BackgroundEffect">фоновый эффект</s:String>
     <s:String x:Key="BlurBehind">Обычное размытие сзади</s:String>
@@ -274,8 +274,8 @@
     <s:String x:Key="ForgeInstall">Установить Forge</s:String>
     <s:String x:Key="FabricInstall">Установить Fabric</s:String>
     <s:String x:Key="Mods">Моды</s:String>
-    <s:String x:Key="ResourcePacks">Пакеты ресурсов</s:String>
-    <s:String x:Key="ShaderPacks">Пакетов шейдеров</s:String>
+    <s:String x:Key="ResourcePacks">Текстуры</s:String>
+    <s:String x:Key="ShaderPacks">Шейдеры</s:String>
     <s:String x:Key="Saves">Сохранения</s:String>
     <s:String x:Key="Skins">Скины</s:String>
     <s:String x:Key="About">О программе</s:String>
