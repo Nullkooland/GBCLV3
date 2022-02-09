@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using GBCLV3.Models;
 using GBCLV3.Models.Authentication;
@@ -9,7 +10,6 @@ using GBCLV3.Models.Launch;
 using GBCLV3.Models.Theme;
 using GBCLV3.Utils;
 using GBCLV3.Utils.Native;
-using Microsoft.Win32;
 using StyletIoC;
 
 namespace GBCLV3.Services
@@ -109,7 +109,7 @@ namespace GBCLV3.Services
             {
                 File.WriteAllBytes(CONFIG_FILENAME, json);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logService.Error(nameof(ConfigService), $"Failed to save config json.\n{ex.Message}");
             }
@@ -119,18 +119,21 @@ namespace GBCLV3.Services
 
         #region Helper Methods
 
-        private string LocateJRE()
+        private string? LocateJRE()
         {
-            _logService.Info(nameof(ConfigService), "Trying to located JRE from registry");
+            _logService.Info(nameof(ConfigService), "Trying to located JRE");
 
             try
             {
-                using var localMachineKey = RegistryKey.OpenBaseKey(RegistryHive.LocalMachine, RegistryView.Registry64);
-                using var javaKey = localMachineKey.OpenSubKey(@"SOFTWARE\JavaSoft\Java Runtime Environment\");
+                var javaHome = Environment.GetEnvironmentVariable("JAVA_HOME", EnvironmentVariableTarget.Machine);
 
-                string currentVersion = javaKey.GetValue("CurrentVersion").ToString();
-                using var subkey = javaKey.OpenSubKey(currentVersion);
-                return subkey.GetValue("JavaHome").ToString() + @"\bin";
+                if (!string.IsNullOrEmpty(javaHome))
+                {
+                    return javaHome + @"\bin";
+                }
+
+                var paths = Environment.GetEnvironmentVariable("Path", EnvironmentVariableTarget.Machine)!.Split(';');
+                return paths.Where(path => path.Contains("jdk")).FirstOrDefault();
             }
             catch (Exception ex)
             {
